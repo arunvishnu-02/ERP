@@ -1,69 +1,68 @@
-# Put CX CRM ERP on a Hostinger VPS
+# Put CX CRM ERP on Hostinger Node.js Web App Hosting
 
-This guide takes about 30 minutes. You do it once.
+This guide takes about 30 minutes. You do it once. After that, every push to GitHub updates the site.
 
-## What you need
+You need a Hostinger plan that includes Node.js web apps (Business Web Hosting or any Cloud plan) and the code in a GitHub repository.
 
-1. **A Hostinger VPS plan.** KVM 2 is a good size for a 10-person team; KVM 1 also works.
-   The app needs PostgreSQL, so the "Web hosting" and "Node.js app" plans will not work. It must be a VPS.
-2. **Operating system: Ubuntu 24.04.** When Hostinger asks, choose "Ubuntu 24.04" or "Ubuntu 24.04 with Docker".
-3. **A domain or subdomain**, for example `crm.yourdomain.com`.
-4. The file `cx-crm-erp.zip`.
+The names of buttons in hPanel change from time to time. If a name below is slightly different, look for the closest one.
 
-## Step 1. Point your domain to the server
+## Step 1. Create the MySQL database
 
-In hPanel open your VPS and copy its IP address.
-Then open the DNS settings of your domain and add this record:
+1. In hPanel open **Websites**, then **Databases**, then **Management** (it is under the hosting plan).
+2. Create a new MySQL database. Give it a database name, a user name and a password.
+   Use a password with **letters and digits only**. Symbols such as `@`, `:`, `/`, `#` break the database address.
+3. Write down four things. Hostinger adds a prefix, so they look like this:
 
-| Type | Name | Points to | TTL |
-|---|---|---|---|
-| A | crm | your VPS IP address | 300 |
+   | What | Example |
+   |---|---|
+   | Database name | `u123456789_cx` |
+   | User name | `u123456789_cx` |
+   | Password | the one you chose |
+   | Host | `localhost` |
 
-Wait about 10 minutes for it to take effect.
+## Step 2. Make the secret key
 
-## Step 2. Copy the zip file to the server
-
-On your own computer, open Terminal (Mac) or PowerShell (Windows) in the folder that has the zip file. Run:
-
-```
-scp cx-crm-erp.zip root@YOUR_VPS_IP:/opt/
-```
-
-It asks for the root password you set in hPanel.
-
-If the code is on GitHub, you can skip the zip. In Step 3, replace the `unzip` lines with:
+The app needs one secret key to encrypt stored passwords. On your Mac open **Terminal** and run:
 
 ```
-apt-get update && apt-get install -y git
-git clone https://github.com/arunvishnu-02/ERP.git /opt/cx-crm-erp
+openssl rand -hex 32
 ```
 
-## Step 3. Install
+It prints 64 letters and digits. Copy it. Keep a private copy somewhere safe and never change it later.
 
-Connect to the server:
+## Step 3. Add the web app
 
-```
-ssh root@YOUR_VPS_IP
-```
+1. In hPanel open **Websites** and choose **Add website**, then **Node.js web app** (also shown as **Web Apps**).
+2. Choose **Import Git repository** and connect your GitHub account, then select the repository and the branch that holds this code.
+3. Choose the domain, for example `crm.yourdomain.com`.
+4. Check the build settings:
 
-Then run these four lines. Put your own domain in the last line.
+   | Setting | Value |
+   |---|---|
+   | Framework | Next.js |
+   | Node.js version | 22 |
+   | Root directory | `/` (leave empty) |
+   | Package manager | npm |
+   | Build command | `npm run build` |
+   | Output directory | `.next` |
+   | Start command, if asked | `npm start` |
 
-```
-apt-get update && apt-get install -y unzip
-cd /opt && unzip cx-crm-erp.zip
-cd /opt/cx-crm-erp
-bash deploy/install.sh crm.yourdomain.com
-```
+5. Add these **environment variables**:
 
-The script installs Docker if it is missing, creates the secret keys, builds the app and starts it.
-The first build takes 5 to 10 minutes. At the end it prints "CX CRM ERP is running".
+   | Name | Value |
+   |---|---|
+   | `DATABASE_URL` | `mysql://USER:PASSWORD@localhost:3306/DATABASE` with your own user, password and database name |
+   | `ENCRYPTION_KEY` | the 64 characters from Step 2 |
+   | `APP_URL` | `https://crm.yourdomain.com` |
+
+6. Press **Deploy** and wait until the build finishes. It can take several minutes.
 
 ## Step 4. Create your company and your login
 
-Open `https://crm.yourdomain.com` in your browser. The setup page appears.
+Open `https://crm.yourdomain.com`. The first start creates all the database tables by itself, then the setup page appears.
 Fill in the company name, state, your name, email and a password. This makes you the Super Admin.
 
-Do this straight after installing. Until it is done, anyone who finds the address could do it.
+Do this straight after deploying. Until it is done, anyone who finds the address could do it.
 
 ## Step 5. First things to set
 
@@ -74,47 +73,24 @@ Do this straight after installing. Until it is done, anyone who finds the addres
 4. **Quotations, Services**: add the services you sell with prices.
 5. **Finance, Bank accounts**: add the accounts customers pay into.
 
-## Step 6. Turn on nightly backups
+## Updating
 
-On the server run `crontab -e` and add this line at the bottom:
+Push new code to the GitHub branch. Hostinger builds and deploys it automatically. Database changes are applied when the app starts. Your data stays.
 
-```
-30 2 * * * cd /opt/cx-crm-erp && bash deploy/backup.sh >> backups/backup.log 2>&1
-```
+## Backups
 
-Every night at 2:30 it saves the database and uploaded files into `/opt/cx-crm-erp/backups` and keeps the last 14.
-Once a week, copy that folder to your own computer:
-
-```
-scp -r root@YOUR_VPS_IP:/opt/cx-crm-erp/backups ./cx-backups
-```
-
-Also keep a private copy of `/opt/cx-crm-erp/.env`. It holds the secret keys. Without `ENCRYPTION_KEY`, the stored website passwords cannot be read.
-
-## Everyday commands
-
-Run these on the server, inside `/opt/cx-crm-erp`.
-
-| What you want | Command |
-|---|---|
-| See if everything is running | `docker compose ps` |
-| See errors | `docker compose logs api --tail 100` |
-| Restart | `docker compose restart` |
-| Stop | `docker compose down` |
-| Start | `docker compose up -d` |
-| Back up now | `bash deploy/backup.sh` |
-| Put a backup back | `bash deploy/restore.sh backups/db-....sql.gz backups/uploads-....tar.gz` |
-
-## Updating to a newer version
-
-1. Copy the new zip to the server and unzip it over the old folder: `cd /opt && unzip -o cx-crm-erp.zip`
-2. Run `cd /opt/cx-crm-erp && bash deploy/update.sh`
-
-It makes a backup first, then rebuilds. Your data and your `.env` file are kept.
+- **Database**: in hPanel open **Databases**, then **phpMyAdmin**, choose the database and use **Export**. Do this every week and keep the file on your own computer. Hostinger also keeps its own backups under **Files, Backups**.
+- **Uploaded files**: they are stored in the folder `cx-crm-erp-data/uploads` in the home folder of your hosting account, outside the app folder, so deployments do not delete them. Download that folder with the hPanel **File Manager** when you back up.
+- Keep a private copy of `ENCRYPTION_KEY`. Without it the stored website passwords cannot be read.
 
 ## If something does not work
 
-- **The page does not open.** Check that the A record points to the VPS IP, and that ports 80 and 443 are allowed if you turned on the Hostinger VPS firewall.
-- **"Not secure" warning.** The HTTPS certificate is issued a minute or two after the domain starts pointing to the server. Check with `docker compose logs caddy --tail 50`.
-- **Trying it without a domain.** Run `bash deploy/install.sh` with no domain. The app opens at `http://YOUR_VPS_IP`. Run the script again with the domain when it is ready.
-- **Emails are not sent.** Open Communication, Messages. Each failed email shows the reason from the mail server.
+| What you see | What to do |
+|---|---|
+| The build fails | Open the deployment log in hPanel and read the last lines. If it stops for lack of memory or time, add the environment variable `SKIP_TYPECHECK` with the value `1` and deploy again. |
+| "The app is not set up yet. DATABASE_URL is not set" | Add the environment variable and redeploy. |
+| "The database cannot be reached: the user name or password was refused" | Check the user and password in `DATABASE_URL`. If the password has symbols, change it to letters and digits. |
+| "The database cannot be reached: the database name does not exist" | Check the database name, including the `u123456789_` prefix. |
+| "The database cannot be reached: the database server did not answer" | Change the host in `DATABASE_URL` from `localhost` to `127.0.0.1`, or to the host name hPanel shows for the database. |
+| You are signed out straight after signing in | Check that `APP_URL` starts with `https://` and matches the address in the browser. |
+| Emails are not sent | Open Communication, Messages. Each failed email shows the reason from the mail server. |
