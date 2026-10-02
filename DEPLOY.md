@@ -90,7 +90,7 @@ Push new code to the GitHub branch. Hostinger builds and deploys it automaticall
 | The build fails | Open the deployment log in hPanel and read the last lines. If it stops for lack of memory or time, add the environment variable `SKIP_TYPECHECK` with the value `1` and deploy again. |
 | "The app is not set up yet. DATABASE_URL is not set" | Add the environment variable and redeploy. |
 | "The database cannot be reached: the user name or password was refused" | Check the user and password in `DATABASE_URL`. If the password has symbols, change it to letters and digits. |
-| "The database cannot be reached: the database name does not exist" | Check the database name, including the `u123456789_` prefix. |
+| "The database cannot be reached: the database name is wrong, or this user may not use that database" | Check the database name, including the `u123456789_` prefix, and that the user was created for that database. |
 | "The database cannot be reached: the database server did not answer" | Change the host in `DATABASE_URL` from `localhost` to `127.0.0.1`, or to the host name hPanel shows for the database. |
 | You are signed out straight after signing in | Check that `APP_URL` starts with `https://` and matches the address in the browser. |
 | Emails are not sent | Open Communication, Messages. Each failed email shows the reason from the mail server. |

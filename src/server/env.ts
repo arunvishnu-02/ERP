@@ -44,8 +44,9 @@ export function dbConfig() {
   if (!process.env.DATABASE_URL && process.env.DB_USER && process.env.DB_NAME) {
     return { host: process.env.DB_HOST || 'localhost', port: Number(process.env.DB_PORT || 3306), user: process.env.DB_USER, password: process.env.DB_PASSWORD ?? '', database: process.env.DB_NAME }
   }
+  const address = env.databaseUrl
   let u: URL
-  try { u = new URL(env.databaseUrl) } catch { throw new ConfigError('DATABASE_URL is not a valid address. It should look like mysql://user:password@host:3306/database') }
+  try { u = new URL(address) } catch { throw new ConfigError('DATABASE_URL is not a valid address. It should look like mysql://user:password@host:3306/database') }
   if (u.protocol !== 'mysql:' && u.protocol !== 'mariadb:') throw new ConfigError('DATABASE_URL must start with mysql://')
   const socketPath = u.searchParams.get('socket') ?? undefined
   return {

@@ -84,7 +84,9 @@ export const isUuid = (s: unknown) => typeof s === 'string' && /^[0-9a-f]{8}-[0-
 
 const DB_DOWN = /ECONNREFUSED|ENOTFOUND|ETIMEDOUT|EHOSTUNREACH|ER_ACCESS_DENIED|ER_DBACCESS_DENIED|ER_BAD_DB_ERROR|ER_GET_CONNECTION_TIMEOUT|pool timeout|Can't reach database|socket has unexpectedly been closed/i
 const dbReason = (text: string) =>
-  /ER_ACCESS_DENIED|ER_DBACCESS_DENIED/.test(text) ? 'the user name or password was refused' : /ER_BAD_DB_ERROR/.test(text) ? 'the database name does not exist' : 'the database server did not answer'
+  /ER_DBACCESS_DENIED|ER_BAD_DB_ERROR/.test(text) ? 'the database name is wrong, or this user may not use that database'
+  : /ER_ACCESS_DENIED/.test(text) ? 'the user name or password was refused'
+  : 'the database server did not answer'
 
 /** Turns any error into a JSON answer with a message that is safe to show. */
 export function errorHandler(err: any, res: Response) {
