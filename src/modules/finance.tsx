@@ -1,11 +1,11 @@
 'use client'
 // Income, expenses, profit and loss, cash flow, vendors and bank accounts.
-import { Check, Download, Plus, X } from 'lucide-react'
+import { Check, Plus, X } from 'lucide-react'
 import { useState } from 'react'
 import { toast } from 'sonner'
 import { FormDialog, type Field } from '@/components/form'
 import { HBars } from '@/components/misc'
-import { exportXlsx, Resource } from '@/components/resource'
+import { ExportButton, Resource } from '@/components/resource'
 import { Button, cn, Input, Loading, Panel, Select, StatBand, Status, Table, Tabs, Td, Th, Two } from '@/components/ui'
 import { api, useApi } from '@/lib/api'
 import { useAuth } from '@/lib/auth'
@@ -28,7 +28,7 @@ function Overview() {
           <Select className="w-40" value={months} onChange={(e) => setMonths(e.target.value)}><option value="3">Last 3 months</option><option value="6">Last 6 months</option><option value="12">Last 12 months</option><option value="24">Last 24 months</option></Select>
         </label>
         <div className="flex-1" />
-        {can('FINANCE', 'EXPORT') && <Button onClick={() => exportXlsx('profit-and-loss', [{ header: 'Month', cell: () => null, text: (r) => r.month }, { header: 'Income', cell: () => null, text: (r) => r.income }, { header: 'Expenses', cell: () => null, text: (r) => r.expense }, { header: 'Profit or loss', cell: () => null, text: (r) => r.net }], data.months)}><Download size={15} />Export</Button>}
+        <ExportButton name="profit-and-loss" module="FINANCE" columns={[{ header: 'Month', cell: () => null, text: (r) => r.month }, { header: 'Income', cell: () => null, text: (r) => r.income }, { header: 'Expenses', cell: () => null, text: (r) => r.expense }, { header: 'Profit or loss', cell: () => null, text: (r) => r.net }]} load={() => data.months} />
       </div>
       <StatBand items={[
         { label: 'Money received', value: inrShort(income), hint: 'payments from customers' }, { label: 'Money spent', value: inrShort(expense), hint: 'approved expenses' },
@@ -100,7 +100,7 @@ function ProjectProfit() {
         <label className="flex items-center gap-2 text-[13px] text-muted">From<Input type="date" className="w-40" value={range.from ?? data.from} onChange={(e) => setRange({ from: e.target.value, to: range.to ?? data.to })} /></label>
         <label className="flex items-center gap-2 text-[13px] text-muted">To<Input type="date" className="w-40" value={range.to ?? data.to} onChange={(e) => setRange({ from: range.from ?? data.from, to: e.target.value })} /></label>
         <div className="flex-1" />
-        {can('FINANCE', 'EXPORT') && <Button onClick={() => exportXlsx('profit-by-project', cols, data.items)}><Download size={15} />Export</Button>}
+        <ExportButton name="profit-by-project" module="FINANCE" columns={cols} load={() => data.items} />
       </div>
       <StatBand items={[
         { label: 'Billed', value: inrShort(sum('billed')), hint: 'invoices on projects' }, { label: 'Team time cost', value: inrShort(sum('timeCost')), hint: hours(sum('minutes')) + ' logged' },

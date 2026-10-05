@@ -14,7 +14,8 @@ import type * as Prisma from "../internal/prismaNamespace"
 
 /**
  * Model JobOpening
- * * A role the company is hiring for.
+ * *
+ *  * A role the company is hiring for.
  */
 export type JobOpeningModel = runtime.Types.Result.DefaultSelection<Prisma.$JobOpeningPayload>
 

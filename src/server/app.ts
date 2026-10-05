@@ -18,6 +18,7 @@ import { followUpsRouter, leadsRouter } from './modules/leads'
 import { bankAccountsRouter, paymentsRouter } from './modules/payments'
 import { projectsRouter } from './modules/projects'
 import { portalRouter } from './modules/portal'
+import { googleAuthRouter, googleRouter, integrationsRouter } from './modules/google'
 import { hiringRouter } from './modules/hiring'
 import { publicRouter } from './modules/public'
 import { searchRouter } from './modules/search'
@@ -33,6 +34,7 @@ function build() {
     await prisma.$queryRaw`SELECT 1`
     res.json({ ok: true })
   })
+  v1.use('/auth/google', googleAuthRouter)
   v1.use('/auth', authRouter)
   v1.use('/public', publicRouter)
   v1.use('/portal', portalRouter)
@@ -75,6 +77,8 @@ function build() {
   v1.use('/reports', reportsRouter)
   v1.use('/automations', automationRouter)
   v1.use('/communication', communicationRouter)
+  v1.use('/google', googleRouter)
+  v1.use('/settings/integrations', integrationsRouter)
   v1.use('/settings', settingsRouter)
   v1.use('/', sharedRouter)
   return v1

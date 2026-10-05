@@ -749,3 +749,121 @@ test('desktop: search everywhere, hiring to employee, and vendor bills', async (
   assert.ok(!sum.bills.find((b: any) => b.id === late.id).overdue)
   assert.ok(sum.stats.paidThisMonth >= 3000)
 })
+
+test('google: sign in with Google, connect Drive and Sheets, save a file, send a list, disconnect', async () => {
+  const { prisma } = await import('../src/server/db')
+  const clientId = '1234-abc.apps.googleusercontent.com'
+  const realFetch = globalThis.fetch
+  const seen: { url: string; method: string; body?: any }[] = []
+  let claims: any = {}
+  let refreshToken: string | undefined
+  const idToken = () => `x.${Buffer.from(JSON.stringify({ iss: 'https://accounts.google.com', aud: clientId, exp: Math.floor(Date.now() / 1000) + 600, email_verified: true, ...claims })).toString('base64url')}.sig`
+  const json = (v: unknown, status = 200) => new Response(JSON.stringify(v), { status, headers: { 'content-type': 'application/json' } })
+  globalThis.fetch = (async (input: any, init: any = {}) => {
+    const url = String(input)
+    const method = init.method ?? 'GET'
+    const body = typeof init.body === 'string' ? (init.body.startsWith('{') ? JSON.parse(init.body) : init.body) : init.body instanceof URLSearchParams ? Object.fromEntries(init.body) : init.body
+    seen.push({ url, method, body })
+    if (url === 'https://oauth2.googleapis.com/token') {
+      if (body.grant_type === 'authorization_code') return body.code === 'good' ? json({ id_token: idToken(), access_token: 'at', refresh_token: refreshToken, expires_in: 3600 }) : json({ error: 'invalid_grant' }, 400)
+      return body.refresh_token === 'rt-1' ? json({ access_token: 'at-2', expires_in: 3600 }) : json({ error: 'invalid_grant' }, 400)
+    }
+    if (url.startsWith('https://oauth2.googleapis.com/revoke')) return json({})
+    if (url.startsWith('https://www.googleapis.com/drive/v3/files?')) return json(body.mimeType === 'application/vnd.google-apps.folder' ? { id: 'folder-1' } : { id: 'sheet-1', webViewLink: 'https://docs.google.com/spreadsheets/d/sheet-1/edit' })
+    if (url.startsWith('https://www.googleapis.com/drive/v3/files/folder-1')) return json({ id: 'folder-1', trashed: false })
+    if (url.startsWith('https://www.googleapis.com/upload/drive/v3/files')) return json({ id: 'file-1', webViewLink: 'https://drive.google.com/file/d/file-1/view' })
+    if (url.startsWith('https://sheets.googleapis.com/v4/spreadsheets/sheet-1')) return json({})
+    throw new Error(`unexpected fetch ${url}`)
+  }) as typeof fetch
+  const cookie = (r: { headers: Headers }, name: string) => {
+    const m = String(r.headers.get('set-cookie')).match(new RegExp(`${name}=([^;]*)`))
+    return m && m[1] ? `${name}=${m[1]}` : ''
+  }
+  const back = async (state: string, cookies: string, code = 'good') => {
+    const r = await call('GET', `/auth/google/callback?code=${code}&state=${state}`, cookies)
+    assert.equal(r.status, 302)
+    return { to: String(r.headers.get('location')), r }
+  }
+  try {
+    // set up: nothing shows until the client id and secret are saved
+    assert.equal((await ok('GET', '/auth/status')).google, false)
+    assert.equal((await ok('GET', '/settings/integrations', S.admin)).google.connected, false)
+    await deny('PUT', '/settings/integrations/google', S.admin, { clientId: 'not-a-client', clientSecret: 's' }, 400)
+    await deny('PUT', '/settings/integrations/google', S.sales, { clientId, clientSecret: 's' })
+    await ok('PUT', '/settings/integrations/google', S.admin, { clientId, clientSecret: 'secret-1', allowedDomain: '@Example.com', signIn: true })
+    const st = await ok('GET', '/settings/integrations', S.admin)
+    assert.deepEqual([st.google.hasSecret, st.google.allowedDomain, st.google.signIn, st.google.redirectUri], [true, 'example.com', true, 'http://app.test/api/v1/auth/google/callback'])
+    assert.ok(!JSON.stringify(st).includes('secret-1'))
+    assert.equal((await ok('GET', '/auth/status')).google, true)
+
+    // sign in with Google: only people who already have a user, on the company domain
+    const start = await call('GET', '/auth/google')
+    assert.equal(start.status, 302)
+    const to = new URL(String(start.headers.get('location')))
+    assert.equal(to.origin + to.pathname, 'https://accounts.google.com/o/oauth2/v2/auth')
+    assert.equal(to.searchParams.get('hd'), 'example.com')
+    const g = cookie(start, 'cx_google')
+    const state = to.searchParams.get('state')!
+    claims = { sub: 'g-sales', email: 'Sales@example.com', hd: 'example.com' }
+    assert.match((await back('wrong', g)).to, /\/login\?google=expired$/)
+    const signed = await back(state, g)
+    assert.match(signed.to, /\/dashboard$/)
+    const session = cookie(signed.r, 'cx_session')
+    assert.equal((await ok('GET', '/auth/me', session)).id, S.ids.sales)
+    assert.equal((await prisma.user.findUniqueOrThrow({ where: { id: S.ids.sales } })).googleSub, 'g-sales')
+    const again = async () => { const s = await call('GET', '/auth/google'); return { g: cookie(s, 'cx_google'), state: new URL(String(s.headers.get('location'))).searchParams.get('state')! } }
+    let a = await again()
+    claims = { sub: 'g-other', email: 'sales@gmail.com' }
+    assert.match((await back(a.state, a.g)).to, /google=domain$/)
+    a = await again()
+    claims = { sub: 'g-x', email: 'stranger@example.com', hd: 'example.com' }
+    assert.match((await back(a.state, a.g)).to, /google=nouser$/)
+    a = await again()
+    claims = { sub: 'g-impostor', email: 'sales@example.com', hd: 'example.com' } // the email is linked to another Google account
+    assert.match((await back(a.state, a.g)).to, /google=nouser$/)
+
+    // connect Drive and Sheets: an admin, signed in, gets a refresh token stored
+    await deny('POST', '/settings/integrations/google/connect', S.sales, undefined)
+    const c = await call('POST', '/settings/integrations/google/connect', S.admin)
+    assert.equal(c.status, 200)
+    const cu = new URL(c.body.url)
+    assert.equal(cu.searchParams.get('access_type'), 'offline')
+    assert.match(String(cu.searchParams.get('scope')), /drive\.file/)
+    claims = { sub: 'g-admin', email: 'admin@example.com', hd: 'example.com' }
+    refreshToken = 'rt-1'
+    assert.match((await back(cu.searchParams.get('state')!, `${cookie(c, 'cx_google')}; ${S.sales}`)).to, /google=denied$/) // a different person cannot finish it
+    const c2 = await call('POST', '/settings/integrations/google/connect', S.admin)
+    assert.match((await back(new URL(c2.body.url).searchParams.get('state')!, `${cookie(c2, 'cx_google')}; ${S.admin}`)).to, /\/settings\?tab=integrations&google=connected$/)
+    const conn = (await ok('GET', '/settings/integrations', S.admin)).google
+    assert.deepEqual([conn.connected, conn.connectedEmail], [true, 'admin@example.com'])
+    assert.equal((await ok('GET', '/lookups', S.sales)).google.drive, true)
+
+    // send a list to Sheets: needs the Export permission for that module
+    await deny('POST', '/google/sheets', S.dev, { title: 'Leads', module: 'LEADS', rows: [['Name'], ['Imran']] })
+    await deny('POST', '/google/sheets', S.admin, { title: 'Leads', module: 'LEADS', rows: [[{ bad: 1 }]] }, 400)
+    const sheet = await ok('POST', '/google/sheets', S.admin, { title: 'Leads, 05 Oct 2026', module: 'LEADS', rows: [['Name', 'Value'], ['Imran', 150000]] })
+    assert.equal(sheet.url, 'https://docs.google.com/spreadsheets/d/sheet-1/edit')
+    const values = seen.find((x) => x.url.includes('/values/A1'))!
+    assert.deepEqual(values.body.values, [['Name', 'Value'], ['Imran', 150000]])
+    assert.ok(seen.some((x) => x.body?.name === 'Leads, 05 Oct 2026' && x.body.parents?.[0] === 'folder-1'))
+    assert.equal(seen.filter((x) => x.body?.mimeType === 'application/vnd.google-apps.folder').length, 1)
+
+    // save an uploaded file to Drive, once
+    const att = (await ok('GET', `/attachments?entityType=LEAD&entityId=${S.l1.id}`, S.admin)).items[0]
+    const saved = await ok('POST', `/google/drive/files/${att.file.id}`, S.sales)
+    assert.equal(saved.url, 'https://drive.google.com/file/d/file-1/view')
+    const upload = seen.find((x) => x.url.includes('/upload/drive/'))!
+    assert.match(Buffer.from(upload.body).toString(), /brief contents/)
+    assert.equal((await ok('POST', `/google/drive/files/${att.file.id}`, S.sales)).already, true)
+    assert.equal(seen.filter((x) => x.url.includes('/upload/drive/')).length, 1)
+
+    // disconnect: the token is revoked and Drive and Sheets stop; sign-in keeps working
+    await ok('DELETE', '/settings/integrations/google/connection', S.admin)
+    assert.ok(seen.some((x) => x.url.startsWith('https://oauth2.googleapis.com/revoke') && x.url.includes('rt-1')))
+    assert.equal((await ok('GET', '/lookups', S.sales)).google.drive, false)
+    await deny('POST', '/google/sheets', S.admin, { title: 'Leads', module: 'LEADS', rows: [['Name']] }, 409)
+    assert.equal((await ok('GET', '/auth/status')).google, true)
+  } finally {
+    globalThis.fetch = realFetch
+  }
+})

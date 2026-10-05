@@ -1,8 +1,9 @@
 'use client'
-import { Download, Paperclip, Trash2 } from 'lucide-react'
+import { CloudUpload, Download, ExternalLink, Paperclip, Trash2 } from 'lucide-react'
 import { useRef, useState } from 'react'
 import { toast } from 'sonner'
 import { api, downloadFile, useApi } from '@/lib/api'
+import { useAuth } from '@/lib/auth'
 import { ago, human, personName } from '@/lib/format'
 import { Avatar, Button, Card, Empty, Tabs, Textarea } from './ui'
 
@@ -77,7 +78,14 @@ function Texts({ kind, q, entityType, entityId, placeholder }: { kind: 'notes' |
 
 function Files({ q, entityType, entityId }: { q: string; entityType: string; entityId: string }) {
   const { data, reload } = useApi<{ items: any[] }>(`/attachments?${q}`)
+  const { lookups } = useAuth()
+  const drive = !!lookups.google?.drive
+  const [saving, setSaving] = useState('')
   const input = useRef<HTMLInputElement>(null)
+  async function toDrive(fileId: string) {
+    setSaving(fileId)
+    try { const r = await api<{ url: string }>(`/google/drive/files/${fileId}`, { method: 'POST' }); toast.success('Saved to Google Drive', { action: { label: 'Open', onClick: () => window.open(r.url, '_blank', 'noopener') } }); reload() } catch (e) { toast.error((e as Error).message) } finally { setSaving('') }
+  }
   async function upload(file?: File) {
     if (!file) return
     const form = new FormData()
@@ -96,6 +104,8 @@ function Files({ q, entityType, entityId }: { q: string; entityType: string; ent
           <span className="min-w-0 flex-1 truncate">{a.file.fileName}</span>
           <span className="num text-xs text-muted">{Math.max(1, Math.round(a.file.sizeBytes / 1024))} KB</span>
           <Button size="icon" variant="ghost" aria-label="Download" onClick={() => downloadFile(a.file.id, a.file.fileName).catch((e) => toast.error(e.message))}><Download size={15} /></Button>
+          {a.file.driveUrl ? <a href={a.file.driveUrl} target="_blank" rel="noreferrer" title="Open in Google Drive" aria-label="Open in Google Drive" className="grid h-8 w-8 place-items-center rounded-lg text-good hover:bg-surface-2"><ExternalLink size={15} /></a>
+            : drive && <Button size="icon" variant="ghost" aria-label="Save to Google Drive" title="Save to Google Drive" loading={saving === a.file.id} onClick={() => toDrive(a.file.id)}>{saving !== a.file.id && <CloudUpload size={15} />}</Button>}
           <Button size="icon" variant="ghost" aria-label="Remove file" onClick={async () => { try { await api(`/attachments/${a.id}`, { method: 'DELETE' }); reload() } catch (e) { toast.error((e as Error).message) } }}><Trash2 size={14} /></Button>
         </div>
       ))}

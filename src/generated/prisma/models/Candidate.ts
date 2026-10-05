@@ -14,7 +14,8 @@ import type * as Prisma from "../internal/prismaNamespace"
 
 /**
  * Model Candidate
- * * A person who applied for a job opening, from first contact to joining.
+ * *
+ *  * A person who applied for a job opening, from first contact to joining.
  */
 export type CandidateModel = runtime.Types.Result.DefaultSelection<Prisma.$CandidatePayload>
 

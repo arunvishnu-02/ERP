@@ -825,7 +825,8 @@ export const IntegrationProvider = {
   WHATSAPP_CLOUD: 'WHATSAPP_CLOUD',
   SMS_GATEWAY: 'SMS_GATEWAY',
   PAYMENT_GATEWAY: 'PAYMENT_GATEWAY',
-  OBJECT_STORAGE: 'OBJECT_STORAGE'
+  OBJECT_STORAGE: 'OBJECT_STORAGE',
+  GOOGLE: 'GOOGLE'
 } as const
 
 export type IntegrationProvider = (typeof IntegrationProvider)[keyof typeof IntegrationProvider]

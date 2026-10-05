@@ -1,5 +1,6 @@
 'use client'
-import { ChevronLeft, ChevronRight, Download, Pencil, Plus, Search, Trash2 } from 'lucide-react'
+import * as Menu from '@radix-ui/react-dropdown-menu'
+import { ChevronLeft, ChevronRight, Download, FileSpreadsheet, Pencil, Plus, Search, Sheet, Trash2 } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { toast } from 'sonner'
 import { api, useApi } from '@/lib/api'
@@ -69,6 +70,42 @@ export async function exportXlsx(name: string, columns: Column[], rows: any[]) {
   await writeExcelFile(data as any).toFile(`${name}.xlsx`)
 }
 
+/** Sends the rows to a new Google Sheet in the company Drive folder, then offers to open it. */
+export async function sendToSheets(name: string, module: string, columns: Column[], rows: any[]) {
+  const cols = columns.filter((c) => c.text)
+  const title = `${name.replace(/-/g, ' ').replace(/^./, (c) => c.toUpperCase())}, ${new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}`
+  const values = [cols.map((c) => c.header), ...rows.map((r) => cols.map((c) => { const v = c.text!(r); return typeof v === 'number' ? v : v === null || v === undefined ? '' : String(v) }))]
+  const r = await api<{ url: string }>('/google/sheets', { body: { title, module, rows: values } })
+  toast.success('Sent to Google Sheets', { action: { label: 'Open', onClick: () => window.open(r.url, '_blank', 'noopener') }, duration: 15000 })
+}
+
+/** Export to an Excel file, or to Google Sheets when the company has connected Google. `load` gives the rows to send. */
+export function ExportButton({ name, module, columns, load, size, className }: { name: string; module: string; columns: Column[]; load: () => Promise<any[]> | any[]; size?: 'sm' | 'md'; className?: string }) {
+  const { can, lookups } = useAuth()
+  const [busy, setBusy] = useState(false)
+  if (!can(module, 'EXPORT')) return null
+  const run = async (to: 'excel' | 'sheets') => {
+    setBusy(true)
+    try {
+      const rows = await load()
+      if (to === 'excel') await exportXlsx(name, columns, rows)
+      else await sendToSheets(name, module, columns, rows)
+    } catch (e) { toast.error(e instanceof Error ? e.message : 'Export failed') } finally { setBusy(false) }
+  }
+  if (!lookups.google?.drive) return <Button size={size} className={className} loading={busy} onClick={() => run('excel')}><Download size={15} />Export</Button>
+  return (
+    <Menu.Root>
+      <Menu.Trigger asChild><Button size={size} className={className} loading={busy}><Download size={15} />Export</Button></Menu.Trigger>
+      <Menu.Portal>
+        <Menu.Content align="end" sideOffset={6} className="z-50 w-52 rounded-xl border border-line bg-surface p-1 text-sm shadow-xl">
+          <Menu.Item onSelect={() => run('excel')} className="flex cursor-pointer items-center gap-2.5 rounded-lg px-3 py-2 outline-none data-[highlighted]:bg-accent-soft"><FileSpreadsheet size={16} className="text-muted" />Excel file</Menu.Item>
+          <Menu.Item onSelect={() => run('sheets')} className="flex cursor-pointer items-center gap-2.5 rounded-lg px-3 py-2 outline-none data-[highlighted]:bg-accent-soft"><Sheet size={16} className="text-muted" />Google Sheets</Menu.Item>
+        </Menu.Content>
+      </Menu.Portal>
+    </Menu.Root>
+  )
+}
+
 /** A full list screen for one kind of record: search, filter, table, pages, add, edit, delete and export. */
 export function Resource(p: ResourceProps) {
   const { can } = useAuth()
@@ -106,12 +143,7 @@ export function Resource(p: ResourceProps) {
     reload()
     p.afterSave?.()
   }
-  async function doExport() {
-    try {
-      const all = await api<{ items: any[] }>(`${p.path}?${qs({ ...params, all: '1' })}`)
-      await exportXlsx(p.exportName!, p.columns, all.items)
-    } catch (e) { toast.error(e instanceof Error ? e.message : 'Export failed') }
-  }
+  const loadAll = async () => (await api<{ items: any[] }>(`${p.path}?${qs({ ...params, all: '1' })}`)).items
   const actions = mayEdit || mayDelete || p.rowActions
   const shown = p.columns.filter((c) => !c.exportOnly)
 
@@ -127,7 +159,7 @@ export function Resource(p: ResourceProps) {
           </div>
         )}
         {p.toolbar?.(ctx)}
-        {p.exportName && can(p.module, 'EXPORT') && <Button onClick={doExport}><Download size={15} />Export</Button>}
+        {p.exportName && <ExportButton name={p.exportName} module={p.module} columns={p.columns} load={loadAll} />}
         {mayCreate && <Button variant="primary" onClick={() => (p.onCreate ? p.onCreate() : setForm({}))}><Plus size={16} />Add {p.noun}</Button>}
       </div>
       <Card className="overflow-hidden">
