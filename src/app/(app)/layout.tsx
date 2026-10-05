@@ -13,7 +13,7 @@ import { api, useApi } from '@/lib/api'
 import { AuthProvider, useAuth } from '@/lib/auth'
 import { ago } from '@/lib/format'
 
-export const NAV: { group: string; fold?: boolean; items: [path: string, label: string, module: string, icon: any][] }[] = [
+const NAV: { group: string; fold?: boolean; items: [path: string, label: string, module: string, icon: any][] }[] = [
   { group: '', items: [['dashboard', 'Dashboard', 'DASHBOARD', LayoutDashboard], ['approvals', 'Approvals', '', Inbox]] },
   { group: 'Sales', items: [['leads', 'Leads', 'LEADS', UserPlus], ['customers', 'Customers', 'CUSTOMERS', Building2], ['sales', 'Sales pipeline', 'SALES', TrendingUp], ['quotations', 'Quotations', 'QUOTATIONS', FileText], ['invoices', 'Invoices', 'INVOICES', Receipt], ['payments', 'Payments', 'PAYMENTS', Wallet]] },
   { group: 'Delivery', items: [['projects', 'Projects', 'PROJECTS', FolderKanban], ['tasks', 'Tasks', 'TASKS', SquareCheckBig], ['marketing', 'Marketing', 'MARKETING', Megaphone], ['websites', 'Websites', 'WEBSITES', Globe], ['tickets', 'Tickets', 'TICKETS', LifeBuoy]] },

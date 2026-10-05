@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "next dev",
     "prebuild": "node scripts/embed-migrations.mjs",
-    "build": "next build",
+    "build": "next build --webpack",
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "test": "tsx --test tests/api.test.ts",
