@@ -83,9 +83,10 @@ export const integrationsRouter = Router()
 
 integrationsRouter.get('/', authorize(S, 'VIEW'), async (req, res) => {
   const organizationId = req.user.organizationId
-  const [{ config, secret }, smtp] = await Promise.all([
+  const [{ config, secret }, smtp, resend] = await Promise.all([
     loadGoogle(organizationId),
     prisma.integrationSetting.findUnique({ where: { organizationId_provider: { organizationId, provider: 'SMTP' } } }),
+    prisma.integrationSetting.findUnique({ where: { organizationId_provider: { organizationId, provider: 'RESEND' } } }),
   ])
   const mail = (smtp?.config ?? {}) as { host?: string; fromEmail?: string }
   res.json({
@@ -95,6 +96,7 @@ integrationsRouter.get('/', authorize(S, 'VIEW'), async (req, res) => {
       linkedUsers: await prisma.user.count({ where: { organizationId, googleSub: { not: null }, deletedAt: null } }),
     },
     smtp: { active: !!(smtp?.isActive && mail.host), fromEmail: mail.fromEmail ?? null },
+    resend: { active: !!(resend?.isActive && resend.secretCiphertext), fromEmail: ((resend?.config ?? {}) as { fromEmail?: string }).fromEmail ?? null },
   })
 })
 

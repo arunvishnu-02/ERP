@@ -867,3 +867,47 @@ test('google: sign in with Google, connect Drive and Sheets, save a file, send a
     globalThis.fetch = realFetch
   }
 })
+
+test('email: Resend is used instead of the mailbox when it is on, and the key stays hidden', async () => {
+  const { prisma } = await import('../src/server/db')
+  const realFetch = globalThis.fetch
+  const sent: { auth: string; body: any }[] = []
+  let fail = false
+  globalThis.fetch = (async (input: any, init: any = {}) => {
+    if (String(input) !== 'https://api.resend.com/emails') throw new Error(`unexpected fetch ${input}`)
+    sent.push({ auth: init.headers.Authorization, body: JSON.parse(init.body) })
+    return fail ? new Response(JSON.stringify({ message: 'The ciphermutex.com domain is not verified' }), { status: 403 }) : new Response(JSON.stringify({ id: 'em_1' }), { status: 200 })
+  }) as typeof fetch
+  try {
+    await deny('PUT', '/settings/integrations/resend', S.admin, { fromName: 'Cipher Mutex', fromEmail: 'info@ciphermutex.com' }, 400)
+    await deny('PUT', '/settings/integrations/resend', S.admin, { apiKey: 'sk_wrong', fromName: 'Cipher Mutex', fromEmail: 'info@ciphermutex.com' }, 400)
+    await deny('PUT', '/settings/integrations/resend', S.sales, { apiKey: 're_1234567890', fromName: 'Cipher Mutex', fromEmail: 'info@ciphermutex.com' })
+    await ok('PUT', '/settings/integrations/resend', S.admin, { apiKey: 're_1234567890', fromName: 'Cipher Mutex', fromEmail: 'Info@CipherMutex.com', isActive: true })
+    const got = await ok('GET', '/settings/integrations/resend', S.admin)
+    assert.deepEqual([got.hasKey, got.isActive, got.config.fromEmail], [true, true, 'info@ciphermutex.com'])
+    assert.ok(!JSON.stringify(got).includes('re_1234567890'))
+    assert.deepEqual((await ok('GET', '/settings/integrations', S.admin)).resend, { active: true, fromEmail: 'info@ciphermutex.com' })
+
+    const r = await ok('POST', '/settings/integrations/smtp/test', S.admin, { to: 'arun@example.com' })
+    assert.equal(r.sent, true)
+    assert.equal(sent.length, 1)
+    assert.equal(sent[0]!.auth, 'Bearer re_1234567890')
+    assert.deepEqual([sent[0]!.body.from, sent[0]!.body.to, sent[0]!.body.subject], ['Cipher Mutex <info@ciphermutex.com>', ['arun@example.com'], 'Test email from CX CRM ERP'])
+
+    fail = true
+    const bad = await ok('POST', '/settings/integrations/smtp/test', S.admin, { to: 'arun@example.com' })
+    assert.equal(bad.sent, false)
+    assert.match(bad.error, /not verified/)
+    const logged = await prisma.message.findFirst({ where: { toAddress: 'arun@example.com', status: 'FAILED' }, orderBy: { createdAt: 'desc' } })
+    assert.equal(logged?.fromAddress, 'info@ciphermutex.com')
+
+    // turning Resend off goes back to the mailbox; the saved key is kept
+    await ok('PUT', '/settings/integrations/resend', S.admin, { fromName: 'Cipher Mutex', fromEmail: 'info@ciphermutex.com', isActive: false })
+    assert.equal((await ok('GET', '/settings/integrations/resend', S.admin)).hasKey, true)
+    const before = sent.length
+    await ok('POST', '/settings/integrations/smtp/test', S.admin, { to: 'arun@example.com' })
+    assert.equal(sent.length, before)
+  } finally {
+    globalThis.fetch = realFetch
+  }
+})
