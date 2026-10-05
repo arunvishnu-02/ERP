@@ -1,0 +1,144 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Cipher Mutex navy and cyan. One accent, cool neutrals, status colours kept for status only. */
+:root {
+  --bg: #f4f6f9;
+  --surface: #ffffff;
+  --surface-2: #eef1f6;
+  --ink: #0e0b33;
+  --muted: #5a6075;
+  --line: #dde1ea;
+  --accent: #0a6fa8;
+  --accent-ink: #ffffff;
+  --accent-soft: #e1f3fb;
+  --rail: #08043a;
+  --rail-ink: #c3c6e6;
+  --rail-mute: #8a8db8;
+  --rail-active: #1d1866;
+  --good: #1b7a48;
+  --good-soft: #dcf2e5;
+  --warn: #8f5406;
+  --warn-soft: #faebd1;
+  --bad: #b3312a;
+  --bad-soft: #f9dedb;
+  --info: #2a5db0;
+  --info-soft: #dee8f9;
+  --chart-1: #02a6dc;
+  --chart-2: #c4841d;
+}
+.dark {
+  --bg: #070b14;
+  --surface: #10151f;
+  --surface-2: #171e2b;
+  --ink: #e6edf3;
+  --muted: #95a0b5;
+  --line: #242d3d;
+  --accent: #3cc2ef;
+  --accent-ink: #03141f;
+  --accent-soft: #0d2c3d;
+  --rail: #05032a;
+  --rail-ink: #b4b8dc;
+  --rail-mute: #7276a3;
+  --rail-active: #14114a;
+  --good: #5ccb8d;
+  --good-soft: #143524;
+  --warn: #e9b15a;
+  --warn-soft: #3a2b10;
+  --bad: #f0827a;
+  --bad-soft: #40191a;
+  --info: #86aeef;
+  --info-soft: #16294a;
+  --chart-1: #3cc2ef;
+  --chart-2: #b87f24;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-rail: var(--rail);
+  --color-rail-ink: var(--rail-ink);
+  --color-rail-mute: var(--rail-mute);
+  --color-rail-active: var(--rail-active);
+  --color-good: var(--good);
+  --color-good-soft: var(--good-soft);
+  --color-warn: var(--warn);
+  --color-warn-soft: var(--warn-soft);
+  --color-bad: var(--bad);
+  --color-bad-soft: var(--bad-soft);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --font-sans: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Bricolage Grotesque Variable', 'IBM Plex Sans', system-ui, sans-serif;
+}
+
+html {
+  font-family: var(--font-sans);
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.num {
+  font-variant-numeric: tabular-nums;
+}
+button:not(:disabled),
+[role='button'] {
+  cursor: pointer;
+}
+::selection {
+  background: var(--accent-soft);
+}
+
+@keyframes sheet-in {
+  from { transform: translateX(24px); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+@keyframes pop-in {
+  from { transform: translateY(6px); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+.sheet-in { animation: sheet-in 0.16s ease-out; }
+.pop-in { animation: pop-in 0.14s ease-out; }
+@media (prefers-reduced-motion: reduce) {
+  .sheet-in, .pop-in { animation: none; }
+}
+
+/* Quotations, invoices and receipts: always a white page in the company's house style, in light and dark mode. */
+.paper {
+  --doc-navy: #08043a;
+  --doc-cyan: #02a6dc;
+  --doc-soft: #bfe9f7;
+  --doc-ink: #0e0b33;
+  --doc-muted: #5f6378;
+  --doc-line: #e3e6ee;
+  --doc-tint: #f3f6fb;
+  font-family: 'Poppins', var(--font-sans);
+  background: #fff;
+  color: var(--doc-ink);
+  color-scheme: light;
+}
+
+@page { size: A4; margin: 12mm 0 0; }
+@page :first { margin-top: 0; }
+@media print {
+  html, body { background: #fff !important; }
+  .no-print { display: none !important; }
+  .paper { border: 0 !important; border-radius: 0 !important; box-shadow: none !important; min-height: 287mm; }
+  .print-bare { max-width: none !important; padding: 0 !important; margin: 0 !important; }
+  .paper, .paper * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}

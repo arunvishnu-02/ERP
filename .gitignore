@@ -1,10 +1,8 @@
 node_modules/
 .next/
-dist/
 .env
-.pgdata/
+.env.local
 uploads/
-backups/
 *.tsbuildinfo
 next-env.d.ts
 .DS_Store

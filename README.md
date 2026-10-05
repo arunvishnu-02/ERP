@@ -3,82 +3,109 @@
 CRM and ERP for a digital marketing, website development and IT services company.
 One path for every deal: Lead, Follow-up, Quotation, Approval, Project, Invoice, Payment, Completion.
 
-To put it on a server, read [DEPLOY.md](DEPLOY.md).
+It is one Next.js application with a MySQL database. It runs on Hostinger Node.js Web App Hosting.
+To put it online, read [DEPLOY.md](DEPLOY.md).
 
-## What is inside
+## Technology
 
-| Folder | What it is |
+| Part | What is used |
 |---|---|
-| `apps/api` | The API. Node.js, Express 5, TypeScript, Prisma 7, PostgreSQL. JWT login and role-based permissions. |
-| `apps/web` | The web app. Next.js 16, React 19, Tailwind CSS 4, shadcn-style components on Radix. |
-| `deploy` | Scripts to install, update, back up and restore on a server. |
-| `docker-compose.yml`, `Caddyfile` | Runs PostgreSQL, the API, the web app and HTTPS on one server. |
+| Frontend | Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS 4, shadcn/ui-style components on Radix, Lucide icons |
+| Backend | Next.js route handlers on Node.js, REST API under `/api/v1`, TypeScript |
+| Database | MySQL or MariaDB, Prisma ORM 7 |
+| Login and security | Session cookie (httpOnly), role-based access control, Zod validation, scrypt password hashing |
+| Tools | npm, Git, GitHub |
+
+No Docker, no VPS, no PostgreSQL and no outside services are needed.
+
+## What is in it
 
 The 20 modules: Dashboard, Leads, Customers, Sales CRM, Quotations, Invoices, Payments, Projects, Tasks, Digital marketing, Websites, Support tickets, Documents, HR, Assets, Finance, Reports, Automation, Communication, Settings.
 
 There is no sample data. The first visit shows a setup page that creates the company and the first Super Admin, plus sensible defaults: nine roles, lead stages and sources, GST rates, leave types, expense categories and message templates.
 
-## Run it on your own computer (for developers)
-
-You need Node.js 22. Docker is not needed for development.
-
-Terminal 1, the database:
+## Project structure
 
 ```
-cd apps/api
-npm install
-cp .env.example .env
-npm run db:local
+prisma/
+  schema.prisma              database schema (103 tables)
+  migrations/                Prisma migrations (SQL)
+src/
+  app/                       Next.js pages
+    api/v1/[...path]/route.ts  the one route handler that serves the REST API
+    (app)/                   signed-in area: layout and the screen for each module
+    login/ setup/            sign in and first-run setup
+    q/[token]/ i/[token]/    public quotation and invoice pages for customers
+    print/                   print and "save as PDF" pages
+  components/                reusable UI: ui.tsx, form.tsx, resource.tsx, doc.tsx, record.tsx
+  modules/                   one file per screen (leads.tsx, invoices.tsx, ...)
+  lib/                       browser helpers: api.ts, auth.tsx, format.ts
+  server/                    everything that runs on the server
+    app.ts                   builds the API and handles each request
+    env.ts  db.ts            settings and the Prisma client
+    core/                    router, login and permissions, validation, CRUD factory, GST and numbering, daily jobs, migrations
+    modules/                 the API routes, one file per area (leads.ts, quotations.ts, ...)
+  generated/prisma/          the generated Prisma client (kept in Git, see below)
+  instrumentation.ts         runs once at server start
+scripts/                     small build helpers
+tests/api.test.ts            end-to-end API tests
 ```
 
-Terminal 2, the API on port 4000:
+## Run it on your own computer
 
-```
-cd apps/api
-npm run dev
-```
+You need Node.js 20 or newer and a MySQL or MariaDB server (for example from MAMP, XAMPP or Homebrew).
 
-Terminal 3, the web app on port 3000:
+1. Create an empty database:
 
-```
-cd apps/web
-npm install
-npm run dev
-```
+   ```sql
+   CREATE DATABASE cx CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+   ```
 
-Open http://localhost:3000.
+2. Install and configure:
 
-## Checks
+   ```
+   npm install
+   cp .env.example .env
+   ```
 
-```
-cd apps/api && npm run typecheck && npm test     # 9 end-to-end tests on a real PostgreSQL
-cd apps/web && npm run typecheck && npm run build
-```
+   Open `.env`, set `DATABASE_URL` to your database, and set `ENCRYPTION_KEY` to the output of `openssl rand -hex 32`.
 
-## How the code is organised
+3. Start:
 
-**API (`apps/api/src`)**
+   ```
+   npm run dev
+   ```
 
-- `core/` holds what every module shares: `auth.ts` (tokens, permissions, record scope), `crud.ts` (list, create, edit, delete for one table, with search, filters, audit log), `util.ts` (GST arithmetic, document numbers, dates), `seed.ts` (first-run defaults), `jobs.ts` (daily reminders), `migrate.ts`.
-- `modules/` has one file per area: `leads.ts`, `quotations.ts`, `invoices.ts`, `payments.ts`, `projects.ts` and so on.
-- `generated/prisma` is the generated Prisma client. It is kept in the repository so the server build does not need the Prisma command line tool.
+4. Open http://localhost:3000. The tables are created automatically on the first start, and the setup page appears.
 
-**Web (`apps/web/src`)**
+## Commands
 
-- `components/` holds the building blocks: `ui.tsx`, `form.tsx`, `resource.tsx` (a full list screen for one kind of record), `doc.tsx` (quotation and invoice editor and view), `record.tsx` (timeline, notes, comments, files).
-- `modules/` has one file per screen. `app/(app)/[module]/page.tsx` maps each address to its screen and checks the permission.
+| Command | What it does |
+|---|---|
+| `npm run dev` | Development server on port 3000 |
+| `npm run build` | Production build |
+| `npm start` | Production server. It listens on the port in the `PORT` variable, or 3000 |
+| `npm run typecheck` | Check the TypeScript types |
+| `npm test` | 9 end-to-end API tests. Set `TEST_DATABASE_URL` to an empty test database first; the tests wipe it |
+| `npm run db:migrate` | `prisma migrate deploy`: apply the migrations by hand |
+| `npm run db:generate` | `prisma generate`: rebuild the Prisma client after a schema change |
 
-## Changing the database
+## Database and migrations
 
-1. Edit `apps/api/prisma/schema.prisma`.
-2. Run `npm run db:generate` in `apps/api` to rebuild the client.
-3. Add the change as a new SQL file in `apps/api/migrations`, for example `0002_add_lead_score.sql`. Prisma's `migrate diff` command can write this SQL for you.
+- The schema is `prisma/schema.prisma`. The first migration is `prisma/migrations/20261002000000_init/migration.sql`.
+- **The app applies new migrations by itself when it starts.** It records them in the `_prisma_migrations` table in the same format Prisma uses, so `npx prisma migrate deploy` can also be used and the two do not clash.
+- To change the schema:
+  1. Edit `prisma/schema.prisma`.
+  2. Run `npx prisma migrate dev --name what_changed`. This writes a new folder in `prisma/migrations` and updates the client in `src/generated/prisma`.
+  3. Commit both. On the next deployment the app applies the new migration when it starts.
+- The generated Prisma client is committed to Git on purpose, so the host does not need to run `prisma generate` during the build.
 
-The API runs every new file in `migrations` when it starts, in name order, and remembers which ones it has run.
+## How login and permissions work
 
-## Permissions
-
-Each role has, for each module, a set of actions (View, Create, Edit, Delete, Approve, Export, Import) and one scope (Own, Team, Department or All records). A Super Admin edits these under Settings, Roles and permissions. The API checks every request; the web app only hides what a person cannot use.
+- Signing in creates a random session value. The browser keeps it in an `httpOnly` cookie; the database keeps only its SHA-256 hash. Sessions last 30 days and are extended while the person stays active.
+- Every changing request must carry the `X-Requested-With` header, which the app's own pages add. Other websites cannot add it, which stops cross-site request forgery.
+- Each role has, for each module, a set of actions (View, Create, Edit, Delete, Approve, Export, Import) and one scope (Own, Team, Department or All records). A Super Admin edits these under Settings, Roles and permissions. The API checks every request; the pages only hide what a person cannot use.
+- Passwords are hashed with scrypt and a random salt. Stored website passwords are encrypted with AES-256-GCM using `ENCRYPTION_KEY`.
 
 ## Business rules worth knowing
 
@@ -86,7 +113,7 @@ Each role has, for each module, a set of actions (View, Create, Edit, Delete, Ap
 - Document numbers look like `CX/INV/2026-27/0001` and restart each financial year. An invoice gets its number when it is sent; before that it is a draft.
 - A sent invoice cannot be edited. Use a credit note to correct it.
 - Payments can include TDS deducted by the customer.
-- Daily checks run after 9:00 India time: follow-up reminders, payment reminders (3, 10, 20 and 30 days overdue), renewal reminders (30, 15, 7 and 1 days before expiry) and recurring invoices.
+- Daily checks run after 9:00 India time: follow-up reminders, payment reminders (3, 10, 20 and 30 days overdue), renewal reminders (30, 15, 7 and 1 days before expiry) and recurring invoices. If the host stops the app while nobody is using it, the checks run on the first request after 9:00.
 
 ## Not in this version
 
@@ -95,5 +122,6 @@ Each role has, for each module, a set of actions (View, Create, Edit, Delete, Ap
 - Notifications refresh every 20 seconds; there is no live socket connection.
 - PDF is made with the browser's "Print, Save as PDF" on the print pages.
 - Quotation approval is one step. The multi-step approval tables exist in the database but are not used.
-- Two-factor login, Redis and a job queue, and PostgreSQL row-level security are not included.
+- Two-factor login is not included.
 - File downloads check that the file belongs to your company, not the module permission of each file.
+- The sign-in rate limit is counted in memory, per server process.
