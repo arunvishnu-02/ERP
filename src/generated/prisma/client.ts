@@ -97,6 +97,16 @@ export type RolePermission = Prisma.RolePermissionModel
  */
 export type Session = Prisma.SessionModel
 /**
+ * Model PortalSession
+ * * A client contact signed in to the portal. Like Session, only the SHA-256 of the cookie is stored.
+ */
+export type PortalSession = Prisma.PortalSessionModel
+/**
+ * Model PortalCode
+ * * A one-time sign-in code emailed to a client contact.
+ */
+export type PortalCode = Prisma.PortalCodeModel
+/**
  * Model PasswordResetToken
  * 
  */

@@ -992,6 +992,33 @@ model Session {
   @@index([expiresAt])
 }
 
+/** A client contact signed in to the portal. Like Session, only the SHA-256 of the cookie is stored. */
+model PortalSession {
+  id         String   @id @default(uuid()) @db.Char(36)
+  contactId  String   @db.Char(36)
+  contact    Contact  @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  tokenHash  String   @unique
+  expiresAt  DateTime
+  lastUsedAt DateTime @default(now())
+  createdAt  DateTime @default(now())
+
+  @@index([contactId])
+}
+
+/** A one-time sign-in code emailed to a client contact. */
+model PortalCode {
+  id        String    @id @default(uuid()) @db.Char(36)
+  contactId String    @db.Char(36)
+  contact   Contact   @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  codeHash  String
+  tries     Int       @default(0)
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([contactId])
+}
+
 model PasswordResetToken {
   id        String    @id @default(uuid()) @db.Char(36)
   userId    String    @db.Char(36)
@@ -1098,8 +1125,10 @@ model Comment {
   body           String       @db.Text
   isInternal     Boolean      @default(true) // false = visible to the customer (tickets)
   mentions       Json? // user ids
-  authorId       String       @db.Char(36)
-  author         User         @relation("CommentAuthor", fields: [authorId], references: [id])
+  authorId       String?      @db.Char(36) // the staff member, or empty when a client wrote it in the portal
+  author         User?        @relation("CommentAuthor", fields: [authorId], references: [id])
+  contactId      String?      @db.Char(36) // the client contact, for portal replies
+  contact        Contact?     @relation(fields: [contactId], references: [id], onDelete: SetNull)
   parentId       String?      @db.Char(36)
   parent         Comment?     @relation("CommentThread", fields: [parentId], references: [id])
   replies        Comment[]    @relation("CommentThread")
@@ -1354,9 +1383,14 @@ model Contact {
   whatsappNumber   String?
   isPrimary        Boolean      @default(false)
   isBillingContact Boolean      @default(false)
+  portalAccess     Boolean      @default(false) // may sign in to the client portal with an emailed code
+  portalLastSeenAt DateTime?
   createdAt        DateTime     @default(now())
   updatedAt        DateTime     @updatedAt
 
+  portalSessions   PortalSession[]
+  portalCodes      PortalCode[]
+  comments         Comment[]
   deals            Deal[]
   meetingAttendees MeetingAttendee[]
   callLogs         CallLog[]

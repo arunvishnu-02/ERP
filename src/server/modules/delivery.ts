@@ -151,7 +151,7 @@ const ticketWithPeople = { customer: { select: { id: true, name: true, email: tr
 const replyTo = (t: any) => t.contact?.email || t.customer?.email || null
 ticketsRouter.get('/:id/conversation', authorize('TICKETS', 'VIEW'), async (req, res) => {
   const t = await findScoped(req, 'ticket', 'TICKETS', 'VIEW', { label: 'Ticket', include: ticketWithPeople })
-  const items = await prisma.comment.findMany({ where: { organizationId: t.organizationId, entityType: 'TICKET', entityId: t.id, deletedAt: null }, include: { author: U }, orderBy: { createdAt: 'asc' } })
+  const items = await prisma.comment.findMany({ where: { organizationId: t.organizationId, entityType: 'TICKET', entityId: t.id, deletedAt: null }, include: { author: U, contact: { select: { id: true, firstName: true, lastName: true } } }, orderBy: { createdAt: 'asc' } })
   res.json({ items, replyTo: replyTo(t) })
 })
 ticketsRouter.post('/:id/reply', authorize('TICKETS', 'EDIT'), async (req, res) => {

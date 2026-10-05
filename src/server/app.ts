@@ -17,6 +17,7 @@ import { creditNotesRouter, invoicesRouter, recurringRouter } from './modules/in
 import { followUpsRouter, leadsRouter } from './modules/leads'
 import { bankAccountsRouter, paymentsRouter } from './modules/payments'
 import { projectsRouter } from './modules/projects'
+import { portalRouter } from './modules/portal'
 import { publicRouter } from './modules/public'
 import { packagesRouter, quotationsRouter, servicesRouter } from './modules/quotations'
 import { callsRouter, dealsRouter, meetingsRouter } from './modules/sales'
@@ -32,6 +33,7 @@ function build() {
   })
   v1.use('/auth', authRouter)
   v1.use('/public', publicRouter)
+  v1.use('/portal', portalRouter)
   v1.use(authenticate)
   v1.get('/lookups', lookups)
   v1.use('/approvals', approvalsRouter)
