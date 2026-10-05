@@ -8,6 +8,7 @@ import { prisma } from './db'
 import { rememberOrigin } from './env'
 import { authRouter } from './modules/auth'
 import { assetsRouter, documentsRouter, financeRouter, hrRouter, meRouter } from './modules/backoffice'
+import { myPayslipsRouter, payrollRouter } from './modules/payroll'
 import { customersRouter } from './modules/customers'
 import { adSpendRouter, campaignsRouter, contentRouter, credentialsRouter, ticketsRouter, webAssetsRouter, websitesRouter } from './modules/delivery'
 import { automationRouter, communicationRouter, dashboardRouter, reportsRouter } from './modules/insights'
@@ -58,6 +59,8 @@ function build() {
   v1.use('/tickets', ticketsRouter)
   v1.use('/documents', documentsRouter)
   v1.use('/hr', hrRouter)
+  v1.use('/payroll', payrollRouter)
+  v1.use('/me/payslips', myPayslipsRouter)
   v1.use('/me', meRouter)
   v1.use('/assets', assetsRouter)
   v1.use('/finance', financeRouter)

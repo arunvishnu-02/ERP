@@ -8,7 +8,7 @@ export interface Opt { value: string; label: string }
 export interface Field {
   name: string
   label: string
-  type?: 'text' | 'email' | 'password' | 'number' | 'date' | 'datetime-local' | 'textarea' | 'select' | 'checkbox' | 'multi' | 'file'
+  type?: 'text' | 'email' | 'password' | 'number' | 'date' | 'month' | 'datetime-local' | 'textarea' | 'select' | 'checkbox' | 'multi' | 'file'
   options?: Opt[]
   required?: boolean
   full?: boolean

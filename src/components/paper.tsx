@@ -8,13 +8,13 @@ import { cn } from './ui'
 export const orgAddress = (org: any) => [org.addressLine1, org.addressLine2, org.city, org.state, org.pincode].filter(Boolean).join(', ')
 
 /** A white page with the stripe on the left and the contact footer at the bottom. */
-export function Paper({ org, children, className }: { org: any; children: React.ReactNode; className?: string }) {
+export function Paper({ org, children, className, dense }: { org: any; children: React.ReactNode; className?: string; dense?: boolean }) {
   return (
     <article className={cn('paper relative flex flex-col overflow-hidden rounded-xl border border-line shadow-sm', className)}>
       <span aria-hidden className="absolute inset-y-0 left-0 w-3 bg-[var(--doc-navy)]" />
       <span aria-hidden className="absolute top-36 left-0 h-24 w-3 bg-[var(--doc-cyan)]" />
       <span aria-hidden className="absolute top-60 left-0 h-12 w-3 bg-[var(--doc-soft)]" />
-      <div className="flex flex-1 flex-col gap-6 py-8 pr-6 pl-9 sm:py-10 sm:pr-11 sm:pl-14">{children}</div>
+      <div className={cn('flex flex-1 flex-col py-8 pr-6 pl-9 sm:pr-11 sm:pl-14', dense ? 'gap-3.5 sm:py-6' : 'gap-6 sm:py-10')}>{children}</div>
       <ContactFooter org={org} />
     </article>
   )
@@ -56,7 +56,7 @@ export function InfoStrip({ items }: { items: [string, React.ReactNode][] }) {
       {shown.map(([k, v]) => (
         <div key={k} className="min-w-0">
           <div className="text-[9.5px] font-medium tracking-wider text-[var(--doc-muted)] uppercase">{k}</div>
-          <div className="mt-0.5 truncate text-[13px] font-semibold">{v}</div>
+          <div className="mt-0.5 text-[13px] font-semibold break-words">{v}</div>
         </div>
       ))}
     </div>
@@ -67,7 +67,7 @@ export function InfoStrip({ items }: { items: [string, React.ReactNode][] }) {
 export function Signatures({ org, client }: { org: any; client?: string }) {
   const s = org.settings ?? {}
   return (
-    <div className="mt-auto flex items-end justify-between gap-8 pt-10 text-[11.5px]">
+    <div className="mt-auto flex items-end justify-between gap-8 pt-6 text-[11.5px]">
       {client ? <div className="w-44 border-t border-[var(--doc-muted)] pt-1.5 text-[var(--doc-muted)]">{client}</div> : <span />}
       <div className="text-right">
         <div className="mb-9 font-semibold">For {org.legalName || org.name}</div>

@@ -422,6 +422,8 @@ export type OrganizationWhereInput = {
   leaveRequests?: Prisma.LeaveRequestListRelationFilter
   holidays?: Prisma.HolidayListRelationFilter
   performanceReviews?: Prisma.PerformanceReviewListRelationFilter
+  payrollRuns?: Prisma.PayrollRunListRelationFilter
+  payslips?: Prisma.PayslipListRelationFilter
   assets?: Prisma.AssetListRelationFilter
   expenseCategories?: Prisma.ExpenseCategoryListRelationFilter
   vendors?: Prisma.VendorListRelationFilter
@@ -525,6 +527,8 @@ export type OrganizationOrderByWithRelationInput = {
   leaveRequests?: Prisma.LeaveRequestOrderByRelationAggregateInput
   holidays?: Prisma.HolidayOrderByRelationAggregateInput
   performanceReviews?: Prisma.PerformanceReviewOrderByRelationAggregateInput
+  payrollRuns?: Prisma.PayrollRunOrderByRelationAggregateInput
+  payslips?: Prisma.PayslipOrderByRelationAggregateInput
   assets?: Prisma.AssetOrderByRelationAggregateInput
   expenseCategories?: Prisma.ExpenseCategoryOrderByRelationAggregateInput
   vendors?: Prisma.VendorOrderByRelationAggregateInput
@@ -632,6 +636,8 @@ export type OrganizationWhereUniqueInput = Prisma.AtLeast<{
   leaveRequests?: Prisma.LeaveRequestListRelationFilter
   holidays?: Prisma.HolidayListRelationFilter
   performanceReviews?: Prisma.PerformanceReviewListRelationFilter
+  payrollRuns?: Prisma.PayrollRunListRelationFilter
+  payslips?: Prisma.PayslipListRelationFilter
   assets?: Prisma.AssetListRelationFilter
   expenseCategories?: Prisma.ExpenseCategoryListRelationFilter
   vendors?: Prisma.VendorListRelationFilter
@@ -797,6 +803,8 @@ export type OrganizationCreateInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -900,6 +908,8 @@ export type OrganizationUncheckedCreateInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -1003,6 +1013,8 @@ export type OrganizationUpdateInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -1106,6 +1118,8 @@ export type OrganizationUncheckedUpdateInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -2131,6 +2145,34 @@ export type OrganizationUpdateOneRequiredWithoutHolidaysNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.OrganizationUpdateToOneWithWhereWithoutHolidaysInput, Prisma.OrganizationUpdateWithoutHolidaysInput>, Prisma.OrganizationUncheckedUpdateWithoutHolidaysInput>
 }
 
+export type OrganizationCreateNestedOneWithoutPayrollRunsInput = {
+  create?: Prisma.XOR<Prisma.OrganizationCreateWithoutPayrollRunsInput, Prisma.OrganizationUncheckedCreateWithoutPayrollRunsInput>
+  connectOrCreate?: Prisma.OrganizationCreateOrConnectWithoutPayrollRunsInput
+  connect?: Prisma.OrganizationWhereUniqueInput
+}
+
+export type OrganizationUpdateOneRequiredWithoutPayrollRunsNestedInput = {
+  create?: Prisma.XOR<Prisma.OrganizationCreateWithoutPayrollRunsInput, Prisma.OrganizationUncheckedCreateWithoutPayrollRunsInput>
+  connectOrCreate?: Prisma.OrganizationCreateOrConnectWithoutPayrollRunsInput
+  upsert?: Prisma.OrganizationUpsertWithoutPayrollRunsInput
+  connect?: Prisma.OrganizationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.OrganizationUpdateToOneWithWhereWithoutPayrollRunsInput, Prisma.OrganizationUpdateWithoutPayrollRunsInput>, Prisma.OrganizationUncheckedUpdateWithoutPayrollRunsInput>
+}
+
+export type OrganizationCreateNestedOneWithoutPayslipsInput = {
+  create?: Prisma.XOR<Prisma.OrganizationCreateWithoutPayslipsInput, Prisma.OrganizationUncheckedCreateWithoutPayslipsInput>
+  connectOrCreate?: Prisma.OrganizationCreateOrConnectWithoutPayslipsInput
+  connect?: Prisma.OrganizationWhereUniqueInput
+}
+
+export type OrganizationUpdateOneRequiredWithoutPayslipsNestedInput = {
+  create?: Prisma.XOR<Prisma.OrganizationCreateWithoutPayslipsInput, Prisma.OrganizationUncheckedCreateWithoutPayslipsInput>
+  connectOrCreate?: Prisma.OrganizationCreateOrConnectWithoutPayslipsInput
+  upsert?: Prisma.OrganizationUpsertWithoutPayslipsInput
+  connect?: Prisma.OrganizationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.OrganizationUpdateToOneWithWhereWithoutPayslipsInput, Prisma.OrganizationUpdateWithoutPayslipsInput>, Prisma.OrganizationUncheckedUpdateWithoutPayslipsInput>
+}
+
 export type OrganizationCreateNestedOneWithoutPerformanceReviewsInput = {
   create?: Prisma.XOR<Prisma.OrganizationCreateWithoutPerformanceReviewsInput, Prisma.OrganizationUncheckedCreateWithoutPerformanceReviewsInput>
   connectOrCreate?: Prisma.OrganizationCreateOrConnectWithoutPerformanceReviewsInput
@@ -2479,6 +2521,8 @@ export type OrganizationCreateWithoutBranchesInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -2581,6 +2625,8 @@ export type OrganizationUncheckedCreateWithoutBranchesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -2699,6 +2745,8 @@ export type OrganizationUpdateWithoutBranchesInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -2801,6 +2849,8 @@ export type OrganizationUncheckedUpdateWithoutBranchesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -2903,6 +2953,8 @@ export type OrganizationCreateWithoutDepartmentsInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -3005,6 +3057,8 @@ export type OrganizationUncheckedCreateWithoutDepartmentsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -3123,6 +3177,8 @@ export type OrganizationUpdateWithoutDepartmentsInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -3225,6 +3281,8 @@ export type OrganizationUncheckedUpdateWithoutDepartmentsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -3327,6 +3385,8 @@ export type OrganizationCreateWithoutTeamsInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -3429,6 +3489,8 @@ export type OrganizationUncheckedCreateWithoutTeamsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -3547,6 +3609,8 @@ export type OrganizationUpdateWithoutTeamsInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -3649,6 +3713,8 @@ export type OrganizationUncheckedUpdateWithoutTeamsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -3751,6 +3817,8 @@ export type OrganizationCreateWithoutUsersInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -3853,6 +3921,8 @@ export type OrganizationUncheckedCreateWithoutUsersInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -3971,6 +4041,8 @@ export type OrganizationUpdateWithoutUsersInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -4073,6 +4145,8 @@ export type OrganizationUncheckedUpdateWithoutUsersInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -4175,6 +4249,8 @@ export type OrganizationCreateWithoutRolesInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -4277,6 +4353,8 @@ export type OrganizationUncheckedCreateWithoutRolesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -4395,6 +4473,8 @@ export type OrganizationUpdateWithoutRolesInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -4497,6 +4577,8 @@ export type OrganizationUncheckedUpdateWithoutRolesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -4599,6 +4681,8 @@ export type OrganizationCreateWithoutApiKeysInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -4701,6 +4785,8 @@ export type OrganizationUncheckedCreateWithoutApiKeysInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -4819,6 +4905,8 @@ export type OrganizationUpdateWithoutApiKeysInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -4921,6 +5009,8 @@ export type OrganizationUncheckedUpdateWithoutApiKeysInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -5023,6 +5113,8 @@ export type OrganizationCreateWithoutAuditLogsInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -5125,6 +5217,8 @@ export type OrganizationUncheckedCreateWithoutAuditLogsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -5243,6 +5337,8 @@ export type OrganizationUpdateWithoutAuditLogsInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -5345,6 +5441,8 @@ export type OrganizationUncheckedUpdateWithoutAuditLogsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -5447,6 +5545,8 @@ export type OrganizationCreateWithoutFilesInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -5549,6 +5649,8 @@ export type OrganizationUncheckedCreateWithoutFilesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -5667,6 +5769,8 @@ export type OrganizationUpdateWithoutFilesInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -5769,6 +5873,8 @@ export type OrganizationUncheckedUpdateWithoutFilesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -5871,6 +5977,8 @@ export type OrganizationCreateWithoutAttachmentsInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -5973,6 +6081,8 @@ export type OrganizationUncheckedCreateWithoutAttachmentsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -6091,6 +6201,8 @@ export type OrganizationUpdateWithoutAttachmentsInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -6193,6 +6305,8 @@ export type OrganizationUncheckedUpdateWithoutAttachmentsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -6295,6 +6409,8 @@ export type OrganizationCreateWithoutNotesInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -6397,6 +6513,8 @@ export type OrganizationUncheckedCreateWithoutNotesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -6515,6 +6633,8 @@ export type OrganizationUpdateWithoutNotesInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -6617,6 +6737,8 @@ export type OrganizationUncheckedUpdateWithoutNotesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -6719,6 +6841,8 @@ export type OrganizationCreateWithoutCommentsInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -6821,6 +6945,8 @@ export type OrganizationUncheckedCreateWithoutCommentsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -6939,6 +7065,8 @@ export type OrganizationUpdateWithoutCommentsInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -7041,6 +7169,8 @@ export type OrganizationUncheckedUpdateWithoutCommentsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -7143,6 +7273,8 @@ export type OrganizationCreateWithoutActivitiesInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -7245,6 +7377,8 @@ export type OrganizationUncheckedCreateWithoutActivitiesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -7363,6 +7497,8 @@ export type OrganizationUpdateWithoutActivitiesInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -7465,6 +7601,8 @@ export type OrganizationUncheckedUpdateWithoutActivitiesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -7567,6 +7705,8 @@ export type OrganizationCreateWithoutTagsInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -7669,6 +7809,8 @@ export type OrganizationUncheckedCreateWithoutTagsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -7787,6 +7929,8 @@ export type OrganizationUpdateWithoutTagsInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -7889,6 +8033,8 @@ export type OrganizationUncheckedUpdateWithoutTagsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -7991,6 +8137,8 @@ export type OrganizationCreateWithoutNumberSequencesInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -8093,6 +8241,8 @@ export type OrganizationUncheckedCreateWithoutNumberSequencesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -8211,6 +8361,8 @@ export type OrganizationUpdateWithoutNumberSequencesInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -8313,6 +8465,8 @@ export type OrganizationUncheckedUpdateWithoutNumberSequencesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -8415,6 +8569,8 @@ export type OrganizationCreateWithoutLeadSourcesInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -8517,6 +8673,8 @@ export type OrganizationUncheckedCreateWithoutLeadSourcesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -8635,6 +8793,8 @@ export type OrganizationUpdateWithoutLeadSourcesInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -8737,6 +8897,8 @@ export type OrganizationUncheckedUpdateWithoutLeadSourcesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -8839,6 +9001,8 @@ export type OrganizationCreateWithoutLeadStagesInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -8941,6 +9105,8 @@ export type OrganizationUncheckedCreateWithoutLeadStagesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -9059,6 +9225,8 @@ export type OrganizationUpdateWithoutLeadStagesInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -9161,6 +9329,8 @@ export type OrganizationUncheckedUpdateWithoutLeadStagesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -9263,6 +9433,8 @@ export type OrganizationCreateWithoutLeadsInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -9365,6 +9537,8 @@ export type OrganizationUncheckedCreateWithoutLeadsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -9483,6 +9657,8 @@ export type OrganizationUpdateWithoutLeadsInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -9585,6 +9761,8 @@ export type OrganizationUncheckedUpdateWithoutLeadsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -9687,6 +9865,8 @@ export type OrganizationCreateWithoutFollowUpsInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -9789,6 +9969,8 @@ export type OrganizationUncheckedCreateWithoutFollowUpsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -9907,6 +10089,8 @@ export type OrganizationUpdateWithoutFollowUpsInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -10009,6 +10193,8 @@ export type OrganizationUncheckedUpdateWithoutFollowUpsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -10111,6 +10297,8 @@ export type OrganizationCreateWithoutCustomersInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -10213,6 +10401,8 @@ export type OrganizationUncheckedCreateWithoutCustomersInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -10331,6 +10521,8 @@ export type OrganizationUpdateWithoutCustomersInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -10433,6 +10625,8 @@ export type OrganizationUncheckedUpdateWithoutCustomersInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -10535,6 +10729,8 @@ export type OrganizationCreateWithoutContactsInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -10637,6 +10833,8 @@ export type OrganizationUncheckedCreateWithoutContactsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -10755,6 +10953,8 @@ export type OrganizationUpdateWithoutContactsInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -10857,6 +11057,8 @@ export type OrganizationUncheckedUpdateWithoutContactsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -10959,6 +11161,8 @@ export type OrganizationCreateWithoutPipelinesInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -11061,6 +11265,8 @@ export type OrganizationUncheckedCreateWithoutPipelinesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -11179,6 +11385,8 @@ export type OrganizationUpdateWithoutPipelinesInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -11281,6 +11489,8 @@ export type OrganizationUncheckedUpdateWithoutPipelinesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -11383,6 +11593,8 @@ export type OrganizationCreateWithoutDealsInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -11485,6 +11697,8 @@ export type OrganizationUncheckedCreateWithoutDealsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -11603,6 +11817,8 @@ export type OrganizationUpdateWithoutDealsInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -11705,6 +11921,8 @@ export type OrganizationUncheckedUpdateWithoutDealsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -11807,6 +12025,8 @@ export type OrganizationCreateWithoutMeetingsInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -11909,6 +12129,8 @@ export type OrganizationUncheckedCreateWithoutMeetingsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -12027,6 +12249,8 @@ export type OrganizationUpdateWithoutMeetingsInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -12129,6 +12353,8 @@ export type OrganizationUncheckedUpdateWithoutMeetingsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -12231,6 +12457,8 @@ export type OrganizationCreateWithoutCallLogsInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -12333,6 +12561,8 @@ export type OrganizationUncheckedCreateWithoutCallLogsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -12451,6 +12681,8 @@ export type OrganizationUpdateWithoutCallLogsInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -12553,6 +12785,8 @@ export type OrganizationUncheckedUpdateWithoutCallLogsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -12655,6 +12889,8 @@ export type OrganizationCreateWithoutServicesInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -12757,6 +12993,8 @@ export type OrganizationUncheckedCreateWithoutServicesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -12875,6 +13113,8 @@ export type OrganizationUpdateWithoutServicesInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -12977,6 +13217,8 @@ export type OrganizationUncheckedUpdateWithoutServicesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -13079,6 +13321,8 @@ export type OrganizationCreateWithoutServicePackagesInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -13181,6 +13425,8 @@ export type OrganizationUncheckedCreateWithoutServicePackagesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -13299,6 +13545,8 @@ export type OrganizationUpdateWithoutServicePackagesInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -13401,6 +13649,8 @@ export type OrganizationUncheckedUpdateWithoutServicePackagesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -13503,6 +13753,8 @@ export type OrganizationCreateWithoutPriceRulesInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -13605,6 +13857,8 @@ export type OrganizationUncheckedCreateWithoutPriceRulesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -13723,6 +13977,8 @@ export type OrganizationUpdateWithoutPriceRulesInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -13825,6 +14081,8 @@ export type OrganizationUncheckedUpdateWithoutPriceRulesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -13927,6 +14185,8 @@ export type OrganizationCreateWithoutTaxRatesInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -14029,6 +14289,8 @@ export type OrganizationUncheckedCreateWithoutTaxRatesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -14147,6 +14409,8 @@ export type OrganizationUpdateWithoutTaxRatesInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -14249,6 +14513,8 @@ export type OrganizationUncheckedUpdateWithoutTaxRatesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -14351,6 +14617,8 @@ export type OrganizationCreateWithoutQuotationsInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -14453,6 +14721,8 @@ export type OrganizationUncheckedCreateWithoutQuotationsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -14571,6 +14841,8 @@ export type OrganizationUpdateWithoutQuotationsInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -14673,6 +14945,8 @@ export type OrganizationUncheckedUpdateWithoutQuotationsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -14775,6 +15049,8 @@ export type OrganizationCreateWithoutApprovalRulesInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -14877,6 +15153,8 @@ export type OrganizationUncheckedCreateWithoutApprovalRulesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -14995,6 +15273,8 @@ export type OrganizationUpdateWithoutApprovalRulesInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -15097,6 +15377,8 @@ export type OrganizationUncheckedUpdateWithoutApprovalRulesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -15199,6 +15481,8 @@ export type OrganizationCreateWithoutApprovalRequestsInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -15301,6 +15585,8 @@ export type OrganizationUncheckedCreateWithoutApprovalRequestsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -15419,6 +15705,8 @@ export type OrganizationUpdateWithoutApprovalRequestsInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -15521,6 +15809,8 @@ export type OrganizationUncheckedUpdateWithoutApprovalRequestsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -15623,6 +15913,8 @@ export type OrganizationCreateWithoutInvoiceTemplatesInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -15725,6 +16017,8 @@ export type OrganizationUncheckedCreateWithoutInvoiceTemplatesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -15843,6 +16137,8 @@ export type OrganizationUpdateWithoutInvoiceTemplatesInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -15945,6 +16241,8 @@ export type OrganizationUncheckedUpdateWithoutInvoiceTemplatesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -16047,6 +16345,8 @@ export type OrganizationCreateWithoutInvoicesInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -16149,6 +16449,8 @@ export type OrganizationUncheckedCreateWithoutInvoicesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -16267,6 +16569,8 @@ export type OrganizationUpdateWithoutInvoicesInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -16369,6 +16673,8 @@ export type OrganizationUncheckedUpdateWithoutInvoicesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -16471,6 +16777,8 @@ export type OrganizationCreateWithoutCreditNotesInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -16573,6 +16881,8 @@ export type OrganizationUncheckedCreateWithoutCreditNotesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -16691,6 +17001,8 @@ export type OrganizationUpdateWithoutCreditNotesInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -16793,6 +17105,8 @@ export type OrganizationUncheckedUpdateWithoutCreditNotesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -16895,6 +17209,8 @@ export type OrganizationCreateWithoutRecurringInvoicesInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -16997,6 +17313,8 @@ export type OrganizationUncheckedCreateWithoutRecurringInvoicesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -17115,6 +17433,8 @@ export type OrganizationUpdateWithoutRecurringInvoicesInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -17217,6 +17537,8 @@ export type OrganizationUncheckedUpdateWithoutRecurringInvoicesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -17319,6 +17641,8 @@ export type OrganizationCreateWithoutBankAccountsInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -17421,6 +17745,8 @@ export type OrganizationUncheckedCreateWithoutBankAccountsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -17539,6 +17865,8 @@ export type OrganizationUpdateWithoutBankAccountsInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -17641,6 +17969,8 @@ export type OrganizationUncheckedUpdateWithoutBankAccountsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -17743,6 +18073,8 @@ export type OrganizationCreateWithoutPaymentsInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -17845,6 +18177,8 @@ export type OrganizationUncheckedCreateWithoutPaymentsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -17963,6 +18297,8 @@ export type OrganizationUpdateWithoutPaymentsInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -18065,6 +18401,8 @@ export type OrganizationUncheckedUpdateWithoutPaymentsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -18167,6 +18505,8 @@ export type OrganizationCreateWithoutPaymentRemindersInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -18269,6 +18609,8 @@ export type OrganizationUncheckedCreateWithoutPaymentRemindersInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -18387,6 +18729,8 @@ export type OrganizationUpdateWithoutPaymentRemindersInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -18489,6 +18833,8 @@ export type OrganizationUncheckedUpdateWithoutPaymentRemindersInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -18591,6 +18937,8 @@ export type OrganizationCreateWithoutProjectsInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -18693,6 +19041,8 @@ export type OrganizationUncheckedCreateWithoutProjectsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -18811,6 +19161,8 @@ export type OrganizationUpdateWithoutProjectsInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -18913,6 +19265,8 @@ export type OrganizationUncheckedUpdateWithoutProjectsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -19015,6 +19369,8 @@ export type OrganizationCreateWithoutTasksInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -19117,6 +19473,8 @@ export type OrganizationUncheckedCreateWithoutTasksInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -19235,6 +19593,8 @@ export type OrganizationUpdateWithoutTasksInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -19337,6 +19697,8 @@ export type OrganizationUncheckedUpdateWithoutTasksInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -19439,6 +19801,8 @@ export type OrganizationCreateWithoutTimeEntriesInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -19541,6 +19905,8 @@ export type OrganizationUncheckedCreateWithoutTimeEntriesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -19659,6 +20025,8 @@ export type OrganizationUpdateWithoutTimeEntriesInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -19761,6 +20129,8 @@ export type OrganizationUncheckedUpdateWithoutTimeEntriesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -19863,6 +20233,8 @@ export type OrganizationCreateWithoutSocialAccountsInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -19965,6 +20337,8 @@ export type OrganizationUncheckedCreateWithoutSocialAccountsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -20083,6 +20457,8 @@ export type OrganizationUpdateWithoutSocialAccountsInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -20185,6 +20561,8 @@ export type OrganizationUncheckedUpdateWithoutSocialAccountsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -20287,6 +20665,8 @@ export type OrganizationCreateWithoutCampaignsInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -20389,6 +20769,8 @@ export type OrganizationUncheckedCreateWithoutCampaignsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -20507,6 +20889,8 @@ export type OrganizationUpdateWithoutCampaignsInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -20609,6 +20993,8 @@ export type OrganizationUncheckedUpdateWithoutCampaignsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -20711,6 +21097,8 @@ export type OrganizationCreateWithoutContentItemsInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -20813,6 +21201,8 @@ export type OrganizationUncheckedCreateWithoutContentItemsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -20931,6 +21321,8 @@ export type OrganizationUpdateWithoutContentItemsInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -21033,6 +21425,8 @@ export type OrganizationUncheckedUpdateWithoutContentItemsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -21135,6 +21529,8 @@ export type OrganizationCreateWithoutAdSpendsInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -21237,6 +21633,8 @@ export type OrganizationUncheckedCreateWithoutAdSpendsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -21355,6 +21753,8 @@ export type OrganizationUpdateWithoutAdSpendsInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -21457,6 +21857,8 @@ export type OrganizationUncheckedUpdateWithoutAdSpendsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -21559,6 +21961,8 @@ export type OrganizationCreateWithoutCampaignReportsInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -21661,6 +22065,8 @@ export type OrganizationUncheckedCreateWithoutCampaignReportsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -21779,6 +22185,8 @@ export type OrganizationUpdateWithoutCampaignReportsInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -21881,6 +22289,8 @@ export type OrganizationUncheckedUpdateWithoutCampaignReportsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -21983,6 +22393,8 @@ export type OrganizationCreateWithoutWebsitesInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -22085,6 +22497,8 @@ export type OrganizationUncheckedCreateWithoutWebsitesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -22203,6 +22617,8 @@ export type OrganizationUpdateWithoutWebsitesInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -22305,6 +22721,8 @@ export type OrganizationUncheckedUpdateWithoutWebsitesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -22407,6 +22825,8 @@ export type OrganizationCreateWithoutWebAssetsInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -22509,6 +22929,8 @@ export type OrganizationUncheckedCreateWithoutWebAssetsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -22627,6 +23049,8 @@ export type OrganizationUpdateWithoutWebAssetsInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -22729,6 +23153,8 @@ export type OrganizationUncheckedUpdateWithoutWebAssetsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -22831,6 +23257,8 @@ export type OrganizationCreateWithoutCredentialsInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -22933,6 +23361,8 @@ export type OrganizationUncheckedCreateWithoutCredentialsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -23051,6 +23481,8 @@ export type OrganizationUpdateWithoutCredentialsInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -23153,6 +23585,8 @@ export type OrganizationUncheckedUpdateWithoutCredentialsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -23255,6 +23689,8 @@ export type OrganizationCreateWithoutTicketsInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -23357,6 +23793,8 @@ export type OrganizationUncheckedCreateWithoutTicketsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -23475,6 +23913,8 @@ export type OrganizationUpdateWithoutTicketsInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -23577,6 +24017,8 @@ export type OrganizationUncheckedUpdateWithoutTicketsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -23679,6 +24121,8 @@ export type OrganizationCreateWithoutDocumentFoldersInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -23781,6 +24225,8 @@ export type OrganizationUncheckedCreateWithoutDocumentFoldersInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -23899,6 +24345,8 @@ export type OrganizationUpdateWithoutDocumentFoldersInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -24001,6 +24449,8 @@ export type OrganizationUncheckedUpdateWithoutDocumentFoldersInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -24103,6 +24553,8 @@ export type OrganizationCreateWithoutDocumentsInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -24205,6 +24657,8 @@ export type OrganizationUncheckedCreateWithoutDocumentsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -24323,6 +24777,8 @@ export type OrganizationUpdateWithoutDocumentsInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -24425,6 +24881,8 @@ export type OrganizationUncheckedUpdateWithoutDocumentsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -24527,6 +24985,8 @@ export type OrganizationCreateWithoutEmployeesInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -24629,6 +25089,8 @@ export type OrganizationUncheckedCreateWithoutEmployeesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -24747,6 +25209,8 @@ export type OrganizationUpdateWithoutEmployeesInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -24849,6 +25313,8 @@ export type OrganizationUncheckedUpdateWithoutEmployeesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -24951,6 +25417,8 @@ export type OrganizationCreateWithoutAttendancesInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -25053,6 +25521,8 @@ export type OrganizationUncheckedCreateWithoutAttendancesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -25171,6 +25641,8 @@ export type OrganizationUpdateWithoutAttendancesInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -25273,6 +25745,8 @@ export type OrganizationUncheckedUpdateWithoutAttendancesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -25375,6 +25849,8 @@ export type OrganizationCreateWithoutLeaveTypesInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -25477,6 +25953,8 @@ export type OrganizationUncheckedCreateWithoutLeaveTypesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -25595,6 +26073,8 @@ export type OrganizationUpdateWithoutLeaveTypesInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -25697,6 +26177,8 @@ export type OrganizationUncheckedUpdateWithoutLeaveTypesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -25799,6 +26281,8 @@ export type OrganizationCreateWithoutLeaveRequestsInput = {
   leaveTypes?: Prisma.LeaveTypeCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -25901,6 +26385,8 @@ export type OrganizationUncheckedCreateWithoutLeaveRequestsInput = {
   leaveTypes?: Prisma.LeaveTypeUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -26019,6 +26505,8 @@ export type OrganizationUpdateWithoutLeaveRequestsInput = {
   leaveTypes?: Prisma.LeaveTypeUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -26121,6 +26609,8 @@ export type OrganizationUncheckedUpdateWithoutLeaveRequestsInput = {
   leaveTypes?: Prisma.LeaveTypeUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -26223,6 +26713,8 @@ export type OrganizationCreateWithoutHolidaysInput = {
   leaveTypes?: Prisma.LeaveTypeCreateNestedManyWithoutOrganizationInput
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -26325,6 +26817,8 @@ export type OrganizationUncheckedCreateWithoutHolidaysInput = {
   leaveTypes?: Prisma.LeaveTypeUncheckedCreateNestedManyWithoutOrganizationInput
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -26443,6 +26937,8 @@ export type OrganizationUpdateWithoutHolidaysInput = {
   leaveTypes?: Prisma.LeaveTypeUpdateManyWithoutOrganizationNestedInput
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -26545,6 +27041,872 @@ export type OrganizationUncheckedUpdateWithoutHolidaysInput = {
   leaveTypes?: Prisma.LeaveTypeUncheckedUpdateManyWithoutOrganizationNestedInput
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
+  assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
+  expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
+  vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutOrganizationNestedInput
+  ledgerEntries?: Prisma.LedgerEntryUncheckedUpdateManyWithoutOrganizationNestedInput
+  savedReports?: Prisma.SavedReportUncheckedUpdateManyWithoutOrganizationNestedInput
+  exportJobs?: Prisma.ExportJobUncheckedUpdateManyWithoutOrganizationNestedInput
+  importJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutOrganizationNestedInput
+  dashboardWidgets?: Prisma.DashboardWidgetUncheckedUpdateManyWithoutOrganizationNestedInput
+  savedFilters?: Prisma.SavedFilterUncheckedUpdateManyWithoutOrganizationNestedInput
+  automationRules?: Prisma.AutomationRuleUncheckedUpdateManyWithoutOrganizationNestedInput
+  automationRuns?: Prisma.AutomationRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  leadAssignmentRules?: Prisma.LeadAssignmentRuleUncheckedUpdateManyWithoutOrganizationNestedInput
+  messageTemplates?: Prisma.MessageTemplateUncheckedUpdateManyWithoutOrganizationNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutOrganizationNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
+  integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
+  outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+}
+
+export type OrganizationCreateWithoutPayrollRunsInput = {
+  id?: string
+  name: string
+  slug: string
+  legalName?: string | null
+  gstin?: string | null
+  pan?: string | null
+  email?: string | null
+  phone?: string | null
+  addressLine1?: string | null
+  addressLine2?: string | null
+  city?: string | null
+  state?: string | null
+  stateCode?: string | null
+  pincode?: string | null
+  country?: string
+  currency?: string
+  timezone?: string
+  financialYearStartMonth?: number
+  logoFileId?: string | null
+  plan?: $Enums.SubscriptionPlan
+  status?: $Enums.OrgStatus
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  branches?: Prisma.BranchCreateNestedManyWithoutOrganizationInput
+  departments?: Prisma.DepartmentCreateNestedManyWithoutOrganizationInput
+  teams?: Prisma.TeamCreateNestedManyWithoutOrganizationInput
+  users?: Prisma.UserCreateNestedManyWithoutOrganizationInput
+  roles?: Prisma.RoleCreateNestedManyWithoutOrganizationInput
+  apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutOrganizationInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
+  files?: Prisma.FileCreateNestedManyWithoutOrganizationInput
+  attachments?: Prisma.AttachmentCreateNestedManyWithoutOrganizationInput
+  notes?: Prisma.NoteCreateNestedManyWithoutOrganizationInput
+  comments?: Prisma.CommentCreateNestedManyWithoutOrganizationInput
+  activities?: Prisma.ActivityCreateNestedManyWithoutOrganizationInput
+  tags?: Prisma.TagCreateNestedManyWithoutOrganizationInput
+  numberSequences?: Prisma.NumberSequenceCreateNestedManyWithoutOrganizationInput
+  leadSources?: Prisma.LeadSourceCreateNestedManyWithoutOrganizationInput
+  leadStages?: Prisma.LeadStageCreateNestedManyWithoutOrganizationInput
+  leads?: Prisma.LeadCreateNestedManyWithoutOrganizationInput
+  followUps?: Prisma.FollowUpCreateNestedManyWithoutOrganizationInput
+  customers?: Prisma.CustomerCreateNestedManyWithoutOrganizationInput
+  contacts?: Prisma.ContactCreateNestedManyWithoutOrganizationInput
+  pipelines?: Prisma.PipelineCreateNestedManyWithoutOrganizationInput
+  deals?: Prisma.DealCreateNestedManyWithoutOrganizationInput
+  meetings?: Prisma.MeetingCreateNestedManyWithoutOrganizationInput
+  callLogs?: Prisma.CallLogCreateNestedManyWithoutOrganizationInput
+  services?: Prisma.ServiceCreateNestedManyWithoutOrganizationInput
+  servicePackages?: Prisma.ServicePackageCreateNestedManyWithoutOrganizationInput
+  priceRules?: Prisma.PriceRuleCreateNestedManyWithoutOrganizationInput
+  taxRates?: Prisma.TaxRateCreateNestedManyWithoutOrganizationInput
+  quotations?: Prisma.QuotationCreateNestedManyWithoutOrganizationInput
+  approvalRules?: Prisma.ApprovalRuleCreateNestedManyWithoutOrganizationInput
+  approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutOrganizationInput
+  invoiceTemplates?: Prisma.InvoiceTemplateCreateNestedManyWithoutOrganizationInput
+  invoices?: Prisma.InvoiceCreateNestedManyWithoutOrganizationInput
+  creditNotes?: Prisma.CreditNoteCreateNestedManyWithoutOrganizationInput
+  recurringInvoices?: Prisma.RecurringInvoiceCreateNestedManyWithoutOrganizationInput
+  bankAccounts?: Prisma.BankAccountCreateNestedManyWithoutOrganizationInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutOrganizationInput
+  paymentReminders?: Prisma.PaymentReminderCreateNestedManyWithoutOrganizationInput
+  projects?: Prisma.ProjectCreateNestedManyWithoutOrganizationInput
+  tasks?: Prisma.TaskCreateNestedManyWithoutOrganizationInput
+  timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutOrganizationInput
+  socialAccounts?: Prisma.SocialAccountCreateNestedManyWithoutOrganizationInput
+  campaigns?: Prisma.CampaignCreateNestedManyWithoutOrganizationInput
+  contentItems?: Prisma.ContentItemCreateNestedManyWithoutOrganizationInput
+  adSpends?: Prisma.AdSpendCreateNestedManyWithoutOrganizationInput
+  campaignReports?: Prisma.CampaignReportCreateNestedManyWithoutOrganizationInput
+  websites?: Prisma.WebsiteCreateNestedManyWithoutOrganizationInput
+  webAssets?: Prisma.WebAssetCreateNestedManyWithoutOrganizationInput
+  credentials?: Prisma.CredentialCreateNestedManyWithoutOrganizationInput
+  tickets?: Prisma.TicketCreateNestedManyWithoutOrganizationInput
+  documentFolders?: Prisma.DocumentFolderCreateNestedManyWithoutOrganizationInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutOrganizationInput
+  employees?: Prisma.EmployeeCreateNestedManyWithoutOrganizationInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutOrganizationInput
+  leaveTypes?: Prisma.LeaveTypeCreateNestedManyWithoutOrganizationInput
+  leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
+  holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
+  performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
+  assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
+  expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
+  vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutOrganizationInput
+  ledgerEntries?: Prisma.LedgerEntryCreateNestedManyWithoutOrganizationInput
+  savedReports?: Prisma.SavedReportCreateNestedManyWithoutOrganizationInput
+  exportJobs?: Prisma.ExportJobCreateNestedManyWithoutOrganizationInput
+  importJobs?: Prisma.ImportJobCreateNestedManyWithoutOrganizationInput
+  dashboardWidgets?: Prisma.DashboardWidgetCreateNestedManyWithoutOrganizationInput
+  savedFilters?: Prisma.SavedFilterCreateNestedManyWithoutOrganizationInput
+  automationRules?: Prisma.AutomationRuleCreateNestedManyWithoutOrganizationInput
+  automationRuns?: Prisma.AutomationRunCreateNestedManyWithoutOrganizationInput
+  leadAssignmentRules?: Prisma.LeadAssignmentRuleCreateNestedManyWithoutOrganizationInput
+  messageTemplates?: Prisma.MessageTemplateCreateNestedManyWithoutOrganizationInput
+  messages?: Prisma.MessageCreateNestedManyWithoutOrganizationInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
+  integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
+  outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+}
+
+export type OrganizationUncheckedCreateWithoutPayrollRunsInput = {
+  id?: string
+  name: string
+  slug: string
+  legalName?: string | null
+  gstin?: string | null
+  pan?: string | null
+  email?: string | null
+  phone?: string | null
+  addressLine1?: string | null
+  addressLine2?: string | null
+  city?: string | null
+  state?: string | null
+  stateCode?: string | null
+  pincode?: string | null
+  country?: string
+  currency?: string
+  timezone?: string
+  financialYearStartMonth?: number
+  logoFileId?: string | null
+  plan?: $Enums.SubscriptionPlan
+  status?: $Enums.OrgStatus
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  branches?: Prisma.BranchUncheckedCreateNestedManyWithoutOrganizationInput
+  departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutOrganizationInput
+  teams?: Prisma.TeamUncheckedCreateNestedManyWithoutOrganizationInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutOrganizationInput
+  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutOrganizationInput
+  apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutOrganizationInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
+  files?: Prisma.FileUncheckedCreateNestedManyWithoutOrganizationInput
+  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutOrganizationInput
+  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutOrganizationInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutOrganizationInput
+  activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutOrganizationInput
+  tags?: Prisma.TagUncheckedCreateNestedManyWithoutOrganizationInput
+  numberSequences?: Prisma.NumberSequenceUncheckedCreateNestedManyWithoutOrganizationInput
+  leadSources?: Prisma.LeadSourceUncheckedCreateNestedManyWithoutOrganizationInput
+  leadStages?: Prisma.LeadStageUncheckedCreateNestedManyWithoutOrganizationInput
+  leads?: Prisma.LeadUncheckedCreateNestedManyWithoutOrganizationInput
+  followUps?: Prisma.FollowUpUncheckedCreateNestedManyWithoutOrganizationInput
+  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutOrganizationInput
+  contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutOrganizationInput
+  pipelines?: Prisma.PipelineUncheckedCreateNestedManyWithoutOrganizationInput
+  deals?: Prisma.DealUncheckedCreateNestedManyWithoutOrganizationInput
+  meetings?: Prisma.MeetingUncheckedCreateNestedManyWithoutOrganizationInput
+  callLogs?: Prisma.CallLogUncheckedCreateNestedManyWithoutOrganizationInput
+  services?: Prisma.ServiceUncheckedCreateNestedManyWithoutOrganizationInput
+  servicePackages?: Prisma.ServicePackageUncheckedCreateNestedManyWithoutOrganizationInput
+  priceRules?: Prisma.PriceRuleUncheckedCreateNestedManyWithoutOrganizationInput
+  taxRates?: Prisma.TaxRateUncheckedCreateNestedManyWithoutOrganizationInput
+  quotations?: Prisma.QuotationUncheckedCreateNestedManyWithoutOrganizationInput
+  approvalRules?: Prisma.ApprovalRuleUncheckedCreateNestedManyWithoutOrganizationInput
+  approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutOrganizationInput
+  invoiceTemplates?: Prisma.InvoiceTemplateUncheckedCreateNestedManyWithoutOrganizationInput
+  invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutOrganizationInput
+  creditNotes?: Prisma.CreditNoteUncheckedCreateNestedManyWithoutOrganizationInput
+  recurringInvoices?: Prisma.RecurringInvoiceUncheckedCreateNestedManyWithoutOrganizationInput
+  bankAccounts?: Prisma.BankAccountUncheckedCreateNestedManyWithoutOrganizationInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutOrganizationInput
+  paymentReminders?: Prisma.PaymentReminderUncheckedCreateNestedManyWithoutOrganizationInput
+  projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutOrganizationInput
+  tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutOrganizationInput
+  timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutOrganizationInput
+  socialAccounts?: Prisma.SocialAccountUncheckedCreateNestedManyWithoutOrganizationInput
+  campaigns?: Prisma.CampaignUncheckedCreateNestedManyWithoutOrganizationInput
+  contentItems?: Prisma.ContentItemUncheckedCreateNestedManyWithoutOrganizationInput
+  adSpends?: Prisma.AdSpendUncheckedCreateNestedManyWithoutOrganizationInput
+  campaignReports?: Prisma.CampaignReportUncheckedCreateNestedManyWithoutOrganizationInput
+  websites?: Prisma.WebsiteUncheckedCreateNestedManyWithoutOrganizationInput
+  webAssets?: Prisma.WebAssetUncheckedCreateNestedManyWithoutOrganizationInput
+  credentials?: Prisma.CredentialUncheckedCreateNestedManyWithoutOrganizationInput
+  tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutOrganizationInput
+  documentFolders?: Prisma.DocumentFolderUncheckedCreateNestedManyWithoutOrganizationInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOrganizationInput
+  employees?: Prisma.EmployeeUncheckedCreateNestedManyWithoutOrganizationInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutOrganizationInput
+  leaveTypes?: Prisma.LeaveTypeUncheckedCreateNestedManyWithoutOrganizationInput
+  leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
+  holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
+  performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
+  assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
+  expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
+  vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutOrganizationInput
+  ledgerEntries?: Prisma.LedgerEntryUncheckedCreateNestedManyWithoutOrganizationInput
+  savedReports?: Prisma.SavedReportUncheckedCreateNestedManyWithoutOrganizationInput
+  exportJobs?: Prisma.ExportJobUncheckedCreateNestedManyWithoutOrganizationInput
+  importJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutOrganizationInput
+  dashboardWidgets?: Prisma.DashboardWidgetUncheckedCreateNestedManyWithoutOrganizationInput
+  savedFilters?: Prisma.SavedFilterUncheckedCreateNestedManyWithoutOrganizationInput
+  automationRules?: Prisma.AutomationRuleUncheckedCreateNestedManyWithoutOrganizationInput
+  automationRuns?: Prisma.AutomationRunUncheckedCreateNestedManyWithoutOrganizationInput
+  leadAssignmentRules?: Prisma.LeadAssignmentRuleUncheckedCreateNestedManyWithoutOrganizationInput
+  messageTemplates?: Prisma.MessageTemplateUncheckedCreateNestedManyWithoutOrganizationInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutOrganizationInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
+  integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
+  outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+}
+
+export type OrganizationCreateOrConnectWithoutPayrollRunsInput = {
+  where: Prisma.OrganizationWhereUniqueInput
+  create: Prisma.XOR<Prisma.OrganizationCreateWithoutPayrollRunsInput, Prisma.OrganizationUncheckedCreateWithoutPayrollRunsInput>
+}
+
+export type OrganizationUpsertWithoutPayrollRunsInput = {
+  update: Prisma.XOR<Prisma.OrganizationUpdateWithoutPayrollRunsInput, Prisma.OrganizationUncheckedUpdateWithoutPayrollRunsInput>
+  create: Prisma.XOR<Prisma.OrganizationCreateWithoutPayrollRunsInput, Prisma.OrganizationUncheckedCreateWithoutPayrollRunsInput>
+  where?: Prisma.OrganizationWhereInput
+}
+
+export type OrganizationUpdateToOneWithWhereWithoutPayrollRunsInput = {
+  where?: Prisma.OrganizationWhereInput
+  data: Prisma.XOR<Prisma.OrganizationUpdateWithoutPayrollRunsInput, Prisma.OrganizationUncheckedUpdateWithoutPayrollRunsInput>
+}
+
+export type OrganizationUpdateWithoutPayrollRunsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gstin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stateCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pincode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  financialYearStartMonth?: Prisma.IntFieldUpdateOperationsInput | number
+  logoFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  plan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
+  status?: Prisma.EnumOrgStatusFieldUpdateOperationsInput | $Enums.OrgStatus
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  branches?: Prisma.BranchUpdateManyWithoutOrganizationNestedInput
+  departments?: Prisma.DepartmentUpdateManyWithoutOrganizationNestedInput
+  teams?: Prisma.TeamUpdateManyWithoutOrganizationNestedInput
+  users?: Prisma.UserUpdateManyWithoutOrganizationNestedInput
+  roles?: Prisma.RoleUpdateManyWithoutOrganizationNestedInput
+  apiKeys?: Prisma.ApiKeyUpdateManyWithoutOrganizationNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
+  files?: Prisma.FileUpdateManyWithoutOrganizationNestedInput
+  attachments?: Prisma.AttachmentUpdateManyWithoutOrganizationNestedInput
+  notes?: Prisma.NoteUpdateManyWithoutOrganizationNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutOrganizationNestedInput
+  activities?: Prisma.ActivityUpdateManyWithoutOrganizationNestedInput
+  tags?: Prisma.TagUpdateManyWithoutOrganizationNestedInput
+  numberSequences?: Prisma.NumberSequenceUpdateManyWithoutOrganizationNestedInput
+  leadSources?: Prisma.LeadSourceUpdateManyWithoutOrganizationNestedInput
+  leadStages?: Prisma.LeadStageUpdateManyWithoutOrganizationNestedInput
+  leads?: Prisma.LeadUpdateManyWithoutOrganizationNestedInput
+  followUps?: Prisma.FollowUpUpdateManyWithoutOrganizationNestedInput
+  customers?: Prisma.CustomerUpdateManyWithoutOrganizationNestedInput
+  contacts?: Prisma.ContactUpdateManyWithoutOrganizationNestedInput
+  pipelines?: Prisma.PipelineUpdateManyWithoutOrganizationNestedInput
+  deals?: Prisma.DealUpdateManyWithoutOrganizationNestedInput
+  meetings?: Prisma.MeetingUpdateManyWithoutOrganizationNestedInput
+  callLogs?: Prisma.CallLogUpdateManyWithoutOrganizationNestedInput
+  services?: Prisma.ServiceUpdateManyWithoutOrganizationNestedInput
+  servicePackages?: Prisma.ServicePackageUpdateManyWithoutOrganizationNestedInput
+  priceRules?: Prisma.PriceRuleUpdateManyWithoutOrganizationNestedInput
+  taxRates?: Prisma.TaxRateUpdateManyWithoutOrganizationNestedInput
+  quotations?: Prisma.QuotationUpdateManyWithoutOrganizationNestedInput
+  approvalRules?: Prisma.ApprovalRuleUpdateManyWithoutOrganizationNestedInput
+  approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutOrganizationNestedInput
+  invoiceTemplates?: Prisma.InvoiceTemplateUpdateManyWithoutOrganizationNestedInput
+  invoices?: Prisma.InvoiceUpdateManyWithoutOrganizationNestedInput
+  creditNotes?: Prisma.CreditNoteUpdateManyWithoutOrganizationNestedInput
+  recurringInvoices?: Prisma.RecurringInvoiceUpdateManyWithoutOrganizationNestedInput
+  bankAccounts?: Prisma.BankAccountUpdateManyWithoutOrganizationNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutOrganizationNestedInput
+  paymentReminders?: Prisma.PaymentReminderUpdateManyWithoutOrganizationNestedInput
+  projects?: Prisma.ProjectUpdateManyWithoutOrganizationNestedInput
+  tasks?: Prisma.TaskUpdateManyWithoutOrganizationNestedInput
+  timeEntries?: Prisma.TimeEntryUpdateManyWithoutOrganizationNestedInput
+  socialAccounts?: Prisma.SocialAccountUpdateManyWithoutOrganizationNestedInput
+  campaigns?: Prisma.CampaignUpdateManyWithoutOrganizationNestedInput
+  contentItems?: Prisma.ContentItemUpdateManyWithoutOrganizationNestedInput
+  adSpends?: Prisma.AdSpendUpdateManyWithoutOrganizationNestedInput
+  campaignReports?: Prisma.CampaignReportUpdateManyWithoutOrganizationNestedInput
+  websites?: Prisma.WebsiteUpdateManyWithoutOrganizationNestedInput
+  webAssets?: Prisma.WebAssetUpdateManyWithoutOrganizationNestedInput
+  credentials?: Prisma.CredentialUpdateManyWithoutOrganizationNestedInput
+  tickets?: Prisma.TicketUpdateManyWithoutOrganizationNestedInput
+  documentFolders?: Prisma.DocumentFolderUpdateManyWithoutOrganizationNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutOrganizationNestedInput
+  employees?: Prisma.EmployeeUpdateManyWithoutOrganizationNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutOrganizationNestedInput
+  leaveTypes?: Prisma.LeaveTypeUpdateManyWithoutOrganizationNestedInput
+  leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
+  holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
+  performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
+  assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
+  expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
+  vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutOrganizationNestedInput
+  ledgerEntries?: Prisma.LedgerEntryUpdateManyWithoutOrganizationNestedInput
+  savedReports?: Prisma.SavedReportUpdateManyWithoutOrganizationNestedInput
+  exportJobs?: Prisma.ExportJobUpdateManyWithoutOrganizationNestedInput
+  importJobs?: Prisma.ImportJobUpdateManyWithoutOrganizationNestedInput
+  dashboardWidgets?: Prisma.DashboardWidgetUpdateManyWithoutOrganizationNestedInput
+  savedFilters?: Prisma.SavedFilterUpdateManyWithoutOrganizationNestedInput
+  automationRules?: Prisma.AutomationRuleUpdateManyWithoutOrganizationNestedInput
+  automationRuns?: Prisma.AutomationRunUpdateManyWithoutOrganizationNestedInput
+  leadAssignmentRules?: Prisma.LeadAssignmentRuleUpdateManyWithoutOrganizationNestedInput
+  messageTemplates?: Prisma.MessageTemplateUpdateManyWithoutOrganizationNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutOrganizationNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
+  integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
+  outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+}
+
+export type OrganizationUncheckedUpdateWithoutPayrollRunsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gstin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stateCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pincode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  financialYearStartMonth?: Prisma.IntFieldUpdateOperationsInput | number
+  logoFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  plan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
+  status?: Prisma.EnumOrgStatusFieldUpdateOperationsInput | $Enums.OrgStatus
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  branches?: Prisma.BranchUncheckedUpdateManyWithoutOrganizationNestedInput
+  departments?: Prisma.DepartmentUncheckedUpdateManyWithoutOrganizationNestedInput
+  teams?: Prisma.TeamUncheckedUpdateManyWithoutOrganizationNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutOrganizationNestedInput
+  roles?: Prisma.RoleUncheckedUpdateManyWithoutOrganizationNestedInput
+  apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutOrganizationNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
+  files?: Prisma.FileUncheckedUpdateManyWithoutOrganizationNestedInput
+  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutOrganizationNestedInput
+  notes?: Prisma.NoteUncheckedUpdateManyWithoutOrganizationNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutOrganizationNestedInput
+  activities?: Prisma.ActivityUncheckedUpdateManyWithoutOrganizationNestedInput
+  tags?: Prisma.TagUncheckedUpdateManyWithoutOrganizationNestedInput
+  numberSequences?: Prisma.NumberSequenceUncheckedUpdateManyWithoutOrganizationNestedInput
+  leadSources?: Prisma.LeadSourceUncheckedUpdateManyWithoutOrganizationNestedInput
+  leadStages?: Prisma.LeadStageUncheckedUpdateManyWithoutOrganizationNestedInput
+  leads?: Prisma.LeadUncheckedUpdateManyWithoutOrganizationNestedInput
+  followUps?: Prisma.FollowUpUncheckedUpdateManyWithoutOrganizationNestedInput
+  customers?: Prisma.CustomerUncheckedUpdateManyWithoutOrganizationNestedInput
+  contacts?: Prisma.ContactUncheckedUpdateManyWithoutOrganizationNestedInput
+  pipelines?: Prisma.PipelineUncheckedUpdateManyWithoutOrganizationNestedInput
+  deals?: Prisma.DealUncheckedUpdateManyWithoutOrganizationNestedInput
+  meetings?: Prisma.MeetingUncheckedUpdateManyWithoutOrganizationNestedInput
+  callLogs?: Prisma.CallLogUncheckedUpdateManyWithoutOrganizationNestedInput
+  services?: Prisma.ServiceUncheckedUpdateManyWithoutOrganizationNestedInput
+  servicePackages?: Prisma.ServicePackageUncheckedUpdateManyWithoutOrganizationNestedInput
+  priceRules?: Prisma.PriceRuleUncheckedUpdateManyWithoutOrganizationNestedInput
+  taxRates?: Prisma.TaxRateUncheckedUpdateManyWithoutOrganizationNestedInput
+  quotations?: Prisma.QuotationUncheckedUpdateManyWithoutOrganizationNestedInput
+  approvalRules?: Prisma.ApprovalRuleUncheckedUpdateManyWithoutOrganizationNestedInput
+  approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutOrganizationNestedInput
+  invoiceTemplates?: Prisma.InvoiceTemplateUncheckedUpdateManyWithoutOrganizationNestedInput
+  invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
+  creditNotes?: Prisma.CreditNoteUncheckedUpdateManyWithoutOrganizationNestedInput
+  recurringInvoices?: Prisma.RecurringInvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
+  bankAccounts?: Prisma.BankAccountUncheckedUpdateManyWithoutOrganizationNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutOrganizationNestedInput
+  paymentReminders?: Prisma.PaymentReminderUncheckedUpdateManyWithoutOrganizationNestedInput
+  projects?: Prisma.ProjectUncheckedUpdateManyWithoutOrganizationNestedInput
+  tasks?: Prisma.TaskUncheckedUpdateManyWithoutOrganizationNestedInput
+  timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutOrganizationNestedInput
+  socialAccounts?: Prisma.SocialAccountUncheckedUpdateManyWithoutOrganizationNestedInput
+  campaigns?: Prisma.CampaignUncheckedUpdateManyWithoutOrganizationNestedInput
+  contentItems?: Prisma.ContentItemUncheckedUpdateManyWithoutOrganizationNestedInput
+  adSpends?: Prisma.AdSpendUncheckedUpdateManyWithoutOrganizationNestedInput
+  campaignReports?: Prisma.CampaignReportUncheckedUpdateManyWithoutOrganizationNestedInput
+  websites?: Prisma.WebsiteUncheckedUpdateManyWithoutOrganizationNestedInput
+  webAssets?: Prisma.WebAssetUncheckedUpdateManyWithoutOrganizationNestedInput
+  credentials?: Prisma.CredentialUncheckedUpdateManyWithoutOrganizationNestedInput
+  tickets?: Prisma.TicketUncheckedUpdateManyWithoutOrganizationNestedInput
+  documentFolders?: Prisma.DocumentFolderUncheckedUpdateManyWithoutOrganizationNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutOrganizationNestedInput
+  employees?: Prisma.EmployeeUncheckedUpdateManyWithoutOrganizationNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutOrganizationNestedInput
+  leaveTypes?: Prisma.LeaveTypeUncheckedUpdateManyWithoutOrganizationNestedInput
+  leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
+  holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
+  performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
+  assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
+  expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
+  vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutOrganizationNestedInput
+  ledgerEntries?: Prisma.LedgerEntryUncheckedUpdateManyWithoutOrganizationNestedInput
+  savedReports?: Prisma.SavedReportUncheckedUpdateManyWithoutOrganizationNestedInput
+  exportJobs?: Prisma.ExportJobUncheckedUpdateManyWithoutOrganizationNestedInput
+  importJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutOrganizationNestedInput
+  dashboardWidgets?: Prisma.DashboardWidgetUncheckedUpdateManyWithoutOrganizationNestedInput
+  savedFilters?: Prisma.SavedFilterUncheckedUpdateManyWithoutOrganizationNestedInput
+  automationRules?: Prisma.AutomationRuleUncheckedUpdateManyWithoutOrganizationNestedInput
+  automationRuns?: Prisma.AutomationRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  leadAssignmentRules?: Prisma.LeadAssignmentRuleUncheckedUpdateManyWithoutOrganizationNestedInput
+  messageTemplates?: Prisma.MessageTemplateUncheckedUpdateManyWithoutOrganizationNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutOrganizationNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
+  integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
+  outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+}
+
+export type OrganizationCreateWithoutPayslipsInput = {
+  id?: string
+  name: string
+  slug: string
+  legalName?: string | null
+  gstin?: string | null
+  pan?: string | null
+  email?: string | null
+  phone?: string | null
+  addressLine1?: string | null
+  addressLine2?: string | null
+  city?: string | null
+  state?: string | null
+  stateCode?: string | null
+  pincode?: string | null
+  country?: string
+  currency?: string
+  timezone?: string
+  financialYearStartMonth?: number
+  logoFileId?: string | null
+  plan?: $Enums.SubscriptionPlan
+  status?: $Enums.OrgStatus
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  branches?: Prisma.BranchCreateNestedManyWithoutOrganizationInput
+  departments?: Prisma.DepartmentCreateNestedManyWithoutOrganizationInput
+  teams?: Prisma.TeamCreateNestedManyWithoutOrganizationInput
+  users?: Prisma.UserCreateNestedManyWithoutOrganizationInput
+  roles?: Prisma.RoleCreateNestedManyWithoutOrganizationInput
+  apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutOrganizationInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
+  files?: Prisma.FileCreateNestedManyWithoutOrganizationInput
+  attachments?: Prisma.AttachmentCreateNestedManyWithoutOrganizationInput
+  notes?: Prisma.NoteCreateNestedManyWithoutOrganizationInput
+  comments?: Prisma.CommentCreateNestedManyWithoutOrganizationInput
+  activities?: Prisma.ActivityCreateNestedManyWithoutOrganizationInput
+  tags?: Prisma.TagCreateNestedManyWithoutOrganizationInput
+  numberSequences?: Prisma.NumberSequenceCreateNestedManyWithoutOrganizationInput
+  leadSources?: Prisma.LeadSourceCreateNestedManyWithoutOrganizationInput
+  leadStages?: Prisma.LeadStageCreateNestedManyWithoutOrganizationInput
+  leads?: Prisma.LeadCreateNestedManyWithoutOrganizationInput
+  followUps?: Prisma.FollowUpCreateNestedManyWithoutOrganizationInput
+  customers?: Prisma.CustomerCreateNestedManyWithoutOrganizationInput
+  contacts?: Prisma.ContactCreateNestedManyWithoutOrganizationInput
+  pipelines?: Prisma.PipelineCreateNestedManyWithoutOrganizationInput
+  deals?: Prisma.DealCreateNestedManyWithoutOrganizationInput
+  meetings?: Prisma.MeetingCreateNestedManyWithoutOrganizationInput
+  callLogs?: Prisma.CallLogCreateNestedManyWithoutOrganizationInput
+  services?: Prisma.ServiceCreateNestedManyWithoutOrganizationInput
+  servicePackages?: Prisma.ServicePackageCreateNestedManyWithoutOrganizationInput
+  priceRules?: Prisma.PriceRuleCreateNestedManyWithoutOrganizationInput
+  taxRates?: Prisma.TaxRateCreateNestedManyWithoutOrganizationInput
+  quotations?: Prisma.QuotationCreateNestedManyWithoutOrganizationInput
+  approvalRules?: Prisma.ApprovalRuleCreateNestedManyWithoutOrganizationInput
+  approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutOrganizationInput
+  invoiceTemplates?: Prisma.InvoiceTemplateCreateNestedManyWithoutOrganizationInput
+  invoices?: Prisma.InvoiceCreateNestedManyWithoutOrganizationInput
+  creditNotes?: Prisma.CreditNoteCreateNestedManyWithoutOrganizationInput
+  recurringInvoices?: Prisma.RecurringInvoiceCreateNestedManyWithoutOrganizationInput
+  bankAccounts?: Prisma.BankAccountCreateNestedManyWithoutOrganizationInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutOrganizationInput
+  paymentReminders?: Prisma.PaymentReminderCreateNestedManyWithoutOrganizationInput
+  projects?: Prisma.ProjectCreateNestedManyWithoutOrganizationInput
+  tasks?: Prisma.TaskCreateNestedManyWithoutOrganizationInput
+  timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutOrganizationInput
+  socialAccounts?: Prisma.SocialAccountCreateNestedManyWithoutOrganizationInput
+  campaigns?: Prisma.CampaignCreateNestedManyWithoutOrganizationInput
+  contentItems?: Prisma.ContentItemCreateNestedManyWithoutOrganizationInput
+  adSpends?: Prisma.AdSpendCreateNestedManyWithoutOrganizationInput
+  campaignReports?: Prisma.CampaignReportCreateNestedManyWithoutOrganizationInput
+  websites?: Prisma.WebsiteCreateNestedManyWithoutOrganizationInput
+  webAssets?: Prisma.WebAssetCreateNestedManyWithoutOrganizationInput
+  credentials?: Prisma.CredentialCreateNestedManyWithoutOrganizationInput
+  tickets?: Prisma.TicketCreateNestedManyWithoutOrganizationInput
+  documentFolders?: Prisma.DocumentFolderCreateNestedManyWithoutOrganizationInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutOrganizationInput
+  employees?: Prisma.EmployeeCreateNestedManyWithoutOrganizationInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutOrganizationInput
+  leaveTypes?: Prisma.LeaveTypeCreateNestedManyWithoutOrganizationInput
+  leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
+  holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
+  performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
+  expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
+  vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutOrganizationInput
+  ledgerEntries?: Prisma.LedgerEntryCreateNestedManyWithoutOrganizationInput
+  savedReports?: Prisma.SavedReportCreateNestedManyWithoutOrganizationInput
+  exportJobs?: Prisma.ExportJobCreateNestedManyWithoutOrganizationInput
+  importJobs?: Prisma.ImportJobCreateNestedManyWithoutOrganizationInput
+  dashboardWidgets?: Prisma.DashboardWidgetCreateNestedManyWithoutOrganizationInput
+  savedFilters?: Prisma.SavedFilterCreateNestedManyWithoutOrganizationInput
+  automationRules?: Prisma.AutomationRuleCreateNestedManyWithoutOrganizationInput
+  automationRuns?: Prisma.AutomationRunCreateNestedManyWithoutOrganizationInput
+  leadAssignmentRules?: Prisma.LeadAssignmentRuleCreateNestedManyWithoutOrganizationInput
+  messageTemplates?: Prisma.MessageTemplateCreateNestedManyWithoutOrganizationInput
+  messages?: Prisma.MessageCreateNestedManyWithoutOrganizationInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
+  integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
+  outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+}
+
+export type OrganizationUncheckedCreateWithoutPayslipsInput = {
+  id?: string
+  name: string
+  slug: string
+  legalName?: string | null
+  gstin?: string | null
+  pan?: string | null
+  email?: string | null
+  phone?: string | null
+  addressLine1?: string | null
+  addressLine2?: string | null
+  city?: string | null
+  state?: string | null
+  stateCode?: string | null
+  pincode?: string | null
+  country?: string
+  currency?: string
+  timezone?: string
+  financialYearStartMonth?: number
+  logoFileId?: string | null
+  plan?: $Enums.SubscriptionPlan
+  status?: $Enums.OrgStatus
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  branches?: Prisma.BranchUncheckedCreateNestedManyWithoutOrganizationInput
+  departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutOrganizationInput
+  teams?: Prisma.TeamUncheckedCreateNestedManyWithoutOrganizationInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutOrganizationInput
+  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutOrganizationInput
+  apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutOrganizationInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
+  files?: Prisma.FileUncheckedCreateNestedManyWithoutOrganizationInput
+  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutOrganizationInput
+  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutOrganizationInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutOrganizationInput
+  activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutOrganizationInput
+  tags?: Prisma.TagUncheckedCreateNestedManyWithoutOrganizationInput
+  numberSequences?: Prisma.NumberSequenceUncheckedCreateNestedManyWithoutOrganizationInput
+  leadSources?: Prisma.LeadSourceUncheckedCreateNestedManyWithoutOrganizationInput
+  leadStages?: Prisma.LeadStageUncheckedCreateNestedManyWithoutOrganizationInput
+  leads?: Prisma.LeadUncheckedCreateNestedManyWithoutOrganizationInput
+  followUps?: Prisma.FollowUpUncheckedCreateNestedManyWithoutOrganizationInput
+  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutOrganizationInput
+  contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutOrganizationInput
+  pipelines?: Prisma.PipelineUncheckedCreateNestedManyWithoutOrganizationInput
+  deals?: Prisma.DealUncheckedCreateNestedManyWithoutOrganizationInput
+  meetings?: Prisma.MeetingUncheckedCreateNestedManyWithoutOrganizationInput
+  callLogs?: Prisma.CallLogUncheckedCreateNestedManyWithoutOrganizationInput
+  services?: Prisma.ServiceUncheckedCreateNestedManyWithoutOrganizationInput
+  servicePackages?: Prisma.ServicePackageUncheckedCreateNestedManyWithoutOrganizationInput
+  priceRules?: Prisma.PriceRuleUncheckedCreateNestedManyWithoutOrganizationInput
+  taxRates?: Prisma.TaxRateUncheckedCreateNestedManyWithoutOrganizationInput
+  quotations?: Prisma.QuotationUncheckedCreateNestedManyWithoutOrganizationInput
+  approvalRules?: Prisma.ApprovalRuleUncheckedCreateNestedManyWithoutOrganizationInput
+  approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutOrganizationInput
+  invoiceTemplates?: Prisma.InvoiceTemplateUncheckedCreateNestedManyWithoutOrganizationInput
+  invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutOrganizationInput
+  creditNotes?: Prisma.CreditNoteUncheckedCreateNestedManyWithoutOrganizationInput
+  recurringInvoices?: Prisma.RecurringInvoiceUncheckedCreateNestedManyWithoutOrganizationInput
+  bankAccounts?: Prisma.BankAccountUncheckedCreateNestedManyWithoutOrganizationInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutOrganizationInput
+  paymentReminders?: Prisma.PaymentReminderUncheckedCreateNestedManyWithoutOrganizationInput
+  projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutOrganizationInput
+  tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutOrganizationInput
+  timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutOrganizationInput
+  socialAccounts?: Prisma.SocialAccountUncheckedCreateNestedManyWithoutOrganizationInput
+  campaigns?: Prisma.CampaignUncheckedCreateNestedManyWithoutOrganizationInput
+  contentItems?: Prisma.ContentItemUncheckedCreateNestedManyWithoutOrganizationInput
+  adSpends?: Prisma.AdSpendUncheckedCreateNestedManyWithoutOrganizationInput
+  campaignReports?: Prisma.CampaignReportUncheckedCreateNestedManyWithoutOrganizationInput
+  websites?: Prisma.WebsiteUncheckedCreateNestedManyWithoutOrganizationInput
+  webAssets?: Prisma.WebAssetUncheckedCreateNestedManyWithoutOrganizationInput
+  credentials?: Prisma.CredentialUncheckedCreateNestedManyWithoutOrganizationInput
+  tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutOrganizationInput
+  documentFolders?: Prisma.DocumentFolderUncheckedCreateNestedManyWithoutOrganizationInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOrganizationInput
+  employees?: Prisma.EmployeeUncheckedCreateNestedManyWithoutOrganizationInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutOrganizationInput
+  leaveTypes?: Prisma.LeaveTypeUncheckedCreateNestedManyWithoutOrganizationInput
+  leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
+  holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
+  performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
+  expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
+  vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutOrganizationInput
+  ledgerEntries?: Prisma.LedgerEntryUncheckedCreateNestedManyWithoutOrganizationInput
+  savedReports?: Prisma.SavedReportUncheckedCreateNestedManyWithoutOrganizationInput
+  exportJobs?: Prisma.ExportJobUncheckedCreateNestedManyWithoutOrganizationInput
+  importJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutOrganizationInput
+  dashboardWidgets?: Prisma.DashboardWidgetUncheckedCreateNestedManyWithoutOrganizationInput
+  savedFilters?: Prisma.SavedFilterUncheckedCreateNestedManyWithoutOrganizationInput
+  automationRules?: Prisma.AutomationRuleUncheckedCreateNestedManyWithoutOrganizationInput
+  automationRuns?: Prisma.AutomationRunUncheckedCreateNestedManyWithoutOrganizationInput
+  leadAssignmentRules?: Prisma.LeadAssignmentRuleUncheckedCreateNestedManyWithoutOrganizationInput
+  messageTemplates?: Prisma.MessageTemplateUncheckedCreateNestedManyWithoutOrganizationInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutOrganizationInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
+  integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
+  outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+}
+
+export type OrganizationCreateOrConnectWithoutPayslipsInput = {
+  where: Prisma.OrganizationWhereUniqueInput
+  create: Prisma.XOR<Prisma.OrganizationCreateWithoutPayslipsInput, Prisma.OrganizationUncheckedCreateWithoutPayslipsInput>
+}
+
+export type OrganizationUpsertWithoutPayslipsInput = {
+  update: Prisma.XOR<Prisma.OrganizationUpdateWithoutPayslipsInput, Prisma.OrganizationUncheckedUpdateWithoutPayslipsInput>
+  create: Prisma.XOR<Prisma.OrganizationCreateWithoutPayslipsInput, Prisma.OrganizationUncheckedCreateWithoutPayslipsInput>
+  where?: Prisma.OrganizationWhereInput
+}
+
+export type OrganizationUpdateToOneWithWhereWithoutPayslipsInput = {
+  where?: Prisma.OrganizationWhereInput
+  data: Prisma.XOR<Prisma.OrganizationUpdateWithoutPayslipsInput, Prisma.OrganizationUncheckedUpdateWithoutPayslipsInput>
+}
+
+export type OrganizationUpdateWithoutPayslipsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gstin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stateCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pincode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  financialYearStartMonth?: Prisma.IntFieldUpdateOperationsInput | number
+  logoFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  plan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
+  status?: Prisma.EnumOrgStatusFieldUpdateOperationsInput | $Enums.OrgStatus
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  branches?: Prisma.BranchUpdateManyWithoutOrganizationNestedInput
+  departments?: Prisma.DepartmentUpdateManyWithoutOrganizationNestedInput
+  teams?: Prisma.TeamUpdateManyWithoutOrganizationNestedInput
+  users?: Prisma.UserUpdateManyWithoutOrganizationNestedInput
+  roles?: Prisma.RoleUpdateManyWithoutOrganizationNestedInput
+  apiKeys?: Prisma.ApiKeyUpdateManyWithoutOrganizationNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
+  files?: Prisma.FileUpdateManyWithoutOrganizationNestedInput
+  attachments?: Prisma.AttachmentUpdateManyWithoutOrganizationNestedInput
+  notes?: Prisma.NoteUpdateManyWithoutOrganizationNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutOrganizationNestedInput
+  activities?: Prisma.ActivityUpdateManyWithoutOrganizationNestedInput
+  tags?: Prisma.TagUpdateManyWithoutOrganizationNestedInput
+  numberSequences?: Prisma.NumberSequenceUpdateManyWithoutOrganizationNestedInput
+  leadSources?: Prisma.LeadSourceUpdateManyWithoutOrganizationNestedInput
+  leadStages?: Prisma.LeadStageUpdateManyWithoutOrganizationNestedInput
+  leads?: Prisma.LeadUpdateManyWithoutOrganizationNestedInput
+  followUps?: Prisma.FollowUpUpdateManyWithoutOrganizationNestedInput
+  customers?: Prisma.CustomerUpdateManyWithoutOrganizationNestedInput
+  contacts?: Prisma.ContactUpdateManyWithoutOrganizationNestedInput
+  pipelines?: Prisma.PipelineUpdateManyWithoutOrganizationNestedInput
+  deals?: Prisma.DealUpdateManyWithoutOrganizationNestedInput
+  meetings?: Prisma.MeetingUpdateManyWithoutOrganizationNestedInput
+  callLogs?: Prisma.CallLogUpdateManyWithoutOrganizationNestedInput
+  services?: Prisma.ServiceUpdateManyWithoutOrganizationNestedInput
+  servicePackages?: Prisma.ServicePackageUpdateManyWithoutOrganizationNestedInput
+  priceRules?: Prisma.PriceRuleUpdateManyWithoutOrganizationNestedInput
+  taxRates?: Prisma.TaxRateUpdateManyWithoutOrganizationNestedInput
+  quotations?: Prisma.QuotationUpdateManyWithoutOrganizationNestedInput
+  approvalRules?: Prisma.ApprovalRuleUpdateManyWithoutOrganizationNestedInput
+  approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutOrganizationNestedInput
+  invoiceTemplates?: Prisma.InvoiceTemplateUpdateManyWithoutOrganizationNestedInput
+  invoices?: Prisma.InvoiceUpdateManyWithoutOrganizationNestedInput
+  creditNotes?: Prisma.CreditNoteUpdateManyWithoutOrganizationNestedInput
+  recurringInvoices?: Prisma.RecurringInvoiceUpdateManyWithoutOrganizationNestedInput
+  bankAccounts?: Prisma.BankAccountUpdateManyWithoutOrganizationNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutOrganizationNestedInput
+  paymentReminders?: Prisma.PaymentReminderUpdateManyWithoutOrganizationNestedInput
+  projects?: Prisma.ProjectUpdateManyWithoutOrganizationNestedInput
+  tasks?: Prisma.TaskUpdateManyWithoutOrganizationNestedInput
+  timeEntries?: Prisma.TimeEntryUpdateManyWithoutOrganizationNestedInput
+  socialAccounts?: Prisma.SocialAccountUpdateManyWithoutOrganizationNestedInput
+  campaigns?: Prisma.CampaignUpdateManyWithoutOrganizationNestedInput
+  contentItems?: Prisma.ContentItemUpdateManyWithoutOrganizationNestedInput
+  adSpends?: Prisma.AdSpendUpdateManyWithoutOrganizationNestedInput
+  campaignReports?: Prisma.CampaignReportUpdateManyWithoutOrganizationNestedInput
+  websites?: Prisma.WebsiteUpdateManyWithoutOrganizationNestedInput
+  webAssets?: Prisma.WebAssetUpdateManyWithoutOrganizationNestedInput
+  credentials?: Prisma.CredentialUpdateManyWithoutOrganizationNestedInput
+  tickets?: Prisma.TicketUpdateManyWithoutOrganizationNestedInput
+  documentFolders?: Prisma.DocumentFolderUpdateManyWithoutOrganizationNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutOrganizationNestedInput
+  employees?: Prisma.EmployeeUpdateManyWithoutOrganizationNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutOrganizationNestedInput
+  leaveTypes?: Prisma.LeaveTypeUpdateManyWithoutOrganizationNestedInput
+  leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
+  holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
+  performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
+  expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
+  vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutOrganizationNestedInput
+  ledgerEntries?: Prisma.LedgerEntryUpdateManyWithoutOrganizationNestedInput
+  savedReports?: Prisma.SavedReportUpdateManyWithoutOrganizationNestedInput
+  exportJobs?: Prisma.ExportJobUpdateManyWithoutOrganizationNestedInput
+  importJobs?: Prisma.ImportJobUpdateManyWithoutOrganizationNestedInput
+  dashboardWidgets?: Prisma.DashboardWidgetUpdateManyWithoutOrganizationNestedInput
+  savedFilters?: Prisma.SavedFilterUpdateManyWithoutOrganizationNestedInput
+  automationRules?: Prisma.AutomationRuleUpdateManyWithoutOrganizationNestedInput
+  automationRuns?: Prisma.AutomationRunUpdateManyWithoutOrganizationNestedInput
+  leadAssignmentRules?: Prisma.LeadAssignmentRuleUpdateManyWithoutOrganizationNestedInput
+  messageTemplates?: Prisma.MessageTemplateUpdateManyWithoutOrganizationNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutOrganizationNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
+  integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
+  outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+}
+
+export type OrganizationUncheckedUpdateWithoutPayslipsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gstin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stateCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pincode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  financialYearStartMonth?: Prisma.IntFieldUpdateOperationsInput | number
+  logoFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  plan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
+  status?: Prisma.EnumOrgStatusFieldUpdateOperationsInput | $Enums.OrgStatus
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  branches?: Prisma.BranchUncheckedUpdateManyWithoutOrganizationNestedInput
+  departments?: Prisma.DepartmentUncheckedUpdateManyWithoutOrganizationNestedInput
+  teams?: Prisma.TeamUncheckedUpdateManyWithoutOrganizationNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutOrganizationNestedInput
+  roles?: Prisma.RoleUncheckedUpdateManyWithoutOrganizationNestedInput
+  apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutOrganizationNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
+  files?: Prisma.FileUncheckedUpdateManyWithoutOrganizationNestedInput
+  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutOrganizationNestedInput
+  notes?: Prisma.NoteUncheckedUpdateManyWithoutOrganizationNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutOrganizationNestedInput
+  activities?: Prisma.ActivityUncheckedUpdateManyWithoutOrganizationNestedInput
+  tags?: Prisma.TagUncheckedUpdateManyWithoutOrganizationNestedInput
+  numberSequences?: Prisma.NumberSequenceUncheckedUpdateManyWithoutOrganizationNestedInput
+  leadSources?: Prisma.LeadSourceUncheckedUpdateManyWithoutOrganizationNestedInput
+  leadStages?: Prisma.LeadStageUncheckedUpdateManyWithoutOrganizationNestedInput
+  leads?: Prisma.LeadUncheckedUpdateManyWithoutOrganizationNestedInput
+  followUps?: Prisma.FollowUpUncheckedUpdateManyWithoutOrganizationNestedInput
+  customers?: Prisma.CustomerUncheckedUpdateManyWithoutOrganizationNestedInput
+  contacts?: Prisma.ContactUncheckedUpdateManyWithoutOrganizationNestedInput
+  pipelines?: Prisma.PipelineUncheckedUpdateManyWithoutOrganizationNestedInput
+  deals?: Prisma.DealUncheckedUpdateManyWithoutOrganizationNestedInput
+  meetings?: Prisma.MeetingUncheckedUpdateManyWithoutOrganizationNestedInput
+  callLogs?: Prisma.CallLogUncheckedUpdateManyWithoutOrganizationNestedInput
+  services?: Prisma.ServiceUncheckedUpdateManyWithoutOrganizationNestedInput
+  servicePackages?: Prisma.ServicePackageUncheckedUpdateManyWithoutOrganizationNestedInput
+  priceRules?: Prisma.PriceRuleUncheckedUpdateManyWithoutOrganizationNestedInput
+  taxRates?: Prisma.TaxRateUncheckedUpdateManyWithoutOrganizationNestedInput
+  quotations?: Prisma.QuotationUncheckedUpdateManyWithoutOrganizationNestedInput
+  approvalRules?: Prisma.ApprovalRuleUncheckedUpdateManyWithoutOrganizationNestedInput
+  approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutOrganizationNestedInput
+  invoiceTemplates?: Prisma.InvoiceTemplateUncheckedUpdateManyWithoutOrganizationNestedInput
+  invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
+  creditNotes?: Prisma.CreditNoteUncheckedUpdateManyWithoutOrganizationNestedInput
+  recurringInvoices?: Prisma.RecurringInvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
+  bankAccounts?: Prisma.BankAccountUncheckedUpdateManyWithoutOrganizationNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutOrganizationNestedInput
+  paymentReminders?: Prisma.PaymentReminderUncheckedUpdateManyWithoutOrganizationNestedInput
+  projects?: Prisma.ProjectUncheckedUpdateManyWithoutOrganizationNestedInput
+  tasks?: Prisma.TaskUncheckedUpdateManyWithoutOrganizationNestedInput
+  timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutOrganizationNestedInput
+  socialAccounts?: Prisma.SocialAccountUncheckedUpdateManyWithoutOrganizationNestedInput
+  campaigns?: Prisma.CampaignUncheckedUpdateManyWithoutOrganizationNestedInput
+  contentItems?: Prisma.ContentItemUncheckedUpdateManyWithoutOrganizationNestedInput
+  adSpends?: Prisma.AdSpendUncheckedUpdateManyWithoutOrganizationNestedInput
+  campaignReports?: Prisma.CampaignReportUncheckedUpdateManyWithoutOrganizationNestedInput
+  websites?: Prisma.WebsiteUncheckedUpdateManyWithoutOrganizationNestedInput
+  webAssets?: Prisma.WebAssetUncheckedUpdateManyWithoutOrganizationNestedInput
+  credentials?: Prisma.CredentialUncheckedUpdateManyWithoutOrganizationNestedInput
+  tickets?: Prisma.TicketUncheckedUpdateManyWithoutOrganizationNestedInput
+  documentFolders?: Prisma.DocumentFolderUncheckedUpdateManyWithoutOrganizationNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutOrganizationNestedInput
+  employees?: Prisma.EmployeeUncheckedUpdateManyWithoutOrganizationNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutOrganizationNestedInput
+  leaveTypes?: Prisma.LeaveTypeUncheckedUpdateManyWithoutOrganizationNestedInput
+  leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
+  holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
+  performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -26647,6 +28009,8 @@ export type OrganizationCreateWithoutPerformanceReviewsInput = {
   leaveTypes?: Prisma.LeaveTypeCreateNestedManyWithoutOrganizationInput
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -26749,6 +28113,8 @@ export type OrganizationUncheckedCreateWithoutPerformanceReviewsInput = {
   leaveTypes?: Prisma.LeaveTypeUncheckedCreateNestedManyWithoutOrganizationInput
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -26867,6 +28233,8 @@ export type OrganizationUpdateWithoutPerformanceReviewsInput = {
   leaveTypes?: Prisma.LeaveTypeUpdateManyWithoutOrganizationNestedInput
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -26969,6 +28337,8 @@ export type OrganizationUncheckedUpdateWithoutPerformanceReviewsInput = {
   leaveTypes?: Prisma.LeaveTypeUncheckedUpdateManyWithoutOrganizationNestedInput
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -27072,6 +28442,8 @@ export type OrganizationCreateWithoutAssetsInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutOrganizationInput
@@ -27174,6 +28546,8 @@ export type OrganizationUncheckedCreateWithoutAssetsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutOrganizationInput
@@ -27292,6 +28666,8 @@ export type OrganizationUpdateWithoutAssetsInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutOrganizationNestedInput
@@ -27394,6 +28770,8 @@ export type OrganizationUncheckedUpdateWithoutAssetsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -27496,6 +28874,8 @@ export type OrganizationCreateWithoutExpenseCategoriesInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutOrganizationInput
@@ -27598,6 +28978,8 @@ export type OrganizationUncheckedCreateWithoutExpenseCategoriesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutOrganizationInput
@@ -27716,6 +29098,8 @@ export type OrganizationUpdateWithoutExpenseCategoriesInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutOrganizationNestedInput
@@ -27818,6 +29202,8 @@ export type OrganizationUncheckedUpdateWithoutExpenseCategoriesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -27920,6 +29306,8 @@ export type OrganizationCreateWithoutVendorsInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutOrganizationInput
@@ -28022,6 +29410,8 @@ export type OrganizationUncheckedCreateWithoutVendorsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutOrganizationInput
@@ -28140,6 +29530,8 @@ export type OrganizationUpdateWithoutVendorsInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutOrganizationNestedInput
@@ -28242,6 +29634,8 @@ export type OrganizationUncheckedUpdateWithoutVendorsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -28344,6 +29738,8 @@ export type OrganizationCreateWithoutExpensesInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -28446,6 +29842,8 @@ export type OrganizationUncheckedCreateWithoutExpensesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -28564,6 +29962,8 @@ export type OrganizationUpdateWithoutExpensesInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -28666,6 +30066,8 @@ export type OrganizationUncheckedUpdateWithoutExpensesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -28768,6 +30170,8 @@ export type OrganizationCreateWithoutLedgerEntriesInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -28870,6 +30274,8 @@ export type OrganizationUncheckedCreateWithoutLedgerEntriesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -28988,6 +30394,8 @@ export type OrganizationUpdateWithoutLedgerEntriesInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -29090,6 +30498,8 @@ export type OrganizationUncheckedUpdateWithoutLedgerEntriesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -29192,6 +30602,8 @@ export type OrganizationCreateWithoutSavedReportsInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -29294,6 +30706,8 @@ export type OrganizationUncheckedCreateWithoutSavedReportsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -29412,6 +30826,8 @@ export type OrganizationUpdateWithoutSavedReportsInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -29514,6 +30930,8 @@ export type OrganizationUncheckedUpdateWithoutSavedReportsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -29616,6 +31034,8 @@ export type OrganizationCreateWithoutExportJobsInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -29718,6 +31138,8 @@ export type OrganizationUncheckedCreateWithoutExportJobsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -29836,6 +31258,8 @@ export type OrganizationUpdateWithoutExportJobsInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -29938,6 +31362,8 @@ export type OrganizationUncheckedUpdateWithoutExportJobsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -30040,6 +31466,8 @@ export type OrganizationCreateWithoutImportJobsInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -30142,6 +31570,8 @@ export type OrganizationUncheckedCreateWithoutImportJobsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -30260,6 +31690,8 @@ export type OrganizationUpdateWithoutImportJobsInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -30362,6 +31794,8 @@ export type OrganizationUncheckedUpdateWithoutImportJobsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -30464,6 +31898,8 @@ export type OrganizationCreateWithoutDashboardWidgetsInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -30566,6 +32002,8 @@ export type OrganizationUncheckedCreateWithoutDashboardWidgetsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -30684,6 +32122,8 @@ export type OrganizationUpdateWithoutDashboardWidgetsInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -30786,6 +32226,8 @@ export type OrganizationUncheckedUpdateWithoutDashboardWidgetsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -30888,6 +32330,8 @@ export type OrganizationCreateWithoutSavedFiltersInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -30990,6 +32434,8 @@ export type OrganizationUncheckedCreateWithoutSavedFiltersInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -31108,6 +32554,8 @@ export type OrganizationUpdateWithoutSavedFiltersInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -31210,6 +32658,8 @@ export type OrganizationUncheckedUpdateWithoutSavedFiltersInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -31312,6 +32762,8 @@ export type OrganizationCreateWithoutAutomationRulesInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -31414,6 +32866,8 @@ export type OrganizationUncheckedCreateWithoutAutomationRulesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -31532,6 +32986,8 @@ export type OrganizationUpdateWithoutAutomationRulesInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -31634,6 +33090,8 @@ export type OrganizationUncheckedUpdateWithoutAutomationRulesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -31736,6 +33194,8 @@ export type OrganizationCreateWithoutAutomationRunsInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -31838,6 +33298,8 @@ export type OrganizationUncheckedCreateWithoutAutomationRunsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -31956,6 +33418,8 @@ export type OrganizationUpdateWithoutAutomationRunsInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -32058,6 +33522,8 @@ export type OrganizationUncheckedUpdateWithoutAutomationRunsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -32160,6 +33626,8 @@ export type OrganizationCreateWithoutLeadAssignmentRulesInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -32262,6 +33730,8 @@ export type OrganizationUncheckedCreateWithoutLeadAssignmentRulesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -32380,6 +33850,8 @@ export type OrganizationUpdateWithoutLeadAssignmentRulesInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -32482,6 +33954,8 @@ export type OrganizationUncheckedUpdateWithoutLeadAssignmentRulesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -32584,6 +34058,8 @@ export type OrganizationCreateWithoutMessageTemplatesInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -32686,6 +34162,8 @@ export type OrganizationUncheckedCreateWithoutMessageTemplatesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -32804,6 +34282,8 @@ export type OrganizationUpdateWithoutMessageTemplatesInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -32906,6 +34386,8 @@ export type OrganizationUncheckedUpdateWithoutMessageTemplatesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -33008,6 +34490,8 @@ export type OrganizationCreateWithoutMessagesInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -33110,6 +34594,8 @@ export type OrganizationUncheckedCreateWithoutMessagesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -33228,6 +34714,8 @@ export type OrganizationUpdateWithoutMessagesInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -33330,6 +34818,8 @@ export type OrganizationUncheckedUpdateWithoutMessagesInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -33432,6 +34922,8 @@ export type OrganizationCreateWithoutNotificationsInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -33534,6 +35026,8 @@ export type OrganizationUncheckedCreateWithoutNotificationsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -33652,6 +35146,8 @@ export type OrganizationUpdateWithoutNotificationsInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -33754,6 +35250,8 @@ export type OrganizationUncheckedUpdateWithoutNotificationsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -33856,6 +35354,8 @@ export type OrganizationCreateWithoutIntegrationSettingsInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -33958,6 +35458,8 @@ export type OrganizationUncheckedCreateWithoutIntegrationSettingsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -34076,6 +35578,8 @@ export type OrganizationUpdateWithoutIntegrationSettingsInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -34178,6 +35682,8 @@ export type OrganizationUncheckedUpdateWithoutIntegrationSettingsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -34280,6 +35786,8 @@ export type OrganizationCreateWithoutOutboxEventsInput = {
   leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
@@ -34382,6 +35890,8 @@ export type OrganizationUncheckedCreateWithoutOutboxEventsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
   holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
   assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
   vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
@@ -34500,6 +36010,8 @@ export type OrganizationUpdateWithoutOutboxEventsInput = {
   leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
@@ -34602,6 +36114,8 @@ export type OrganizationUncheckedUpdateWithoutOutboxEventsInput = {
   leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
   holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
   performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
   assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
   expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
   vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -34685,6 +36199,8 @@ export type OrganizationCountOutputType = {
   leaveRequests: number
   holidays: number
   performanceReviews: number
+  payrollRuns: number
+  payslips: number
   assets: number
   expenseCategories: number
   vendors: number
@@ -34764,6 +36280,8 @@ export type OrganizationCountOutputTypeSelect<ExtArgs extends runtime.Types.Exte
   leaveRequests?: boolean | OrganizationCountOutputTypeCountLeaveRequestsArgs
   holidays?: boolean | OrganizationCountOutputTypeCountHolidaysArgs
   performanceReviews?: boolean | OrganizationCountOutputTypeCountPerformanceReviewsArgs
+  payrollRuns?: boolean | OrganizationCountOutputTypeCountPayrollRunsArgs
+  payslips?: boolean | OrganizationCountOutputTypeCountPayslipsArgs
   assets?: boolean | OrganizationCountOutputTypeCountAssetsArgs
   expenseCategories?: boolean | OrganizationCountOutputTypeCountExpenseCategoriesArgs
   vendors?: boolean | OrganizationCountOutputTypeCountVendorsArgs
@@ -35203,6 +36721,20 @@ export type OrganizationCountOutputTypeCountPerformanceReviewsArgs<ExtArgs exten
 /**
  * OrganizationCountOutputType without action
  */
+export type OrganizationCountOutputTypeCountPayrollRunsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PayrollRunWhereInput
+}
+
+/**
+ * OrganizationCountOutputType without action
+ */
+export type OrganizationCountOutputTypeCountPayslipsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PayslipWhereInput
+}
+
+/**
+ * OrganizationCountOutputType without action
+ */
 export type OrganizationCountOutputTypeCountAssetsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.AssetWhereInput
 }
@@ -35410,6 +36942,8 @@ export type OrganizationSelect<ExtArgs extends runtime.Types.Extensions.Internal
   leaveRequests?: boolean | Prisma.Organization$leaveRequestsArgs<ExtArgs>
   holidays?: boolean | Prisma.Organization$holidaysArgs<ExtArgs>
   performanceReviews?: boolean | Prisma.Organization$performanceReviewsArgs<ExtArgs>
+  payrollRuns?: boolean | Prisma.Organization$payrollRunsArgs<ExtArgs>
+  payslips?: boolean | Prisma.Organization$payslipsArgs<ExtArgs>
   assets?: boolean | Prisma.Organization$assetsArgs<ExtArgs>
   expenseCategories?: boolean | Prisma.Organization$expenseCategoriesArgs<ExtArgs>
   vendors?: boolean | Prisma.Organization$vendorsArgs<ExtArgs>
@@ -35520,6 +37054,8 @@ export type OrganizationInclude<ExtArgs extends runtime.Types.Extensions.Interna
   leaveRequests?: boolean | Prisma.Organization$leaveRequestsArgs<ExtArgs>
   holidays?: boolean | Prisma.Organization$holidaysArgs<ExtArgs>
   performanceReviews?: boolean | Prisma.Organization$performanceReviewsArgs<ExtArgs>
+  payrollRuns?: boolean | Prisma.Organization$payrollRunsArgs<ExtArgs>
+  payslips?: boolean | Prisma.Organization$payslipsArgs<ExtArgs>
   assets?: boolean | Prisma.Organization$assetsArgs<ExtArgs>
   expenseCategories?: boolean | Prisma.Organization$expenseCategoriesArgs<ExtArgs>
   vendors?: boolean | Prisma.Organization$vendorsArgs<ExtArgs>
@@ -35602,6 +37138,8 @@ export type $OrganizationPayload<ExtArgs extends runtime.Types.Extensions.Intern
     leaveRequests: Prisma.$LeaveRequestPayload<ExtArgs>[]
     holidays: Prisma.$HolidayPayload<ExtArgs>[]
     performanceReviews: Prisma.$PerformanceReviewPayload<ExtArgs>[]
+    payrollRuns: Prisma.$PayrollRunPayload<ExtArgs>[]
+    payslips: Prisma.$PayslipPayload<ExtArgs>[]
     assets: Prisma.$AssetPayload<ExtArgs>[]
     expenseCategories: Prisma.$ExpenseCategoryPayload<ExtArgs>[]
     vendors: Prisma.$VendorPayload<ExtArgs>[]
@@ -36044,6 +37582,8 @@ export interface Prisma__OrganizationClient<T, Null = never, ExtArgs extends run
   leaveRequests<T extends Prisma.Organization$leaveRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Organization$leaveRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LeaveRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   holidays<T extends Prisma.Organization$holidaysArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Organization$holidaysArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HolidayPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   performanceReviews<T extends Prisma.Organization$performanceReviewsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Organization$performanceReviewsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PerformanceReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  payrollRuns<T extends Prisma.Organization$payrollRunsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Organization$payrollRunsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PayrollRunPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  payslips<T extends Prisma.Organization$payslipsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Organization$payslipsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PayslipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   assets<T extends Prisma.Organization$assetsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Organization$assetsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssetPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   expenseCategories<T extends Prisma.Organization$expenseCategoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Organization$expenseCategoriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExpenseCategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   vendors<T extends Prisma.Organization$vendorsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Organization$vendorsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VendorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -37852,6 +39392,54 @@ export type Organization$performanceReviewsArgs<ExtArgs extends runtime.Types.Ex
   take?: number
   skip?: number
   distinct?: Prisma.PerformanceReviewScalarFieldEnum | Prisma.PerformanceReviewScalarFieldEnum[]
+}
+
+/**
+ * Organization.payrollRuns
+ */
+export type Organization$payrollRunsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PayrollRun
+   */
+  select?: Prisma.PayrollRunSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PayrollRun
+   */
+  omit?: Prisma.PayrollRunOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PayrollRunInclude<ExtArgs> | null
+  where?: Prisma.PayrollRunWhereInput
+  orderBy?: Prisma.PayrollRunOrderByWithRelationInput | Prisma.PayrollRunOrderByWithRelationInput[]
+  cursor?: Prisma.PayrollRunWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PayrollRunScalarFieldEnum | Prisma.PayrollRunScalarFieldEnum[]
+}
+
+/**
+ * Organization.payslips
+ */
+export type Organization$payslipsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Payslip
+   */
+  select?: Prisma.PayslipSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Payslip
+   */
+  omit?: Prisma.PayslipOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PayslipInclude<ExtArgs> | null
+  where?: Prisma.PayslipWhereInput
+  orderBy?: Prisma.PayslipOrderByWithRelationInput | Prisma.PayslipOrderByWithRelationInput[]
+  cursor?: Prisma.PayslipWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PayslipScalarFieldEnum | Prisma.PayslipScalarFieldEnum[]
 }
 
 /**

@@ -260,6 +260,12 @@ enum QuotationStatus {
   CONVERTED
 }
 
+enum PayrollStatus {
+  DRAFT
+  FINALISED
+  PAID
+}
+
 enum ApprovalStatus {
   PENDING
   APPROVED
@@ -732,6 +738,8 @@ model Organization {
   leaveRequests       LeaveRequest[]
   holidays            Holiday[]
   performanceReviews  PerformanceReview[]
+  payrollRuns         PayrollRun[]
+  payslips            Payslip[]
   assets              Asset[]
   expenseCategories   ExpenseCategory[]
   vendors             Vendor[]
@@ -2477,6 +2485,7 @@ model Employee {
   leaveRequests      LeaveRequest[]
   performanceReviews PerformanceReview[]
   assetAssignments   AssetAssignment[]
+  payslips           Payslip[]
 
   @@unique([organizationId, employeeCode])
   @@index([organizationId, status])
@@ -2562,6 +2571,56 @@ model Holiday {
   isOptional     Boolean      @default(false)
 
   @@index([organizationId, date])
+}
+
+/// One month's salary run. Draft while HR checks it, finalised when payslips go out, paid when the money is sent.
+model PayrollRun {
+  id              String        @id @default(uuid()) @db.Char(36)
+  organizationId  String        @db.Char(36)
+  organization    Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  month           String        @db.Char(7) // "2026-10"
+  status          PayrollStatus @default(DRAFT)
+  workingDays     Int
+  totalGross      Decimal       @default(0) @db.Decimal(14, 2)
+  totalDeductions Decimal       @default(0) @db.Decimal(14, 2)
+  totalNet        Decimal       @default(0) @db.Decimal(14, 2)
+  createdById     String?       @db.Char(36)
+  finalisedAt     DateTime?
+  paidOn          DateTime?     @db.Date
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  payslips Payslip[]
+
+  @@unique([organizationId, month])
+}
+
+/// One employee's pay for one month. Earnings and deductions are lists of { name, amount }.
+model Payslip {
+  id              String       @id @default(uuid()) @db.Char(36)
+  organizationId  String       @db.Char(36)
+  organization    Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  runId           String       @db.Char(36)
+  run             PayrollRun   @relation(fields: [runId], references: [id], onDelete: Cascade)
+  employeeId      String       @db.Char(36)
+  employee        Employee     @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  month           String       @db.Char(7)
+  monthlySalary   Decimal      @db.Decimal(14, 2)
+  workingDays     Decimal      @db.Decimal(6, 2) // working days in the month for this person
+  paidDays        Decimal      @db.Decimal(6, 2)
+  lopDays         Decimal      @default(0) @db.Decimal(6, 2)
+  earnings        Json
+  extraEarnings   Json? // bonus and the like, added by HR
+  deductions      Json?
+  gross           Decimal      @db.Decimal(14, 2)
+  totalDeductions Decimal      @default(0) @db.Decimal(14, 2)
+  netPay          Decimal      @db.Decimal(14, 2)
+  notes           String?      @db.Text
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  @@unique([runId, employeeId])
+  @@index([employeeId, month])
 }
 
 model PerformanceReview {
