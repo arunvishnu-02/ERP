@@ -310,6 +310,15 @@ export const QuotationStatus = {
 export type QuotationStatus = (typeof QuotationStatus)[keyof typeof QuotationStatus]
 
 
+export const PayrollStatus = {
+  DRAFT: 'DRAFT',
+  FINALISED: 'FINALISED',
+  PAID: 'PAID'
+} as const
+
+export type PayrollStatus = (typeof PayrollStatus)[keyof typeof PayrollStatus]
+
+
 export const ApprovalStatus = {
   PENDING: 'PENDING',
   APPROVED: 'APPROVED',

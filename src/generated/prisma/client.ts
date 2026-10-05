@@ -437,6 +437,16 @@ export type LeaveRequest = Prisma.LeaveRequestModel
  */
 export type Holiday = Prisma.HolidayModel
 /**
+ * Model PayrollRun
+ * One month's salary run. Draft while HR checks it, finalised when payslips go out, paid when the money is sent.
+ */
+export type PayrollRun = Prisma.PayrollRunModel
+/**
+ * Model Payslip
+ * One employee's pay for one month. Earnings and deductions are lists of { name, amount }.
+ */
+export type Payslip = Prisma.PayslipModel
+/**
  * Model PerformanceReview
  * 
  */

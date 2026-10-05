@@ -130,6 +130,8 @@ export const ModelName = {
   LeaveBalance: 'LeaveBalance',
   LeaveRequest: 'LeaveRequest',
   Holiday: 'Holiday',
+  PayrollRun: 'PayrollRun',
+  Payslip: 'Payslip',
   PerformanceReview: 'PerformanceReview',
   Asset: 'Asset',
   AssetAssignment: 'AssetAssignment',
@@ -1617,6 +1619,49 @@ export const HolidayScalarFieldEnum = {
 export type HolidayScalarFieldEnum = (typeof HolidayScalarFieldEnum)[keyof typeof HolidayScalarFieldEnum]
 
 
+export const PayrollRunScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  month: 'month',
+  status: 'status',
+  workingDays: 'workingDays',
+  totalGross: 'totalGross',
+  totalDeductions: 'totalDeductions',
+  totalNet: 'totalNet',
+  createdById: 'createdById',
+  finalisedAt: 'finalisedAt',
+  paidOn: 'paidOn',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PayrollRunScalarFieldEnum = (typeof PayrollRunScalarFieldEnum)[keyof typeof PayrollRunScalarFieldEnum]
+
+
+export const PayslipScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  runId: 'runId',
+  employeeId: 'employeeId',
+  month: 'month',
+  monthlySalary: 'monthlySalary',
+  workingDays: 'workingDays',
+  paidDays: 'paidDays',
+  lopDays: 'lopDays',
+  earnings: 'earnings',
+  extraEarnings: 'extraEarnings',
+  deductions: 'deductions',
+  gross: 'gross',
+  totalDeductions: 'totalDeductions',
+  netPay: 'netPay',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PayslipScalarFieldEnum = (typeof PayslipScalarFieldEnum)[keyof typeof PayslipScalarFieldEnum]
+
+
 export const PerformanceReviewScalarFieldEnum = {
   id: 'id',
   organizationId: 'organizationId',
@@ -3093,6 +3138,28 @@ export const HolidayOrderByRelevanceFieldEnum = {
 } as const
 
 export type HolidayOrderByRelevanceFieldEnum = (typeof HolidayOrderByRelevanceFieldEnum)[keyof typeof HolidayOrderByRelevanceFieldEnum]
+
+
+export const PayrollRunOrderByRelevanceFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  month: 'month',
+  createdById: 'createdById'
+} as const
+
+export type PayrollRunOrderByRelevanceFieldEnum = (typeof PayrollRunOrderByRelevanceFieldEnum)[keyof typeof PayrollRunOrderByRelevanceFieldEnum]
+
+
+export const PayslipOrderByRelevanceFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  runId: 'runId',
+  employeeId: 'employeeId',
+  month: 'month',
+  notes: 'notes'
+} as const
+
+export type PayslipOrderByRelevanceFieldEnum = (typeof PayslipOrderByRelevanceFieldEnum)[keyof typeof PayslipOrderByRelevanceFieldEnum]
 
 
 export const PerformanceReviewOrderByRelevanceFieldEnum = {

@@ -133,7 +133,8 @@ button:not(:disabled),
   color-scheme: light;
 }
 
-@page { size: A4; margin: 0; }
+@page { size: A4; margin: 12mm 0 0; }
+@page :first { margin-top: 0; }
 @media print {
   html, body { background: #fff !important; }
   .no-print { display: none !important; }

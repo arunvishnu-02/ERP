@@ -1347,6 +1347,23 @@ export type EnumAttendanceSourceWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumAttendanceSourceFilter<$PrismaModel>
 }
 
+export type EnumPayrollStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.PayrollStatus | Prisma.EnumPayrollStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.PayrollStatus[]
+  notIn?: $Enums.PayrollStatus[]
+  not?: Prisma.NestedEnumPayrollStatusFilter<$PrismaModel> | $Enums.PayrollStatus
+}
+
+export type EnumPayrollStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PayrollStatus | Prisma.EnumPayrollStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.PayrollStatus[]
+  notIn?: $Enums.PayrollStatus[]
+  not?: Prisma.NestedEnumPayrollStatusWithAggregatesFilter<$PrismaModel> | $Enums.PayrollStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumPayrollStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumPayrollStatusFilter<$PrismaModel>
+}
+
 export type EnumReviewStatusFilter<$PrismaModel = never> = {
   equals?: $Enums.ReviewStatus | Prisma.EnumReviewStatusFieldRefInput<$PrismaModel>
   in?: $Enums.ReviewStatus[]
@@ -2919,6 +2936,23 @@ export type NestedEnumAttendanceSourceWithAggregatesFilter<$PrismaModel = never>
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumAttendanceSourceFilter<$PrismaModel>
   _max?: Prisma.NestedEnumAttendanceSourceFilter<$PrismaModel>
+}
+
+export type NestedEnumPayrollStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.PayrollStatus | Prisma.EnumPayrollStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.PayrollStatus[]
+  notIn?: $Enums.PayrollStatus[]
+  not?: Prisma.NestedEnumPayrollStatusFilter<$PrismaModel> | $Enums.PayrollStatus
+}
+
+export type NestedEnumPayrollStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PayrollStatus | Prisma.EnumPayrollStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.PayrollStatus[]
+  notIn?: $Enums.PayrollStatus[]
+  not?: Prisma.NestedEnumPayrollStatusWithAggregatesFilter<$PrismaModel> | $Enums.PayrollStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumPayrollStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumPayrollStatusFilter<$PrismaModel>
 }
 
 export type NestedEnumReviewStatusFilter<$PrismaModel = never> = {

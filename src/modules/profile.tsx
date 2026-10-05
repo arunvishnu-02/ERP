@@ -7,6 +7,7 @@ import { api, useApi } from '@/lib/api'
 import { useAuth } from '@/lib/auth'
 import { day, fmtDate, fmtDateTime, todayStr } from '@/lib/format'
 import { act } from './common'
+import { MyPayslips } from './payroll'
 
 export default function Profile() {
   const { me } = useAuth()
@@ -59,6 +60,7 @@ export default function Profile() {
           )}
         </Panel>
       )}
+      {e && <MyPayslips />}
       <Card className="p-4 lg:col-span-2 lg:max-w-xl">
         <h3 className="mb-3 font-display text-[15px] font-semibold">Change password</h3>
         <InlineForm key={pwKey} submitLabel="Change password" initial={{ current: '', next: '' }}

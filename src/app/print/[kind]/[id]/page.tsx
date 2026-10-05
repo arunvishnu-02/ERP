@@ -2,6 +2,7 @@
 import { Printer } from 'lucide-react'
 import { useParams } from 'next/navigation'
 import { DocView } from '@/components/doc'
+import { AppointmentLetter, JoiningForm, PayslipDoc } from '@/components/hr-docs'
 import { InfoStrip, Label, Paper, PaperHeader, Signatures } from '@/components/paper'
 import { Button } from '@/components/ui'
 import { useApi } from '@/lib/api'
@@ -27,14 +28,22 @@ function Receipt({ p, org }: { p: any; org: any }) {
 
 function PrintBody() {
   const { kind, id } = useParams<{ kind: string; id: string }>()
-  const { lookups } = useAuth()
-  const path = kind === 'quotation' ? `/quotations/${id}` : kind === 'invoice' ? `/invoices/${id}` : kind === 'receipt' ? `/payments/${id}` : null
+  const { lookups, can } = useAuth()
+  const paths: Record<string, string> = {
+    quotation: `/quotations/${id}`, invoice: `/invoices/${id}`, receipt: `/payments/${id}`,
+    payslip: can('HR', 'VIEW') ? `/payroll/payslips/${id}` : `/me/payslips/${id}`, appointment: `/payroll/appointment/${id}`, joining: `/payroll/joining/${id}`,
+  }
+  const path = paths[kind] ?? null
   const { data, error } = useApi<any>(path)
   if (error || !path) return <div className="grid min-h-screen place-items-center text-muted">This document could not be opened.</div>
   if (!data) return <div className="grid min-h-screen place-items-center text-muted">Loading…</div>
   return (
     <main className="print-bare mx-auto max-w-[820px] space-y-4 px-4 py-6">
-      {kind === 'receipt' ? <Receipt p={data} org={lookups.organization} /> : <DocView kind={kind as any} doc={data} org={lookups.organization} />}
+      {kind === 'receipt' ? <Receipt p={data} org={lookups.organization} />
+        : kind === 'payslip' ? <PayslipDoc p={data} org={lookups.organization} />
+          : kind === 'appointment' ? <AppointmentLetter d={data} org={lookups.organization} />
+          : kind === 'joining' ? <JoiningForm d={data} org={lookups.organization} />
+            : <DocView kind={kind as any} doc={data} org={lookups.organization} />}
       <div className="no-print flex justify-end"><Button variant="primary" onClick={() => window.print()}><Printer size={15} />Print or save as PDF</Button></div>
     </main>
   )

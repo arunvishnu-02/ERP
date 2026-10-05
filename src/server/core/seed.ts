@@ -69,7 +69,7 @@ export async function bootstrap(tx: Tx, d: { companyName: string; stateCode: str
   })
   await tx.taxRate.createMany({ data: [0, 5, 12, 18, 28].map((rate) => ({ organizationId, name: `GST ${rate}%`, rate, isDefault: rate === 18 })) })
   await tx.expenseCategory.createMany({ data: ['Ad spend', 'Cloud hosting', 'Software', 'Rent', 'Salaries', 'Travel', 'Professional fees', 'Office', 'Other'].map((name) => ({ organizationId, name })) })
-  await tx.leaveType.createMany({ data: [['Casual leave', 'CL', 12], ['Sick leave', 'SL', 12], ['Earned leave', 'EL', 15]].map(([name, code, annualQuota]) => ({ organizationId, name: String(name), code: String(code), annualQuota: Number(annualQuota) })) })
+  await tx.leaveType.createMany({ data: [['Paid leave', 'PL', 18, true], ['Sick leave', 'SL', 6, true], ['Loss of pay', 'LOP', 0, false]].map(([name, code, annualQuota, isPaid]) => ({ organizationId, name: String(name), code: String(code), annualQuota: Number(annualQuota), isPaid: Boolean(isPaid) })) })
   await tx.automationRule.createMany({
     data: [
       ['LEAD_CREATED', 'Assign new leads automatically', 'When a lead is added without an owner, give it to the next person in the rotation.', false],

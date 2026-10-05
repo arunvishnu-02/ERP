@@ -453,3 +453,80 @@ test('a company that is not GST registered issues documents with no GST, and sho
   const back = await ok('POST', '/quotations', A, { customerId: S.acme.id, items: [{ description: 'SEO', quantity: 1, unitPrice: 1000, taxRate: 18 }] })
   assert.equal(back.totalAmount, 1180)
 })
+
+test('payroll: monthly payslips with loss of pay, HR changes, finalising, own payslips and the appointment letter', async () => {
+  const hr = await signIn('hr@example.com', 'N3w-Passw0rd!')
+  const emps = (await ok('GET', '/hr/employees?limit=100', hr)).items
+  const sales = emps.find((e: any) => e.user?.id === S.ids.sales)
+  const acc = emps.find((e: any) => e.user?.id === S.ids.accounts)
+  await ok('PATCH', `/hr/employees/${sales.id}`, hr, { ctcAnnual: 360000, dateOfJoining: '2025-01-06' })
+  await ok('PATCH', `/hr/employees/${acc.id}`, hr, { ctcAnnual: 240000, dateOfJoining: '2025-09-16' }) // joins half way through the month
+  await ok('PATCH', `/hr/employees/${emps.find((e: any) => e.user?.id === S.ids.sales2).id}`, hr, { dateOfJoining: '2025-01-06' }) // no salary set yet
+  // September 2025: 30 days, 4 Sundays off, and one office holiday, so 25 working days
+  await ok('POST', '/hr/holidays', hr, { name: 'Office closed', date: '2025-09-05' })
+  await ok('POST', '/hr/holidays', hr, { name: 'Optional day', date: '2025-09-08', isOptional: true })
+  const lop = S.lk.leaveTypes.find((t: any) => t.code === 'LOP')
+  assert.equal(lop.isPaid, false)
+  const leave = await ok('POST', '/hr/leave-requests', hr, { employeeId: sales.id, leaveTypeId: lop.id, startDate: '2025-09-10', endDate: '2025-09-11' })
+  await ok('POST', `/hr/leave-requests/${leave.id}/approve`, hr)
+  await ok('PUT', '/hr/attendance', hr, { employeeId: sales.id, date: '2025-09-12', status: 'ABSENT' })
+  await ok('PUT', '/hr/attendance', hr, { employeeId: sales.id, date: '2025-09-14', status: 'ABSENT' }) // a Sunday: not a working day, so no loss of pay
+
+  await deny('GET', '/payroll', S.sales, undefined)
+  await deny('POST', '/payroll', hr, { month: '2999-01' }, 400)
+  const run = await ok('POST', '/payroll', hr, { month: '2025-09' })
+  await deny('POST', '/payroll', hr, { month: '2025-09' }, 409)
+  assert.equal(run.workingDays, 25)
+  assert.deepEqual(run.skipped, ['Meera']) // people with no salary set are left out and named
+  const slip = (id: string) => run.payslips.find((p: any) => p.employeeId === id)
+  const s1 = slip(sales.id)
+  assert.deepEqual([s1.workingDays, s1.lopDays, s1.paidDays, s1.gross, s1.netPay], [25, 3, 22, 26400, 26400])
+  assert.deepEqual(s1.earnings.map((l: any) => l.amount), [13200, 5280, 7920])
+  assert.deepEqual([slip(acc.id).workingDays, slip(acc.id).gross], [13, 10400])
+  assert.equal(run.totalNet, 36800)
+
+  // HR adds a bonus and an advance being paid back, and forgives a day of loss of pay
+  await deny('PATCH', `/payroll/payslips/${s1.id}`, hr, { deductions: [{ name: 'Too much', amount: 99999 }] }, 400)
+  const edited = await ok('PATCH', `/payroll/payslips/${s1.id}`, hr, { lopDays: 2, extraEarnings: [{ name: 'Diwali bonus', amount: 5000 }], deductions: [{ name: 'Salary advance', amount: 2000 }], notes: 'Advance 2 of 5' })
+  assert.deepEqual([edited.paidDays, edited.gross, edited.totalDeductions, edited.netPay], [23, 32600, 2000, 30600])
+  const again = await ok('POST', `/payroll/${run.id}/recalculate`, hr, {}) // HR's own lines survive a recalculation
+  const s2 = again.payslips.find((p: any) => p.employeeId === sales.id)
+  assert.deepEqual([s2.lopDays, s2.gross, s2.totalDeductions, s2.netPay, again.totalNet], [3, 31400, 2000, 29400, 39800])
+
+  // people see nothing until the month is finalised
+  assert.equal((await ok('GET', '/me/payslips', S.sales)).items.length, 0)
+  await deny('GET', `/me/payslips/${s1.id}`, S.sales, undefined, 404)
+  await ok('POST', `/payroll/${run.id}/finalise`, hr, {})
+  await deny('PATCH', `/payroll/payslips/${s1.id}`, hr, { lopDays: 0 }, 409)
+  const mine = await ok('GET', '/me/payslips', S.sales)
+  assert.deepEqual([mine.items.length, mine.items[0].monthName], [1, 'September 2025'])
+  const view = await ok('GET', `/me/payslips/${s1.id}`, S.sales)
+  assert.equal(view.ytd.net, view.netPay)
+  assert.deepEqual(view.leave.map((l: any) => [l.name, l.allotted]), [['Paid leave', 18], ['Sick leave', 6]])
+  assert.equal(view.employee.bankDetailsEncrypted, undefined)
+  await deny('GET', `/me/payslips/${slip(acc.id).id}`, S.sales, undefined, 404) // not someone else's
+  await deny('GET', `/payroll/payslips/${s1.id}`, S.sales, undefined)
+  assert.ok((await ok('GET', '/notifications', S.sales)).items.some((n: any) => /payslip for September 2025/.test(n.title)))
+
+  await ok('POST', `/payroll/${run.id}/reopen`, hr, {})
+  await ok('POST', `/payroll/${run.id}/finalise`, hr, {})
+  const paid = await ok('POST', `/payroll/${run.id}/paid`, hr, { paidOn: '2025-10-01' })
+  assert.deepEqual([paid.status, paid.paidOn.slice(0, 10)], ['PAID', '2025-10-01'])
+  await deny('POST', `/payroll/${run.id}/reopen`, hr, {}, 409)
+  await deny('DELETE', `/payroll/${run.id}`, hr, undefined, 409)
+
+  // payroll settings, then the appointment letter uses them
+  await deny('PUT', '/payroll/settings', hr, { split: [{ name: 'Basic', percent: 50 }], weeklyOff: [0], noticeMonths: 3 }, 400)
+  await ok('PUT', '/payroll/settings', hr, { split: [{ name: 'Basic', percent: 40 }, { name: 'HRA', percent: 20 }, { name: 'Special allowance', percent: 40 }], weeklyOff: [0], payDay: 7, probationMonths: 6, noticeMonths: 3, workHours: 'Monday to Saturday, 9:30 am to 6:30 pm' })
+  const letter = await ok('GET', `/payroll/appointment/${sales.id}`, hr)
+  assert.deepEqual([letter.monthly, letter.annual, letter.salary[0].amount, letter.salary[0].annual, letter.settings.probationMonths, letter.settings.noticeMonths], [30000, 360000, 12000, 144000, 6, 3])
+  assert.deepEqual(letter.leaveTypes.map((t: any) => t.days), [18, 6])
+  await deny('GET', `/payroll/appointment/${sales.id}`, S.sales, undefined)
+  // the joining form: blank, or with the person's details filled in, and the company's own rules
+  const blank = await ok('GET', '/payroll/joining/new', hr)
+  assert.deepEqual([blank.employee, blank.settings.terms.split('\n').length > 5], [null, true])
+  await ok('PUT', '/payroll/settings', hr, { split: letter.settings.split, weeklyOff: [0], noticeMonths: 3, terms: 'Be on time.\nKeep client data private.' })
+  const filled = await ok('GET', `/payroll/joining/${sales.id}`, hr)
+  assert.deepEqual([filled.employee.employeeCode, filled.settings.terms], [sales.employeeCode, 'Be on time.\nKeep client data private.'])
+  await deny('GET', '/payroll/joining/new', S.sales, undefined)
+})

@@ -476,6 +476,8 @@ export const ModelName = {
   LeaveBalance: 'LeaveBalance',
   LeaveRequest: 'LeaveRequest',
   Holiday: 'Holiday',
+  PayrollRun: 'PayrollRun',
+  Payslip: 'Payslip',
   PerformanceReview: 'PerformanceReview',
   Asset: 'Asset',
   AssetAssignment: 'AssetAssignment',
@@ -515,7 +517,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "organization" | "branch" | "department" | "team" | "teamMember" | "user" | "role" | "userRole" | "permission" | "rolePermission" | "session" | "passwordResetToken" | "apiKey" | "auditLog" | "file" | "attachment" | "note" | "comment" | "activity" | "tag" | "tagAssignment" | "numberSequence" | "leadSource" | "leadStage" | "lead" | "followUp" | "customer" | "contact" | "pipeline" | "pipelineStage" | "deal" | "meeting" | "meetingAttendee" | "callLog" | "service" | "servicePackage" | "servicePackageItem" | "priceRule" | "taxRate" | "quotation" | "quotationItem" | "approvalRule" | "approvalRequest" | "approvalStep" | "invoiceTemplate" | "invoice" | "invoiceItem" | "creditNote" | "creditNoteItem" | "recurringInvoice" | "recurringInvoiceItem" | "bankAccount" | "payment" | "paymentAllocation" | "paymentReminder" | "project" | "projectMember" | "milestone" | "task" | "timeEntry" | "socialAccount" | "campaign" | "contentItem" | "adSpend" | "campaignReport" | "website" | "webAsset" | "credential" | "credentialAccessLog" | "ticket" | "documentFolder" | "document" | "documentVersion" | "employee" | "attendance" | "leaveType" | "leaveBalance" | "leaveRequest" | "holiday" | "performanceReview" | "asset" | "assetAssignment" | "assetMaintenance" | "expenseCategory" | "vendor" | "expense" | "ledgerEntry" | "savedReport" | "exportJob" | "importJob" | "dashboardWidget" | "savedFilter" | "automationRule" | "automationAction" | "automationRun" | "leadAssignmentRule" | "messageTemplate" | "message" | "notification" | "notificationPreference" | "integrationSetting" | "webhookEvent" | "outboxEvent"
+    modelProps: "organization" | "branch" | "department" | "team" | "teamMember" | "user" | "role" | "userRole" | "permission" | "rolePermission" | "session" | "passwordResetToken" | "apiKey" | "auditLog" | "file" | "attachment" | "note" | "comment" | "activity" | "tag" | "tagAssignment" | "numberSequence" | "leadSource" | "leadStage" | "lead" | "followUp" | "customer" | "contact" | "pipeline" | "pipelineStage" | "deal" | "meeting" | "meetingAttendee" | "callLog" | "service" | "servicePackage" | "servicePackageItem" | "priceRule" | "taxRate" | "quotation" | "quotationItem" | "approvalRule" | "approvalRequest" | "approvalStep" | "invoiceTemplate" | "invoice" | "invoiceItem" | "creditNote" | "creditNoteItem" | "recurringInvoice" | "recurringInvoiceItem" | "bankAccount" | "payment" | "paymentAllocation" | "paymentReminder" | "project" | "projectMember" | "milestone" | "task" | "timeEntry" | "socialAccount" | "campaign" | "contentItem" | "adSpend" | "campaignReport" | "website" | "webAsset" | "credential" | "credentialAccessLog" | "ticket" | "documentFolder" | "document" | "documentVersion" | "employee" | "attendance" | "leaveType" | "leaveBalance" | "leaveRequest" | "holiday" | "payrollRun" | "payslip" | "performanceReview" | "asset" | "assetAssignment" | "assetMaintenance" | "expenseCategory" | "vendor" | "expense" | "ledgerEntry" | "savedReport" | "exportJob" | "importJob" | "dashboardWidget" | "savedFilter" | "automationRule" | "automationAction" | "automationRun" | "leadAssignmentRule" | "messageTemplate" | "message" | "notification" | "notificationPreference" | "integrationSetting" | "webhookEvent" | "outboxEvent"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -5733,6 +5735,138 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    PayrollRun: {
+      payload: Prisma.$PayrollRunPayload<ExtArgs>
+      fields: Prisma.PayrollRunFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PayrollRunFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PayrollRunPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PayrollRunFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PayrollRunPayload>
+        }
+        findFirst: {
+          args: Prisma.PayrollRunFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PayrollRunPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PayrollRunFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PayrollRunPayload>
+        }
+        findMany: {
+          args: Prisma.PayrollRunFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PayrollRunPayload>[]
+        }
+        create: {
+          args: Prisma.PayrollRunCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PayrollRunPayload>
+        }
+        createMany: {
+          args: Prisma.PayrollRunCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.PayrollRunDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PayrollRunPayload>
+        }
+        update: {
+          args: Prisma.PayrollRunUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PayrollRunPayload>
+        }
+        deleteMany: {
+          args: Prisma.PayrollRunDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PayrollRunUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.PayrollRunUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PayrollRunPayload>
+        }
+        aggregate: {
+          args: Prisma.PayrollRunAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePayrollRun>
+        }
+        groupBy: {
+          args: Prisma.PayrollRunGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PayrollRunGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PayrollRunCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PayrollRunCountAggregateOutputType> | number
+        }
+      }
+    }
+    Payslip: {
+      payload: Prisma.$PayslipPayload<ExtArgs>
+      fields: Prisma.PayslipFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PayslipFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PayslipPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PayslipFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PayslipPayload>
+        }
+        findFirst: {
+          args: Prisma.PayslipFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PayslipPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PayslipFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PayslipPayload>
+        }
+        findMany: {
+          args: Prisma.PayslipFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PayslipPayload>[]
+        }
+        create: {
+          args: Prisma.PayslipCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PayslipPayload>
+        }
+        createMany: {
+          args: Prisma.PayslipCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.PayslipDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PayslipPayload>
+        }
+        update: {
+          args: Prisma.PayslipUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PayslipPayload>
+        }
+        deleteMany: {
+          args: Prisma.PayslipDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PayslipUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.PayslipUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PayslipPayload>
+        }
+        aggregate: {
+          args: Prisma.PayslipAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePayslip>
+        }
+        groupBy: {
+          args: Prisma.PayslipGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PayslipGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PayslipCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PayslipCountAggregateOutputType> | number
+        }
+      }
+    }
     PerformanceReview: {
       payload: Prisma.$PerformanceReviewPayload<ExtArgs>
       fields: Prisma.PerformanceReviewFieldRefs
@@ -8801,6 +8935,49 @@ export const HolidayScalarFieldEnum = {
 export type HolidayScalarFieldEnum = (typeof HolidayScalarFieldEnum)[keyof typeof HolidayScalarFieldEnum]
 
 
+export const PayrollRunScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  month: 'month',
+  status: 'status',
+  workingDays: 'workingDays',
+  totalGross: 'totalGross',
+  totalDeductions: 'totalDeductions',
+  totalNet: 'totalNet',
+  createdById: 'createdById',
+  finalisedAt: 'finalisedAt',
+  paidOn: 'paidOn',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PayrollRunScalarFieldEnum = (typeof PayrollRunScalarFieldEnum)[keyof typeof PayrollRunScalarFieldEnum]
+
+
+export const PayslipScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  runId: 'runId',
+  employeeId: 'employeeId',
+  month: 'month',
+  monthlySalary: 'monthlySalary',
+  workingDays: 'workingDays',
+  paidDays: 'paidDays',
+  lopDays: 'lopDays',
+  earnings: 'earnings',
+  extraEarnings: 'extraEarnings',
+  deductions: 'deductions',
+  gross: 'gross',
+  totalDeductions: 'totalDeductions',
+  netPay: 'netPay',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PayslipScalarFieldEnum = (typeof PayslipScalarFieldEnum)[keyof typeof PayslipScalarFieldEnum]
+
+
 export const PerformanceReviewScalarFieldEnum = {
   id: 'id',
   organizationId: 'organizationId',
@@ -10279,6 +10456,28 @@ export const HolidayOrderByRelevanceFieldEnum = {
 export type HolidayOrderByRelevanceFieldEnum = (typeof HolidayOrderByRelevanceFieldEnum)[keyof typeof HolidayOrderByRelevanceFieldEnum]
 
 
+export const PayrollRunOrderByRelevanceFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  month: 'month',
+  createdById: 'createdById'
+} as const
+
+export type PayrollRunOrderByRelevanceFieldEnum = (typeof PayrollRunOrderByRelevanceFieldEnum)[keyof typeof PayrollRunOrderByRelevanceFieldEnum]
+
+
+export const PayslipOrderByRelevanceFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  runId: 'runId',
+  employeeId: 'employeeId',
+  month: 'month',
+  notes: 'notes'
+} as const
+
+export type PayslipOrderByRelevanceFieldEnum = (typeof PayslipOrderByRelevanceFieldEnum)[keyof typeof PayslipOrderByRelevanceFieldEnum]
+
+
 export const PerformanceReviewOrderByRelevanceFieldEnum = {
   id: 'id',
   organizationId: 'organizationId',
@@ -11006,6 +11205,13 @@ export type EnumAttendanceSourceFieldRefInput<$PrismaModel> = FieldRefInputType<
 
 
 /**
+ * Reference to a field of type 'PayrollStatus'
+ */
+export type EnumPayrollStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PayrollStatus'>
+    
+
+
+/**
  * Reference to a field of type 'ReviewStatus'
  */
 export type EnumReviewStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ReviewStatus'>
@@ -11339,6 +11545,8 @@ export type GlobalOmitConfig = {
   leaveBalance?: Prisma.LeaveBalanceOmit
   leaveRequest?: Prisma.LeaveRequestOmit
   holiday?: Prisma.HolidayOmit
+  payrollRun?: Prisma.PayrollRunOmit
+  payslip?: Prisma.PayslipOmit
   performanceReview?: Prisma.PerformanceReviewOmit
   asset?: Prisma.AssetOmit
   assetAssignment?: Prisma.AssetAssignmentOmit
