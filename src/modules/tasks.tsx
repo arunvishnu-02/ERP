@@ -10,6 +10,7 @@ import { api, useApi } from '@/lib/api'
 import { useAuth } from '@/lib/auth'
 import { day, daysFromToday, fmtDateTime, human, options, personName, plusDays } from '@/lib/format'
 import { act, DueTag, Person, userOptions } from './common'
+import Timesheet from './timesheet'
 
 const COLUMNS = ['TODO', 'IN_PROGRESS', 'IN_REVIEW', 'BLOCKED', 'DONE']
 const prioTone = (p: string) => (p === 'URGENT' ? 'bad' : p === 'HIGH' ? 'warn' : 'mute')
@@ -60,6 +61,7 @@ export default function Tasks() {
   const { lookups, can, scope } = useAuth()
   const ownOnly = scope('TASKS') === 'OWN'
   const [who, setWho] = useState('mine')
+  const [view, setView] = useState('board')
   const [openId, setOpenId] = useState<string | null>(null)
   const [add, setAdd] = useState(false)
   const { data, reload } = useApi<{ items: any[] }>(`/tasks?limit=500${who === 'mine' ? '&mine=1' : ''}`)
@@ -71,8 +73,11 @@ export default function Tasks() {
     { name: 'assigneeId', label: 'Assign to', type: 'select', options: userOptions(lookups), placeholder: 'Me' }, { name: 'priority', label: 'Priority', type: 'select', options: options(lookups.enums.Priority), required: true },
     { name: 'dueDate', label: 'Due date', type: 'date' }, { name: 'estimatedMinutes', label: 'Estimate (minutes)', type: 'number' }, { name: 'description', label: 'Details', type: 'textarea' },
   ]
+  const viewTabs = <Tabs value={view} onChange={setView} options={[{ value: 'board', label: 'Board' }, { value: 'timesheet', label: 'Timesheet' }]} />
+  if (view === 'timesheet') return <div className="space-y-3">{viewTabs}<Timesheet projects={projects.filter((p) => p.status !== 'COMPLETED')} /></div>
   return (
     <div className="space-y-3">
+      {viewTabs}
       <div className="flex flex-wrap items-center justify-between gap-2">
         {ownOnly ? <p className="text-[13px] text-muted">Tasks assigned to you or added by you. Drag a card to change its status.</p> : <Tabs value={who} onChange={setWho} options={[{ value: 'mine', label: 'Assigned to me' }, { value: 'all', label: 'Everyone' }]} />}
         {can('TASKS', 'CREATE') && <Button variant="primary" onClick={() => setAdd(true)}><Plus size={16} />Add task</Button>}

@@ -6,6 +6,7 @@ import { migrate } from './core/migrate'
 import { Response, Router, type Request, type RouterImpl } from './core/router'
 import { prisma } from './db'
 import { rememberOrigin } from './env'
+import { approvalsRouter } from './modules/approvals'
 import { authRouter } from './modules/auth'
 import { assetsRouter, documentsRouter, financeRouter, hrRouter, meRouter } from './modules/backoffice'
 import { myPayslipsRouter, payrollRouter } from './modules/payroll'
@@ -33,6 +34,7 @@ function build() {
   v1.use('/public', publicRouter)
   v1.use(authenticate)
   v1.get('/lookups', lookups)
+  v1.use('/approvals', approvalsRouter)
   v1.use('/dashboard', dashboardRouter)
   v1.use('/leads', leadsRouter)
   v1.use('/follow-ups', followUpsRouter)

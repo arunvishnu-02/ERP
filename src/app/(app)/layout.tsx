@@ -1,6 +1,6 @@
 'use client'
 import * as Menu from '@radix-ui/react-dropdown-menu'
-import { Bell, Building2, ChartColumn, FileText, Files, FolderKanban, Globe, Handshake, Landmark, Laptop, LayoutDashboard, LifeBuoy, LockKeyhole, LogOut, Megaphone, MenuIcon, MessagesSquare, Moon, Receipt, Settings, SquareCheckBig, Sun, UserPlus, UserRound, Users, Wallet, Zap } from 'lucide-react'
+import { Bell, Building2, Inbox, ChartColumn, FileText, Files, FolderKanban, Globe, Handshake, Landmark, Laptop, LayoutDashboard, LifeBuoy, LockKeyhole, LogOut, Megaphone, MenuIcon, MessagesSquare, Moon, Receipt, Settings, SquareCheckBig, Sun, UserPlus, UserRound, Users, Wallet, Zap } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useTheme } from 'next-themes'
@@ -13,7 +13,7 @@ import { AuthProvider, useAuth } from '@/lib/auth'
 import { ago } from '@/lib/format'
 
 export const NAV: { group: string; items: [path: string, label: string, module: string, icon: any][] }[] = [
-  { group: 'Overview', items: [['dashboard', 'Dashboard', 'DASHBOARD', LayoutDashboard]] },
+  { group: 'Overview', items: [['dashboard', 'Dashboard', 'DASHBOARD', LayoutDashboard], ['approvals', 'Approvals', '', Inbox]] },
   { group: 'CRM', items: [['leads', 'Leads', 'LEADS', UserPlus], ['customers', 'Customers', 'CUSTOMERS', Building2], ['sales', 'Sales CRM', 'SALES', Handshake]] },
   { group: 'Sales', items: [['quotations', 'Quotations', 'QUOTATIONS', FileText], ['invoices', 'Invoices', 'INVOICES', Receipt], ['payments', 'Payments', 'PAYMENTS', Wallet]] },
   { group: 'Delivery', items: [['projects', 'Projects', 'PROJECTS', FolderKanban], ['tasks', 'Tasks', 'TASKS', SquareCheckBig], ['marketing', 'Digital marketing', 'MARKETING', Megaphone], ['websites', 'Websites', 'WEBSITES', Globe], ['tickets', 'Support tickets', 'TICKETS', LifeBuoy]] },
@@ -54,6 +54,13 @@ function Notifications() {
   )
 }
 
+/** How many requests wait for this person's decision, refreshed with the notifications. */
+function useApprovalCount() {
+  const { data, reload } = useApi<{ count: number }>('/approvals/count')
+  useEffect(() => { const t = setInterval(reload, 60_000); return () => clearInterval(t) }, [reload])
+  return data?.count ?? 0
+}
+
 function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
@@ -66,6 +73,7 @@ function Shell({ children }: { children: React.ReactNode }) {
   const { me, can, logout, lookups, reloadMe } = useAuth()
   const key = usePathname().split('/')[1] || 'dashboard'
   const [open, setOpen] = useState(false)
+  const waiting = useApprovalCount()
   useEffect(() => { document.title = `${TITLES[key] ?? 'CX CRM ERP'} | CX CRM ERP` }, [key])
   return (
     <div className="min-h-screen lg:grid lg:grid-cols-[236px_minmax(0,1fr)]">
@@ -76,7 +84,7 @@ function Shell({ children }: { children: React.ReactNode }) {
         </div>
         <nav className="flex-1 space-y-4 px-3 pb-6">
           {NAV.map((g) => {
-            const items = g.items.filter(([, , module]) => can(module))
+            const items = g.items.filter(([, , module]) => !module || can(module))
             if (!items.length) return null
             return (
               <div key={g.group}>
@@ -84,6 +92,7 @@ function Shell({ children }: { children: React.ReactNode }) {
                 {items.map(([path, label, , Icon]) => (
                   <Link key={path} href={`/${path}`} onClick={() => setOpen(false)} aria-current={key === path ? 'page' : undefined} className={cn('flex items-center gap-2.5 rounded-lg px-2.5 py-1.5 text-[13.5px] hover:bg-rail-active hover:text-white', key === path && 'bg-rail-active font-medium text-white')}>
                     <Icon size={16} className={key === path ? 'text-accent' : 'text-rail-mute'} />{label}
+                    {path === 'approvals' && waiting > 0 && <span className="num ml-auto grid h-5 min-w-5 place-items-center rounded-full bg-bad px-1.5 text-[11px] font-semibold text-white">{waiting > 99 ? '99+' : waiting}</span>}
                   </Link>
                 ))}
               </div>

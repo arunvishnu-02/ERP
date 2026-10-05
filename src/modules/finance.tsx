@@ -5,7 +5,7 @@ import { useState } from 'react'
 import type { Field } from '@/components/form'
 import { HBars } from '@/components/misc'
 import { exportXlsx, Resource } from '@/components/resource'
-import { Button, cn, Loading, Panel, Select, StatBand, Status, Table, Tabs, Td, Th, Two } from '@/components/ui'
+import { Button, cn, Input, Loading, Panel, Select, StatBand, Status, Table, Tabs, Td, Th, Two } from '@/components/ui'
 import { api, useApi } from '@/lib/api'
 import { useAuth } from '@/lib/auth'
 import { day, fmtDate, gstOff, human, inr, inrShort, monthLabel, options, todayStr } from '@/lib/format'
@@ -78,13 +78,60 @@ function Expenses() {
   )
 }
 
+function ProjectProfit() {
+  const { can } = useAuth()
+  const [range, setRange] = useState<{ from?: string; to?: string }>({})
+  const q = range.from && range.to ? `?from=${range.from}&to=${range.to}` : ''
+  const { data } = useApi<{ from: string; to: string; items: any[] }>(`/finance/project-profit${q}`)
+  if (!data) return <Loading />
+  const sum = (k: string) => data.items.reduce((n, r) => n + r[k], 0)
+  const hours = (m: number) => `${Math.round(m / 6) / 10} h`
+  const cols = [
+    { header: 'Project', cell: () => null, text: (r: any) => r.name }, { header: 'Customer', cell: () => null, text: (r: any) => r.customer },
+    { header: 'Billed', cell: () => null, text: (r: any) => r.billed }, { header: 'Hours', cell: () => null, text: (r: any) => Math.round(r.minutes / 6) / 10 },
+    { header: 'Team time cost', cell: () => null, text: (r: any) => r.timeCost }, { header: 'Expenses', cell: () => null, text: (r: any) => r.expenses },
+    { header: 'Profit', cell: () => null, text: (r: any) => r.profit }, { header: 'Margin %', cell: () => null, text: (r: any) => r.margin },
+  ]
+  return (
+    <div className="space-y-4">
+      <div className="flex flex-wrap items-center gap-2">
+        <label className="flex items-center gap-2 text-[13px] text-muted">From<Input type="date" className="w-40" value={range.from ?? data.from} onChange={(e) => setRange({ from: e.target.value, to: range.to ?? data.to })} /></label>
+        <label className="flex items-center gap-2 text-[13px] text-muted">To<Input type="date" className="w-40" value={range.to ?? data.to} onChange={(e) => setRange({ from: range.from ?? data.from, to: e.target.value })} /></label>
+        <div className="flex-1" />
+        {can('FINANCE', 'EXPORT') && <Button onClick={() => exportXlsx('profit-by-project', cols, data.items)}><Download size={15} />Export</Button>}
+      </div>
+      <StatBand items={[
+        { label: 'Billed', value: inrShort(sum('billed')), hint: 'invoices on projects' }, { label: 'Team time cost', value: inrShort(sum('timeCost')), hint: hours(sum('minutes')) + ' logged' },
+        { label: 'Project expenses', value: inrShort(sum('expenses')) }, { label: sum('profit') >= 0 ? 'Profit' : 'Loss', value: inrShort(Math.abs(sum('profit'))), tone: sum('profit') >= 0 ? 'good' : 'bad' },
+      ]} />
+      <Panel title="Profit by project" flush>
+        <div className="overflow-x-auto"><Table>
+          <thead><tr><Th>Project</Th><Th right>Billed</Th><Th right>Hours</Th><Th right>Team time cost</Th><Th right>Expenses</Th><Th right>Profit</Th><Th right>Margin</Th></tr></thead>
+          <tbody>
+            {data.items.map((r) => (
+              <tr key={r.id}>
+                <Td><Two top={r.name} bottom={[r.customer, r.unpriced ? `${r.unpriced} ${r.unpriced === 1 ? 'person has' : 'people have'} no cost set` : ''].filter(Boolean).join(', ')} /></Td>
+                <Td right>{inr(r.billed)}</Td><Td right className="text-muted">{hours(r.minutes)}</Td><Td right>{inr(r.timeCost)}</Td><Td right>{inr(r.expenses)}</Td>
+                <Td right className={cn('font-semibold', r.profit < 0 && 'text-bad')}>{inr(r.profit)}</Td><Td right className={cn(r.margin != null && r.margin < 0 && 'text-bad')}>{r.margin == null ? '' : `${r.margin}%`}</Td>
+              </tr>
+            ))}
+            {!data.items.length && <tr><Td colSpan={7} className="py-8 text-center text-muted">No invoices, time or expenses on projects in this period.</Td></tr>}
+          </tbody>
+        </Table></div>
+      </Panel>
+      <p className="text-xs text-muted">Billed is the invoice amount before GST, less credit notes, for invoices dated in the period. Team time cost uses each person's hourly cost on the project, or their yearly CTC divided by 2,496 working hours. Expenses count once approved.</p>
+    </div>
+  )
+}
+
 export default function Finance() {
   const { reloadLookups } = useAuth()
   const [tab, setTab] = useState('overview')
   return (
     <div className="space-y-3">
-      <Tabs value={tab} onChange={setTab} options={[{ value: 'overview', label: 'Overview' }, { value: 'expenses', label: 'Expenses' }, { value: 'vendors', label: 'Vendors' }, { value: 'categories', label: 'Expense categories' }, { value: 'banks', label: 'Bank accounts' }]} />
+      <Tabs value={tab} onChange={setTab} options={[{ value: 'overview', label: 'Overview' }, { value: 'projects', label: 'Profit by project' }, { value: 'expenses', label: 'Expenses' }, { value: 'vendors', label: 'Vendors' }, { value: 'categories', label: 'Expense categories' }, { value: 'banks', label: 'Bank accounts' }]} />
       {tab === 'overview' && <Overview />}
+      {tab === 'projects' && <ProjectProfit />}
       {tab === 'expenses' && <Expenses />}
       {tab === 'vendors' && (
         <Resource path="/finance/vendors" module="FINANCE" noun="vendor" search="Search vendor" afterSave={reloadLookups} toForm={(r) => ({ ...r, gstin: r.gstin ?? '', email: r.email ?? '', phone: r.phone ?? '', notes: r.notes ?? '' })}

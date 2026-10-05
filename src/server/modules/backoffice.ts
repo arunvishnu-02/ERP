@@ -255,6 +255,46 @@ financeRouter.use('/expenses', crud({
   beforeDelete: async (before, _req, tx) => { await tx.ledgerEntry.deleteMany({ where: { sourceType: 'EXPENSE', sourceId: before.id } }) },
 }))
 
+/** Billed amount, team time cost and expenses for each project over a period (default: this financial year). */
+financeRouter.get('/project-profit', authorize(F, 'VIEW'), async (req, res) => {
+  const organizationId = req.user.organizationId
+  const isDay = (v: unknown) => typeof v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(v)
+  const t = todayStr()
+  const [y, m] = t.split('-').map(Number)
+  const from = isDay(req.query.from) ? String(req.query.from) : `${m >= 4 ? y : y - 1}-04-01`
+  const to = isDay(req.query.to) ? String(req.query.to) : t
+  const range = { gte: dateOnly(from), lt: addDays(dateOnly(to), 1) }
+  const [invoices, time, expenses] = await Promise.all([
+    prisma.invoice.groupBy({ by: ['projectId'], where: { organizationId, deletedAt: null, projectId: { not: null }, status: { notIn: ['DRAFT', 'CANCELLED', 'VOID'] }, issueDate: range }, _sum: { taxableAmount: true, creditedAmount: true, amountPaid: true } }),
+    prisma.timeEntry.groupBy({ by: ['projectId', 'userId'], where: { organizationId, projectId: { not: null }, endedAt: { not: null }, startedAt: range }, _sum: { minutes: true } }),
+    prisma.expense.groupBy({ by: ['projectId'], where: { organizationId, projectId: { not: null }, status: { in: ['APPROVED', 'PAID'] }, expenseDate: range }, _sum: { amount: true } }),
+  ])
+  const ids = [...new Set([...invoices, ...time, ...expenses].map((r) => r.projectId!))]
+  const [projects, members, employees] = await Promise.all([
+    prisma.project.findMany({ where: { id: { in: ids }, organizationId }, select: { id: true, name: true, status: true, budget: true, customer: { select: { name: true } } } }),
+    prisma.projectMember.findMany({ where: { projectId: { in: ids } }, select: { projectId: true, userId: true, hourlyCost: true } }),
+    prisma.employee.findMany({ where: { organizationId, userId: { in: [...new Set(time.map((r) => r.userId))] } }, select: { userId: true, ctcAnnual: true } }),
+  ])
+  // hourly cost: the rate set on the project member, else yearly CTC spread over 2,496 working hours (48 h x 52 weeks)
+  const rate = (projectId: string, userId: string) => {
+    const pm = members.find((x) => x.projectId === projectId && x.userId === userId)
+    if (pm?.hourlyCost != null) return Number(pm.hourlyCost)
+    const e = employees.find((x) => x.userId === userId)
+    return e?.ctcAnnual != null ? Number(e.ctcAnnual) / 2496 : 0
+  }
+  const items = projects.map((p) => {
+    const inv = invoices.find((r) => r.projectId === p.id)
+    const billed = Number(inv?._sum.taxableAmount ?? 0) - Number(inv?._sum.creditedAmount ?? 0)
+    const rows = time.filter((r) => r.projectId === p.id)
+    const minutes = rows.reduce((a, r) => a + (r._sum.minutes ?? 0), 0)
+    const unpriced = rows.filter((r) => (r._sum.minutes ?? 0) > 0 && !rate(p.id, r.userId)).length
+    const timeCost = Math.round(rows.reduce((a, r) => a + ((r._sum.minutes ?? 0) / 60) * rate(p.id, r.userId), 0))
+    const spent = Number(expenses.find((r) => r.projectId === p.id)?._sum.amount ?? 0)
+    const profit = billed - timeCost - spent
+    return { id: p.id, name: p.name, customer: p.customer?.name ?? null, status: p.status, budget: p.budget == null ? null : Number(p.budget), billed, received: Number(inv?._sum.amountPaid ?? 0), minutes, timeCost, expenses: spent, profit, margin: billed ? Math.round((profit / billed) * 100) : null, unpriced }
+  }).sort((a, b) => b.billed - a.billed)
+  res.json({ from, to, items })
+})
 financeRouter.get('/summary', authorize(F, 'VIEW'), async (req, res) => {
   const organizationId = req.user.organizationId
   const months = Math.min(Math.max(Number(req.query.months) || 6, 1), 24)

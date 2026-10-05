@@ -1,9 +1,10 @@
 // Digital marketing, website management and support tickets.
 import { Router } from '../core/router'
-import { authorize } from '../core/auth'
-import { crud } from '../core/crud'
+import { authorize, fullName } from '../core/auth'
+import { crud, findScoped } from '../core/crud'
 import { createInvoice } from '../core/docs'
-import { notFound, parse, shape, stripNulls } from '../core/http'
+import { bad, notFound, parse, shape, stripNulls } from '../core/http'
+import { sendMail } from '../core/mail'
 import { activity, audit, daysBetween, decrypt, encrypt, notify, SCOPES, today, U } from '../core/util'
 import { prisma } from '../db'
 import * as E from '../../generated/prisma/enums'
@@ -124,7 +125,8 @@ credentialsRouter.post('/:id/reveal', authorize('WEBSITES', 'VIEW'), async (req,
 })
 
 // ── Support tickets ──
-export const ticketsRouter = crud({
+export const ticketsRouter = Router()
+const ticketCrud = crud({
   model: 'ticket', module: 'TICKETS', label: 'Ticket', by: true, number: ['ticketNumber', 'TICKET'], scope: SCOPES.TICKETS,
   fields: { customerId: 'id', contactId: 'id?', projectId: 'id?', websiteId: 'id?', subject: 's', description: 's', category: 's?', 'channel?': Object.values(E.TicketChannel), 'priority?': Object.values(E.Priority), 'status?': Object.values(E.TicketStatus), assigneeId: 'id?', resolutionNotes: 's?' },
   search: ['subject', 'ticketNumber', 'customer.name'], filters: ['status', 'priority', 'assigneeId', 'customerId'],
@@ -143,3 +145,45 @@ export const ticketsRouter = crud({
     if (d.assigneeId && d.assigneeId !== before.assigneeId && d.assigneeId !== req.user.id) await notify(tx, before.organizationId, d.assigneeId, 'ticket.assigned', `Ticket ${before.ticketNumber} assigned to you`, '/tickets')
   },
 })
+
+// Conversation on a ticket: replies go to the customer by email, team notes stay inside.
+const ticketWithPeople = { customer: { select: { id: true, name: true, email: true } }, contact: { select: { id: true, firstName: true, lastName: true, email: true } } }
+const replyTo = (t: any) => t.contact?.email || t.customer?.email || null
+ticketsRouter.get('/:id/conversation', authorize('TICKETS', 'VIEW'), async (req, res) => {
+  const t = await findScoped(req, 'ticket', 'TICKETS', 'VIEW', { label: 'Ticket', include: ticketWithPeople })
+  const items = await prisma.comment.findMany({ where: { organizationId: t.organizationId, entityType: 'TICKET', entityId: t.id, deletedAt: null }, include: { author: U }, orderBy: { createdAt: 'asc' } })
+  res.json({ items, replyTo: replyTo(t) })
+})
+ticketsRouter.post('/:id/reply', authorize('TICKETS', 'EDIT'), async (req, res) => {
+  const d = parse(shape({ body: 's', 'internal?': 'b', 'status?': Object.values(E.TicketStatus) }), req.body)
+  const t = await findScoped(req, 'ticket', 'TICKETS', 'EDIT', { label: 'Ticket', include: ticketWithPeople })
+  const internal = d.internal ?? false
+  const to = replyTo(t)
+  if (!internal && !to) throw bad('This customer has no email address. Add one to the customer or contact first.')
+  const status = d.status ?? (internal ? undefined : t.status === 'OPEN' ? 'IN_PROGRESS' : undefined)
+  const comment = await prisma.$transaction(async (tx) => {
+    const c = await tx.comment.create({ data: { organizationId: t.organizationId, entityType: 'TICKET', entityId: t.id, body: d.body, isInternal: internal, authorId: req.user.id }, include: { author: U } })
+    const data: any = {}
+    if (!internal && !t.firstResponseAt) data.firstResponseAt = new Date()
+    if (status && status !== t.status) {
+      data.status = status
+      if (status === 'RESOLVED') data.resolvedAt = new Date()
+      if (status === 'CLOSED') data.closedAt = new Date()
+      await activity(tx, t.organizationId, 'TICKET', t.id, 'STATUS_CHANGED', `Status changed to ${status.toLowerCase().replace(/_/g, ' ')}`, req.user.id)
+    }
+    if (Object.keys(data).length) await tx.ticket.update({ where: { id: t.id }, data: { ...data, updatedById: req.user.id } })
+    if (!internal) await activity(tx, t.organizationId, 'TICKET', t.id, 'EMAIL_SENT', 'Reply sent to the customer', req.user.id)
+    return c
+  })
+  let mail: { sent: boolean; error: string | null } | null = null
+  if (!internal && to) {
+    const [org, me] = await Promise.all([prisma.organization.findUnique({ where: { id: t.organizationId }, select: { name: true } }), prisma.user.findUnique({ where: { id: req.user.id }, select: { firstName: true, lastName: true } })])
+    const name = t.contact?.firstName || t.customer.name
+    mail = await sendMail(t.organizationId, {
+      to, subject: `Re: ${t.subject} [${t.ticketNumber}]`, sentById: req.user.id, customerId: t.customerId, entityType: 'TICKET', entityId: t.id,
+      text: `Dear ${name},\n\n${d.body}\n\nRegards,\n${me ? fullName(me) : ''}\n${org?.name ?? ''}\n\nTicket ${t.ticketNumber}. Reply to this email if you need more help.`,
+    })
+  }
+  res.status(201).json({ comment, mail })
+})
+ticketsRouter.use('/', ticketCrud)

@@ -1,4 +1,5 @@
 'use client'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { EntryFrame } from '@/components/entry'
@@ -33,7 +34,7 @@ export default function LoginPage() {
         <Field label="Password"><Input type="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} required /></Field>
         {error && <p role="alert" className="rounded-lg bg-bad-soft px-3 py-2 text-sm text-bad">{error}</p>}
         <Button type="submit" variant="primary" loading={busy} className="w-full">Sign in</Button>
-        <p className="text-xs text-muted">Forgot your password? Ask a Super Admin to reset it under Settings, Users.</p>
+        <p className="text-sm"><Link href="/forgot" className="text-accent hover:underline">Forgot password?</Link></p>
       </form>
     </EntryFrame>
   )
