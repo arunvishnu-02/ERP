@@ -9,6 +9,7 @@ import { Resource } from '@/components/resource'
 import { Button, Card, Dialog, Empty, Field, Input, Panel, Select, Sheet, Status, Table, Tabs, Td, Th, Two } from '@/components/ui'
 import { api, useApi } from '@/lib/api'
 import { useAuth } from '@/lib/auth'
+import { useUrlParam } from '@/lib/url'
 import { ago, fmtDate, gstOff, human, inr, leadLabel, options, personName, waLink } from '@/lib/format'
 import { act, Person, userOptions } from './common'
 
@@ -150,6 +151,7 @@ export default function Quotations() {
   const noGst = gstOff(lookups.organization)
   const [tab, setTab] = useState('quotations')
   const [openId, setOpenId] = useState<string | null>(null)
+  useUrlParam('open', setOpenId)
   const [creating, setCreating] = useState(false)
   const [rk, setRk] = useState(0)
   const refresh = () => setRk((k) => k + 1)

@@ -18,7 +18,9 @@ import { followUpsRouter, leadsRouter } from './modules/leads'
 import { bankAccountsRouter, paymentsRouter } from './modules/payments'
 import { projectsRouter } from './modules/projects'
 import { portalRouter } from './modules/portal'
+import { hiringRouter } from './modules/hiring'
 import { publicRouter } from './modules/public'
+import { searchRouter } from './modules/search'
 import { packagesRouter, quotationsRouter, servicesRouter } from './modules/quotations'
 import { callsRouter, dealsRouter, meetingsRouter } from './modules/sales'
 import { lookups, settingsRouter } from './modules/settings'
@@ -37,6 +39,7 @@ function build() {
   v1.use(authenticate)
   v1.get('/lookups', lookups)
   v1.use('/approvals', approvalsRouter)
+  v1.use('/search', searchRouter)
   v1.use('/dashboard', dashboardRouter)
   v1.use('/leads', leadsRouter)
   v1.use('/follow-ups', followUpsRouter)
@@ -62,6 +65,7 @@ function build() {
   v1.use('/credentials', credentialsRouter)
   v1.use('/tickets', ticketsRouter)
   v1.use('/documents', documentsRouter)
+  v1.use('/hr/hiring', hiringRouter)
   v1.use('/hr', hrRouter)
   v1.use('/payroll', payrollRouter)
   v1.use('/me/payslips', myPayslipsRouter)

@@ -838,3 +838,23 @@ export const OutboxStatus = {
 } as const
 
 export type OutboxStatus = (typeof OutboxStatus)[keyof typeof OutboxStatus]
+
+
+export const OpeningStatus = {
+  OPEN: 'OPEN',
+  ON_HOLD: 'ON_HOLD',
+  CLOSED: 'CLOSED'
+} as const
+
+export type OpeningStatus = (typeof OpeningStatus)[keyof typeof OpeningStatus]
+
+
+export const CandidateStage = {
+  APPLIED: 'APPLIED',
+  INTERVIEW: 'INTERVIEW',
+  OFFER: 'OFFER',
+  JOINED: 'JOINED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type CandidateStage = (typeof CandidateStage)[keyof typeof CandidateStage]

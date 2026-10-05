@@ -7,6 +7,7 @@ import { Resource } from '@/components/resource'
 import { Button, Card, KV, Panel, Sheet, Status, Two } from '@/components/ui'
 import { api, useApi } from '@/lib/api'
 import { useAuth } from '@/lib/auth'
+import { useUrlParam } from '@/lib/url'
 import { fmtDate, human, inr, options, personName } from '@/lib/format'
 import { act, ExpiryTag, Person, stateOptions, userOptions } from './common'
 
@@ -74,6 +75,7 @@ function CustomerSheet({ id, onClose, onChanged }: { id: string | null; onClose:
 export default function Customers() {
   const { lookups } = useAuth()
   const [openId, setOpenId] = useState<string | null>(null)
+  useUrlParam('open', setOpenId)
   const [rk, setRk] = useState(0)
   const fields: Field[] = [
     { name: 'name', label: 'Customer name', required: true, full: true },

@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { toast } from 'sonner'
 import { api, useApi } from '@/lib/api'
 import { useAuth } from '@/lib/auth'
+import { useUrlParam } from '@/lib/url'
 import { day } from '@/lib/format'
 import { ConfirmDialog, FormDialog, type Field } from './form'
 import { Button, Card, Chips, cn, Empty, Input, Loading, Table, Td, Th, type TabOption } from './ui'
@@ -88,6 +89,8 @@ export function Resource(p: ResourceProps) {
   const mayEdit = (p.canEdit ?? true) && can(p.module, 'EDIT') && !!p.fields
   const mayDelete = (p.canDelete ?? true) && can(p.module, 'DELETE')
   const ctx = { reload }
+  // the New menu sends people here with ?new=<noun>
+  useUrlParam('new', (v) => { if (v === p.noun) { if (p.onCreate) p.onCreate(); else setForm({}) } }, mayCreate)
   const toForm = (row: any) => {
     if (p.toForm) return p.toForm(row)
     const v: Record<string, any> = {}

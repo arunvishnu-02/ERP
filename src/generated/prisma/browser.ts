@@ -552,3 +552,13 @@ export type WebhookEvent = Prisma.WebhookEventModel
  * 
  */
 export type OutboxEvent = Prisma.OutboxEventModel
+/**
+ * Model JobOpening
+ * * A role the company is hiring for.
+ */
+export type JobOpening = Prisma.JobOpeningModel
+/**
+ * Model Candidate
+ * * A person who applied for a job opening, from first contact to joining.
+ */
+export type Candidate = Prisma.CandidateModel

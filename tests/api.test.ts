@@ -692,3 +692,60 @@ test('client portal: email code sign-in, own records only, support tickets both 
   assert.equal((await call('POST', '/portal/auth/logout', P)).status, 204)
   await deny('GET', '/portal/me', P, undefined, 401)
 })
+
+test('desktop: search everywhere, hiring to employee, and vendor bills', async () => {
+  // search finds records across modules, but only those the person may see
+  await ok('POST', '/leads', S.admin, { firstName: 'Zara', companyName: 'Zephyrine Labs' })
+  const adminHits = await ok('GET', '/search?q=Zephyrine', S.admin)
+  assert.match(adminHits.groups.find((g: any) => g.key === 'leads').items[0].href, /^\/leads\?open=/)
+  assert.ok(!(await ok('GET', '/search?q=Zephyrine', S.sales)).groups.some((g: any) => g.key === 'leads'))
+  assert.ok((await ok('GET', `/search?q=${encodeURIComponent(S.acme.name)}`, S.admin)).groups.some((g: any) => g.key === 'customers'))
+  assert.deepEqual((await ok('GET', '/search?q=Z', S.admin)).groups, [])
+  await deny('GET', '/search?q=Zephyrine', undefined, undefined, 401)
+
+  // hiring: an opening, candidates, the offer letter, then the new employee
+  const dept = S.lk.departments.find((d: any) => d.name === 'Development').id
+  const job = await ok('POST', '/hr/hiring/openings', S.hr, { title: 'Flutter developer', departmentId: dept, salaryRange: '30,000 to 45,000' })
+  assert.equal(job.status, 'OPEN')
+  await deny('POST', '/hr/hiring/openings', S.sales, { title: 'Nope' })
+  const c = await ok('POST', '/hr/hiring/candidates', S.hr, { jobId: job.id, firstName: 'Nila', lastName: 'Kumar', email: 'nila@example.com', phone: '9000012345' })
+  const r = await ok('POST', '/hr/hiring/candidates', S.hr, { jobId: job.id, firstName: 'Ravi' })
+  assert.equal(c.stage, 'APPLIED')
+  await ok('PATCH', `/hr/hiring/candidates/${r.id}`, S.hr, { stage: 'REJECTED', rejectionReason: 'Not enough experience' })
+  await deny('POST', `/hr/hiring/candidates/${r.id}/hire`, S.hr, undefined, 409)
+  await ok('PATCH', `/hr/hiring/candidates/${c.id}`, S.hr, { stage: 'INTERVIEW', interviewAt: `${plusDays(2)}T10:00:00.000Z` })
+  const offered = await ok('POST', `/hr/hiring/candidates/${c.id}/offer-sent`, S.hr, { monthlySalary: 40000, joiningDate: plusDays(14) })
+  assert.equal(offered.stage, 'OFFER')
+  const letter = await ok('GET', `/hr/hiring/candidates/${c.id}/offer`, S.hr)
+  assert.equal(letter.employee.designation, 'Flutter developer')
+  assert.equal(letter.annual, 480000)
+  const listed = (await ok('GET', '/hr/hiring/openings', S.hr)).items.find((x: any) => x.id === job.id)
+  assert.deepEqual([listed.applied, listed.appliedThisMonth], [2, 2])
+  const emp = await ok('POST', `/hr/hiring/candidates/${c.id}/hire`, S.hr)
+  assert.equal(emp.firstName, 'Nila')
+  assert.equal(Number(emp.ctcAnnual), 480000)
+  assert.equal(emp.departmentId, dept)
+  assert.equal((await ok('GET', `/hr/hiring/candidates/${c.id}`, S.hr)).stage, 'JOINED')
+  await deny('POST', `/hr/hiring/candidates/${c.id}/hire`, S.hr, undefined, 409) // only once
+  await deny('POST', '/hr/hiring/candidates', S.hr, { jobId: '00000000-0000-4000-8000-000000000000', firstName: 'Ghost' }, 404)
+
+  // vendor bills: a bill with a due date waits to be paid until it is approved and marked paid
+  const v = await ok('POST', '/finance/vendors', S.accounts, { name: 'PrintHub' })
+  const cat = S.lk.expenseCategories[0].id
+  const late = await ok('POST', '/finance/expenses', S.accounts, { categoryId: cat, vendorId: v.id, expenseDate: plusDays(-20), billNumber: 'PH-101', dueDate: plusDays(-5), amount: 3000, taxAmount: 0, description: 'Brochures' })
+  const soon = await ok('POST', '/finance/expenses', S.accounts, { categoryId: cat, vendorId: v.id, expenseDate: today, billNumber: 'PH-102', dueDate: plusDays(3), amount: 1500, description: 'Visiting cards' })
+  await deny('POST', `/finance/expenses/${soon.id}/paid`, S.manager, undefined, 409) // not approved yet
+  let sum = await ok('GET', '/finance/vendors-summary', S.accounts)
+  const row = () => sum.items.find((x: any) => x.id === v.id)
+  assert.equal(row().toPay, 4500)
+  assert.ok(sum.bills.find((b: any) => b.id === late.id).overdue)
+  assert.ok(sum.stats.dueThisWeek >= 1 && sum.stats.overdue >= 1)
+  await ok('POST', `/finance/expenses/${late.id}/approve`, S.manager)
+  await deny('POST', `/finance/expenses/${late.id}/paid`, S.sales, undefined, 403)
+  assert.equal((await ok('POST', `/finance/expenses/${late.id}/paid`, S.accounts)).status, 'PAID')
+  await deny('POST', `/finance/expenses/${late.id}/paid`, S.accounts, undefined, 409)
+  sum = await ok('GET', '/finance/vendors-summary', S.accounts)
+  assert.equal(row().toPay, 1500)
+  assert.ok(!sum.bills.find((b: any) => b.id === late.id).overdue)
+  assert.ok(sum.stats.paidThisMonth >= 3000)
+})

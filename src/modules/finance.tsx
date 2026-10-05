@@ -1,14 +1,16 @@
 'use client'
 // Income, expenses, profit and loss, cash flow, vendors and bank accounts.
-import { Check, Download, X } from 'lucide-react'
+import { Check, Download, Plus, X } from 'lucide-react'
 import { useState } from 'react'
-import type { Field } from '@/components/form'
+import { toast } from 'sonner'
+import { FormDialog, type Field } from '@/components/form'
 import { HBars } from '@/components/misc'
 import { exportXlsx, Resource } from '@/components/resource'
 import { Button, cn, Input, Loading, Panel, Select, StatBand, Status, Table, Tabs, Td, Th, Two } from '@/components/ui'
 import { api, useApi } from '@/lib/api'
 import { useAuth } from '@/lib/auth'
-import { day, fmtDate, gstOff, human, inr, inrShort, monthLabel, options, todayStr } from '@/lib/format'
+import { useUrlParam } from '@/lib/url'
+import { day, daysFromToday, fmtDate, gstOff, human, inr, inrShort, monthLabel, options, plusDays, todayStr } from '@/lib/format'
 import { act, userOptions } from './common'
 
 function Overview() {
@@ -124,20 +126,88 @@ function ProjectProfit() {
   )
 }
 
+function Vendors() {
+  const { lookups, can, reloadLookups } = useAuth()
+  const noGst = gstOff(lookups.organization)
+  const { data, reload } = useApi<{ items: any[]; bills: any[]; stats: any }>('/finance/vendors-summary')
+  const projects = useApi<{ items: any[] }>(can('PROJECTS') ? '/projects?limit=200' : null).data?.items ?? []
+  const [vendor, setVendor] = useState<any>(null)
+  const [bill, setBill] = useState<any>(null)
+  if (!data) return <Loading />
+  const st = data.stats
+  const edit = can('FINANCE', 'EDIT')
+  const opt = (list: any[]) => list.map((x) => ({ value: x.id, label: x.name }))
+  const billStatus = (b: any) => (b.status === 'PAID' ? <Status value="PAID" /> : b.status === 'SUBMITTED' ? <Status value="SUBMITTED" label="Waiting for approval" /> : b.overdue ? <Status value="OVERDUE" /> : <Status value="APPROVED" label={daysFromToday(b.dueDate) <= 7 ? 'Due soon' : 'Approved'} />)
+  return (
+    <div className="space-y-4">
+      <div className="flex flex-wrap items-center justify-end gap-2">
+        {edit && <Button onClick={() => setBill({ expenseDate: todayStr(), dueDate: plusDays(7), taxAmount: 0 })}><Plus size={16} />Add bill</Button>}
+        {can('FINANCE', 'CREATE') && <Button variant="primary" onClick={() => setVendor({})}><Plus size={16} />Add vendor</Button>}
+      </div>
+      <StatBand items={[
+        { label: 'To pay vendors', value: inrShort(st.toPay), hint: `${st.dueThisWeek} bill${st.dueThisWeek === 1 ? '' : 's'} due this week` },
+        { label: 'Paid this month', value: inrShort(st.paidThisMonth), hint: `${st.paidThisMonthCount} bill${st.paidThisMonthCount === 1 ? '' : 's'}` },
+        { label: 'Active vendors', value: st.activeVendors, hint: 'this financial year' },
+        { label: 'Overdue bills', value: st.overdue, tone: st.overdue ? 'bad' : undefined, hint: st.overdue ? inr(st.overdueAmount) : 'none' },
+      ]} />
+      <Panel title="All vendors" flush>
+        <div className="overflow-x-auto"><Table>
+          <thead><tr><Th>Vendor</Th><Th>Contact</Th><Th right>Bills</Th><Th right>Paid this year</Th><Th right>To pay</Th></tr></thead>
+          <tbody>
+            {data.items.map((v) => (
+              <tr key={v.id} className={cn(edit && 'cursor-pointer hover:bg-surface-2')} onClick={() => edit && setVendor(v)}>
+                <Td><Two top={v.name} bottom={v.gstin} /></Td><Td className="text-muted">{[v.phone, v.email].filter(Boolean).join(', ')}</Td>
+                <Td right>{v.bills}</Td><Td right>{inr(v.paidThisYear)}</Td><Td right className={cn('font-semibold', !v.toPay && 'font-normal text-muted')}>{inr(v.toPay)}</Td>
+              </tr>
+            ))}
+            {!data.items.length && <tr><Td colSpan={5} className="py-8 text-center text-muted">No vendors yet. Add the people and companies you buy from: hosting, freelancers, printers, ad platforms.</Td></tr>}
+          </tbody>
+        </Table></div>
+      </Panel>
+      <Panel title="Purchase bills" flush>
+        <div className="overflow-x-auto"><Table>
+          <thead><tr><Th>Bill</Th><Th>Vendor</Th><Th>For project</Th><Th>Due</Th><Th right>Amount</Th><Th>Status</Th><Th /></tr></thead>
+          <tbody>
+            {data.bills.map((b) => (
+              <tr key={b.id}>
+                <Td><Two top={<span className="num">{b.billNumber || b.expenseNumber}</span>} bottom={b.description} /></Td><Td>{b.vendor?.name}</Td><Td className="text-muted">{b.project?.name}</Td>
+                <Td className={cn('whitespace-nowrap', b.overdue && 'text-bad')}>{fmtDate(b.dueDate)}</Td><Td right>{inr(b.total)}</Td><Td>{billStatus(b)}</Td>
+                <Td right>{can('FINANCE', 'APPROVE') && b.status === 'APPROVED' && <Button size="sm" onClick={() => act(() => api(`/finance/expenses/${b.id}/paid`, { method: 'POST' }), 'Marked as paid').then(reload)}>Mark paid</Button>}</Td>
+              </tr>
+            ))}
+            {!data.bills.length && <tr><Td colSpan={7} className="py-8 text-center text-muted">No bills yet. Add a bill with a due date and it shows here until it is paid.</Td></tr>}
+          </tbody>
+        </Table></div>
+      </Panel>
+      <p className="text-xs text-muted">A bill is an expense with a due date. It waits for approval like any expense, then shows as to pay until you mark it paid. Link each bill to a project and Profit by project shows what each client really costs.</p>
+      <FormDialog open={!!vendor} onClose={() => setVendor(null)} title={vendor?.id ? 'Edit vendor' : 'Add vendor'} submitLabel="Save"
+        initial={vendor ? { name: vendor.name ?? '', gstin: vendor.gstin ?? '', email: vendor.email ?? '', phone: vendor.phone ?? '', notes: vendor.notes ?? '' } : {}}
+        fields={[{ name: 'name', label: 'Vendor', required: true }, ...(noGst ? [] : [{ name: 'gstin', label: 'GSTIN' } as Field]), { name: 'phone', label: 'Phone' }, { name: 'email', label: 'Email', type: 'email' }, { name: 'notes', label: 'Notes, UPI or bank details', type: 'textarea' }]}
+        onSubmit={async (v) => { await api(vendor?.id ? `/finance/vendors/${vendor.id}` : '/finance/vendors', { method: vendor?.id ? 'PATCH' : 'POST', body: v }); toast.success('Vendor saved'); reload(); reloadLookups() }} />
+      <FormDialog open={!!bill} onClose={() => setBill(null)} title="Add bill" submitLabel="Add bill" initial={bill ?? {}}
+        fields={[
+          { name: 'vendorId', label: 'Vendor', type: 'select', options: opt(lookups.vendors), required: true }, { name: 'billNumber', label: "Vendor's bill number" },
+          { name: 'categoryId', label: 'Category', type: 'select', options: opt(lookups.expenseCategories), required: true }, { name: 'projectId', label: 'For project', type: 'select', options: opt(projects) },
+          { name: 'expenseDate', label: 'Bill date', type: 'date', required: true }, { name: 'dueDate', label: 'Due date', type: 'date', required: true },
+          { name: 'amount', label: noGst ? 'Amount (₹)' : 'Amount before GST (₹)', type: 'number', required: true }, ...(noGst ? [] : [{ name: 'taxAmount', label: 'GST (₹)', type: 'number' } as Field]),
+          { name: 'description', label: 'What is it for', required: true, full: true },
+        ]}
+        onSubmit={async (v) => { await api('/finance/expenses', { body: v }); toast.success('Bill added. It waits for approval.'); reload() }} />
+    </div>
+  )
+}
+
 export default function Finance() {
   const { reloadLookups } = useAuth()
   const [tab, setTab] = useState('overview')
+  useUrlParam('tab', setTab)
   return (
     <div className="space-y-3">
       <Tabs value={tab} onChange={setTab} options={[{ value: 'overview', label: 'Overview' }, { value: 'projects', label: 'Profit by project' }, { value: 'expenses', label: 'Expenses' }, { value: 'vendors', label: 'Vendors' }, { value: 'categories', label: 'Expense categories' }, { value: 'banks', label: 'Bank accounts' }]} />
       {tab === 'overview' && <Overview />}
       {tab === 'projects' && <ProjectProfit />}
       {tab === 'expenses' && <Expenses />}
-      {tab === 'vendors' && (
-        <Resource path="/finance/vendors" module="FINANCE" noun="vendor" search="Search vendor" afterSave={reloadLookups} toForm={(r) => ({ ...r, gstin: r.gstin ?? '', email: r.email ?? '', phone: r.phone ?? '', notes: r.notes ?? '' })}
-          fields={[{ name: 'name', label: 'Vendor', required: true }, { name: 'gstin', label: 'GSTIN' }, { name: 'email', label: 'Email', type: 'email' }, { name: 'phone', label: 'Phone' }, { name: 'notes', label: 'Notes', type: 'textarea' }]}
-          columns={[{ header: 'Vendor', cell: (r) => <span className="font-medium">{r.name}</span> }, { header: 'GSTIN', cell: (r) => <span className="num">{r.gstin}</span> }, { header: 'Email', cell: (r) => r.email }, { header: 'Phone', cell: (r) => <span className="num">{r.phone}</span> }]} />
-      )}
+      {tab === 'vendors' && <Vendors />}
       {tab === 'categories' && (
         <Resource path="/finance/expense-categories" module="FINANCE" noun="category" afterSave={reloadLookups} fields={[{ name: 'name', label: 'Category', required: true, full: true }]} columns={[{ header: 'Category', cell: (r) => <span className="font-medium">{r.name}</span> }]} />
       )}

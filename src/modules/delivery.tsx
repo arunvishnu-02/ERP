@@ -9,6 +9,7 @@ import { Resource } from '@/components/resource'
 import { Badge, Button, Card, Chips, Empty, KV, Select, Sheet, Status, Table, Tabs, Td, Textarea, Th, Two } from '@/components/ui'
 import { api, downloadFile, useApi } from '@/lib/api'
 import { useAuth } from '@/lib/auth'
+import { useUrlParam } from '@/lib/url'
 import { ago, day, fmtDate, gstOff, human, inr, options, personName, plusDays } from '@/lib/format'
 import { act, ExpiryTag, Person, useCustomerOptions, userOptions } from './common'
 
@@ -149,6 +150,7 @@ export function Tickets() {
   const { lookups, can } = useAuth()
   const customers = useCustomerOptions()
   const [openRow, setOpenRow] = useState<any>(null)
+  useUrlParam('open', (id) => { api(`/tickets/${id}`).then(setOpenRow).catch(() => {}) })
   const [rk, setRk] = useState(0)
   const devs = userOptions(lookups)
   return (
