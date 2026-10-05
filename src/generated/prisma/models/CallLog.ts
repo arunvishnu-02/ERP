@@ -317,7 +317,6 @@ export type CallLogOrderByWithRelationInput = {
   customer?: Prisma.CustomerOrderByWithRelationInput
   contact?: Prisma.ContactOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
-  _relevance?: Prisma.CallLogOrderByRelevanceInput
 }
 
 export type CallLogWhereUniqueInput = Prisma.AtLeast<{
@@ -509,12 +508,6 @@ export type CallLogListRelationFilter = {
 
 export type CallLogOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type CallLogOrderByRelevanceInput = {
-  fields: Prisma.CallLogOrderByRelevanceFieldEnum | Prisma.CallLogOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type CallLogCountOrderByAggregateInput = {
@@ -1609,7 +1602,51 @@ export type CallLogSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["callLog"]>
 
+export type CallLogSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  leadId?: boolean
+  dealId?: boolean
+  customerId?: boolean
+  contactId?: boolean
+  direction?: boolean
+  phone?: boolean
+  durationSeconds?: boolean
+  outcome?: boolean
+  notes?: boolean
+  recordingFileId?: boolean
+  userId?: boolean
+  calledAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  lead?: boolean | Prisma.CallLog$leadArgs<ExtArgs>
+  deal?: boolean | Prisma.CallLog$dealArgs<ExtArgs>
+  customer?: boolean | Prisma.CallLog$customerArgs<ExtArgs>
+  contact?: boolean | Prisma.CallLog$contactArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["callLog"]>
 
+export type CallLogSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  leadId?: boolean
+  dealId?: boolean
+  customerId?: boolean
+  contactId?: boolean
+  direction?: boolean
+  phone?: boolean
+  durationSeconds?: boolean
+  outcome?: boolean
+  notes?: boolean
+  recordingFileId?: boolean
+  userId?: boolean
+  calledAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  lead?: boolean | Prisma.CallLog$leadArgs<ExtArgs>
+  deal?: boolean | Prisma.CallLog$dealArgs<ExtArgs>
+  customer?: boolean | Prisma.CallLog$customerArgs<ExtArgs>
+  contact?: boolean | Prisma.CallLog$contactArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["callLog"]>
 
 export type CallLogSelectScalar = {
   id?: boolean
@@ -1630,6 +1667,22 @@ export type CallLogSelectScalar = {
 
 export type CallLogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "leadId" | "dealId" | "customerId" | "contactId" | "direction" | "phone" | "durationSeconds" | "outcome" | "notes" | "recordingFileId" | "userId" | "calledAt", ExtArgs["result"]["callLog"]>
 export type CallLogInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  lead?: boolean | Prisma.CallLog$leadArgs<ExtArgs>
+  deal?: boolean | Prisma.CallLog$dealArgs<ExtArgs>
+  customer?: boolean | Prisma.CallLog$customerArgs<ExtArgs>
+  contact?: boolean | Prisma.CallLog$contactArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type CallLogIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  lead?: boolean | Prisma.CallLog$leadArgs<ExtArgs>
+  deal?: boolean | Prisma.CallLog$dealArgs<ExtArgs>
+  customer?: boolean | Prisma.CallLog$customerArgs<ExtArgs>
+  contact?: boolean | Prisma.CallLog$contactArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type CallLogIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   lead?: boolean | Prisma.CallLog$leadArgs<ExtArgs>
   deal?: boolean | Prisma.CallLog$dealArgs<ExtArgs>
@@ -1781,6 +1834,30 @@ export interface CallLogDelegate<ExtArgs extends runtime.Types.Extensions.Intern
   createMany<T extends CallLogCreateManyArgs>(args?: Prisma.SelectSubset<T, CallLogCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many CallLogs and returns the data saved in the database.
+   * @param {CallLogCreateManyAndReturnArgs} args - Arguments to create many CallLogs.
+   * @example
+   * // Create many CallLogs
+   * const callLog = await prisma.callLog.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many CallLogs and only return the `id`
+   * const callLogWithIdOnly = await prisma.callLog.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends CallLogCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, CallLogCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CallLogPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a CallLog.
    * @param {CallLogDeleteArgs} args - Arguments to delete one CallLog.
    * @example
@@ -1843,6 +1920,36 @@ export interface CallLogDelegate<ExtArgs extends runtime.Types.Extensions.Intern
    * 
    */
   updateMany<T extends CallLogUpdateManyArgs>(args: Prisma.SelectSubset<T, CallLogUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more CallLogs and returns the data updated in the database.
+   * @param {CallLogUpdateManyAndReturnArgs} args - Arguments to update many CallLogs.
+   * @example
+   * // Update many CallLogs
+   * const callLog = await prisma.callLog.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more CallLogs and only return the `id`
+   * const callLogWithIdOnly = await prisma.callLog.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends CallLogUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, CallLogUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CallLogPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one CallLog.
@@ -2290,6 +2397,29 @@ export type CallLogCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
+ * CallLog createManyAndReturn
+ */
+export type CallLogCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CallLog
+   */
+  select?: Prisma.CallLogSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the CallLog
+   */
+  omit?: Prisma.CallLogOmit<ExtArgs> | null
+  /**
+   * The data used to create many CallLogs.
+   */
+  data: Prisma.CallLogCreateManyInput | Prisma.CallLogCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CallLogIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * CallLog update
  */
 export type CallLogUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2331,6 +2461,36 @@ export type CallLogUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Limit how many CallLogs to update.
    */
   limit?: number
+}
+
+/**
+ * CallLog updateManyAndReturn
+ */
+export type CallLogUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CallLog
+   */
+  select?: Prisma.CallLogSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the CallLog
+   */
+  omit?: Prisma.CallLogOmit<ExtArgs> | null
+  /**
+   * The data used to update CallLogs.
+   */
+  data: Prisma.XOR<Prisma.CallLogUpdateManyMutationInput, Prisma.CallLogUncheckedUpdateManyInput>
+  /**
+   * Filter which CallLogs to update
+   */
+  where?: Prisma.CallLogWhereInput
+  /**
+   * Limit how many CallLogs to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CallLogIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

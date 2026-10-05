@@ -35,7 +35,7 @@ invoicesRouter.get('/', authorize(M, 'VIEW'), async (req, res) => {
   else if (typeof s === 'string' && s) where.status = { in: s.split(',') }
   for (const f of ['customerId', 'projectId'] as const) if (typeof req.query[f] === 'string' && req.query[f]) where[f] = req.query[f]
   const q = String(req.query.q ?? '').trim()
-  if (q) where.AND.push({ OR: [{ invoiceNumber: { contains: q } }, { customer: { name: { contains: q } } }] })
+  if (q) where.AND.push({ OR: [{ invoiceNumber: { contains: q, mode: 'insensitive' } }, { customer: { name: { contains: q, mode: 'insensitive' } } }] })
   const all = req.query.all === '1'
   if (all && !req.user.perms[M]?.EXPORT) throw forbidden('You do not have permission to export this list')
   const [items, total] = await Promise.all([prisma.invoice.findMany({ where, include: listInclude, orderBy: { createdAt: 'desc' }, ...(all ? { take: 5000, skip: 0 } : paging(req)) }), prisma.invoice.count({ where })])

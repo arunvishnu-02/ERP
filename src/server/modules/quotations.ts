@@ -45,7 +45,7 @@ quotationsRouter.get('/', authorize(M, 'VIEW'), async (req, res) => {
   if (typeof req.query.status === 'string' && req.query.status) where.status = { in: req.query.status.split(',') }
   for (const f of ['customerId', 'leadId'] as const) if (typeof req.query[f] === 'string' && req.query[f]) where[f] = req.query[f]
   const q = String(req.query.q ?? '').trim()
-  if (q) where.AND.push({ OR: [{ quotationNumber: { contains: q } }, { title: { contains: q } }, { customer: { name: { contains: q } } }, { lead: { companyName: { contains: q } } }] })
+  if (q) where.AND.push({ OR: [{ quotationNumber: { contains: q, mode: 'insensitive' } }, { title: { contains: q, mode: 'insensitive' } }, { customer: { name: { contains: q, mode: 'insensitive' } } }, { lead: { companyName: { contains: q, mode: 'insensitive' } } }] })
   const [items, total] = await Promise.all([prisma.quotation.findMany({ where, include, orderBy: { createdAt: 'desc' }, ...paging(req) }), prisma.quotation.count({ where })])
   res.json({ items, total })
 })

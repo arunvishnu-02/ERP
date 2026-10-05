@@ -222,7 +222,6 @@ export type WebhookEventOrderByWithRelationInput = {
   status?: Prisma.SortOrder
   receivedAt?: Prisma.SortOrder
   processedAt?: Prisma.SortOrderInput | Prisma.SortOrder
-  _relevance?: Prisma.WebhookEventOrderByRelevanceInput
 }
 
 export type WebhookEventWhereUniqueInput = Prisma.AtLeast<{
@@ -355,12 +354,6 @@ export type WebhookEventUncheckedUpdateManyInput = {
   processedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
-export type WebhookEventOrderByRelevanceInput = {
-  fields: Prisma.WebhookEventOrderByRelevanceFieldEnum | Prisma.WebhookEventOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
-}
-
 export type WebhookEventProviderExternalIdCompoundUniqueInput = {
   provider: $Enums.IntegrationProvider
   externalId: string
@@ -414,7 +407,29 @@ export type WebhookEventSelect<ExtArgs extends runtime.Types.Extensions.Internal
   processedAt?: boolean
 }, ExtArgs["result"]["webhookEvent"]>
 
+export type WebhookEventSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  provider?: boolean
+  eventType?: boolean
+  externalId?: boolean
+  payload?: boolean
+  status?: boolean
+  receivedAt?: boolean
+  processedAt?: boolean
+}, ExtArgs["result"]["webhookEvent"]>
 
+export type WebhookEventSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  provider?: boolean
+  eventType?: boolean
+  externalId?: boolean
+  payload?: boolean
+  status?: boolean
+  receivedAt?: boolean
+  processedAt?: boolean
+}, ExtArgs["result"]["webhookEvent"]>
 
 export type WebhookEventSelectScalar = {
   id?: boolean
@@ -561,6 +576,30 @@ export interface WebhookEventDelegate<ExtArgs extends runtime.Types.Extensions.I
   createMany<T extends WebhookEventCreateManyArgs>(args?: Prisma.SelectSubset<T, WebhookEventCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many WebhookEvents and returns the data saved in the database.
+   * @param {WebhookEventCreateManyAndReturnArgs} args - Arguments to create many WebhookEvents.
+   * @example
+   * // Create many WebhookEvents
+   * const webhookEvent = await prisma.webhookEvent.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many WebhookEvents and only return the `id`
+   * const webhookEventWithIdOnly = await prisma.webhookEvent.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends WebhookEventCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, WebhookEventCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WebhookEventPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a WebhookEvent.
    * @param {WebhookEventDeleteArgs} args - Arguments to delete one WebhookEvent.
    * @example
@@ -623,6 +662,36 @@ export interface WebhookEventDelegate<ExtArgs extends runtime.Types.Extensions.I
    * 
    */
   updateMany<T extends WebhookEventUpdateManyArgs>(args: Prisma.SelectSubset<T, WebhookEventUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more WebhookEvents and returns the data updated in the database.
+   * @param {WebhookEventUpdateManyAndReturnArgs} args - Arguments to update many WebhookEvents.
+   * @example
+   * // Update many WebhookEvents
+   * const webhookEvent = await prisma.webhookEvent.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more WebhookEvents and only return the `id`
+   * const webhookEventWithIdOnly = await prisma.webhookEvent.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends WebhookEventUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, WebhookEventUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WebhookEventPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one WebhookEvent.
@@ -1035,6 +1104,25 @@ export type WebhookEventCreateManyArgs<ExtArgs extends runtime.Types.Extensions.
 }
 
 /**
+ * WebhookEvent createManyAndReturn
+ */
+export type WebhookEventCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the WebhookEvent
+   */
+  select?: Prisma.WebhookEventSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the WebhookEvent
+   */
+  omit?: Prisma.WebhookEventOmit<ExtArgs> | null
+  /**
+   * The data used to create many WebhookEvents.
+   */
+  data: Prisma.WebhookEventCreateManyInput | Prisma.WebhookEventCreateManyInput[]
+  skipDuplicates?: boolean
+}
+
+/**
  * WebhookEvent update
  */
 export type WebhookEventUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1060,6 +1148,32 @@ export type WebhookEventUpdateArgs<ExtArgs extends runtime.Types.Extensions.Inte
  * WebhookEvent updateMany
  */
 export type WebhookEventUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * The data used to update WebhookEvents.
+   */
+  data: Prisma.XOR<Prisma.WebhookEventUpdateManyMutationInput, Prisma.WebhookEventUncheckedUpdateManyInput>
+  /**
+   * Filter which WebhookEvents to update
+   */
+  where?: Prisma.WebhookEventWhereInput
+  /**
+   * Limit how many WebhookEvents to update.
+   */
+  limit?: number
+}
+
+/**
+ * WebhookEvent updateManyAndReturn
+ */
+export type WebhookEventUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the WebhookEvent
+   */
+  select?: Prisma.WebhookEventSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the WebhookEvent
+   */
+  omit?: Prisma.WebhookEventOmit<ExtArgs> | null
   /**
    * The data used to update WebhookEvents.
    */

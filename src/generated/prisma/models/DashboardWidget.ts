@@ -195,7 +195,6 @@ export type DashboardWidgetOrderByWithRelationInput = {
   config?: Prisma.SortOrderInput | Prisma.SortOrder
   organization?: Prisma.OrganizationOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
-  _relevance?: Prisma.DashboardWidgetOrderByRelevanceInput
 }
 
 export type DashboardWidgetWhereUniqueInput = Prisma.AtLeast<{
@@ -306,12 +305,6 @@ export type DashboardWidgetListRelationFilter = {
 
 export type DashboardWidgetOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type DashboardWidgetOrderByRelevanceInput = {
-  fields: Prisma.DashboardWidgetOrderByRelevanceFieldEnum | Prisma.DashboardWidgetOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type DashboardWidgetUserIdWidgetKeyCompoundUniqueInput = {
@@ -599,7 +592,27 @@ export type DashboardWidgetSelect<ExtArgs extends runtime.Types.Extensions.Inter
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["dashboardWidget"]>
 
+export type DashboardWidgetSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  userId?: boolean
+  widgetKey?: boolean
+  layout?: boolean
+  config?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["dashboardWidget"]>
 
+export type DashboardWidgetSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  userId?: boolean
+  widgetKey?: boolean
+  layout?: boolean
+  config?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["dashboardWidget"]>
 
 export type DashboardWidgetSelectScalar = {
   id?: boolean
@@ -612,6 +625,14 @@ export type DashboardWidgetSelectScalar = {
 
 export type DashboardWidgetOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "userId" | "widgetKey" | "layout" | "config", ExtArgs["result"]["dashboardWidget"]>
 export type DashboardWidgetInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type DashboardWidgetIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type DashboardWidgetIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -747,6 +768,30 @@ export interface DashboardWidgetDelegate<ExtArgs extends runtime.Types.Extension
   createMany<T extends DashboardWidgetCreateManyArgs>(args?: Prisma.SelectSubset<T, DashboardWidgetCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many DashboardWidgets and returns the data saved in the database.
+   * @param {DashboardWidgetCreateManyAndReturnArgs} args - Arguments to create many DashboardWidgets.
+   * @example
+   * // Create many DashboardWidgets
+   * const dashboardWidget = await prisma.dashboardWidget.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many DashboardWidgets and only return the `id`
+   * const dashboardWidgetWithIdOnly = await prisma.dashboardWidget.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends DashboardWidgetCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, DashboardWidgetCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DashboardWidgetPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a DashboardWidget.
    * @param {DashboardWidgetDeleteArgs} args - Arguments to delete one DashboardWidget.
    * @example
@@ -809,6 +854,36 @@ export interface DashboardWidgetDelegate<ExtArgs extends runtime.Types.Extension
    * 
    */
   updateMany<T extends DashboardWidgetUpdateManyArgs>(args: Prisma.SelectSubset<T, DashboardWidgetUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more DashboardWidgets and returns the data updated in the database.
+   * @param {DashboardWidgetUpdateManyAndReturnArgs} args - Arguments to update many DashboardWidgets.
+   * @example
+   * // Update many DashboardWidgets
+   * const dashboardWidget = await prisma.dashboardWidget.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more DashboardWidgets and only return the `id`
+   * const dashboardWidgetWithIdOnly = await prisma.dashboardWidget.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends DashboardWidgetUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, DashboardWidgetUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DashboardWidgetPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one DashboardWidget.
@@ -1244,6 +1319,29 @@ export type DashboardWidgetCreateManyArgs<ExtArgs extends runtime.Types.Extensio
 }
 
 /**
+ * DashboardWidget createManyAndReturn
+ */
+export type DashboardWidgetCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DashboardWidget
+   */
+  select?: Prisma.DashboardWidgetSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the DashboardWidget
+   */
+  omit?: Prisma.DashboardWidgetOmit<ExtArgs> | null
+  /**
+   * The data used to create many DashboardWidgets.
+   */
+  data: Prisma.DashboardWidgetCreateManyInput | Prisma.DashboardWidgetCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DashboardWidgetIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * DashboardWidget update
  */
 export type DashboardWidgetUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1285,6 +1383,36 @@ export type DashboardWidgetUpdateManyArgs<ExtArgs extends runtime.Types.Extensio
    * Limit how many DashboardWidgets to update.
    */
   limit?: number
+}
+
+/**
+ * DashboardWidget updateManyAndReturn
+ */
+export type DashboardWidgetUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DashboardWidget
+   */
+  select?: Prisma.DashboardWidgetSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the DashboardWidget
+   */
+  omit?: Prisma.DashboardWidgetOmit<ExtArgs> | null
+  /**
+   * The data used to update DashboardWidgets.
+   */
+  data: Prisma.XOR<Prisma.DashboardWidgetUpdateManyMutationInput, Prisma.DashboardWidgetUncheckedUpdateManyInput>
+  /**
+   * Filter which DashboardWidgets to update
+   */
+  where?: Prisma.DashboardWidgetWhereInput
+  /**
+   * Limit how many DashboardWidgets to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DashboardWidgetIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

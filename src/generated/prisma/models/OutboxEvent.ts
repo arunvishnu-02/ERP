@@ -267,7 +267,6 @@ export type OutboxEventOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   publishedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   organization?: Prisma.OrganizationOrderByWithRelationInput
-  _relevance?: Prisma.OutboxEventOrderByRelevanceInput
 }
 
 export type OutboxEventWhereUniqueInput = Prisma.AtLeast<{
@@ -419,12 +418,6 @@ export type OutboxEventListRelationFilter = {
 
 export type OutboxEventOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type OutboxEventOrderByRelevanceInput = {
-  fields: Prisma.OutboxEventOrderByRelevanceFieldEnum | Prisma.OutboxEventOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type OutboxEventCountOrderByAggregateInput = {
@@ -648,7 +641,33 @@ export type OutboxEventSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["outboxEvent"]>
 
+export type OutboxEventSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  eventType?: boolean
+  aggregateType?: boolean
+  aggregateId?: boolean
+  payload?: boolean
+  status?: boolean
+  attempts?: boolean
+  createdAt?: boolean
+  publishedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["outboxEvent"]>
 
+export type OutboxEventSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  eventType?: boolean
+  aggregateType?: boolean
+  aggregateId?: boolean
+  payload?: boolean
+  status?: boolean
+  attempts?: boolean
+  createdAt?: boolean
+  publishedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["outboxEvent"]>
 
 export type OutboxEventSelectScalar = {
   id?: boolean
@@ -665,6 +684,12 @@ export type OutboxEventSelectScalar = {
 
 export type OutboxEventOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "eventType" | "aggregateType" | "aggregateId" | "payload" | "status" | "attempts" | "createdAt" | "publishedAt", ExtArgs["result"]["outboxEvent"]>
 export type OutboxEventInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}
+export type OutboxEventIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}
+export type OutboxEventIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
 }
 
@@ -802,6 +827,30 @@ export interface OutboxEventDelegate<ExtArgs extends runtime.Types.Extensions.In
   createMany<T extends OutboxEventCreateManyArgs>(args?: Prisma.SelectSubset<T, OutboxEventCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many OutboxEvents and returns the data saved in the database.
+   * @param {OutboxEventCreateManyAndReturnArgs} args - Arguments to create many OutboxEvents.
+   * @example
+   * // Create many OutboxEvents
+   * const outboxEvent = await prisma.outboxEvent.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many OutboxEvents and only return the `id`
+   * const outboxEventWithIdOnly = await prisma.outboxEvent.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends OutboxEventCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, OutboxEventCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OutboxEventPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a OutboxEvent.
    * @param {OutboxEventDeleteArgs} args - Arguments to delete one OutboxEvent.
    * @example
@@ -864,6 +913,36 @@ export interface OutboxEventDelegate<ExtArgs extends runtime.Types.Extensions.In
    * 
    */
   updateMany<T extends OutboxEventUpdateManyArgs>(args: Prisma.SelectSubset<T, OutboxEventUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more OutboxEvents and returns the data updated in the database.
+   * @param {OutboxEventUpdateManyAndReturnArgs} args - Arguments to update many OutboxEvents.
+   * @example
+   * // Update many OutboxEvents
+   * const outboxEvent = await prisma.outboxEvent.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more OutboxEvents and only return the `id`
+   * const outboxEventWithIdOnly = await prisma.outboxEvent.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends OutboxEventUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, OutboxEventUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OutboxEventPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one OutboxEvent.
@@ -1302,6 +1381,29 @@ export type OutboxEventCreateManyArgs<ExtArgs extends runtime.Types.Extensions.I
 }
 
 /**
+ * OutboxEvent createManyAndReturn
+ */
+export type OutboxEventCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the OutboxEvent
+   */
+  select?: Prisma.OutboxEventSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the OutboxEvent
+   */
+  omit?: Prisma.OutboxEventOmit<ExtArgs> | null
+  /**
+   * The data used to create many OutboxEvents.
+   */
+  data: Prisma.OutboxEventCreateManyInput | Prisma.OutboxEventCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OutboxEventIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * OutboxEvent update
  */
 export type OutboxEventUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1343,6 +1445,36 @@ export type OutboxEventUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Limit how many OutboxEvents to update.
    */
   limit?: number
+}
+
+/**
+ * OutboxEvent updateManyAndReturn
+ */
+export type OutboxEventUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the OutboxEvent
+   */
+  select?: Prisma.OutboxEventSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the OutboxEvent
+   */
+  omit?: Prisma.OutboxEventOmit<ExtArgs> | null
+  /**
+   * The data used to update OutboxEvents.
+   */
+  data: Prisma.XOR<Prisma.OutboxEventUpdateManyMutationInput, Prisma.OutboxEventUncheckedUpdateManyInput>
+  /**
+   * Filter which OutboxEvents to update
+   */
+  where?: Prisma.OutboxEventWhereInput
+  /**
+   * Limit how many OutboxEvents to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.OutboxEventIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

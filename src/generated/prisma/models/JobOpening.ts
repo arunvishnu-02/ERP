@@ -265,7 +265,6 @@ export type JobOpeningOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   candidates?: Prisma.CandidateOrderByRelationAggregateInput
-  _relevance?: Prisma.JobOpeningOrderByRelevanceInput
 }
 
 export type JobOpeningWhereUniqueInput = Prisma.AtLeast<{
@@ -440,12 +439,6 @@ export type JobOpeningUncheckedUpdateManyInput = {
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type JobOpeningOrderByRelevanceInput = {
-  fields: Prisma.JobOpeningOrderByRelevanceFieldEnum | Prisma.JobOpeningOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type JobOpeningCountOrderByAggregateInput = {
@@ -648,7 +641,37 @@ export type JobOpeningSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   _count?: boolean | Prisma.JobOpeningCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["jobOpening"]>
 
+export type JobOpeningSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  title?: boolean
+  departmentId?: boolean
+  employmentType?: boolean
+  location?: boolean
+  salaryRange?: boolean
+  description?: boolean
+  status?: boolean
+  openedOn?: boolean
+  createdById?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+}, ExtArgs["result"]["jobOpening"]>
 
+export type JobOpeningSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  title?: boolean
+  departmentId?: boolean
+  employmentType?: boolean
+  location?: boolean
+  salaryRange?: boolean
+  description?: boolean
+  status?: boolean
+  openedOn?: boolean
+  createdById?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+}, ExtArgs["result"]["jobOpening"]>
 
 export type JobOpeningSelectScalar = {
   id?: boolean
@@ -671,6 +694,8 @@ export type JobOpeningInclude<ExtArgs extends runtime.Types.Extensions.InternalA
   candidates?: boolean | Prisma.JobOpening$candidatesArgs<ExtArgs>
   _count?: boolean | Prisma.JobOpeningCountOutputTypeDefaultArgs<ExtArgs>
 }
+export type JobOpeningIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type JobOpeningIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $JobOpeningPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "JobOpening"
@@ -809,6 +834,30 @@ export interface JobOpeningDelegate<ExtArgs extends runtime.Types.Extensions.Int
   createMany<T extends JobOpeningCreateManyArgs>(args?: Prisma.SelectSubset<T, JobOpeningCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many JobOpenings and returns the data saved in the database.
+   * @param {JobOpeningCreateManyAndReturnArgs} args - Arguments to create many JobOpenings.
+   * @example
+   * // Create many JobOpenings
+   * const jobOpening = await prisma.jobOpening.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many JobOpenings and only return the `id`
+   * const jobOpeningWithIdOnly = await prisma.jobOpening.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends JobOpeningCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, JobOpeningCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JobOpeningPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a JobOpening.
    * @param {JobOpeningDeleteArgs} args - Arguments to delete one JobOpening.
    * @example
@@ -871,6 +920,36 @@ export interface JobOpeningDelegate<ExtArgs extends runtime.Types.Extensions.Int
    * 
    */
   updateMany<T extends JobOpeningUpdateManyArgs>(args: Prisma.SelectSubset<T, JobOpeningUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more JobOpenings and returns the data updated in the database.
+   * @param {JobOpeningUpdateManyAndReturnArgs} args - Arguments to update many JobOpenings.
+   * @example
+   * // Update many JobOpenings
+   * const jobOpening = await prisma.jobOpening.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more JobOpenings and only return the `id`
+   * const jobOpeningWithIdOnly = await prisma.jobOpening.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends JobOpeningUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, JobOpeningUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JobOpeningPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one JobOpening.
@@ -1312,6 +1391,25 @@ export type JobOpeningCreateManyArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
+ * JobOpening createManyAndReturn
+ */
+export type JobOpeningCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the JobOpening
+   */
+  select?: Prisma.JobOpeningSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the JobOpening
+   */
+  omit?: Prisma.JobOpeningOmit<ExtArgs> | null
+  /**
+   * The data used to create many JobOpenings.
+   */
+  data: Prisma.JobOpeningCreateManyInput | Prisma.JobOpeningCreateManyInput[]
+  skipDuplicates?: boolean
+}
+
+/**
  * JobOpening update
  */
 export type JobOpeningUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1341,6 +1439,32 @@ export type JobOpeningUpdateArgs<ExtArgs extends runtime.Types.Extensions.Intern
  * JobOpening updateMany
  */
 export type JobOpeningUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * The data used to update JobOpenings.
+   */
+  data: Prisma.XOR<Prisma.JobOpeningUpdateManyMutationInput, Prisma.JobOpeningUncheckedUpdateManyInput>
+  /**
+   * Filter which JobOpenings to update
+   */
+  where?: Prisma.JobOpeningWhereInput
+  /**
+   * Limit how many JobOpenings to update.
+   */
+  limit?: number
+}
+
+/**
+ * JobOpening updateManyAndReturn
+ */
+export type JobOpeningUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the JobOpening
+   */
+  select?: Prisma.JobOpeningSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the JobOpening
+   */
+  omit?: Prisma.JobOpeningOmit<ExtArgs> | null
   /**
    * The data used to update JobOpenings.
    */

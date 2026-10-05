@@ -266,7 +266,6 @@ export type ApprovalRequestOrderByWithRelationInput = {
   organization?: Prisma.OrganizationOrderByWithRelationInput
   requestedBy?: Prisma.UserOrderByWithRelationInput
   steps?: Prisma.ApprovalStepOrderByRelationAggregateInput
-  _relevance?: Prisma.ApprovalRequestOrderByRelevanceInput
 }
 
 export type ApprovalRequestWhereUniqueInput = Prisma.AtLeast<{
@@ -413,12 +412,6 @@ export type ApprovalRequestListRelationFilter = {
 
 export type ApprovalRequestOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type ApprovalRequestOrderByRelevanceInput = {
-  fields: Prisma.ApprovalRequestOrderByRelevanceFieldEnum | Prisma.ApprovalRequestOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type ApprovalRequestCountOrderByAggregateInput = {
@@ -890,7 +883,33 @@ export type ApprovalRequestSelect<ExtArgs extends runtime.Types.Extensions.Inter
   _count?: boolean | Prisma.ApprovalRequestCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["approvalRequest"]>
 
+export type ApprovalRequestSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  entityType?: boolean
+  entityId?: boolean
+  status?: boolean
+  currentStep?: boolean
+  requestedById?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  requestedBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["approvalRequest"]>
 
+export type ApprovalRequestSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  entityType?: boolean
+  entityId?: boolean
+  status?: boolean
+  currentStep?: boolean
+  requestedById?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  requestedBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["approvalRequest"]>
 
 export type ApprovalRequestSelectScalar = {
   id?: boolean
@@ -910,6 +929,14 @@ export type ApprovalRequestInclude<ExtArgs extends runtime.Types.Extensions.Inte
   requestedBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   steps?: boolean | Prisma.ApprovalRequest$stepsArgs<ExtArgs>
   _count?: boolean | Prisma.ApprovalRequestCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type ApprovalRequestIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  requestedBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type ApprovalRequestIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  requestedBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
 export type $ApprovalRequestPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1047,6 +1074,30 @@ export interface ApprovalRequestDelegate<ExtArgs extends runtime.Types.Extension
   createMany<T extends ApprovalRequestCreateManyArgs>(args?: Prisma.SelectSubset<T, ApprovalRequestCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many ApprovalRequests and returns the data saved in the database.
+   * @param {ApprovalRequestCreateManyAndReturnArgs} args - Arguments to create many ApprovalRequests.
+   * @example
+   * // Create many ApprovalRequests
+   * const approvalRequest = await prisma.approvalRequest.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many ApprovalRequests and only return the `id`
+   * const approvalRequestWithIdOnly = await prisma.approvalRequest.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends ApprovalRequestCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, ApprovalRequestCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ApprovalRequestPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a ApprovalRequest.
    * @param {ApprovalRequestDeleteArgs} args - Arguments to delete one ApprovalRequest.
    * @example
@@ -1109,6 +1160,36 @@ export interface ApprovalRequestDelegate<ExtArgs extends runtime.Types.Extension
    * 
    */
   updateMany<T extends ApprovalRequestUpdateManyArgs>(args: Prisma.SelectSubset<T, ApprovalRequestUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more ApprovalRequests and returns the data updated in the database.
+   * @param {ApprovalRequestUpdateManyAndReturnArgs} args - Arguments to update many ApprovalRequests.
+   * @example
+   * // Update many ApprovalRequests
+   * const approvalRequest = await prisma.approvalRequest.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more ApprovalRequests and only return the `id`
+   * const approvalRequestWithIdOnly = await prisma.approvalRequest.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends ApprovalRequestUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, ApprovalRequestUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ApprovalRequestPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one ApprovalRequest.
@@ -1548,6 +1629,29 @@ export type ApprovalRequestCreateManyArgs<ExtArgs extends runtime.Types.Extensio
 }
 
 /**
+ * ApprovalRequest createManyAndReturn
+ */
+export type ApprovalRequestCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ApprovalRequest
+   */
+  select?: Prisma.ApprovalRequestSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the ApprovalRequest
+   */
+  omit?: Prisma.ApprovalRequestOmit<ExtArgs> | null
+  /**
+   * The data used to create many ApprovalRequests.
+   */
+  data: Prisma.ApprovalRequestCreateManyInput | Prisma.ApprovalRequestCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ApprovalRequestIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * ApprovalRequest update
  */
 export type ApprovalRequestUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1589,6 +1693,36 @@ export type ApprovalRequestUpdateManyArgs<ExtArgs extends runtime.Types.Extensio
    * Limit how many ApprovalRequests to update.
    */
   limit?: number
+}
+
+/**
+ * ApprovalRequest updateManyAndReturn
+ */
+export type ApprovalRequestUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ApprovalRequest
+   */
+  select?: Prisma.ApprovalRequestSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the ApprovalRequest
+   */
+  omit?: Prisma.ApprovalRequestOmit<ExtArgs> | null
+  /**
+   * The data used to update ApprovalRequests.
+   */
+  data: Prisma.XOR<Prisma.ApprovalRequestUpdateManyMutationInput, Prisma.ApprovalRequestUncheckedUpdateManyInput>
+  /**
+   * Filter which ApprovalRequests to update
+   */
+  where?: Prisma.ApprovalRequestWhereInput
+  /**
+   * Limit how many ApprovalRequests to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ApprovalRequestIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

@@ -255,7 +255,7 @@ settingsRouter.post('/integrations/smtp/test', authorize(S, 'EDIT'), async (req,
 settingsRouter.get('/audit-logs', authorize(S, 'VIEW'), async (req, res) => {
   const q = String(req.query.q ?? '').trim()
   const where: any = { organizationId: req.user.organizationId }
-  if (q) where.OR = [{ entityType: { contains: q } }, { user: { firstName: { contains: q } } }]
+  if (q) where.OR = [{ entityType: { contains: q, mode: 'insensitive' } }, { user: { firstName: { contains: q, mode: 'insensitive' } } }]
   if (typeof req.query.module === 'string' && req.query.module) where.module = req.query.module
   const take = Math.min(Number(req.query.limit) || 50, 200)
   const [items, total] = await Promise.all([

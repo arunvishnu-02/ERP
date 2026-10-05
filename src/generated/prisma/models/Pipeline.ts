@@ -187,7 +187,6 @@ export type PipelineOrderByWithRelationInput = {
   organization?: Prisma.OrganizationOrderByWithRelationInput
   stages?: Prisma.PipelineStageOrderByRelationAggregateInput
   deals?: Prisma.DealOrderByRelationAggregateInput
-  _relevance?: Prisma.PipelineOrderByRelevanceInput
 }
 
 export type PipelineWhereUniqueInput = Prisma.AtLeast<{
@@ -288,12 +287,6 @@ export type PipelineListRelationFilter = {
 
 export type PipelineOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type PipelineOrderByRelevanceInput = {
-  fields: Prisma.PipelineOrderByRelevanceFieldEnum | Prisma.PipelineOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type PipelineOrganizationIdNameCompoundUniqueInput = {
@@ -624,7 +617,21 @@ export type PipelineSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   _count?: boolean | Prisma.PipelineCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["pipeline"]>
 
+export type PipelineSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  name?: boolean
+  isDefault?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["pipeline"]>
 
+export type PipelineSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  name?: boolean
+  isDefault?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["pipeline"]>
 
 export type PipelineSelectScalar = {
   id?: boolean
@@ -639,6 +646,12 @@ export type PipelineInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
   stages?: boolean | Prisma.Pipeline$stagesArgs<ExtArgs>
   deals?: boolean | Prisma.Pipeline$dealsArgs<ExtArgs>
   _count?: boolean | Prisma.PipelineCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type PipelineIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}
+export type PipelineIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
 }
 
 export type $PipelinePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -771,6 +784,30 @@ export interface PipelineDelegate<ExtArgs extends runtime.Types.Extensions.Inter
   createMany<T extends PipelineCreateManyArgs>(args?: Prisma.SelectSubset<T, PipelineCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many Pipelines and returns the data saved in the database.
+   * @param {PipelineCreateManyAndReturnArgs} args - Arguments to create many Pipelines.
+   * @example
+   * // Create many Pipelines
+   * const pipeline = await prisma.pipeline.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many Pipelines and only return the `id`
+   * const pipelineWithIdOnly = await prisma.pipeline.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends PipelineCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, PipelineCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PipelinePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a Pipeline.
    * @param {PipelineDeleteArgs} args - Arguments to delete one Pipeline.
    * @example
@@ -833,6 +870,36 @@ export interface PipelineDelegate<ExtArgs extends runtime.Types.Extensions.Inter
    * 
    */
   updateMany<T extends PipelineUpdateManyArgs>(args: Prisma.SelectSubset<T, PipelineUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more Pipelines and returns the data updated in the database.
+   * @param {PipelineUpdateManyAndReturnArgs} args - Arguments to update many Pipelines.
+   * @example
+   * // Update many Pipelines
+   * const pipeline = await prisma.pipeline.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more Pipelines and only return the `id`
+   * const pipelineWithIdOnly = await prisma.pipeline.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends PipelineUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, PipelineUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PipelinePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one Pipeline.
@@ -1267,6 +1334,29 @@ export type PipelineCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
+ * Pipeline createManyAndReturn
+ */
+export type PipelineCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Pipeline
+   */
+  select?: Prisma.PipelineSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Pipeline
+   */
+  omit?: Prisma.PipelineOmit<ExtArgs> | null
+  /**
+   * The data used to create many Pipelines.
+   */
+  data: Prisma.PipelineCreateManyInput | Prisma.PipelineCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PipelineIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * Pipeline update
  */
 export type PipelineUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1308,6 +1398,36 @@ export type PipelineUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Limit how many Pipelines to update.
    */
   limit?: number
+}
+
+/**
+ * Pipeline updateManyAndReturn
+ */
+export type PipelineUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Pipeline
+   */
+  select?: Prisma.PipelineSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Pipeline
+   */
+  omit?: Prisma.PipelineOmit<ExtArgs> | null
+  /**
+   * The data used to update Pipelines.
+   */
+  data: Prisma.XOR<Prisma.PipelineUpdateManyMutationInput, Prisma.PipelineUncheckedUpdateManyInput>
+  /**
+   * Filter which Pipelines to update
+   */
+  where?: Prisma.PipelineWhereInput
+  /**
+   * Limit how many Pipelines to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PipelineIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

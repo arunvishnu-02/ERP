@@ -338,7 +338,6 @@ export type ContentItemOrderByWithRelationInput = {
   campaign?: Prisma.CampaignOrderByWithRelationInput
   assignee?: Prisma.UserOrderByWithRelationInput
   tasks?: Prisma.TaskOrderByRelationAggregateInput
-  _relevance?: Prisma.ContentItemOrderByRelevanceInput
 }
 
 export type ContentItemWhereUniqueInput = Prisma.AtLeast<{
@@ -570,12 +569,6 @@ export type ContentItemOrderByRelationAggregateInput = {
 export type ContentItemNullableScalarRelationFilter = {
   is?: Prisma.ContentItemWhereInput | null
   isNot?: Prisma.ContentItemWhereInput | null
-}
-
-export type ContentItemOrderByRelevanceInput = {
-  fields: Prisma.ContentItemOrderByRelevanceFieldEnum | Prisma.ContentItemOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type ContentItemCountOrderByAggregateInput = {
@@ -1588,7 +1581,53 @@ export type ContentItemSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   _count?: boolean | Prisma.ContentItemCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["contentItem"]>
 
+export type ContentItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  customerId?: boolean
+  campaignId?: boolean
+  type?: boolean
+  title?: boolean
+  caption?: boolean
+  platform?: boolean
+  scheduledAt?: boolean
+  publishedAt?: boolean
+  status?: boolean
+  assigneeId?: boolean
+  revisionCount?: boolean
+  postUrl?: boolean
+  metrics?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
+  campaign?: boolean | Prisma.ContentItem$campaignArgs<ExtArgs>
+  assignee?: boolean | Prisma.ContentItem$assigneeArgs<ExtArgs>
+}, ExtArgs["result"]["contentItem"]>
 
+export type ContentItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  customerId?: boolean
+  campaignId?: boolean
+  type?: boolean
+  title?: boolean
+  caption?: boolean
+  platform?: boolean
+  scheduledAt?: boolean
+  publishedAt?: boolean
+  status?: boolean
+  assigneeId?: boolean
+  revisionCount?: boolean
+  postUrl?: boolean
+  metrics?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
+  campaign?: boolean | Prisma.ContentItem$campaignArgs<ExtArgs>
+  assignee?: boolean | Prisma.ContentItem$assigneeArgs<ExtArgs>
+}, ExtArgs["result"]["contentItem"]>
 
 export type ContentItemSelectScalar = {
   id?: boolean
@@ -1618,6 +1657,18 @@ export type ContentItemInclude<ExtArgs extends runtime.Types.Extensions.Internal
   assignee?: boolean | Prisma.ContentItem$assigneeArgs<ExtArgs>
   tasks?: boolean | Prisma.ContentItem$tasksArgs<ExtArgs>
   _count?: boolean | Prisma.ContentItemCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type ContentItemIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
+  campaign?: boolean | Prisma.ContentItem$campaignArgs<ExtArgs>
+  assignee?: boolean | Prisma.ContentItem$assigneeArgs<ExtArgs>
+}
+export type ContentItemIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
+  campaign?: boolean | Prisma.ContentItem$campaignArgs<ExtArgs>
+  assignee?: boolean | Prisma.ContentItem$assigneeArgs<ExtArgs>
 }
 
 export type $ContentItemPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1765,6 +1816,30 @@ export interface ContentItemDelegate<ExtArgs extends runtime.Types.Extensions.In
   createMany<T extends ContentItemCreateManyArgs>(args?: Prisma.SelectSubset<T, ContentItemCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many ContentItems and returns the data saved in the database.
+   * @param {ContentItemCreateManyAndReturnArgs} args - Arguments to create many ContentItems.
+   * @example
+   * // Create many ContentItems
+   * const contentItem = await prisma.contentItem.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many ContentItems and only return the `id`
+   * const contentItemWithIdOnly = await prisma.contentItem.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends ContentItemCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, ContentItemCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ContentItemPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a ContentItem.
    * @param {ContentItemDeleteArgs} args - Arguments to delete one ContentItem.
    * @example
@@ -1827,6 +1902,36 @@ export interface ContentItemDelegate<ExtArgs extends runtime.Types.Extensions.In
    * 
    */
   updateMany<T extends ContentItemUpdateManyArgs>(args: Prisma.SelectSubset<T, ContentItemUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more ContentItems and returns the data updated in the database.
+   * @param {ContentItemUpdateManyAndReturnArgs} args - Arguments to update many ContentItems.
+   * @example
+   * // Update many ContentItems
+   * const contentItem = await prisma.contentItem.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more ContentItems and only return the `id`
+   * const contentItemWithIdOnly = await prisma.contentItem.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends ContentItemUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, ContentItemUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ContentItemPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one ContentItem.
@@ -2276,6 +2381,29 @@ export type ContentItemCreateManyArgs<ExtArgs extends runtime.Types.Extensions.I
 }
 
 /**
+ * ContentItem createManyAndReturn
+ */
+export type ContentItemCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ContentItem
+   */
+  select?: Prisma.ContentItemSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the ContentItem
+   */
+  omit?: Prisma.ContentItemOmit<ExtArgs> | null
+  /**
+   * The data used to create many ContentItems.
+   */
+  data: Prisma.ContentItemCreateManyInput | Prisma.ContentItemCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ContentItemIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * ContentItem update
  */
 export type ContentItemUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2317,6 +2445,36 @@ export type ContentItemUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Limit how many ContentItems to update.
    */
   limit?: number
+}
+
+/**
+ * ContentItem updateManyAndReturn
+ */
+export type ContentItemUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ContentItem
+   */
+  select?: Prisma.ContentItemSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the ContentItem
+   */
+  omit?: Prisma.ContentItemOmit<ExtArgs> | null
+  /**
+   * The data used to update ContentItems.
+   */
+  data: Prisma.XOR<Prisma.ContentItemUpdateManyMutationInput, Prisma.ContentItemUncheckedUpdateManyInput>
+  /**
+   * Filter which ContentItems to update
+   */
+  where?: Prisma.ContentItemWhereInput
+  /**
+   * Limit how many ContentItems to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ContentItemIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

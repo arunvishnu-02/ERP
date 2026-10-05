@@ -198,7 +198,6 @@ export type DocumentFolderOrderByWithRelationInput = {
   parent?: Prisma.DocumentFolderOrderByWithRelationInput
   children?: Prisma.DocumentFolderOrderByRelationAggregateInput
   documents?: Prisma.DocumentOrderByRelationAggregateInput
-  _relevance?: Prisma.DocumentFolderOrderByRelevanceInput
 }
 
 export type DocumentFolderWhereUniqueInput = Prisma.AtLeast<{
@@ -313,12 +312,6 @@ export type DocumentFolderOrderByRelationAggregateInput = {
 export type DocumentFolderNullableScalarRelationFilter = {
   is?: Prisma.DocumentFolderWhereInput | null
   isNot?: Prisma.DocumentFolderWhereInput | null
-}
-
-export type DocumentFolderOrderByRelevanceInput = {
-  fields: Prisma.DocumentFolderOrderByRelevanceFieldEnum | Prisma.DocumentFolderOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type DocumentFolderCountOrderByAggregateInput = {
@@ -785,7 +778,25 @@ export type DocumentFolderSelect<ExtArgs extends runtime.Types.Extensions.Intern
   _count?: boolean | Prisma.DocumentFolderCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["documentFolder"]>
 
+export type DocumentFolderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  name?: boolean
+  category?: boolean
+  parentId?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  parent?: boolean | Prisma.DocumentFolder$parentArgs<ExtArgs>
+}, ExtArgs["result"]["documentFolder"]>
 
+export type DocumentFolderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  name?: boolean
+  category?: boolean
+  parentId?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  parent?: boolean | Prisma.DocumentFolder$parentArgs<ExtArgs>
+}, ExtArgs["result"]["documentFolder"]>
 
 export type DocumentFolderSelectScalar = {
   id?: boolean
@@ -802,6 +813,14 @@ export type DocumentFolderInclude<ExtArgs extends runtime.Types.Extensions.Inter
   children?: boolean | Prisma.DocumentFolder$childrenArgs<ExtArgs>
   documents?: boolean | Prisma.DocumentFolder$documentsArgs<ExtArgs>
   _count?: boolean | Prisma.DocumentFolderCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type DocumentFolderIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  parent?: boolean | Prisma.DocumentFolder$parentArgs<ExtArgs>
+}
+export type DocumentFolderIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  parent?: boolean | Prisma.DocumentFolder$parentArgs<ExtArgs>
 }
 
 export type $DocumentFolderPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -936,6 +955,30 @@ export interface DocumentFolderDelegate<ExtArgs extends runtime.Types.Extensions
   createMany<T extends DocumentFolderCreateManyArgs>(args?: Prisma.SelectSubset<T, DocumentFolderCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many DocumentFolders and returns the data saved in the database.
+   * @param {DocumentFolderCreateManyAndReturnArgs} args - Arguments to create many DocumentFolders.
+   * @example
+   * // Create many DocumentFolders
+   * const documentFolder = await prisma.documentFolder.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many DocumentFolders and only return the `id`
+   * const documentFolderWithIdOnly = await prisma.documentFolder.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends DocumentFolderCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, DocumentFolderCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentFolderPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a DocumentFolder.
    * @param {DocumentFolderDeleteArgs} args - Arguments to delete one DocumentFolder.
    * @example
@@ -998,6 +1041,36 @@ export interface DocumentFolderDelegate<ExtArgs extends runtime.Types.Extensions
    * 
    */
   updateMany<T extends DocumentFolderUpdateManyArgs>(args: Prisma.SelectSubset<T, DocumentFolderUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more DocumentFolders and returns the data updated in the database.
+   * @param {DocumentFolderUpdateManyAndReturnArgs} args - Arguments to update many DocumentFolders.
+   * @example
+   * // Update many DocumentFolders
+   * const documentFolder = await prisma.documentFolder.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more DocumentFolders and only return the `id`
+   * const documentFolderWithIdOnly = await prisma.documentFolder.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends DocumentFolderUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, DocumentFolderUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentFolderPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one DocumentFolder.
@@ -1434,6 +1507,29 @@ export type DocumentFolderCreateManyArgs<ExtArgs extends runtime.Types.Extension
 }
 
 /**
+ * DocumentFolder createManyAndReturn
+ */
+export type DocumentFolderCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DocumentFolder
+   */
+  select?: Prisma.DocumentFolderSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the DocumentFolder
+   */
+  omit?: Prisma.DocumentFolderOmit<ExtArgs> | null
+  /**
+   * The data used to create many DocumentFolders.
+   */
+  data: Prisma.DocumentFolderCreateManyInput | Prisma.DocumentFolderCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DocumentFolderIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * DocumentFolder update
  */
 export type DocumentFolderUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1475,6 +1571,36 @@ export type DocumentFolderUpdateManyArgs<ExtArgs extends runtime.Types.Extension
    * Limit how many DocumentFolders to update.
    */
   limit?: number
+}
+
+/**
+ * DocumentFolder updateManyAndReturn
+ */
+export type DocumentFolderUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DocumentFolder
+   */
+  select?: Prisma.DocumentFolderSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the DocumentFolder
+   */
+  omit?: Prisma.DocumentFolderOmit<ExtArgs> | null
+  /**
+   * The data used to update DocumentFolders.
+   */
+  data: Prisma.XOR<Prisma.DocumentFolderUpdateManyMutationInput, Prisma.DocumentFolderUncheckedUpdateManyInput>
+  /**
+   * Filter which DocumentFolders to update
+   */
+  where?: Prisma.DocumentFolderWhereInput
+  /**
+   * Limit how many DocumentFolders to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DocumentFolderIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

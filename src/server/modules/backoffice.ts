@@ -17,7 +17,7 @@ documentsRouter.get('/', authorize('DOCUMENTS', 'VIEW'), async (req, res) => {
   const where: any = docWhere(req)
   for (const f of ['category', 'customerId', 'projectId', 'employeeId'] as const) if (typeof req.query[f] === 'string' && req.query[f]) where[f] = req.query[f]
   const q = String(req.query.q ?? '').trim()
-  if (q) where.title = { contains: q }
+  if (q) where.title = { contains: q, mode: 'insensitive' }
   const [items, total] = await Promise.all([prisma.document.findMany({ where, include: docInclude, orderBy: { updatedAt: 'desc' }, ...paging(req) }), prisma.document.count({ where })])
   res.json({ items, total })
 })

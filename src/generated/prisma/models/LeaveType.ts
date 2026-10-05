@@ -248,7 +248,6 @@ export type LeaveTypeOrderByWithRelationInput = {
   organization?: Prisma.OrganizationOrderByWithRelationInput
   balances?: Prisma.LeaveBalanceOrderByRelationAggregateInput
   leaveRequests?: Prisma.LeaveRequestOrderByRelationAggregateInput
-  _relevance?: Prisma.LeaveTypeOrderByRelevanceInput
 }
 
 export type LeaveTypeWhereUniqueInput = Prisma.AtLeast<{
@@ -381,12 +380,6 @@ export type LeaveTypeListRelationFilter = {
 
 export type LeaveTypeOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type LeaveTypeOrderByRelevanceInput = {
-  fields: Prisma.LeaveTypeOrderByRelevanceFieldEnum | Prisma.LeaveTypeOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type LeaveTypeOrganizationIdCodeCompoundUniqueInput = {
@@ -782,7 +775,27 @@ export type LeaveTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   _count?: boolean | Prisma.LeaveTypeCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["leaveType"]>
 
+export type LeaveTypeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  name?: boolean
+  code?: boolean
+  annualQuota?: boolean
+  isPaid?: boolean
+  carryForward?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["leaveType"]>
 
+export type LeaveTypeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  name?: boolean
+  code?: boolean
+  annualQuota?: boolean
+  isPaid?: boolean
+  carryForward?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["leaveType"]>
 
 export type LeaveTypeSelectScalar = {
   id?: boolean
@@ -800,6 +813,12 @@ export type LeaveTypeInclude<ExtArgs extends runtime.Types.Extensions.InternalAr
   balances?: boolean | Prisma.LeaveType$balancesArgs<ExtArgs>
   leaveRequests?: boolean | Prisma.LeaveType$leaveRequestsArgs<ExtArgs>
   _count?: boolean | Prisma.LeaveTypeCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type LeaveTypeIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}
+export type LeaveTypeIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
 }
 
 export type $LeaveTypePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -935,6 +954,30 @@ export interface LeaveTypeDelegate<ExtArgs extends runtime.Types.Extensions.Inte
   createMany<T extends LeaveTypeCreateManyArgs>(args?: Prisma.SelectSubset<T, LeaveTypeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many LeaveTypes and returns the data saved in the database.
+   * @param {LeaveTypeCreateManyAndReturnArgs} args - Arguments to create many LeaveTypes.
+   * @example
+   * // Create many LeaveTypes
+   * const leaveType = await prisma.leaveType.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many LeaveTypes and only return the `id`
+   * const leaveTypeWithIdOnly = await prisma.leaveType.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends LeaveTypeCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, LeaveTypeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LeaveTypePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a LeaveType.
    * @param {LeaveTypeDeleteArgs} args - Arguments to delete one LeaveType.
    * @example
@@ -997,6 +1040,36 @@ export interface LeaveTypeDelegate<ExtArgs extends runtime.Types.Extensions.Inte
    * 
    */
   updateMany<T extends LeaveTypeUpdateManyArgs>(args: Prisma.SelectSubset<T, LeaveTypeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more LeaveTypes and returns the data updated in the database.
+   * @param {LeaveTypeUpdateManyAndReturnArgs} args - Arguments to update many LeaveTypes.
+   * @example
+   * // Update many LeaveTypes
+   * const leaveType = await prisma.leaveType.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more LeaveTypes and only return the `id`
+   * const leaveTypeWithIdOnly = await prisma.leaveType.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends LeaveTypeUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, LeaveTypeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LeaveTypePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one LeaveType.
@@ -1434,6 +1507,29 @@ export type LeaveTypeCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 /**
+ * LeaveType createManyAndReturn
+ */
+export type LeaveTypeCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LeaveType
+   */
+  select?: Prisma.LeaveTypeSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the LeaveType
+   */
+  omit?: Prisma.LeaveTypeOmit<ExtArgs> | null
+  /**
+   * The data used to create many LeaveTypes.
+   */
+  data: Prisma.LeaveTypeCreateManyInput | Prisma.LeaveTypeCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LeaveTypeIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * LeaveType update
  */
 export type LeaveTypeUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1475,6 +1571,36 @@ export type LeaveTypeUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Limit how many LeaveTypes to update.
    */
   limit?: number
+}
+
+/**
+ * LeaveType updateManyAndReturn
+ */
+export type LeaveTypeUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LeaveType
+   */
+  select?: Prisma.LeaveTypeSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the LeaveType
+   */
+  omit?: Prisma.LeaveTypeOmit<ExtArgs> | null
+  /**
+   * The data used to update LeaveTypes.
+   */
+  data: Prisma.XOR<Prisma.LeaveTypeUpdateManyMutationInput, Prisma.LeaveTypeUncheckedUpdateManyInput>
+  /**
+   * Filter which LeaveTypes to update
+   */
+  where?: Prisma.LeaveTypeWhereInput
+  /**
+   * Limit how many LeaveTypes to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LeaveTypeIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

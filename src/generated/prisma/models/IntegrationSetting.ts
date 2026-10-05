@@ -242,7 +242,6 @@ export type IntegrationSettingOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   organization?: Prisma.OrganizationOrderByWithRelationInput
-  _relevance?: Prisma.IntegrationSettingOrderByRelevanceInput
 }
 
 export type IntegrationSettingWhereUniqueInput = Prisma.AtLeast<{
@@ -403,12 +402,6 @@ export type IntegrationSettingListRelationFilter = {
 
 export type IntegrationSettingOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type IntegrationSettingOrderByRelevanceInput = {
-  fields: Prisma.IntegrationSettingOrderByRelevanceFieldEnum | Prisma.IntegrationSettingOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type IntegrationSettingOrganizationIdProviderCompoundUniqueInput = {
@@ -640,7 +633,35 @@ export type IntegrationSettingSelect<ExtArgs extends runtime.Types.Extensions.In
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["integrationSetting"]>
 
+export type IntegrationSettingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  provider?: boolean
+  config?: boolean
+  secretCiphertext?: boolean
+  secretIv?: boolean
+  secretAuthTag?: boolean
+  isActive?: boolean
+  lastVerifiedAt?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["integrationSetting"]>
 
+export type IntegrationSettingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  provider?: boolean
+  config?: boolean
+  secretCiphertext?: boolean
+  secretIv?: boolean
+  secretAuthTag?: boolean
+  isActive?: boolean
+  lastVerifiedAt?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["integrationSetting"]>
 
 export type IntegrationSettingSelectScalar = {
   id?: boolean
@@ -658,6 +679,12 @@ export type IntegrationSettingSelectScalar = {
 
 export type IntegrationSettingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "provider" | "config" | "secretCiphertext" | "secretIv" | "secretAuthTag" | "isActive" | "lastVerifiedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["integrationSetting"]>
 export type IntegrationSettingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}
+export type IntegrationSettingIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}
+export type IntegrationSettingIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
 }
 
@@ -796,6 +823,30 @@ export interface IntegrationSettingDelegate<ExtArgs extends runtime.Types.Extens
   createMany<T extends IntegrationSettingCreateManyArgs>(args?: Prisma.SelectSubset<T, IntegrationSettingCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many IntegrationSettings and returns the data saved in the database.
+   * @param {IntegrationSettingCreateManyAndReturnArgs} args - Arguments to create many IntegrationSettings.
+   * @example
+   * // Create many IntegrationSettings
+   * const integrationSetting = await prisma.integrationSetting.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many IntegrationSettings and only return the `id`
+   * const integrationSettingWithIdOnly = await prisma.integrationSetting.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends IntegrationSettingCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, IntegrationSettingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$IntegrationSettingPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a IntegrationSetting.
    * @param {IntegrationSettingDeleteArgs} args - Arguments to delete one IntegrationSetting.
    * @example
@@ -858,6 +909,36 @@ export interface IntegrationSettingDelegate<ExtArgs extends runtime.Types.Extens
    * 
    */
   updateMany<T extends IntegrationSettingUpdateManyArgs>(args: Prisma.SelectSubset<T, IntegrationSettingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more IntegrationSettings and returns the data updated in the database.
+   * @param {IntegrationSettingUpdateManyAndReturnArgs} args - Arguments to update many IntegrationSettings.
+   * @example
+   * // Update many IntegrationSettings
+   * const integrationSetting = await prisma.integrationSetting.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more IntegrationSettings and only return the `id`
+   * const integrationSettingWithIdOnly = await prisma.integrationSetting.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends IntegrationSettingUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, IntegrationSettingUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$IntegrationSettingPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one IntegrationSetting.
@@ -1297,6 +1378,29 @@ export type IntegrationSettingCreateManyArgs<ExtArgs extends runtime.Types.Exten
 }
 
 /**
+ * IntegrationSetting createManyAndReturn
+ */
+export type IntegrationSettingCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the IntegrationSetting
+   */
+  select?: Prisma.IntegrationSettingSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the IntegrationSetting
+   */
+  omit?: Prisma.IntegrationSettingOmit<ExtArgs> | null
+  /**
+   * The data used to create many IntegrationSettings.
+   */
+  data: Prisma.IntegrationSettingCreateManyInput | Prisma.IntegrationSettingCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.IntegrationSettingIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * IntegrationSetting update
  */
 export type IntegrationSettingUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1338,6 +1442,36 @@ export type IntegrationSettingUpdateManyArgs<ExtArgs extends runtime.Types.Exten
    * Limit how many IntegrationSettings to update.
    */
   limit?: number
+}
+
+/**
+ * IntegrationSetting updateManyAndReturn
+ */
+export type IntegrationSettingUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the IntegrationSetting
+   */
+  select?: Prisma.IntegrationSettingSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the IntegrationSetting
+   */
+  omit?: Prisma.IntegrationSettingOmit<ExtArgs> | null
+  /**
+   * The data used to update IntegrationSettings.
+   */
+  data: Prisma.XOR<Prisma.IntegrationSettingUpdateManyMutationInput, Prisma.IntegrationSettingUncheckedUpdateManyInput>
+  /**
+   * Filter which IntegrationSettings to update
+   */
+  where?: Prisma.IntegrationSettingWhereInput
+  /**
+   * Limit how many IntegrationSettings to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.IntegrationSettingIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

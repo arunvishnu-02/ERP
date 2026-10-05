@@ -246,7 +246,6 @@ export type ApprovalStepOrderByWithRelationInput = {
   decidedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   approvalRequest?: Prisma.ApprovalRequestOrderByWithRelationInput
   approver?: Prisma.UserOrderByWithRelationInput
-  _relevance?: Prisma.ApprovalStepOrderByRelevanceInput
 }
 
 export type ApprovalStepWhereUniqueInput = Prisma.AtLeast<{
@@ -369,12 +368,6 @@ export type ApprovalStepListRelationFilter = {
 
 export type ApprovalStepOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type ApprovalStepOrderByRelevanceInput = {
-  fields: Prisma.ApprovalStepOrderByRelevanceFieldEnum | Prisma.ApprovalStepOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type ApprovalStepApprovalRequestIdStepNumberCompoundUniqueInput = {
@@ -691,7 +684,29 @@ export type ApprovalStepSelect<ExtArgs extends runtime.Types.Extensions.Internal
   approver?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["approvalStep"]>
 
+export type ApprovalStepSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  approvalRequestId?: boolean
+  stepNumber?: boolean
+  approverId?: boolean
+  status?: boolean
+  comment?: boolean
+  decidedAt?: boolean
+  approvalRequest?: boolean | Prisma.ApprovalRequestDefaultArgs<ExtArgs>
+  approver?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["approvalStep"]>
 
+export type ApprovalStepSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  approvalRequestId?: boolean
+  stepNumber?: boolean
+  approverId?: boolean
+  status?: boolean
+  comment?: boolean
+  decidedAt?: boolean
+  approvalRequest?: boolean | Prisma.ApprovalRequestDefaultArgs<ExtArgs>
+  approver?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["approvalStep"]>
 
 export type ApprovalStepSelectScalar = {
   id?: boolean
@@ -705,6 +720,14 @@ export type ApprovalStepSelectScalar = {
 
 export type ApprovalStepOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "approvalRequestId" | "stepNumber" | "approverId" | "status" | "comment" | "decidedAt", ExtArgs["result"]["approvalStep"]>
 export type ApprovalStepInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  approvalRequest?: boolean | Prisma.ApprovalRequestDefaultArgs<ExtArgs>
+  approver?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type ApprovalStepIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  approvalRequest?: boolean | Prisma.ApprovalRequestDefaultArgs<ExtArgs>
+  approver?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type ApprovalStepIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   approvalRequest?: boolean | Prisma.ApprovalRequestDefaultArgs<ExtArgs>
   approver?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -841,6 +864,30 @@ export interface ApprovalStepDelegate<ExtArgs extends runtime.Types.Extensions.I
   createMany<T extends ApprovalStepCreateManyArgs>(args?: Prisma.SelectSubset<T, ApprovalStepCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many ApprovalSteps and returns the data saved in the database.
+   * @param {ApprovalStepCreateManyAndReturnArgs} args - Arguments to create many ApprovalSteps.
+   * @example
+   * // Create many ApprovalSteps
+   * const approvalStep = await prisma.approvalStep.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many ApprovalSteps and only return the `id`
+   * const approvalStepWithIdOnly = await prisma.approvalStep.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends ApprovalStepCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, ApprovalStepCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ApprovalStepPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a ApprovalStep.
    * @param {ApprovalStepDeleteArgs} args - Arguments to delete one ApprovalStep.
    * @example
@@ -903,6 +950,36 @@ export interface ApprovalStepDelegate<ExtArgs extends runtime.Types.Extensions.I
    * 
    */
   updateMany<T extends ApprovalStepUpdateManyArgs>(args: Prisma.SelectSubset<T, ApprovalStepUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more ApprovalSteps and returns the data updated in the database.
+   * @param {ApprovalStepUpdateManyAndReturnArgs} args - Arguments to update many ApprovalSteps.
+   * @example
+   * // Update many ApprovalSteps
+   * const approvalStep = await prisma.approvalStep.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more ApprovalSteps and only return the `id`
+   * const approvalStepWithIdOnly = await prisma.approvalStep.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends ApprovalStepUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, ApprovalStepUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ApprovalStepPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one ApprovalStep.
@@ -1339,6 +1416,29 @@ export type ApprovalStepCreateManyArgs<ExtArgs extends runtime.Types.Extensions.
 }
 
 /**
+ * ApprovalStep createManyAndReturn
+ */
+export type ApprovalStepCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ApprovalStep
+   */
+  select?: Prisma.ApprovalStepSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the ApprovalStep
+   */
+  omit?: Prisma.ApprovalStepOmit<ExtArgs> | null
+  /**
+   * The data used to create many ApprovalSteps.
+   */
+  data: Prisma.ApprovalStepCreateManyInput | Prisma.ApprovalStepCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ApprovalStepIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * ApprovalStep update
  */
 export type ApprovalStepUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1380,6 +1480,36 @@ export type ApprovalStepUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.
    * Limit how many ApprovalSteps to update.
    */
   limit?: number
+}
+
+/**
+ * ApprovalStep updateManyAndReturn
+ */
+export type ApprovalStepUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ApprovalStep
+   */
+  select?: Prisma.ApprovalStepSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the ApprovalStep
+   */
+  omit?: Prisma.ApprovalStepOmit<ExtArgs> | null
+  /**
+   * The data used to update ApprovalSteps.
+   */
+  data: Prisma.XOR<Prisma.ApprovalStepUpdateManyMutationInput, Prisma.ApprovalStepUncheckedUpdateManyInput>
+  /**
+   * Filter which ApprovalSteps to update
+   */
+  where?: Prisma.ApprovalStepWhereInput
+  /**
+   * Limit how many ApprovalSteps to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ApprovalStepIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

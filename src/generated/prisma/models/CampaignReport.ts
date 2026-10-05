@@ -244,7 +244,6 @@ export type CampaignReportOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   organization?: Prisma.OrganizationOrderByWithRelationInput
   campaign?: Prisma.CampaignOrderByWithRelationInput
-  _relevance?: Prisma.CampaignReportOrderByRelevanceInput
 }
 
 export type CampaignReportWhereUniqueInput = Prisma.AtLeast<{
@@ -404,12 +403,6 @@ export type CampaignReportListRelationFilter = {
 
 export type CampaignReportOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type CampaignReportOrderByRelevanceInput = {
-  fields: Prisma.CampaignReportOrderByRelevanceFieldEnum | Prisma.CampaignReportOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type CampaignReportCountOrderByAggregateInput = {
@@ -779,7 +772,37 @@ export type CampaignReportSelect<ExtArgs extends runtime.Types.Extensions.Intern
   campaign?: boolean | Prisma.CampaignDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["campaignReport"]>
 
+export type CampaignReportSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  campaignId?: boolean
+  periodStart?: boolean
+  periodEnd?: boolean
+  metrics?: boolean
+  summary?: boolean
+  fileId?: boolean
+  sentAt?: boolean
+  createdById?: boolean
+  createdAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  campaign?: boolean | Prisma.CampaignDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["campaignReport"]>
 
+export type CampaignReportSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  campaignId?: boolean
+  periodStart?: boolean
+  periodEnd?: boolean
+  metrics?: boolean
+  summary?: boolean
+  fileId?: boolean
+  sentAt?: boolean
+  createdById?: boolean
+  createdAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  campaign?: boolean | Prisma.CampaignDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["campaignReport"]>
 
 export type CampaignReportSelectScalar = {
   id?: boolean
@@ -797,6 +820,14 @@ export type CampaignReportSelectScalar = {
 
 export type CampaignReportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "campaignId" | "periodStart" | "periodEnd" | "metrics" | "summary" | "fileId" | "sentAt" | "createdById" | "createdAt", ExtArgs["result"]["campaignReport"]>
 export type CampaignReportInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  campaign?: boolean | Prisma.CampaignDefaultArgs<ExtArgs>
+}
+export type CampaignReportIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  campaign?: boolean | Prisma.CampaignDefaultArgs<ExtArgs>
+}
+export type CampaignReportIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   campaign?: boolean | Prisma.CampaignDefaultArgs<ExtArgs>
 }
@@ -937,6 +968,30 @@ export interface CampaignReportDelegate<ExtArgs extends runtime.Types.Extensions
   createMany<T extends CampaignReportCreateManyArgs>(args?: Prisma.SelectSubset<T, CampaignReportCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many CampaignReports and returns the data saved in the database.
+   * @param {CampaignReportCreateManyAndReturnArgs} args - Arguments to create many CampaignReports.
+   * @example
+   * // Create many CampaignReports
+   * const campaignReport = await prisma.campaignReport.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many CampaignReports and only return the `id`
+   * const campaignReportWithIdOnly = await prisma.campaignReport.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends CampaignReportCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, CampaignReportCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CampaignReportPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a CampaignReport.
    * @param {CampaignReportDeleteArgs} args - Arguments to delete one CampaignReport.
    * @example
@@ -999,6 +1054,36 @@ export interface CampaignReportDelegate<ExtArgs extends runtime.Types.Extensions
    * 
    */
   updateMany<T extends CampaignReportUpdateManyArgs>(args: Prisma.SelectSubset<T, CampaignReportUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more CampaignReports and returns the data updated in the database.
+   * @param {CampaignReportUpdateManyAndReturnArgs} args - Arguments to update many CampaignReports.
+   * @example
+   * // Update many CampaignReports
+   * const campaignReport = await prisma.campaignReport.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more CampaignReports and only return the `id`
+   * const campaignReportWithIdOnly = await prisma.campaignReport.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends CampaignReportUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, CampaignReportUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CampaignReportPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one CampaignReport.
@@ -1439,6 +1524,29 @@ export type CampaignReportCreateManyArgs<ExtArgs extends runtime.Types.Extension
 }
 
 /**
+ * CampaignReport createManyAndReturn
+ */
+export type CampaignReportCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CampaignReport
+   */
+  select?: Prisma.CampaignReportSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the CampaignReport
+   */
+  omit?: Prisma.CampaignReportOmit<ExtArgs> | null
+  /**
+   * The data used to create many CampaignReports.
+   */
+  data: Prisma.CampaignReportCreateManyInput | Prisma.CampaignReportCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CampaignReportIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * CampaignReport update
  */
 export type CampaignReportUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1480,6 +1588,36 @@ export type CampaignReportUpdateManyArgs<ExtArgs extends runtime.Types.Extension
    * Limit how many CampaignReports to update.
    */
   limit?: number
+}
+
+/**
+ * CampaignReport updateManyAndReturn
+ */
+export type CampaignReportUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CampaignReport
+   */
+  select?: Prisma.CampaignReportSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the CampaignReport
+   */
+  omit?: Prisma.CampaignReportOmit<ExtArgs> | null
+  /**
+   * The data used to update CampaignReports.
+   */
+  data: Prisma.XOR<Prisma.CampaignReportUpdateManyMutationInput, Prisma.CampaignReportUncheckedUpdateManyInput>
+  /**
+   * Filter which CampaignReports to update
+   */
+  where?: Prisma.CampaignReportWhereInput
+  /**
+   * Limit how many CampaignReports to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CampaignReportIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

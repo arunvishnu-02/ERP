@@ -337,7 +337,6 @@ export type DocumentOrderByWithRelationInput = {
   employee?: Prisma.EmployeeOrderByWithRelationInput
   owner?: Prisma.UserOrderByWithRelationInput
   versions?: Prisma.DocumentVersionOrderByRelationAggregateInput
-  _relevance?: Prisma.DocumentOrderByRelevanceInput
 }
 
 export type DocumentWhereUniqueInput = Prisma.AtLeast<{
@@ -554,12 +553,6 @@ export type DocumentListRelationFilter = {
 
 export type DocumentOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type DocumentOrderByRelevanceInput = {
-  fields: Prisma.DocumentOrderByRelevanceFieldEnum | Prisma.DocumentOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type DocumentCountOrderByAggregateInput = {
@@ -1902,7 +1895,55 @@ export type DocumentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   _count?: boolean | Prisma.DocumentCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["document"]>
 
+export type DocumentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  folderId?: boolean
+  category?: boolean
+  title?: boolean
+  description?: boolean
+  customerId?: boolean
+  projectId?: boolean
+  employeeId?: boolean
+  status?: boolean
+  currentVersion?: boolean
+  expiresAt?: boolean
+  ownerId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  deletedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  folder?: boolean | Prisma.Document$folderArgs<ExtArgs>
+  customer?: boolean | Prisma.Document$customerArgs<ExtArgs>
+  project?: boolean | Prisma.Document$projectArgs<ExtArgs>
+  employee?: boolean | Prisma.Document$employeeArgs<ExtArgs>
+  owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["document"]>
 
+export type DocumentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  folderId?: boolean
+  category?: boolean
+  title?: boolean
+  description?: boolean
+  customerId?: boolean
+  projectId?: boolean
+  employeeId?: boolean
+  status?: boolean
+  currentVersion?: boolean
+  expiresAt?: boolean
+  ownerId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  deletedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  folder?: boolean | Prisma.Document$folderArgs<ExtArgs>
+  customer?: boolean | Prisma.Document$customerArgs<ExtArgs>
+  project?: boolean | Prisma.Document$projectArgs<ExtArgs>
+  employee?: boolean | Prisma.Document$employeeArgs<ExtArgs>
+  owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["document"]>
 
 export type DocumentSelectScalar = {
   id?: boolean
@@ -1933,6 +1974,22 @@ export type DocumentInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   versions?: boolean | Prisma.Document$versionsArgs<ExtArgs>
   _count?: boolean | Prisma.DocumentCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type DocumentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  folder?: boolean | Prisma.Document$folderArgs<ExtArgs>
+  customer?: boolean | Prisma.Document$customerArgs<ExtArgs>
+  project?: boolean | Prisma.Document$projectArgs<ExtArgs>
+  employee?: boolean | Prisma.Document$employeeArgs<ExtArgs>
+  owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type DocumentIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  folder?: boolean | Prisma.Document$folderArgs<ExtArgs>
+  customer?: boolean | Prisma.Document$customerArgs<ExtArgs>
+  project?: boolean | Prisma.Document$projectArgs<ExtArgs>
+  employee?: boolean | Prisma.Document$employeeArgs<ExtArgs>
+  owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
 export type $DocumentPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2081,6 +2138,30 @@ export interface DocumentDelegate<ExtArgs extends runtime.Types.Extensions.Inter
   createMany<T extends DocumentCreateManyArgs>(args?: Prisma.SelectSubset<T, DocumentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many Documents and returns the data saved in the database.
+   * @param {DocumentCreateManyAndReturnArgs} args - Arguments to create many Documents.
+   * @example
+   * // Create many Documents
+   * const document = await prisma.document.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many Documents and only return the `id`
+   * const documentWithIdOnly = await prisma.document.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends DocumentCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, DocumentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a Document.
    * @param {DocumentDeleteArgs} args - Arguments to delete one Document.
    * @example
@@ -2143,6 +2224,36 @@ export interface DocumentDelegate<ExtArgs extends runtime.Types.Extensions.Inter
    * 
    */
   updateMany<T extends DocumentUpdateManyArgs>(args: Prisma.SelectSubset<T, DocumentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more Documents and returns the data updated in the database.
+   * @param {DocumentUpdateManyAndReturnArgs} args - Arguments to update many Documents.
+   * @example
+   * // Update many Documents
+   * const document = await prisma.document.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more Documents and only return the `id`
+   * const documentWithIdOnly = await prisma.document.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends DocumentUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, DocumentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one Document.
@@ -2593,6 +2704,29 @@ export type DocumentCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
+ * Document createManyAndReturn
+ */
+export type DocumentCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Document
+   */
+  select?: Prisma.DocumentSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Document
+   */
+  omit?: Prisma.DocumentOmit<ExtArgs> | null
+  /**
+   * The data used to create many Documents.
+   */
+  data: Prisma.DocumentCreateManyInput | Prisma.DocumentCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DocumentIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * Document update
  */
 export type DocumentUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2634,6 +2768,36 @@ export type DocumentUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Limit how many Documents to update.
    */
   limit?: number
+}
+
+/**
+ * Document updateManyAndReturn
+ */
+export type DocumentUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Document
+   */
+  select?: Prisma.DocumentSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Document
+   */
+  omit?: Prisma.DocumentOmit<ExtArgs> | null
+  /**
+   * The data used to update Documents.
+   */
+  data: Prisma.XOR<Prisma.DocumentUpdateManyMutationInput, Prisma.DocumentUncheckedUpdateManyInput>
+  /**
+   * Filter which Documents to update
+   */
+  where?: Prisma.DocumentWhereInput
+  /**
+   * Limit how many Documents to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DocumentIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

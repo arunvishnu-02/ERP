@@ -366,7 +366,6 @@ export type TicketOrderByWithRelationInput = {
   website?: Prisma.WebsiteOrderByWithRelationInput
   assignee?: Prisma.UserOrderByWithRelationInput
   tasks?: Prisma.TaskOrderByRelationAggregateInput
-  _relevance?: Prisma.TicketOrderByRelevanceInput
 }
 
 export type TicketWhereUniqueInput = Prisma.AtLeast<{
@@ -657,12 +656,6 @@ export type TicketOrderByRelationAggregateInput = {
 export type TicketNullableScalarRelationFilter = {
   is?: Prisma.TicketWhereInput | null
   isNot?: Prisma.TicketWhereInput | null
-}
-
-export type TicketOrderByRelevanceInput = {
-  fields: Prisma.TicketOrderByRelevanceFieldEnum | Prisma.TicketOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type TicketOrganizationIdTicketNumberCompoundUniqueInput = {
@@ -2318,7 +2311,69 @@ export type TicketSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   _count?: boolean | Prisma.TicketCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["ticket"]>
 
+export type TicketSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  ticketNumber?: boolean
+  customerId?: boolean
+  contactId?: boolean
+  projectId?: boolean
+  websiteId?: boolean
+  subject?: boolean
+  description?: boolean
+  category?: boolean
+  channel?: boolean
+  priority?: boolean
+  status?: boolean
+  assigneeId?: boolean
+  resolutionNotes?: boolean
+  firstResponseAt?: boolean
+  slaDueAt?: boolean
+  resolvedAt?: boolean
+  closedAt?: boolean
+  createdById?: boolean
+  updatedById?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
+  contact?: boolean | Prisma.Ticket$contactArgs<ExtArgs>
+  project?: boolean | Prisma.Ticket$projectArgs<ExtArgs>
+  website?: boolean | Prisma.Ticket$websiteArgs<ExtArgs>
+  assignee?: boolean | Prisma.Ticket$assigneeArgs<ExtArgs>
+}, ExtArgs["result"]["ticket"]>
 
+export type TicketSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  ticketNumber?: boolean
+  customerId?: boolean
+  contactId?: boolean
+  projectId?: boolean
+  websiteId?: boolean
+  subject?: boolean
+  description?: boolean
+  category?: boolean
+  channel?: boolean
+  priority?: boolean
+  status?: boolean
+  assigneeId?: boolean
+  resolutionNotes?: boolean
+  firstResponseAt?: boolean
+  slaDueAt?: boolean
+  resolvedAt?: boolean
+  closedAt?: boolean
+  createdById?: boolean
+  updatedById?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
+  contact?: boolean | Prisma.Ticket$contactArgs<ExtArgs>
+  project?: boolean | Prisma.Ticket$projectArgs<ExtArgs>
+  website?: boolean | Prisma.Ticket$websiteArgs<ExtArgs>
+  assignee?: boolean | Prisma.Ticket$assigneeArgs<ExtArgs>
+}, ExtArgs["result"]["ticket"]>
 
 export type TicketSelectScalar = {
   id?: boolean
@@ -2356,6 +2411,22 @@ export type TicketInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   assignee?: boolean | Prisma.Ticket$assigneeArgs<ExtArgs>
   tasks?: boolean | Prisma.Ticket$tasksArgs<ExtArgs>
   _count?: boolean | Prisma.TicketCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type TicketIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
+  contact?: boolean | Prisma.Ticket$contactArgs<ExtArgs>
+  project?: boolean | Prisma.Ticket$projectArgs<ExtArgs>
+  website?: boolean | Prisma.Ticket$websiteArgs<ExtArgs>
+  assignee?: boolean | Prisma.Ticket$assigneeArgs<ExtArgs>
+}
+export type TicketIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
+  contact?: boolean | Prisma.Ticket$contactArgs<ExtArgs>
+  project?: boolean | Prisma.Ticket$projectArgs<ExtArgs>
+  website?: boolean | Prisma.Ticket$websiteArgs<ExtArgs>
+  assignee?: boolean | Prisma.Ticket$assigneeArgs<ExtArgs>
 }
 
 export type $TicketPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2511,6 +2582,30 @@ export interface TicketDelegate<ExtArgs extends runtime.Types.Extensions.Interna
   createMany<T extends TicketCreateManyArgs>(args?: Prisma.SelectSubset<T, TicketCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many Tickets and returns the data saved in the database.
+   * @param {TicketCreateManyAndReturnArgs} args - Arguments to create many Tickets.
+   * @example
+   * // Create many Tickets
+   * const ticket = await prisma.ticket.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many Tickets and only return the `id`
+   * const ticketWithIdOnly = await prisma.ticket.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends TicketCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, TicketCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a Ticket.
    * @param {TicketDeleteArgs} args - Arguments to delete one Ticket.
    * @example
@@ -2573,6 +2668,36 @@ export interface TicketDelegate<ExtArgs extends runtime.Types.Extensions.Interna
    * 
    */
   updateMany<T extends TicketUpdateManyArgs>(args: Prisma.SelectSubset<T, TicketUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more Tickets and returns the data updated in the database.
+   * @param {TicketUpdateManyAndReturnArgs} args - Arguments to update many Tickets.
+   * @example
+   * // Update many Tickets
+   * const ticket = await prisma.ticket.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more Tickets and only return the `id`
+   * const ticketWithIdOnly = await prisma.ticket.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends TicketUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, TicketUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one Ticket.
@@ -3030,6 +3155,29 @@ export type TicketCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 /**
+ * Ticket createManyAndReturn
+ */
+export type TicketCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Ticket
+   */
+  select?: Prisma.TicketSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Ticket
+   */
+  omit?: Prisma.TicketOmit<ExtArgs> | null
+  /**
+   * The data used to create many Tickets.
+   */
+  data: Prisma.TicketCreateManyInput | Prisma.TicketCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TicketIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * Ticket update
  */
 export type TicketUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3071,6 +3219,36 @@ export type TicketUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Limit how many Tickets to update.
    */
   limit?: number
+}
+
+/**
+ * Ticket updateManyAndReturn
+ */
+export type TicketUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Ticket
+   */
+  select?: Prisma.TicketSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Ticket
+   */
+  omit?: Prisma.TicketOmit<ExtArgs> | null
+  /**
+   * The data used to update Tickets.
+   */
+  data: Prisma.XOR<Prisma.TicketUpdateManyMutationInput, Prisma.TicketUncheckedUpdateManyInput>
+  /**
+   * Filter which Tickets to update
+   */
+  where?: Prisma.TicketWhereInput
+  /**
+   * Limit how many Tickets to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TicketIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

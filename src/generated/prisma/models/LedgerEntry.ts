@@ -284,7 +284,6 @@ export type LedgerEntryOrderByWithRelationInput = {
   organization?: Prisma.OrganizationOrderByWithRelationInput
   branch?: Prisma.BranchOrderByWithRelationInput
   bankAccount?: Prisma.BankAccountOrderByWithRelationInput
-  _relevance?: Prisma.LedgerEntryOrderByRelevanceInput
 }
 
 export type LedgerEntryWhereUniqueInput = Prisma.AtLeast<{
@@ -446,12 +445,6 @@ export type LedgerEntryListRelationFilter = {
 
 export type LedgerEntryOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type LedgerEntryOrderByRelevanceInput = {
-  fields: Prisma.LedgerEntryOrderByRelevanceFieldEnum | Prisma.LedgerEntryOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type LedgerEntryCountOrderByAggregateInput = {
@@ -986,7 +979,39 @@ export type LedgerEntrySelect<ExtArgs extends runtime.Types.Extensions.InternalA
   bankAccount?: boolean | Prisma.LedgerEntry$bankAccountArgs<ExtArgs>
 }, ExtArgs["result"]["ledgerEntry"]>
 
+export type LedgerEntrySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  branchId?: boolean
+  entryDate?: boolean
+  type?: boolean
+  amount?: boolean
+  bankAccountId?: boolean
+  sourceType?: boolean
+  sourceId?: boolean
+  description?: boolean
+  createdAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  branch?: boolean | Prisma.LedgerEntry$branchArgs<ExtArgs>
+  bankAccount?: boolean | Prisma.LedgerEntry$bankAccountArgs<ExtArgs>
+}, ExtArgs["result"]["ledgerEntry"]>
 
+export type LedgerEntrySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  branchId?: boolean
+  entryDate?: boolean
+  type?: boolean
+  amount?: boolean
+  bankAccountId?: boolean
+  sourceType?: boolean
+  sourceId?: boolean
+  description?: boolean
+  createdAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  branch?: boolean | Prisma.LedgerEntry$branchArgs<ExtArgs>
+  bankAccount?: boolean | Prisma.LedgerEntry$bankAccountArgs<ExtArgs>
+}, ExtArgs["result"]["ledgerEntry"]>
 
 export type LedgerEntrySelectScalar = {
   id?: boolean
@@ -1004,6 +1029,16 @@ export type LedgerEntrySelectScalar = {
 
 export type LedgerEntryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "branchId" | "entryDate" | "type" | "amount" | "bankAccountId" | "sourceType" | "sourceId" | "description" | "createdAt", ExtArgs["result"]["ledgerEntry"]>
 export type LedgerEntryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  branch?: boolean | Prisma.LedgerEntry$branchArgs<ExtArgs>
+  bankAccount?: boolean | Prisma.LedgerEntry$bankAccountArgs<ExtArgs>
+}
+export type LedgerEntryIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  branch?: boolean | Prisma.LedgerEntry$branchArgs<ExtArgs>
+  bankAccount?: boolean | Prisma.LedgerEntry$bankAccountArgs<ExtArgs>
+}
+export type LedgerEntryIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   branch?: boolean | Prisma.LedgerEntry$branchArgs<ExtArgs>
   bankAccount?: boolean | Prisma.LedgerEntry$bankAccountArgs<ExtArgs>
@@ -1146,6 +1181,30 @@ export interface LedgerEntryDelegate<ExtArgs extends runtime.Types.Extensions.In
   createMany<T extends LedgerEntryCreateManyArgs>(args?: Prisma.SelectSubset<T, LedgerEntryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many LedgerEntries and returns the data saved in the database.
+   * @param {LedgerEntryCreateManyAndReturnArgs} args - Arguments to create many LedgerEntries.
+   * @example
+   * // Create many LedgerEntries
+   * const ledgerEntry = await prisma.ledgerEntry.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many LedgerEntries and only return the `id`
+   * const ledgerEntryWithIdOnly = await prisma.ledgerEntry.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends LedgerEntryCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, LedgerEntryCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LedgerEntryPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a LedgerEntry.
    * @param {LedgerEntryDeleteArgs} args - Arguments to delete one LedgerEntry.
    * @example
@@ -1208,6 +1267,36 @@ export interface LedgerEntryDelegate<ExtArgs extends runtime.Types.Extensions.In
    * 
    */
   updateMany<T extends LedgerEntryUpdateManyArgs>(args: Prisma.SelectSubset<T, LedgerEntryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more LedgerEntries and returns the data updated in the database.
+   * @param {LedgerEntryUpdateManyAndReturnArgs} args - Arguments to update many LedgerEntries.
+   * @example
+   * // Update many LedgerEntries
+   * const ledgerEntry = await prisma.ledgerEntry.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more LedgerEntries and only return the `id`
+   * const ledgerEntryWithIdOnly = await prisma.ledgerEntry.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends LedgerEntryUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, LedgerEntryUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LedgerEntryPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one LedgerEntry.
@@ -1649,6 +1738,29 @@ export type LedgerEntryCreateManyArgs<ExtArgs extends runtime.Types.Extensions.I
 }
 
 /**
+ * LedgerEntry createManyAndReturn
+ */
+export type LedgerEntryCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LedgerEntry
+   */
+  select?: Prisma.LedgerEntrySelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the LedgerEntry
+   */
+  omit?: Prisma.LedgerEntryOmit<ExtArgs> | null
+  /**
+   * The data used to create many LedgerEntries.
+   */
+  data: Prisma.LedgerEntryCreateManyInput | Prisma.LedgerEntryCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LedgerEntryIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * LedgerEntry update
  */
 export type LedgerEntryUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1690,6 +1802,36 @@ export type LedgerEntryUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Limit how many LedgerEntries to update.
    */
   limit?: number
+}
+
+/**
+ * LedgerEntry updateManyAndReturn
+ */
+export type LedgerEntryUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LedgerEntry
+   */
+  select?: Prisma.LedgerEntrySelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the LedgerEntry
+   */
+  omit?: Prisma.LedgerEntryOmit<ExtArgs> | null
+  /**
+   * The data used to update LedgerEntries.
+   */
+  data: Prisma.XOR<Prisma.LedgerEntryUpdateManyMutationInput, Prisma.LedgerEntryUncheckedUpdateManyInput>
+  /**
+   * Filter which LedgerEntries to update
+   */
+  where?: Prisma.LedgerEntryWhereInput
+  /**
+   * Limit how many LedgerEntries to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LedgerEntryIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

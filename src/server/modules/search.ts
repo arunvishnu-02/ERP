@@ -12,7 +12,7 @@ searchRouter.get('/', async (req, res) => {
   const q = String(req.query.q ?? '').trim().slice(0, 100)
   if (q.length < 2) return res.json({ groups: [] })
   const organizationId = req.user.organizationId
-  const has = { contains: q }
+  const has = { contains: q, mode: 'insensitive' as const }
   // returns null when the person has no view permission, so that module is skipped
   const where = async (module: string, extra: any) => {
     const w = await scoped(req, module, 'VIEW')

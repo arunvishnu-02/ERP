@@ -233,7 +233,6 @@ export type ApiKeyOrderByWithRelationInput = {
   createdById?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   organization?: Prisma.OrganizationOrderByWithRelationInput
-  _relevance?: Prisma.ApiKeyOrderByRelevanceInput
 }
 
 export type ApiKeyWhereUniqueInput = Prisma.AtLeast<{
@@ -383,12 +382,6 @@ export type ApiKeyListRelationFilter = {
 
 export type ApiKeyOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type ApiKeyOrderByRelevanceInput = {
-  fields: Prisma.ApiKeyOrderByRelevanceFieldEnum | Prisma.ApiKeyOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type ApiKeyCountOrderByAggregateInput = {
@@ -600,7 +593,33 @@ export type ApiKeySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["apiKey"]>
 
+export type ApiKeySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  name?: boolean
+  keyHash?: boolean
+  scopes?: boolean
+  lastUsedAt?: boolean
+  expiresAt?: boolean
+  revokedAt?: boolean
+  createdById?: boolean
+  createdAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["apiKey"]>
 
+export type ApiKeySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  name?: boolean
+  keyHash?: boolean
+  scopes?: boolean
+  lastUsedAt?: boolean
+  expiresAt?: boolean
+  revokedAt?: boolean
+  createdById?: boolean
+  createdAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["apiKey"]>
 
 export type ApiKeySelectScalar = {
   id?: boolean
@@ -617,6 +636,12 @@ export type ApiKeySelectScalar = {
 
 export type ApiKeyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "name" | "keyHash" | "scopes" | "lastUsedAt" | "expiresAt" | "revokedAt" | "createdById" | "createdAt", ExtArgs["result"]["apiKey"]>
 export type ApiKeyInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}
+export type ApiKeyIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}
+export type ApiKeyIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
 }
 
@@ -754,6 +779,30 @@ export interface ApiKeyDelegate<ExtArgs extends runtime.Types.Extensions.Interna
   createMany<T extends ApiKeyCreateManyArgs>(args?: Prisma.SelectSubset<T, ApiKeyCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many ApiKeys and returns the data saved in the database.
+   * @param {ApiKeyCreateManyAndReturnArgs} args - Arguments to create many ApiKeys.
+   * @example
+   * // Create many ApiKeys
+   * const apiKey = await prisma.apiKey.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many ApiKeys and only return the `id`
+   * const apiKeyWithIdOnly = await prisma.apiKey.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends ApiKeyCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, ApiKeyCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ApiKeyPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a ApiKey.
    * @param {ApiKeyDeleteArgs} args - Arguments to delete one ApiKey.
    * @example
@@ -816,6 +865,36 @@ export interface ApiKeyDelegate<ExtArgs extends runtime.Types.Extensions.Interna
    * 
    */
   updateMany<T extends ApiKeyUpdateManyArgs>(args: Prisma.SelectSubset<T, ApiKeyUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more ApiKeys and returns the data updated in the database.
+   * @param {ApiKeyUpdateManyAndReturnArgs} args - Arguments to update many ApiKeys.
+   * @example
+   * // Update many ApiKeys
+   * const apiKey = await prisma.apiKey.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more ApiKeys and only return the `id`
+   * const apiKeyWithIdOnly = await prisma.apiKey.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends ApiKeyUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, ApiKeyUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ApiKeyPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one ApiKey.
@@ -1254,6 +1333,29 @@ export type ApiKeyCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 /**
+ * ApiKey createManyAndReturn
+ */
+export type ApiKeyCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ApiKey
+   */
+  select?: Prisma.ApiKeySelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the ApiKey
+   */
+  omit?: Prisma.ApiKeyOmit<ExtArgs> | null
+  /**
+   * The data used to create many ApiKeys.
+   */
+  data: Prisma.ApiKeyCreateManyInput | Prisma.ApiKeyCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ApiKeyIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * ApiKey update
  */
 export type ApiKeyUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1295,6 +1397,36 @@ export type ApiKeyUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Limit how many ApiKeys to update.
    */
   limit?: number
+}
+
+/**
+ * ApiKey updateManyAndReturn
+ */
+export type ApiKeyUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ApiKey
+   */
+  select?: Prisma.ApiKeySelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the ApiKey
+   */
+  omit?: Prisma.ApiKeyOmit<ExtArgs> | null
+  /**
+   * The data used to update ApiKeys.
+   */
+  data: Prisma.XOR<Prisma.ApiKeyUpdateManyMutationInput, Prisma.ApiKeyUncheckedUpdateManyInput>
+  /**
+   * Filter which ApiKeys to update
+   */
+  where?: Prisma.ApiKeyWhereInput
+  /**
+   * Limit how many ApiKeys to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ApiKeyIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

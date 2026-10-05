@@ -255,7 +255,6 @@ export type LeadStageOrderByWithRelationInput = {
   isLost?: Prisma.SortOrder
   organization?: Prisma.OrganizationOrderByWithRelationInput
   leads?: Prisma.LeadOrderByRelationAggregateInput
-  _relevance?: Prisma.LeadStageOrderByRelevanceInput
 }
 
 export type LeadStageWhereUniqueInput = Prisma.AtLeast<{
@@ -393,12 +392,6 @@ export type LeadStageListRelationFilter = {
 
 export type LeadStageOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type LeadStageOrderByRelevanceInput = {
-  fields: Prisma.LeadStageOrderByRelevanceFieldEnum | Prisma.LeadStageOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type LeadStageOrganizationIdNameCompoundUniqueInput = {
@@ -717,7 +710,29 @@ export type LeadStageSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   _count?: boolean | Prisma.LeadStageCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["leadStage"]>
 
+export type LeadStageSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  name?: boolean
+  position?: boolean
+  color?: boolean
+  isDefault?: boolean
+  isWon?: boolean
+  isLost?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["leadStage"]>
 
+export type LeadStageSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  name?: boolean
+  position?: boolean
+  color?: boolean
+  isDefault?: boolean
+  isWon?: boolean
+  isLost?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["leadStage"]>
 
 export type LeadStageSelectScalar = {
   id?: boolean
@@ -735,6 +750,12 @@ export type LeadStageInclude<ExtArgs extends runtime.Types.Extensions.InternalAr
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   leads?: boolean | Prisma.LeadStage$leadsArgs<ExtArgs>
   _count?: boolean | Prisma.LeadStageCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type LeadStageIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}
+export type LeadStageIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
 }
 
 export type $LeadStagePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -870,6 +891,30 @@ export interface LeadStageDelegate<ExtArgs extends runtime.Types.Extensions.Inte
   createMany<T extends LeadStageCreateManyArgs>(args?: Prisma.SelectSubset<T, LeadStageCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many LeadStages and returns the data saved in the database.
+   * @param {LeadStageCreateManyAndReturnArgs} args - Arguments to create many LeadStages.
+   * @example
+   * // Create many LeadStages
+   * const leadStage = await prisma.leadStage.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many LeadStages and only return the `id`
+   * const leadStageWithIdOnly = await prisma.leadStage.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends LeadStageCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, LeadStageCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LeadStagePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a LeadStage.
    * @param {LeadStageDeleteArgs} args - Arguments to delete one LeadStage.
    * @example
@@ -932,6 +977,36 @@ export interface LeadStageDelegate<ExtArgs extends runtime.Types.Extensions.Inte
    * 
    */
   updateMany<T extends LeadStageUpdateManyArgs>(args: Prisma.SelectSubset<T, LeadStageUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more LeadStages and returns the data updated in the database.
+   * @param {LeadStageUpdateManyAndReturnArgs} args - Arguments to update many LeadStages.
+   * @example
+   * // Update many LeadStages
+   * const leadStage = await prisma.leadStage.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more LeadStages and only return the `id`
+   * const leadStageWithIdOnly = await prisma.leadStage.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends LeadStageUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, LeadStageUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LeadStagePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one LeadStage.
@@ -1369,6 +1444,29 @@ export type LeadStageCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 /**
+ * LeadStage createManyAndReturn
+ */
+export type LeadStageCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LeadStage
+   */
+  select?: Prisma.LeadStageSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the LeadStage
+   */
+  omit?: Prisma.LeadStageOmit<ExtArgs> | null
+  /**
+   * The data used to create many LeadStages.
+   */
+  data: Prisma.LeadStageCreateManyInput | Prisma.LeadStageCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LeadStageIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * LeadStage update
  */
 export type LeadStageUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1410,6 +1508,36 @@ export type LeadStageUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Limit how many LeadStages to update.
    */
   limit?: number
+}
+
+/**
+ * LeadStage updateManyAndReturn
+ */
+export type LeadStageUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LeadStage
+   */
+  select?: Prisma.LeadStageSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the LeadStage
+   */
+  omit?: Prisma.LeadStageOmit<ExtArgs> | null
+  /**
+   * The data used to update LeadStages.
+   */
+  data: Prisma.XOR<Prisma.LeadStageUpdateManyMutationInput, Prisma.LeadStageUncheckedUpdateManyInput>
+  /**
+   * Filter which LeadStages to update
+   */
+  where?: Prisma.LeadStageWhereInput
+  /**
+   * Limit how many LeadStages to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LeadStageIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

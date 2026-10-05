@@ -582,7 +582,6 @@ export type QuotationOrderByWithRelationInput = {
   items?: Prisma.QuotationItemOrderByRelationAggregateInput
   invoices?: Prisma.InvoiceOrderByRelationAggregateInput
   projects?: Prisma.ProjectOrderByRelationAggregateInput
-  _relevance?: Prisma.QuotationOrderByRelevanceInput
 }
 
 export type QuotationWhereUniqueInput = Prisma.AtLeast<{
@@ -1050,12 +1049,6 @@ export type QuotationOrderByRelationAggregateInput = {
 export type QuotationNullableScalarRelationFilter = {
   is?: Prisma.QuotationWhereInput | null
   isNot?: Prisma.QuotationWhereInput | null
-}
-
-export type QuotationOrderByRelevanceInput = {
-  fields: Prisma.QuotationOrderByRelevanceFieldEnum | Prisma.QuotationOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type QuotationOrganizationIdQuotationNumberRevisionCompoundUniqueInput = {
@@ -4865,7 +4858,105 @@ export type QuotationSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   _count?: boolean | Prisma.QuotationCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["quotation"]>
 
+export type QuotationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  branchId?: boolean
+  quotationNumber?: boolean
+  revision?: boolean
+  parentQuotationId?: boolean
+  isLatest?: boolean
+  customerId?: boolean
+  leadId?: boolean
+  dealId?: boolean
+  contactId?: boolean
+  title?: boolean
+  issueDate?: boolean
+  validUntil?: boolean
+  status?: boolean
+  placeOfSupply?: boolean
+  isInterState?: boolean
+  currency?: boolean
+  subtotal?: boolean
+  discountTotal?: boolean
+  taxableAmount?: boolean
+  cgstAmount?: boolean
+  sgstAmount?: boolean
+  igstAmount?: boolean
+  totalAmount?: boolean
+  terms?: boolean
+  notes?: boolean
+  pdfFileId?: boolean
+  rejectionNote?: boolean
+  publicToken?: boolean
+  sentAt?: boolean
+  viewedAt?: boolean
+  acceptedAt?: boolean
+  preparedById?: boolean
+  createdById?: boolean
+  updatedById?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  deletedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  branch?: boolean | Prisma.Quotation$branchArgs<ExtArgs>
+  parentQuotation?: boolean | Prisma.Quotation$parentQuotationArgs<ExtArgs>
+  customer?: boolean | Prisma.Quotation$customerArgs<ExtArgs>
+  lead?: boolean | Prisma.Quotation$leadArgs<ExtArgs>
+  deal?: boolean | Prisma.Quotation$dealArgs<ExtArgs>
+  contact?: boolean | Prisma.Quotation$contactArgs<ExtArgs>
+  preparedBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["quotation"]>
 
+export type QuotationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  branchId?: boolean
+  quotationNumber?: boolean
+  revision?: boolean
+  parentQuotationId?: boolean
+  isLatest?: boolean
+  customerId?: boolean
+  leadId?: boolean
+  dealId?: boolean
+  contactId?: boolean
+  title?: boolean
+  issueDate?: boolean
+  validUntil?: boolean
+  status?: boolean
+  placeOfSupply?: boolean
+  isInterState?: boolean
+  currency?: boolean
+  subtotal?: boolean
+  discountTotal?: boolean
+  taxableAmount?: boolean
+  cgstAmount?: boolean
+  sgstAmount?: boolean
+  igstAmount?: boolean
+  totalAmount?: boolean
+  terms?: boolean
+  notes?: boolean
+  pdfFileId?: boolean
+  rejectionNote?: boolean
+  publicToken?: boolean
+  sentAt?: boolean
+  viewedAt?: boolean
+  acceptedAt?: boolean
+  preparedById?: boolean
+  createdById?: boolean
+  updatedById?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  deletedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  branch?: boolean | Prisma.Quotation$branchArgs<ExtArgs>
+  parentQuotation?: boolean | Prisma.Quotation$parentQuotationArgs<ExtArgs>
+  customer?: boolean | Prisma.Quotation$customerArgs<ExtArgs>
+  lead?: boolean | Prisma.Quotation$leadArgs<ExtArgs>
+  deal?: boolean | Prisma.Quotation$dealArgs<ExtArgs>
+  contact?: boolean | Prisma.Quotation$contactArgs<ExtArgs>
+  preparedBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["quotation"]>
 
 export type QuotationSelectScalar = {
   id?: boolean
@@ -4924,6 +5015,26 @@ export type QuotationInclude<ExtArgs extends runtime.Types.Extensions.InternalAr
   invoices?: boolean | Prisma.Quotation$invoicesArgs<ExtArgs>
   projects?: boolean | Prisma.Quotation$projectsArgs<ExtArgs>
   _count?: boolean | Prisma.QuotationCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type QuotationIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  branch?: boolean | Prisma.Quotation$branchArgs<ExtArgs>
+  parentQuotation?: boolean | Prisma.Quotation$parentQuotationArgs<ExtArgs>
+  customer?: boolean | Prisma.Quotation$customerArgs<ExtArgs>
+  lead?: boolean | Prisma.Quotation$leadArgs<ExtArgs>
+  deal?: boolean | Prisma.Quotation$dealArgs<ExtArgs>
+  contact?: boolean | Prisma.Quotation$contactArgs<ExtArgs>
+  preparedBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type QuotationIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  branch?: boolean | Prisma.Quotation$branchArgs<ExtArgs>
+  parentQuotation?: boolean | Prisma.Quotation$parentQuotationArgs<ExtArgs>
+  customer?: boolean | Prisma.Quotation$customerArgs<ExtArgs>
+  lead?: boolean | Prisma.Quotation$leadArgs<ExtArgs>
+  deal?: boolean | Prisma.Quotation$dealArgs<ExtArgs>
+  contact?: boolean | Prisma.Quotation$contactArgs<ExtArgs>
+  preparedBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
 export type $QuotationPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -5100,6 +5211,30 @@ export interface QuotationDelegate<ExtArgs extends runtime.Types.Extensions.Inte
   createMany<T extends QuotationCreateManyArgs>(args?: Prisma.SelectSubset<T, QuotationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many Quotations and returns the data saved in the database.
+   * @param {QuotationCreateManyAndReturnArgs} args - Arguments to create many Quotations.
+   * @example
+   * // Create many Quotations
+   * const quotation = await prisma.quotation.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many Quotations and only return the `id`
+   * const quotationWithIdOnly = await prisma.quotation.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends QuotationCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, QuotationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$QuotationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a Quotation.
    * @param {QuotationDeleteArgs} args - Arguments to delete one Quotation.
    * @example
@@ -5162,6 +5297,36 @@ export interface QuotationDelegate<ExtArgs extends runtime.Types.Extensions.Inte
    * 
    */
   updateMany<T extends QuotationUpdateManyArgs>(args: Prisma.SelectSubset<T, QuotationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more Quotations and returns the data updated in the database.
+   * @param {QuotationUpdateManyAndReturnArgs} args - Arguments to update many Quotations.
+   * @example
+   * // Update many Quotations
+   * const quotation = await prisma.quotation.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more Quotations and only return the `id`
+   * const quotationWithIdOnly = await prisma.quotation.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends QuotationUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, QuotationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$QuotationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one Quotation.
@@ -5640,6 +5805,29 @@ export type QuotationCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 /**
+ * Quotation createManyAndReturn
+ */
+export type QuotationCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Quotation
+   */
+  select?: Prisma.QuotationSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Quotation
+   */
+  omit?: Prisma.QuotationOmit<ExtArgs> | null
+  /**
+   * The data used to create many Quotations.
+   */
+  data: Prisma.QuotationCreateManyInput | Prisma.QuotationCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.QuotationIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * Quotation update
  */
 export type QuotationUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -5681,6 +5869,36 @@ export type QuotationUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Limit how many Quotations to update.
    */
   limit?: number
+}
+
+/**
+ * Quotation updateManyAndReturn
+ */
+export type QuotationUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Quotation
+   */
+  select?: Prisma.QuotationSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Quotation
+   */
+  omit?: Prisma.QuotationOmit<ExtArgs> | null
+  /**
+   * The data used to update Quotations.
+   */
+  data: Prisma.XOR<Prisma.QuotationUpdateManyMutationInput, Prisma.QuotationUncheckedUpdateManyInput>
+  /**
+   * Filter which Quotations to update
+   */
+  where?: Prisma.QuotationWhereInput
+  /**
+   * Limit how many Quotations to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.QuotationIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

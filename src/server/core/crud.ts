@@ -61,7 +61,7 @@ export function crud(o: CrudOptions) {
     const w = await baseWhere(req, readModule, 'VIEW')
     const q = String(req.query.q ?? '').trim()
     // every word must appear in at least one searchable field
-    if (q && o.search?.length) for (const word of q.split(/\s+/).slice(0, 6)) w.AND.push({ OR: o.search.map((f) => nest(f, { contains: word })) })
+    if (q && o.search?.length) for (const word of q.split(/\s+/).slice(0, 6)) w.AND.push({ OR: o.search.map((f) => nest(f, { contains: word, mode: 'insensitive' })) })
     for (const f of o.filters ?? []) {
       const v = req.query[f]
       if (typeof v !== 'string' || v === '') continue

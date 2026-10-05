@@ -1,11 +1,11 @@
-// End-to-end API tests on a real MySQL/MariaDB database. Run with: npm test
+// End-to-end API tests on a real PostgreSQL database. Run with: npm test
 // The database named in TEST_DATABASE_URL is emptied first, so never point it at real data.
 import assert from 'node:assert/strict'
 import fs from 'node:fs'
 import { after, before, test } from 'node:test'
-import mariadb from 'mariadb'
+import { Client } from 'pg'
 
-const url = process.env.TEST_DATABASE_URL ?? 'mysql://cx:cx@127.0.0.1:3306/cx_test'
+const url = process.env.TEST_DATABASE_URL ?? 'postgresql://cx:cx@127.0.0.1:5432/cx_test'
 const uploads = `/tmp/cx-test-uploads-${process.pid}`
 let handleApi: (r: Request) => Promise<Response>
 const S: any = { ids: {} }
@@ -14,10 +14,10 @@ const plusDays = (n: number) => new Date(Date.parse(`${today}T00:00:00Z`) + n * 
 
 before(async () => {
   Object.assign(process.env, { DATABASE_URL: url, ENCRYPTION_KEY: 'ab'.repeat(32), UPLOAD_DIR: uploads, RUN_JOBS: 'false', APP_URL: 'http://app.test' })
-  const u = new URL(url)
-  const conn = await mariadb.createConnection({ host: u.hostname, port: Number(u.port || 3306), user: u.username, password: u.password, database: u.pathname.slice(1) })
-  await conn.query('SET FOREIGN_KEY_CHECKS = 0')
-  for (const t of await conn.query('SELECT table_name AS name FROM information_schema.tables WHERE table_schema = DATABASE()')) await conn.query(`DROP TABLE \`${t.name}\``)
+  const conn = new Client({ connectionString: url })
+  await conn.connect()
+  await conn.query('DROP SCHEMA IF EXISTS public CASCADE')
+  await conn.query('CREATE SCHEMA public')
   await conn.end()
   handleApi = (await import('../src/server/app')).handleApi
 })

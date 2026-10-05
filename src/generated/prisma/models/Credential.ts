@@ -349,7 +349,6 @@ export type CredentialOrderByWithRelationInput = {
   customer?: Prisma.CustomerOrderByWithRelationInput
   website?: Prisma.WebsiteOrderByWithRelationInput
   accessLogs?: Prisma.CredentialAccessLogOrderByRelationAggregateInput
-  _relevance?: Prisma.CredentialOrderByRelevanceInput
 }
 
 export type CredentialWhereUniqueInput = Prisma.AtLeast<{
@@ -586,12 +585,6 @@ export type CredentialListRelationFilter = {
 
 export type CredentialOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type CredentialOrderByRelevanceInput = {
-  fields: Prisma.CredentialOrderByRelevanceFieldEnum | Prisma.CredentialOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type CredentialCountOrderByAggregateInput = {
@@ -1449,7 +1442,53 @@ export type CredentialSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   _count?: boolean | Prisma.CredentialCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["credential"]>
 
+export type CredentialSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  customerId?: boolean
+  websiteId?: boolean
+  label?: boolean
+  type?: boolean
+  url?: boolean
+  username?: boolean
+  secretCiphertext?: boolean
+  secretIv?: boolean
+  secretAuthTag?: boolean
+  keyVersion?: boolean
+  notes?: boolean
+  lastRotatedAt?: boolean
+  createdById?: boolean
+  updatedById?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.Credential$customerArgs<ExtArgs>
+  website?: boolean | Prisma.Credential$websiteArgs<ExtArgs>
+}, ExtArgs["result"]["credential"]>
 
+export type CredentialSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  customerId?: boolean
+  websiteId?: boolean
+  label?: boolean
+  type?: boolean
+  url?: boolean
+  username?: boolean
+  secretCiphertext?: boolean
+  secretIv?: boolean
+  secretAuthTag?: boolean
+  keyVersion?: boolean
+  notes?: boolean
+  lastRotatedAt?: boolean
+  createdById?: boolean
+  updatedById?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.Credential$customerArgs<ExtArgs>
+  website?: boolean | Prisma.Credential$websiteArgs<ExtArgs>
+}, ExtArgs["result"]["credential"]>
 
 export type CredentialSelectScalar = {
   id?: boolean
@@ -1479,6 +1518,16 @@ export type CredentialInclude<ExtArgs extends runtime.Types.Extensions.InternalA
   website?: boolean | Prisma.Credential$websiteArgs<ExtArgs>
   accessLogs?: boolean | Prisma.Credential$accessLogsArgs<ExtArgs>
   _count?: boolean | Prisma.CredentialCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type CredentialIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.Credential$customerArgs<ExtArgs>
+  website?: boolean | Prisma.Credential$websiteArgs<ExtArgs>
+}
+export type CredentialIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.Credential$customerArgs<ExtArgs>
+  website?: boolean | Prisma.Credential$websiteArgs<ExtArgs>
 }
 
 export type $CredentialPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1626,6 +1675,30 @@ export interface CredentialDelegate<ExtArgs extends runtime.Types.Extensions.Int
   createMany<T extends CredentialCreateManyArgs>(args?: Prisma.SelectSubset<T, CredentialCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many Credentials and returns the data saved in the database.
+   * @param {CredentialCreateManyAndReturnArgs} args - Arguments to create many Credentials.
+   * @example
+   * // Create many Credentials
+   * const credential = await prisma.credential.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many Credentials and only return the `id`
+   * const credentialWithIdOnly = await prisma.credential.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends CredentialCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, CredentialCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CredentialPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a Credential.
    * @param {CredentialDeleteArgs} args - Arguments to delete one Credential.
    * @example
@@ -1688,6 +1761,36 @@ export interface CredentialDelegate<ExtArgs extends runtime.Types.Extensions.Int
    * 
    */
   updateMany<T extends CredentialUpdateManyArgs>(args: Prisma.SelectSubset<T, CredentialUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more Credentials and returns the data updated in the database.
+   * @param {CredentialUpdateManyAndReturnArgs} args - Arguments to update many Credentials.
+   * @example
+   * // Update many Credentials
+   * const credential = await prisma.credential.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more Credentials and only return the `id`
+   * const credentialWithIdOnly = await prisma.credential.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends CredentialUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, CredentialUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CredentialPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one Credential.
@@ -2137,6 +2240,29 @@ export type CredentialCreateManyArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
+ * Credential createManyAndReturn
+ */
+export type CredentialCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Credential
+   */
+  select?: Prisma.CredentialSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Credential
+   */
+  omit?: Prisma.CredentialOmit<ExtArgs> | null
+  /**
+   * The data used to create many Credentials.
+   */
+  data: Prisma.CredentialCreateManyInput | Prisma.CredentialCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CredentialIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * Credential update
  */
 export type CredentialUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2178,6 +2304,36 @@ export type CredentialUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Limit how many Credentials to update.
    */
   limit?: number
+}
+
+/**
+ * Credential updateManyAndReturn
+ */
+export type CredentialUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Credential
+   */
+  select?: Prisma.CredentialSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Credential
+   */
+  omit?: Prisma.CredentialOmit<ExtArgs> | null
+  /**
+   * The data used to update Credentials.
+   */
+  data: Prisma.XOR<Prisma.CredentialUpdateManyMutationInput, Prisma.CredentialUncheckedUpdateManyInput>
+  /**
+   * Filter which Credentials to update
+   */
+  where?: Prisma.CredentialWhereInput
+  /**
+   * Limit how many Credentials to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CredentialIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
