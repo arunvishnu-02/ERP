@@ -434,3 +434,436 @@ test('sessions: cookie login, request protection, password change and logout', a
   await deny('GET', '/auth/me', dev, undefined, 401)
   assert.equal((await ok('GET', '/health')).ok, true)
 })
+
+test('a company that is not GST registered issues documents with no GST, and shows its branding publicly', async () => {
+  const A = S.admin
+  await ok('PATCH', '/settings/organization', A, { gstRegistered: false, gstin: '', website: 'www.ciphermutex.com', upiId: 'ciphermutexpvtltd@sbi', signatory: 'Arun G', logo: 'data:image/png;base64,iVBORw0KGgo=' })
+  await deny('PATCH', '/settings/organization', A, { logo: 'javascript:alert(1)' }, 400)
+  const items = [{ description: 'Website', quantity: 1, unitPrice: 35000, taxRate: 18 }, { description: 'Admin dashboard', quantity: 2, unitPrice: 5000, discountPercent: 10, taxRate: 18 }]
+  const q = await ok('POST', '/quotations', A, { customerId: S.acme.id, title: 'E-commerce website', items })
+  assert.deepEqual([q.taxableAmount, q.cgstAmount, q.sgstAmount, q.igstAmount, q.totalAmount, q.title], [44000, 0, 0, 0, 44000, 'E-commerce website'])
+  assert.ok(q.items.every((i: any) => Number(i.taxRate) === 0))
+  const inv = await ok('POST', '/invoices', A, { customerId: S.acme.id, items })
+  assert.deepEqual([inv.totalAmount, inv.isInterState], [44000, false])
+  const sent = await ok('POST', `/invoices/${inv.id}/send`, A, { channel: 'LINK' })
+  const pub = await ok('GET', `/public/invoices/${sent.publicToken}`, undefined)
+  assert.deepEqual([pub.organization.settings.gstRegistered, pub.organization.settings.upiId, pub.organization.settings.website, pub.organization.gstin], [false, 'ciphermutexpvtltd@sbi', 'www.ciphermutex.com', null])
+  assert.equal(pub.organization.settings.leadFormKey, undefined)
+  await ok('PATCH', '/settings/organization', A, { gstRegistered: true, logo: null })
+  const back = await ok('POST', '/quotations', A, { customerId: S.acme.id, items: [{ description: 'SEO', quantity: 1, unitPrice: 1000, taxRate: 18 }] })
+  assert.equal(back.totalAmount, 1180)
+})
+
+test('payroll: monthly payslips with loss of pay, HR changes, finalising, own payslips and the appointment letter', async () => {
+  const hr = await signIn('hr@example.com', 'N3w-Passw0rd!')
+  const emps = (await ok('GET', '/hr/employees?limit=100', hr)).items
+  const sales = emps.find((e: any) => e.user?.id === S.ids.sales)
+  const acc = emps.find((e: any) => e.user?.id === S.ids.accounts)
+  await ok('PATCH', `/hr/employees/${sales.id}`, hr, { ctcAnnual: 360000, dateOfJoining: '2025-01-06' })
+  await ok('PATCH', `/hr/employees/${acc.id}`, hr, { ctcAnnual: 240000, dateOfJoining: '2025-09-16' }) // joins half way through the month
+  await ok('PATCH', `/hr/employees/${emps.find((e: any) => e.user?.id === S.ids.sales2).id}`, hr, { dateOfJoining: '2025-01-06' }) // no salary set yet
+  // September 2025: 30 days, 4 Sundays off, and one office holiday, so 25 working days
+  await ok('POST', '/hr/holidays', hr, { name: 'Office closed', date: '2025-09-05' })
+  await ok('POST', '/hr/holidays', hr, { name: 'Optional day', date: '2025-09-08', isOptional: true })
+  const lop = S.lk.leaveTypes.find((t: any) => t.code === 'LOP')
+  assert.equal(lop.isPaid, false)
+  const leave = await ok('POST', '/hr/leave-requests', hr, { employeeId: sales.id, leaveTypeId: lop.id, startDate: '2025-09-10', endDate: '2025-09-11' })
+  await ok('POST', `/hr/leave-requests/${leave.id}/approve`, hr)
+  await ok('PUT', '/hr/attendance', hr, { employeeId: sales.id, date: '2025-09-12', status: 'ABSENT' })
+  await ok('PUT', '/hr/attendance', hr, { employeeId: sales.id, date: '2025-09-14', status: 'ABSENT' }) // a Sunday: not a working day, so no loss of pay
+
+  await deny('GET', '/payroll', S.sales, undefined)
+  await deny('POST', '/payroll', hr, { month: '2999-01' }, 400)
+  const run = await ok('POST', '/payroll', hr, { month: '2025-09' })
+  await deny('POST', '/payroll', hr, { month: '2025-09' }, 409)
+  assert.equal(run.workingDays, 25)
+  assert.deepEqual(run.skipped, ['Meera']) // people with no salary set are left out and named
+  const slip = (id: string) => run.payslips.find((p: any) => p.employeeId === id)
+  const s1 = slip(sales.id)
+  assert.deepEqual([s1.workingDays, s1.lopDays, s1.paidDays, s1.gross, s1.netPay], [25, 3, 22, 26400, 26400])
+  assert.deepEqual(s1.earnings.map((l: any) => l.amount), [13200, 5280, 7920])
+  assert.deepEqual([slip(acc.id).workingDays, slip(acc.id).gross], [13, 10400])
+  assert.equal(run.totalNet, 36800)
+
+  // HR adds a bonus and an advance being paid back, and forgives a day of loss of pay
+  await deny('PATCH', `/payroll/payslips/${s1.id}`, hr, { deductions: [{ name: 'Too much', amount: 99999 }] }, 400)
+  const edited = await ok('PATCH', `/payroll/payslips/${s1.id}`, hr, { lopDays: 2, extraEarnings: [{ name: 'Diwali bonus', amount: 5000 }], deductions: [{ name: 'Salary advance', amount: 2000 }], notes: 'Advance 2 of 5' })
+  assert.deepEqual([edited.paidDays, edited.gross, edited.totalDeductions, edited.netPay], [23, 32600, 2000, 30600])
+  const again = await ok('POST', `/payroll/${run.id}/recalculate`, hr, {}) // HR's own lines survive a recalculation
+  const s2 = again.payslips.find((p: any) => p.employeeId === sales.id)
+  assert.deepEqual([s2.lopDays, s2.gross, s2.totalDeductions, s2.netPay, again.totalNet], [3, 31400, 2000, 29400, 39800])
+
+  // people see nothing until the month is finalised
+  assert.equal((await ok('GET', '/me/payslips', S.sales)).items.length, 0)
+  await deny('GET', `/me/payslips/${s1.id}`, S.sales, undefined, 404)
+  await ok('POST', `/payroll/${run.id}/finalise`, hr, {})
+  await deny('PATCH', `/payroll/payslips/${s1.id}`, hr, { lopDays: 0 }, 409)
+  const mine = await ok('GET', '/me/payslips', S.sales)
+  assert.deepEqual([mine.items.length, mine.items[0].monthName], [1, 'September 2025'])
+  const view = await ok('GET', `/me/payslips/${s1.id}`, S.sales)
+  assert.equal(view.ytd.net, view.netPay)
+  assert.deepEqual(view.leave.map((l: any) => [l.name, l.allotted]), [['Paid leave', 18], ['Sick leave', 6]])
+  assert.equal(view.employee.bankDetailsEncrypted, undefined)
+  await deny('GET', `/me/payslips/${slip(acc.id).id}`, S.sales, undefined, 404) // not someone else's
+  await deny('GET', `/payroll/payslips/${s1.id}`, S.sales, undefined)
+  assert.ok((await ok('GET', '/notifications', S.sales)).items.some((n: any) => /payslip for September 2025/.test(n.title)))
+
+  await ok('POST', `/payroll/${run.id}/reopen`, hr, {})
+  await ok('POST', `/payroll/${run.id}/finalise`, hr, {})
+  const paid = await ok('POST', `/payroll/${run.id}/paid`, hr, { paidOn: '2025-10-01' })
+  assert.deepEqual([paid.status, paid.paidOn.slice(0, 10)], ['PAID', '2025-10-01'])
+  await deny('POST', `/payroll/${run.id}/reopen`, hr, {}, 409)
+  await deny('DELETE', `/payroll/${run.id}`, hr, undefined, 409)
+
+  // payroll settings, then the appointment letter uses them
+  await deny('PUT', '/payroll/settings', hr, { split: [{ name: 'Basic', percent: 50 }], weeklyOff: [0], noticeMonths: 3 }, 400)
+  await ok('PUT', '/payroll/settings', hr, { split: [{ name: 'Basic', percent: 40 }, { name: 'HRA', percent: 20 }, { name: 'Special allowance', percent: 40 }], weeklyOff: [0], payDay: 7, probationMonths: 6, noticeMonths: 3, workHours: 'Monday to Saturday, 9:30 am to 6:30 pm' })
+  const letter = await ok('GET', `/payroll/appointment/${sales.id}`, hr)
+  assert.deepEqual([letter.monthly, letter.annual, letter.salary[0].amount, letter.salary[0].annual, letter.settings.probationMonths, letter.settings.noticeMonths], [30000, 360000, 12000, 144000, 6, 3])
+  assert.deepEqual(letter.leaveTypes.map((t: any) => t.days), [18, 6])
+  await deny('GET', `/payroll/appointment/${sales.id}`, S.sales, undefined)
+  // the joining form: blank, or with the person's details filled in, and the company's own rules
+  const blank = await ok('GET', '/payroll/joining/new', hr)
+  assert.deepEqual([blank.employee, blank.settings.terms.split('\n').length > 5], [null, true])
+  await ok('PUT', '/payroll/settings', hr, { split: letter.settings.split, weeklyOff: [0], noticeMonths: 3, terms: 'Be on time.\nKeep client data private.' })
+  const filled = await ok('GET', `/payroll/joining/${sales.id}`, hr)
+  assert.deepEqual([filled.employee.employeeCode, filled.settings.terms], [sales.employeeCode, 'Be on time.\nKeep client data private.'])
+  await deny('GET', '/payroll/joining/new', S.sales, undefined)
+})
+
+test('part 3: forgot password, approvals inbox, timesheet, ticket replies and profit by project', async () => {
+  const { prisma } = await import('../src/server/db')
+  const { sha } = await import('../src/server/core/auth')
+  // the sessions test suspended Divya; bring her back
+  await ok('PATCH', `/settings/users/${S.ids.dev}`, S.admin, { status: 'ACTIVE' })
+  S.dev = await signIn('dev@example.com', 'Passw0rd!')
+  const hrOld = await signIn('hr@example.com', 'N3w-Passw0rd!')
+  // forgot password: same answer for any email, code is never logged, wrong codes refused, right code signs in
+  assert.deepEqual(await ok('POST', '/auth/forgot', undefined, { email: 'nobody@example.com' }), { ok: true, minutes: 15 })
+  await ok('POST', '/auth/forgot', undefined, { email: 'hr@example.com' })
+  const logged = await prisma.message.findFirst({ where: { toAddress: 'hr@example.com' }, orderBy: { createdAt: 'desc' } })
+  assert.ok(logged && !/\d{6}/.test(logged.subject ?? '') && !/\d{6}/.test(logged.body))
+  // the real code went only by email, so swap in a known one
+  const token = await prisma.passwordResetToken.findFirstOrThrow({ where: { userId: S.ids.hr, usedAt: null } })
+  await prisma.passwordResetToken.update({ where: { id: token.id }, data: { tokenHash: sha(`reset:${S.ids.hr}:123456`) } })
+  await deny('POST', '/auth/reset', undefined, { email: 'hr@example.com', code: '000000', password: 'Reset-Passw0rd!' }, 400)
+  await deny('POST', '/auth/reset', undefined, { email: 'hr@example.com', code: '123456', password: 'short' }, 400)
+  const reset = await call('POST', '/auth/reset', undefined, { email: 'hr@example.com', code: '123 456', password: 'Reset-Passw0rd!' })
+  assert.equal(reset.status, 200, JSON.stringify(reset.body))
+  await deny('GET', '/auth/me', hrOld, undefined, 401) // older sessions end
+  S.hr = cookieOf(reset)
+  await deny('POST', '/auth/reset', undefined, { email: 'hr@example.com', code: '123456', password: 'Another1!' }, 400) // used once only
+  await signIn('hr@example.com', 'Reset-Passw0rd!')
+
+  // approvals inbox: what waits on each approver, never their own
+  const q = await ok('POST', '/quotations', S.sales, { customerId: S.acme.id, items: [{ description: 'Logo', quantity: 1, unitPrice: 8000 }] })
+  await ok('POST', `/quotations/${q.id}/submit`, S.sales)
+  const lv = await ok('POST', '/me/leave-requests', S.dev, { leaveTypeId: S.lk.leaveTypes[0].id, startDate: plusDays(10), endDate: plusDays(10) })
+  const ex = await ok('POST', '/finance/expenses', S.accounts, { categoryId: S.lk.expenseCategories[0].id, expenseDate: today, amount: 1200, description: 'Stock photos' })
+  const mgr = await ok('GET', '/approvals', S.manager)
+  assert.ok(mgr.waiting.quotations.some((x: any) => x.id === q.id))
+  assert.ok(mgr.waiting.expenses.some((x: any) => x.id === ex.id))
+  assert.ok((await ok('GET', '/approvals', S.hr)).waiting.leave.some((x: any) => x.id === lv.id))
+  const own = await ok('GET', '/approvals', S.sales)
+  assert.equal(own.count, 0)
+  assert.ok(own.mine.quotations.some((x: any) => x.id === q.id))
+  assert.equal((await ok('GET', '/approvals/count', S.manager)).count, mgr.count)
+  await ok('POST', `/quotations/${q.id}/approve`, S.manager)
+  assert.ok(!(await ok('GET', '/approvals', S.manager)).waiting.quotations.some((x: any) => x.id === q.id))
+
+  // weekly timesheet: manual entries on a task or project, team view, removal
+  const proj = await ok('POST', '/projects', S.admin, { name: 'Acme app', customerId: S.acme.id, managerId: S.ids.manager })
+  await ok('PUT', `/projects/${proj.id}/members`, S.admin, { userIds: [S.ids.dev] })
+  await prisma.projectMember.updateMany({ where: { projectId: proj.id, userId: S.ids.dev }, data: { hourlyCost: 600 } })
+  const task = await ok('POST', '/tasks', S.admin, { title: 'Build login', projectId: proj.id, assigneeId: S.ids.dev, priority: 'MEDIUM' })
+  const e1 = await ok('POST', '/tasks/timesheet', S.dev, { date: today, minutes: 90, taskId: task.id, description: 'Screens' })
+  assert.equal(e1.projectId, proj.id)
+  await ok('POST', '/tasks/timesheet', S.dev, { date: today, minutes: 30, projectId: proj.id })
+  await deny('POST', '/tasks/timesheet', S.dev, { date: plusDays(1), minutes: 30 }, 400)
+  const week = await ok('GET', `/tasks/timesheet?week=${today}`, S.dev)
+  assert.equal(week.days.length, 7)
+  assert.ok(week.days.includes(today))
+  assert.ok(week.items.filter((e: any) => e.projectId === proj.id).every((e: any) => e.day === today))
+  assert.equal((await ok('GET', `/tasks/${task.id}`, S.dev)).loggedMinutes, 90)
+  assert.ok((await ok('GET', `/tasks/timesheet?week=${today}&who=team`, S.admin)).items.some((e: any) => e.id === e1.id))
+  assert.ok(!(await ok('GET', `/tasks/timesheet?week=${today}`, S.admin)).items.some((e: any) => e.id === e1.id))
+  await deny('DELETE', `/tasks/timesheet/${e1.id}`, S.sales, undefined)
+  const extra = await ok('POST', '/tasks/timesheet', S.dev, { date: today, minutes: 15, taskId: task.id })
+  await ok('DELETE', `/tasks/timesheet/${extra.id}`, S.dev)
+  assert.equal((await ok('GET', `/tasks/${task.id}`, S.dev)).loggedMinutes, 90)
+
+  // ticket replies: customer-visible replies are emailed and set first response; team notes stay inside
+  const t = await ok('POST', '/tickets', S.admin, { customerId: S.acme.id, subject: 'Site down', description: 'Home page shows an error' })
+  const r1 = await ok('POST', `/tickets/${t.id}/reply`, S.admin, { body: 'Looking into it now.' })
+  assert.deepEqual([r1.comment.isInternal, r1.mail.sent], [false, false]) // email is not set up in tests, but the reply is kept
+  await ok('POST', `/tickets/${t.id}/reply`, S.admin, { body: 'Server restarted', internal: true, status: 'WAITING_ON_CUSTOMER' })
+  const tk = await ok('GET', `/tickets/${t.id}`, S.admin)
+  assert.ok(tk.firstResponseAt)
+  assert.equal(tk.status, 'WAITING_ON_CUSTOMER')
+  const conv = await ok('GET', `/tickets/${t.id}/conversation`, S.admin)
+  assert.deepEqual([conv.replyTo, conv.items.map((c: any) => c.isInternal)], ['ops@acme.example', [false, true]])
+  assert.ok(await prisma.message.findFirst({ where: { toAddress: 'ops@acme.example', subject: { contains: t.ticketNumber } } }))
+  const bare = await ok('POST', '/customers', S.admin, { name: 'No Email Co', billingStateCode: '29' })
+  const t2 = await ok('POST', '/tickets', S.admin, { customerId: bare.id, subject: 'Help', description: 'Need help' })
+  await deny('POST', `/tickets/${t2.id}/reply`, S.admin, { body: 'Hi' }, 400)
+  await ok('POST', `/tickets/${t2.id}/reply`, S.admin, { body: 'Called them', internal: true })
+
+  // profit by project: billed, team time at the member's hourly cost, and approved expenses
+  const px = await ok('POST', '/finance/expenses', S.accounts, { categoryId: S.lk.expenseCategories[0].id, expenseDate: today, amount: 2000, description: 'Test devices', projectId: proj.id })
+  await ok('POST', `/finance/expenses/${px.id}/approve`, S.manager)
+  await deny('GET', '/finance/project-profit', S.dev, undefined)
+  const pp = await ok('GET', '/finance/project-profit', S.accounts)
+  const row = pp.items.find((r: any) => r.id === proj.id)
+  assert.deepEqual([row.billed, row.minutes, row.timeCost, row.expenses, row.profit, row.margin], [0, 120, 1200, 2000, -3200, null])
+  assert.ok(pp.items.find((r: any) => r.id === S.project.id).billed > 0)
+})
+
+test('client portal: email code sign-in, own records only, support tickets both ways', async () => {
+  const { prisma } = await import('../src/server/db')
+  const { sha } = await import('../src/server/core/auth')
+  const cust = S.customer
+  const contact = (await ok('GET', `/customers/${cust.id}/contacts`, S.admin)).items[0]
+  await ok('PATCH', `/customers/${cust.id}/contacts/${contact.id}`, S.admin, { email: 'owner@urbannest.example' })
+  // no access until staff switch it on
+  await ok('POST', '/portal/auth/code', undefined, { email: 'owner@urbannest.example' })
+  assert.equal(await prisma.portalCode.count({ where: { contactId: contact.id } }), 0)
+  const on = await ok('PATCH', `/customers/${cust.id}/contacts/${contact.id}`, S.admin, { portalAccess: true })
+  assert.deepEqual([on.portalAccess, on.firstName], [true, contact.firstName])
+  await deny('PATCH', `/customers/${cust.id}/contacts/${contact.id}`, S.dev, { portalAccess: false })
+
+  assert.equal((await ok('GET', '/portal/auth/brand')).name, 'Cipher Mutex')
+  assert.deepEqual(await ok('POST', '/portal/auth/code', undefined, { email: 'stranger@example.com' }), { ok: true, minutes: 15 })
+  await ok('POST', '/portal/auth/code', undefined, { email: 'Owner@UrbanNest.example' })
+  const mail = await prisma.message.findFirst({ where: { toAddress: 'owner@urbannest.example' }, orderBy: { createdAt: 'desc' } })
+  assert.ok(mail && !/\d{6}/.test(mail.subject ?? '') && !/\d{6}/.test(mail.body))
+  const pc = await prisma.portalCode.findFirstOrThrow({ where: { contactId: contact.id, usedAt: null } })
+  await prisma.portalCode.update({ where: { id: pc.id }, data: { codeHash: sha(`portal:${contact.id}:654321`) } })
+  await deny('POST', '/portal/auth/verify', undefined, { email: 'owner@urbannest.example', code: '111111' }, 400)
+  const v = await call('POST', '/portal/auth/verify', undefined, { email: 'owner@urbannest.example', code: '654321' })
+  assert.equal(v.status, 200, JSON.stringify(v.body))
+  assert.match(String(v.headers.get('set-cookie')), /cx_portal=.+HttpOnly/)
+  const P = cookieOf(v)
+  await deny('POST', '/portal/auth/verify', undefined, { email: 'owner@urbannest.example', code: '654321' }, 400) // one use only
+
+  // the two kinds of sign-in never open each other's doors
+  await deny('GET', '/leads', P, undefined, 401)
+  await deny('GET', '/portal/me', S.admin, undefined, 401)
+  await deny('GET', '/portal/me', undefined, undefined, 401)
+
+  const me = await ok('GET', '/portal/me', P)
+  assert.deepEqual([me.contact.id, me.customer.name, me.organization.name], [contact.id, 'UrbanNest Realty', 'Cipher Mutex'])
+  const quotes = (await ok('GET', '/portal/quotations', P)).items
+  assert.ok(quotes.length >= 1 && quotes.every((q: any) => !['DRAFT', 'PENDING_APPROVAL', 'APPROVED', 'REJECTED'].includes(q.status)))
+  assert.ok(quotes.every((q: any) => q.publicToken === undefined && q.link?.startsWith('/q/')))
+  const invoices = (await ok('GET', '/portal/invoices', P)).items
+  assert.ok(invoices.length >= 1 && invoices.every((i: any) => i.status !== 'DRAFT' && i.link?.startsWith('/i/')))
+  assert.equal((await ok('GET', `/public${invoices[0].link.replace('/i/', '/invoices/')}`)).invoiceNumber, invoices[0].invoiceNumber)
+  const projects = (await ok('GET', '/portal/projects', P)).items
+  assert.deepEqual(projects.map((p: any) => p.id), [S.project.id])
+  assert.equal(projects[0].milestones.length, 2)
+  const home = await ok('GET', '/portal/home', P)
+  assert.equal(home.balanceDue, home.unpaid.reduce((n: number, i: any) => n + Number(i.balanceDue), 0))
+
+  // support: the client opens a ticket, staff reply and add a note, the client sees only the reply
+  const mine = await ok('POST', '/portal/tickets', P, { subject: 'Contact form not sending', description: 'Nothing arrives when we test it', priority: 'HIGH' })
+  const staffView = await ok('GET', `/tickets/${mine.id}`, S.admin)
+  assert.deepEqual([staffView.channel, staffView.contactId, staffView.customerId], ['PORTAL', contact.id, cust.id])
+  await ok('POST', `/tickets/${mine.id}/reply`, S.admin, { body: 'Fixed the mail settings. Please test again.', status: 'WAITING_ON_CUSTOMER' })
+  await ok('POST', `/tickets/${mine.id}/reply`, S.admin, { body: 'SMTP password had expired', internal: true })
+  let t = await ok('GET', `/portal/tickets/${mine.id}`, P)
+  assert.deepEqual([t.status, t.messages.length, t.messages[0].fromClient, t.messages[0].name], ['WAITING_ON_CUSTOMER', 1, false, 'Kiran'])
+  await ok('POST', `/portal/tickets/${mine.id}/reply`, P, { body: 'Still not working' })
+  t = await ok('GET', `/portal/tickets/${mine.id}`, P)
+  assert.deepEqual([t.status, t.messages.length, t.messages[1].fromClient], ['IN_PROGRESS', 2, true])
+  const conv = await ok('GET', `/tickets/${mine.id}/conversation`, S.admin)
+  assert.equal(conv.items.find((c: any) => c.contact)?.contact.id, contact.id)
+  assert.ok((await ok('GET', '/portal/tickets', P)).items.some((x: any) => x.id === mine.id))
+  // another customer's ticket stays hidden
+  const other = await ok('POST', '/tickets', S.admin, { customerId: S.acme.id, subject: 'Other', description: 'Not theirs' })
+  await deny('GET', `/portal/tickets/${other.id}`, P, undefined, 404)
+  await deny('POST', `/portal/tickets/${other.id}/reply`, P, { body: 'Hi' }, 404)
+  assert.ok(!(await ok('GET', '/portal/tickets', P)).items.some((x: any) => x.id === other.id))
+
+  // switching access off ends the portal session at once; logging out ends it too
+  await ok('PATCH', `/customers/${cust.id}/contacts/${contact.id}`, S.admin, { portalAccess: false })
+  await deny('GET', '/portal/me', P, undefined, 401)
+  await ok('PATCH', `/customers/${cust.id}/contacts/${contact.id}`, S.admin, { portalAccess: true })
+  assert.equal((await ok('GET', '/portal/me', P)).contact.id, contact.id)
+  assert.equal((await call('POST', '/portal/auth/logout', P)).status, 204)
+  await deny('GET', '/portal/me', P, undefined, 401)
+})
+
+test('desktop: search everywhere, hiring to employee, and vendor bills', async () => {
+  // search finds records across modules, but only those the person may see
+  await ok('POST', '/leads', S.admin, { firstName: 'Zara', companyName: 'Zephyrine Labs' })
+  const adminHits = await ok('GET', '/search?q=Zephyrine', S.admin)
+  assert.match(adminHits.groups.find((g: any) => g.key === 'leads').items[0].href, /^\/leads\?open=/)
+  assert.ok(!(await ok('GET', '/search?q=Zephyrine', S.sales)).groups.some((g: any) => g.key === 'leads'))
+  assert.ok((await ok('GET', `/search?q=${encodeURIComponent(S.acme.name)}`, S.admin)).groups.some((g: any) => g.key === 'customers'))
+  assert.deepEqual((await ok('GET', '/search?q=Z', S.admin)).groups, [])
+  await deny('GET', '/search?q=Zephyrine', undefined, undefined, 401)
+
+  // hiring: an opening, candidates, the offer letter, then the new employee
+  const dept = S.lk.departments.find((d: any) => d.name === 'Development').id
+  const job = await ok('POST', '/hr/hiring/openings', S.hr, { title: 'Flutter developer', departmentId: dept, salaryRange: '30,000 to 45,000' })
+  assert.equal(job.status, 'OPEN')
+  await deny('POST', '/hr/hiring/openings', S.sales, { title: 'Nope' })
+  const c = await ok('POST', '/hr/hiring/candidates', S.hr, { jobId: job.id, firstName: 'Nila', lastName: 'Kumar', email: 'nila@example.com', phone: '9000012345' })
+  const r = await ok('POST', '/hr/hiring/candidates', S.hr, { jobId: job.id, firstName: 'Ravi' })
+  assert.equal(c.stage, 'APPLIED')
+  await ok('PATCH', `/hr/hiring/candidates/${r.id}`, S.hr, { stage: 'REJECTED', rejectionReason: 'Not enough experience' })
+  await deny('POST', `/hr/hiring/candidates/${r.id}/hire`, S.hr, undefined, 409)
+  await ok('PATCH', `/hr/hiring/candidates/${c.id}`, S.hr, { stage: 'INTERVIEW', interviewAt: `${plusDays(2)}T10:00:00.000Z` })
+  const offered = await ok('POST', `/hr/hiring/candidates/${c.id}/offer-sent`, S.hr, { monthlySalary: 40000, joiningDate: plusDays(14) })
+  assert.equal(offered.stage, 'OFFER')
+  const letter = await ok('GET', `/hr/hiring/candidates/${c.id}/offer`, S.hr)
+  assert.equal(letter.employee.designation, 'Flutter developer')
+  assert.equal(letter.annual, 480000)
+  const listed = (await ok('GET', '/hr/hiring/openings', S.hr)).items.find((x: any) => x.id === job.id)
+  assert.deepEqual([listed.applied, listed.appliedThisMonth], [2, 2])
+  const emp = await ok('POST', `/hr/hiring/candidates/${c.id}/hire`, S.hr)
+  assert.equal(emp.firstName, 'Nila')
+  assert.equal(Number(emp.ctcAnnual), 480000)
+  assert.equal(emp.departmentId, dept)
+  assert.equal((await ok('GET', `/hr/hiring/candidates/${c.id}`, S.hr)).stage, 'JOINED')
+  await deny('POST', `/hr/hiring/candidates/${c.id}/hire`, S.hr, undefined, 409) // only once
+  await deny('POST', '/hr/hiring/candidates', S.hr, { jobId: '00000000-0000-4000-8000-000000000000', firstName: 'Ghost' }, 404)
+
+  // vendor bills: a bill with a due date waits to be paid until it is approved and marked paid
+  const v = await ok('POST', '/finance/vendors', S.accounts, { name: 'PrintHub' })
+  const cat = S.lk.expenseCategories[0].id
+  const late = await ok('POST', '/finance/expenses', S.accounts, { categoryId: cat, vendorId: v.id, expenseDate: plusDays(-20), billNumber: 'PH-101', dueDate: plusDays(-5), amount: 3000, taxAmount: 0, description: 'Brochures' })
+  const soon = await ok('POST', '/finance/expenses', S.accounts, { categoryId: cat, vendorId: v.id, expenseDate: today, billNumber: 'PH-102', dueDate: plusDays(3), amount: 1500, description: 'Visiting cards' })
+  await deny('POST', `/finance/expenses/${soon.id}/paid`, S.manager, undefined, 409) // not approved yet
+  let sum = await ok('GET', '/finance/vendors-summary', S.accounts)
+  const row = () => sum.items.find((x: any) => x.id === v.id)
+  assert.equal(row().toPay, 4500)
+  assert.ok(sum.bills.find((b: any) => b.id === late.id).overdue)
+  assert.ok(sum.stats.dueThisWeek >= 1 && sum.stats.overdue >= 1)
+  await ok('POST', `/finance/expenses/${late.id}/approve`, S.manager)
+  await deny('POST', `/finance/expenses/${late.id}/paid`, S.sales, undefined, 403)
+  assert.equal((await ok('POST', `/finance/expenses/${late.id}/paid`, S.accounts)).status, 'PAID')
+  await deny('POST', `/finance/expenses/${late.id}/paid`, S.accounts, undefined, 409)
+  sum = await ok('GET', '/finance/vendors-summary', S.accounts)
+  assert.equal(row().toPay, 1500)
+  assert.ok(!sum.bills.find((b: any) => b.id === late.id).overdue)
+  assert.ok(sum.stats.paidThisMonth >= 3000)
+})
+
+test('google: sign in with Google, connect Drive and Sheets, save a file, send a list, disconnect', async () => {
+  const { prisma } = await import('../src/server/db')
+  const clientId = '1234-abc.apps.googleusercontent.com'
+  const realFetch = globalThis.fetch
+  const seen: { url: string; method: string; body?: any }[] = []
+  let claims: any = {}
+  let refreshToken: string | undefined
+  const idToken = () => `x.${Buffer.from(JSON.stringify({ iss: 'https://accounts.google.com', aud: clientId, exp: Math.floor(Date.now() / 1000) + 600, email_verified: true, ...claims })).toString('base64url')}.sig`
+  const json = (v: unknown, status = 200) => new Response(JSON.stringify(v), { status, headers: { 'content-type': 'application/json' } })
+  globalThis.fetch = (async (input: any, init: any = {}) => {
+    const url = String(input)
+    const method = init.method ?? 'GET'
+    const body = typeof init.body === 'string' ? (init.body.startsWith('{') ? JSON.parse(init.body) : init.body) : init.body instanceof URLSearchParams ? Object.fromEntries(init.body) : init.body
+    seen.push({ url, method, body })
+    if (url === 'https://oauth2.googleapis.com/token') {
+      if (body.grant_type === 'authorization_code') return body.code === 'good' ? json({ id_token: idToken(), access_token: 'at', refresh_token: refreshToken, expires_in: 3600 }) : json({ error: 'invalid_grant' }, 400)
+      return body.refresh_token === 'rt-1' ? json({ access_token: 'at-2', expires_in: 3600 }) : json({ error: 'invalid_grant' }, 400)
+    }
+    if (url.startsWith('https://oauth2.googleapis.com/revoke')) return json({})
+    if (url.startsWith('https://www.googleapis.com/drive/v3/files?')) return json(body.mimeType === 'application/vnd.google-apps.folder' ? { id: 'folder-1' } : { id: 'sheet-1', webViewLink: 'https://docs.google.com/spreadsheets/d/sheet-1/edit' })
+    if (url.startsWith('https://www.googleapis.com/drive/v3/files/folder-1')) return json({ id: 'folder-1', trashed: false })
+    if (url.startsWith('https://www.googleapis.com/upload/drive/v3/files')) return json({ id: 'file-1', webViewLink: 'https://drive.google.com/file/d/file-1/view' })
+    if (url.startsWith('https://sheets.googleapis.com/v4/spreadsheets/sheet-1')) return json({})
+    throw new Error(`unexpected fetch ${url}`)
+  }) as typeof fetch
+  const cookie = (r: { headers: Headers }, name: string) => {
+    const m = String(r.headers.get('set-cookie')).match(new RegExp(`${name}=([^;]*)`))
+    return m && m[1] ? `${name}=${m[1]}` : ''
+  }
+  const back = async (state: string, cookies: string, code = 'good') => {
+    const r = await call('GET', `/auth/google/callback?code=${code}&state=${state}`, cookies)
+    assert.equal(r.status, 302)
+    return { to: String(r.headers.get('location')), r }
+  }
+  try {
+    // set up: nothing shows until the client id and secret are saved
+    assert.equal((await ok('GET', '/auth/status')).google, false)
+    assert.equal((await ok('GET', '/settings/integrations', S.admin)).google.connected, false)
+    await deny('PUT', '/settings/integrations/google', S.admin, { clientId: 'not-a-client', clientSecret: 's' }, 400)
+    await deny('PUT', '/settings/integrations/google', S.sales, { clientId, clientSecret: 's' })
+    await ok('PUT', '/settings/integrations/google', S.admin, { clientId, clientSecret: 'secret-1', allowedDomain: '@Example.com', signIn: true })
+    const st = await ok('GET', '/settings/integrations', S.admin)
+    assert.deepEqual([st.google.hasSecret, st.google.allowedDomain, st.google.signIn, st.google.redirectUri], [true, 'example.com', true, 'http://app.test/api/v1/auth/google/callback'])
+    assert.ok(!JSON.stringify(st).includes('secret-1'))
+    assert.equal((await ok('GET', '/auth/status')).google, true)
+
+    // sign in with Google: only people who already have a user, on the company domain
+    const start = await call('GET', '/auth/google')
+    assert.equal(start.status, 302)
+    const to = new URL(String(start.headers.get('location')))
+    assert.equal(to.origin + to.pathname, 'https://accounts.google.com/o/oauth2/v2/auth')
+    assert.equal(to.searchParams.get('hd'), 'example.com')
+    const g = cookie(start, 'cx_google')
+    const state = to.searchParams.get('state')!
+    claims = { sub: 'g-sales', email: 'Sales@example.com', hd: 'example.com' }
+    assert.match((await back('wrong', g)).to, /\/login\?google=expired$/)
+    const signed = await back(state, g)
+    assert.match(signed.to, /\/dashboard$/)
+    const session = cookie(signed.r, 'cx_session')
+    assert.equal((await ok('GET', '/auth/me', session)).id, S.ids.sales)
+    assert.equal((await prisma.user.findUniqueOrThrow({ where: { id: S.ids.sales } })).googleSub, 'g-sales')
+    const again = async () => { const s = await call('GET', '/auth/google'); return { g: cookie(s, 'cx_google'), state: new URL(String(s.headers.get('location'))).searchParams.get('state')! } }
+    let a = await again()
+    claims = { sub: 'g-other', email: 'sales@gmail.com' }
+    assert.match((await back(a.state, a.g)).to, /google=domain$/)
+    a = await again()
+    claims = { sub: 'g-x', email: 'stranger@example.com', hd: 'example.com' }
+    assert.match((await back(a.state, a.g)).to, /google=nouser$/)
+    a = await again()
+    claims = { sub: 'g-impostor', email: 'sales@example.com', hd: 'example.com' } // the email is linked to another Google account
+    assert.match((await back(a.state, a.g)).to, /google=nouser$/)
+
+    // connect Drive and Sheets: an admin, signed in, gets a refresh token stored
+    await deny('POST', '/settings/integrations/google/connect', S.sales, undefined)
+    const c = await call('POST', '/settings/integrations/google/connect', S.admin)
+    assert.equal(c.status, 200)
+    const cu = new URL(c.body.url)
+    assert.equal(cu.searchParams.get('access_type'), 'offline')
+    assert.match(String(cu.searchParams.get('scope')), /drive\.file/)
+    claims = { sub: 'g-admin', email: 'admin@example.com', hd: 'example.com' }
+    refreshToken = 'rt-1'
+    assert.match((await back(cu.searchParams.get('state')!, `${cookie(c, 'cx_google')}; ${S.sales}`)).to, /google=denied$/) // a different person cannot finish it
+    const c2 = await call('POST', '/settings/integrations/google/connect', S.admin)
+    assert.match((await back(new URL(c2.body.url).searchParams.get('state')!, `${cookie(c2, 'cx_google')}; ${S.admin}`)).to, /\/settings\?tab=integrations&google=connected$/)
+    const conn = (await ok('GET', '/settings/integrations', S.admin)).google
+    assert.deepEqual([conn.connected, conn.connectedEmail], [true, 'admin@example.com'])
+    assert.equal((await ok('GET', '/lookups', S.sales)).google.drive, true)
+
+    // send a list to Sheets: needs the Export permission for that module
+    await deny('POST', '/google/sheets', S.dev, { title: 'Leads', module: 'LEADS', rows: [['Name'], ['Imran']] })
+    await deny('POST', '/google/sheets', S.admin, { title: 'Leads', module: 'LEADS', rows: [[{ bad: 1 }]] }, 400)
+    const sheet = await ok('POST', '/google/sheets', S.admin, { title: 'Leads, 05 Oct 2026', module: 'LEADS', rows: [['Name', 'Value'], ['Imran', 150000]] })
+    assert.equal(sheet.url, 'https://docs.google.com/spreadsheets/d/sheet-1/edit')
+    const values = seen.find((x) => x.url.includes('/values/A1'))!
+    assert.deepEqual(values.body.values, [['Name', 'Value'], ['Imran', 150000]])
+    assert.ok(seen.some((x) => x.body?.name === 'Leads, 05 Oct 2026' && x.body.parents?.[0] === 'folder-1'))
+    assert.equal(seen.filter((x) => x.body?.mimeType === 'application/vnd.google-apps.folder').length, 1)
+
+    // save an uploaded file to Drive, once
+    const att = (await ok('GET', `/attachments?entityType=LEAD&entityId=${S.l1.id}`, S.admin)).items[0]
+    const saved = await ok('POST', `/google/drive/files/${att.file.id}`, S.sales)
+    assert.equal(saved.url, 'https://drive.google.com/file/d/file-1/view')
+    const upload = seen.find((x) => x.url.includes('/upload/drive/'))!
+    assert.match(Buffer.from(upload.body).toString(), /brief contents/)
+    assert.equal((await ok('POST', `/google/drive/files/${att.file.id}`, S.sales)).already, true)
+    assert.equal(seen.filter((x) => x.url.includes('/upload/drive/')).length, 1)
+
+    // disconnect: the token is revoked and Drive and Sheets stop; sign-in keeps working
+    await ok('DELETE', '/settings/integrations/google/connection', S.admin)
+    assert.ok(seen.some((x) => x.url.startsWith('https://oauth2.googleapis.com/revoke') && x.url.includes('rt-1')))
+    assert.equal((await ok('GET', '/lookups', S.sales)).google.drive, false)
+    await deny('POST', '/google/sheets', S.admin, { title: 'Leads', module: 'LEADS', rows: [['Name']] }, 409)
+    assert.equal((await ok('GET', '/auth/status')).google, true)
+  } finally {
+    globalThis.fetch = realFetch
+  }
+})

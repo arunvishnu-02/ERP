@@ -6,8 +6,10 @@ import { migrate } from './core/migrate'
 import { Response, Router, type Request, type RouterImpl } from './core/router'
 import { prisma } from './db'
 import { rememberOrigin } from './env'
+import { approvalsRouter } from './modules/approvals'
 import { authRouter } from './modules/auth'
 import { assetsRouter, documentsRouter, financeRouter, hrRouter, meRouter } from './modules/backoffice'
+import { myPayslipsRouter, payrollRouter } from './modules/payroll'
 import { customersRouter } from './modules/customers'
 import { adSpendRouter, campaignsRouter, contentRouter, credentialsRouter, ticketsRouter, webAssetsRouter, websitesRouter } from './modules/delivery'
 import { automationRouter, communicationRouter, dashboardRouter, reportsRouter } from './modules/insights'
@@ -15,7 +17,11 @@ import { creditNotesRouter, invoicesRouter, recurringRouter } from './modules/in
 import { followUpsRouter, leadsRouter } from './modules/leads'
 import { bankAccountsRouter, paymentsRouter } from './modules/payments'
 import { projectsRouter } from './modules/projects'
+import { portalRouter } from './modules/portal'
+import { googleAuthRouter, googleRouter, integrationsRouter } from './modules/google'
+import { hiringRouter } from './modules/hiring'
 import { publicRouter } from './modules/public'
+import { searchRouter } from './modules/search'
 import { packagesRouter, quotationsRouter, servicesRouter } from './modules/quotations'
 import { callsRouter, dealsRouter, meetingsRouter } from './modules/sales'
 import { lookups, settingsRouter } from './modules/settings'
@@ -28,10 +34,14 @@ function build() {
     await prisma.$queryRaw`SELECT 1`
     res.json({ ok: true })
   })
+  v1.use('/auth/google', googleAuthRouter)
   v1.use('/auth', authRouter)
   v1.use('/public', publicRouter)
+  v1.use('/portal', portalRouter)
   v1.use(authenticate)
   v1.get('/lookups', lookups)
+  v1.use('/approvals', approvalsRouter)
+  v1.use('/search', searchRouter)
   v1.use('/dashboard', dashboardRouter)
   v1.use('/leads', leadsRouter)
   v1.use('/follow-ups', followUpsRouter)
@@ -57,13 +67,18 @@ function build() {
   v1.use('/credentials', credentialsRouter)
   v1.use('/tickets', ticketsRouter)
   v1.use('/documents', documentsRouter)
+  v1.use('/hr/hiring', hiringRouter)
   v1.use('/hr', hrRouter)
+  v1.use('/payroll', payrollRouter)
+  v1.use('/me/payslips', myPayslipsRouter)
   v1.use('/me', meRouter)
   v1.use('/assets', assetsRouter)
   v1.use('/finance', financeRouter)
   v1.use('/reports', reportsRouter)
   v1.use('/automations', automationRouter)
   v1.use('/communication', communicationRouter)
+  v1.use('/google', googleRouter)
+  v1.use('/settings/integrations', integrationsRouter)
   v1.use('/settings', settingsRouter)
   v1.use('/', sharedRouter)
   return v1

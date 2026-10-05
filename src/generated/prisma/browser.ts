@@ -73,6 +73,18 @@ export type RolePermission = Prisma.RolePermissionModel
  */
 export type Session = Prisma.SessionModel
 /**
+ * Model PortalSession
+ * *
+ *  * A client contact signed in to the portal. Like Session, only the SHA-256 of the cookie is stored.
+ */
+export type PortalSession = Prisma.PortalSessionModel
+/**
+ * Model PortalCode
+ * *
+ *  * A one-time sign-in code emailed to a client contact.
+ */
+export type PortalCode = Prisma.PortalCodeModel
+/**
  * Model PasswordResetToken
  * 
  */
@@ -413,6 +425,16 @@ export type LeaveRequest = Prisma.LeaveRequestModel
  */
 export type Holiday = Prisma.HolidayModel
 /**
+ * Model PayrollRun
+ * One month's salary run. Draft while HR checks it, finalised when payslips go out, paid when the money is sent.
+ */
+export type PayrollRun = Prisma.PayrollRunModel
+/**
+ * Model Payslip
+ * One employee's pay for one month. Earnings and deductions are lists of { name, amount }.
+ */
+export type Payslip = Prisma.PayslipModel
+/**
  * Model PerformanceReview
  * 
  */
@@ -532,3 +554,15 @@ export type WebhookEvent = Prisma.WebhookEventModel
  * 
  */
 export type OutboxEvent = Prisma.OutboxEventModel
+/**
+ * Model JobOpening
+ * *
+ *  * A role the company is hiring for.
+ */
+export type JobOpening = Prisma.JobOpeningModel
+/**
+ * Model Candidate
+ * *
+ *  * A person who applied for a job opening, from first contact to joining.
+ */
+export type Candidate = Prisma.CandidateModel

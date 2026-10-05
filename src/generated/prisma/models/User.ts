@@ -41,6 +41,7 @@ export type UserMinAggregateOutputType = {
   twoFactorSecret: string | null
   mustChangePassword: boolean | null
   emailVerifiedAt: Date | null
+  googleSub: string | null
   lastLoginAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -64,6 +65,7 @@ export type UserMaxAggregateOutputType = {
   twoFactorSecret: string | null
   mustChangePassword: boolean | null
   emailVerifiedAt: Date | null
+  googleSub: string | null
   lastLoginAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -87,6 +89,7 @@ export type UserCountAggregateOutputType = {
   twoFactorSecret: number
   mustChangePassword: number
   emailVerifiedAt: number
+  googleSub: number
   lastLoginAt: number
   preferences: number
   createdAt: number
@@ -113,6 +116,7 @@ export type UserMinAggregateInputType = {
   twoFactorSecret?: true
   mustChangePassword?: true
   emailVerifiedAt?: true
+  googleSub?: true
   lastLoginAt?: true
   createdAt?: true
   updatedAt?: true
@@ -136,6 +140,7 @@ export type UserMaxAggregateInputType = {
   twoFactorSecret?: true
   mustChangePassword?: true
   emailVerifiedAt?: true
+  googleSub?: true
   lastLoginAt?: true
   createdAt?: true
   updatedAt?: true
@@ -159,6 +164,7 @@ export type UserCountAggregateInputType = {
   twoFactorSecret?: true
   mustChangePassword?: true
   emailVerifiedAt?: true
+  googleSub?: true
   lastLoginAt?: true
   preferences?: true
   createdAt?: true
@@ -256,6 +262,7 @@ export type UserGroupByOutputType = {
   twoFactorSecret: string | null
   mustChangePassword: boolean
   emailVerifiedAt: Date | null
+  googleSub: string | null
   lastLoginAt: Date | null
   preferences: runtime.JsonValue | null
   createdAt: Date
@@ -301,6 +308,7 @@ export type UserWhereInput = {
   twoFactorSecret?: Prisma.StringNullableFilter<"User"> | string | null
   mustChangePassword?: Prisma.BoolFilter<"User"> | boolean
   emailVerifiedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  googleSub?: Prisma.StringNullableFilter<"User"> | string | null
   lastLoginAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   preferences?: Prisma.JsonNullableFilter<"User">
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
@@ -373,6 +381,7 @@ export type UserOrderByWithRelationInput = {
   twoFactorSecret?: Prisma.SortOrderInput | Prisma.SortOrder
   mustChangePassword?: Prisma.SortOrder
   emailVerifiedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  googleSub?: Prisma.SortOrderInput | Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrderInput | Prisma.SortOrder
   preferences?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -431,6 +440,7 @@ export type UserOrderByWithRelationInput = {
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  googleSub?: string
   organizationId_email?: Prisma.UserOrganizationIdEmailCompoundUniqueInput
   AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   OR?: Prisma.UserWhereInput[]
@@ -503,7 +513,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   sentMessages?: Prisma.MessageListRelationFilter
   notifications?: Prisma.NotificationListRelationFilter
   notificationPreferences?: Prisma.NotificationPreferenceListRelationFilter
-}, "id" | "organizationId_email">
+}, "id" | "googleSub" | "organizationId_email">
 
 export type UserOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -522,6 +532,7 @@ export type UserOrderByWithAggregationInput = {
   twoFactorSecret?: Prisma.SortOrderInput | Prisma.SortOrder
   mustChangePassword?: Prisma.SortOrder
   emailVerifiedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  googleSub?: Prisma.SortOrderInput | Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrderInput | Prisma.SortOrder
   preferences?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -552,6 +563,7 @@ export type UserScalarWhereWithAggregatesInput = {
   twoFactorSecret?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   mustChangePassword?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
   emailVerifiedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+  googleSub?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   lastLoginAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   preferences?: Prisma.JsonNullableWithAggregatesFilter<"User">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -572,6 +584,7 @@ export type UserCreateInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -644,6 +657,7 @@ export type UserUncheckedCreateInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -708,6 +722,7 @@ export type UserUpdateInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -780,6 +795,7 @@ export type UserUncheckedUpdateInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -848,6 +864,7 @@ export type UserCreateManyInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -868,6 +885,7 @@ export type UserUpdateManyMutationInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -892,6 +910,7 @@ export type UserUncheckedUpdateManyInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -947,6 +966,7 @@ export type UserCountOrderByAggregateInput = {
   twoFactorSecret?: Prisma.SortOrder
   mustChangePassword?: Prisma.SortOrder
   emailVerifiedAt?: Prisma.SortOrder
+  googleSub?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrder
   preferences?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -971,6 +991,7 @@ export type UserMaxOrderByAggregateInput = {
   twoFactorSecret?: Prisma.SortOrder
   mustChangePassword?: Prisma.SortOrder
   emailVerifiedAt?: Prisma.SortOrder
+  googleSub?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -994,6 +1015,7 @@ export type UserMinOrderByAggregateInput = {
   twoFactorSecret?: Prisma.SortOrder
   mustChangePassword?: Prisma.SortOrder
   emailVerifiedAt?: Prisma.SortOrder
+  googleSub?: Prisma.SortOrder
   lastLoginAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -1316,10 +1338,12 @@ export type UserCreateNestedOneWithoutCommentsInput = {
   connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserUpdateOneRequiredWithoutCommentsNestedInput = {
+export type UserUpdateOneWithoutCommentsNestedInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutCommentsInput, Prisma.UserUncheckedCreateWithoutCommentsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutCommentsInput
   upsert?: Prisma.UserUpsertWithoutCommentsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCommentsInput, Prisma.UserUpdateWithoutCommentsInput>, Prisma.UserUncheckedUpdateWithoutCommentsInput>
 }
@@ -1837,6 +1861,7 @@ export type UserCreateWithoutOrganizationInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -1907,6 +1932,7 @@ export type UserUncheckedCreateWithoutOrganizationInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -2004,6 +2030,7 @@ export type UserScalarWhereInput = {
   twoFactorSecret?: Prisma.StringNullableFilter<"User"> | string | null
   mustChangePassword?: Prisma.BoolFilter<"User"> | boolean
   emailVerifiedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+  googleSub?: Prisma.StringNullableFilter<"User"> | string | null
   lastLoginAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   preferences?: Prisma.JsonNullableFilter<"User">
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
@@ -2024,6 +2051,7 @@ export type UserCreateWithoutBranchInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -2094,6 +2122,7 @@ export type UserUncheckedCreateWithoutBranchInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -2184,6 +2213,7 @@ export type UserCreateWithoutHeadedDepartmentsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -2255,6 +2285,7 @@ export type UserUncheckedCreateWithoutHeadedDepartmentsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -2323,6 +2354,7 @@ export type UserCreateWithoutDepartmentInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -2393,6 +2425,7 @@ export type UserUncheckedCreateWithoutDepartmentInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -2478,6 +2511,7 @@ export type UserUpdateWithoutHeadedDepartmentsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2549,6 +2583,7 @@ export type UserUncheckedUpdateWithoutHeadedDepartmentsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2628,6 +2663,7 @@ export type UserCreateWithoutLedTeamsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -2699,6 +2735,7 @@ export type UserUncheckedCreateWithoutLedTeamsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -2778,6 +2815,7 @@ export type UserUpdateWithoutLedTeamsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2849,6 +2887,7 @@ export type UserUncheckedUpdateWithoutLedTeamsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2912,6 +2951,7 @@ export type UserCreateWithoutTeamMembershipsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -2983,6 +3023,7 @@ export type UserUncheckedCreateWithoutTeamMembershipsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -3062,6 +3103,7 @@ export type UserUpdateWithoutTeamMembershipsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3133,6 +3175,7 @@ export type UserUncheckedUpdateWithoutTeamMembershipsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3196,6 +3239,7 @@ export type UserCreateWithoutReportsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -3267,6 +3311,7 @@ export type UserUncheckedCreateWithoutReportsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -3335,6 +3380,7 @@ export type UserCreateWithoutManagerInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -3405,6 +3451,7 @@ export type UserUncheckedCreateWithoutManagerInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -3490,6 +3537,7 @@ export type UserUpdateWithoutReportsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3561,6 +3609,7 @@ export type UserUncheckedUpdateWithoutReportsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3640,6 +3689,7 @@ export type UserCreateWithoutRolesInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -3711,6 +3761,7 @@ export type UserUncheckedCreateWithoutRolesInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -3790,6 +3841,7 @@ export type UserUpdateWithoutRolesInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3861,6 +3913,7 @@ export type UserUncheckedUpdateWithoutRolesInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3924,6 +3977,7 @@ export type UserCreateWithoutSessionsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -3995,6 +4049,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -4074,6 +4129,7 @@ export type UserUpdateWithoutSessionsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4145,6 +4201,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4208,6 +4265,7 @@ export type UserCreateWithoutPasswordResetTokensInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -4279,6 +4337,7 @@ export type UserUncheckedCreateWithoutPasswordResetTokensInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -4358,6 +4417,7 @@ export type UserUpdateWithoutPasswordResetTokensInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4429,6 +4489,7 @@ export type UserUncheckedUpdateWithoutPasswordResetTokensInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4492,6 +4553,7 @@ export type UserCreateWithoutAuditLogsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -4563,6 +4625,7 @@ export type UserUncheckedCreateWithoutAuditLogsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -4642,6 +4705,7 @@ export type UserUpdateWithoutAuditLogsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4713,6 +4777,7 @@ export type UserUncheckedUpdateWithoutAuditLogsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4776,6 +4841,7 @@ export type UserCreateWithoutNotesInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -4847,6 +4913,7 @@ export type UserUncheckedCreateWithoutNotesInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -4926,6 +4993,7 @@ export type UserUpdateWithoutNotesInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4997,6 +5065,7 @@ export type UserUncheckedUpdateWithoutNotesInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5060,6 +5129,7 @@ export type UserCreateWithoutCommentsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -5131,6 +5201,7 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -5210,6 +5281,7 @@ export type UserUpdateWithoutCommentsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5281,6 +5353,7 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5344,6 +5417,7 @@ export type UserCreateWithoutActivitiesInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -5415,6 +5489,7 @@ export type UserUncheckedCreateWithoutActivitiesInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -5494,6 +5569,7 @@ export type UserUpdateWithoutActivitiesInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5565,6 +5641,7 @@ export type UserUncheckedUpdateWithoutActivitiesInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5628,6 +5705,7 @@ export type UserCreateWithoutOwnedLeadsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -5699,6 +5777,7 @@ export type UserUncheckedCreateWithoutOwnedLeadsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -5778,6 +5857,7 @@ export type UserUpdateWithoutOwnedLeadsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5849,6 +5929,7 @@ export type UserUncheckedUpdateWithoutOwnedLeadsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -5912,6 +5993,7 @@ export type UserCreateWithoutFollowUpsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -5983,6 +6065,7 @@ export type UserUncheckedCreateWithoutFollowUpsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -6062,6 +6145,7 @@ export type UserUpdateWithoutFollowUpsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6133,6 +6217,7 @@ export type UserUncheckedUpdateWithoutFollowUpsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6196,6 +6281,7 @@ export type UserCreateWithoutManagedCustomersInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -6267,6 +6353,7 @@ export type UserUncheckedCreateWithoutManagedCustomersInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -6346,6 +6433,7 @@ export type UserUpdateWithoutManagedCustomersInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6417,6 +6505,7 @@ export type UserUncheckedUpdateWithoutManagedCustomersInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6480,6 +6569,7 @@ export type UserCreateWithoutOwnedDealsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -6551,6 +6641,7 @@ export type UserUncheckedCreateWithoutOwnedDealsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -6630,6 +6721,7 @@ export type UserUpdateWithoutOwnedDealsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6701,6 +6793,7 @@ export type UserUncheckedUpdateWithoutOwnedDealsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6764,6 +6857,7 @@ export type UserCreateWithoutOrganizedMeetingsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -6835,6 +6929,7 @@ export type UserUncheckedCreateWithoutOrganizedMeetingsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -6914,6 +7009,7 @@ export type UserUpdateWithoutOrganizedMeetingsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -6985,6 +7081,7 @@ export type UserUncheckedUpdateWithoutOrganizedMeetingsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -7048,6 +7145,7 @@ export type UserCreateWithoutMeetingInvitesInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -7119,6 +7217,7 @@ export type UserUncheckedCreateWithoutMeetingInvitesInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -7198,6 +7297,7 @@ export type UserUpdateWithoutMeetingInvitesInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -7269,6 +7369,7 @@ export type UserUncheckedUpdateWithoutMeetingInvitesInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -7332,6 +7433,7 @@ export type UserCreateWithoutCallLogsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -7403,6 +7505,7 @@ export type UserUncheckedCreateWithoutCallLogsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -7482,6 +7585,7 @@ export type UserUpdateWithoutCallLogsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -7553,6 +7657,7 @@ export type UserUncheckedUpdateWithoutCallLogsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -7616,6 +7721,7 @@ export type UserCreateWithoutPreparedQuotationsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -7687,6 +7793,7 @@ export type UserUncheckedCreateWithoutPreparedQuotationsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -7766,6 +7873,7 @@ export type UserUpdateWithoutPreparedQuotationsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -7837,6 +7945,7 @@ export type UserUncheckedUpdateWithoutPreparedQuotationsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -7900,6 +8009,7 @@ export type UserCreateWithoutApprovalRulesInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -7971,6 +8081,7 @@ export type UserUncheckedCreateWithoutApprovalRulesInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -8050,6 +8161,7 @@ export type UserUpdateWithoutApprovalRulesInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8121,6 +8233,7 @@ export type UserUncheckedUpdateWithoutApprovalRulesInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8184,6 +8297,7 @@ export type UserCreateWithoutApprovalRequestsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -8255,6 +8369,7 @@ export type UserUncheckedCreateWithoutApprovalRequestsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -8334,6 +8449,7 @@ export type UserUpdateWithoutApprovalRequestsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8405,6 +8521,7 @@ export type UserUncheckedUpdateWithoutApprovalRequestsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8468,6 +8585,7 @@ export type UserCreateWithoutApprovalStepsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -8539,6 +8657,7 @@ export type UserUncheckedCreateWithoutApprovalStepsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -8618,6 +8737,7 @@ export type UserUpdateWithoutApprovalStepsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8689,6 +8809,7 @@ export type UserUncheckedUpdateWithoutApprovalStepsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8752,6 +8873,7 @@ export type UserCreateWithoutManagedProjectsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -8823,6 +8945,7 @@ export type UserUncheckedCreateWithoutManagedProjectsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -8902,6 +9025,7 @@ export type UserUpdateWithoutManagedProjectsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -8973,6 +9097,7 @@ export type UserUncheckedUpdateWithoutManagedProjectsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -9036,6 +9161,7 @@ export type UserCreateWithoutProjectMembershipsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -9107,6 +9233,7 @@ export type UserUncheckedCreateWithoutProjectMembershipsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -9186,6 +9313,7 @@ export type UserUpdateWithoutProjectMembershipsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -9257,6 +9385,7 @@ export type UserUncheckedUpdateWithoutProjectMembershipsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -9320,6 +9449,7 @@ export type UserCreateWithoutAssignedTasksInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -9391,6 +9521,7 @@ export type UserUncheckedCreateWithoutAssignedTasksInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -9459,6 +9590,7 @@ export type UserCreateWithoutReportedTasksInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -9530,6 +9662,7 @@ export type UserUncheckedCreateWithoutReportedTasksInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -9609,6 +9742,7 @@ export type UserUpdateWithoutAssignedTasksInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -9680,6 +9814,7 @@ export type UserUncheckedUpdateWithoutAssignedTasksInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -9754,6 +9889,7 @@ export type UserUpdateWithoutReportedTasksInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -9825,6 +9961,7 @@ export type UserUncheckedUpdateWithoutReportedTasksInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -9888,6 +10025,7 @@ export type UserCreateWithoutTimeEntriesInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -9959,6 +10097,7 @@ export type UserUncheckedCreateWithoutTimeEntriesInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -10038,6 +10177,7 @@ export type UserUpdateWithoutTimeEntriesInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -10109,6 +10249,7 @@ export type UserUncheckedUpdateWithoutTimeEntriesInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -10172,6 +10313,7 @@ export type UserCreateWithoutManagedCampaignsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -10243,6 +10385,7 @@ export type UserUncheckedCreateWithoutManagedCampaignsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -10322,6 +10465,7 @@ export type UserUpdateWithoutManagedCampaignsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -10393,6 +10537,7 @@ export type UserUncheckedUpdateWithoutManagedCampaignsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -10456,6 +10601,7 @@ export type UserCreateWithoutContentItemsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -10527,6 +10673,7 @@ export type UserUncheckedCreateWithoutContentItemsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -10606,6 +10753,7 @@ export type UserUpdateWithoutContentItemsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -10677,6 +10825,7 @@ export type UserUncheckedUpdateWithoutContentItemsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -10740,6 +10889,7 @@ export type UserCreateWithoutCredentialAccessLogsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -10811,6 +10961,7 @@ export type UserUncheckedCreateWithoutCredentialAccessLogsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -10890,6 +11041,7 @@ export type UserUpdateWithoutCredentialAccessLogsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -10961,6 +11113,7 @@ export type UserUncheckedUpdateWithoutCredentialAccessLogsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -11024,6 +11177,7 @@ export type UserCreateWithoutAssignedTicketsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -11095,6 +11249,7 @@ export type UserUncheckedCreateWithoutAssignedTicketsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -11174,6 +11329,7 @@ export type UserUpdateWithoutAssignedTicketsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -11245,6 +11401,7 @@ export type UserUncheckedUpdateWithoutAssignedTicketsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -11308,6 +11465,7 @@ export type UserCreateWithoutOwnedDocumentsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -11379,6 +11537,7 @@ export type UserUncheckedCreateWithoutOwnedDocumentsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -11458,6 +11617,7 @@ export type UserUpdateWithoutOwnedDocumentsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -11529,6 +11689,7 @@ export type UserUncheckedUpdateWithoutOwnedDocumentsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -11592,6 +11753,7 @@ export type UserCreateWithoutEmployeeInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -11663,6 +11825,7 @@ export type UserUncheckedCreateWithoutEmployeeInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -11742,6 +11905,7 @@ export type UserUpdateWithoutEmployeeInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -11813,6 +11977,7 @@ export type UserUncheckedUpdateWithoutEmployeeInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -11876,6 +12041,7 @@ export type UserCreateWithoutLeaveApprovalsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -11947,6 +12113,7 @@ export type UserUncheckedCreateWithoutLeaveApprovalsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -12026,6 +12193,7 @@ export type UserUpdateWithoutLeaveApprovalsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -12097,6 +12265,7 @@ export type UserUncheckedUpdateWithoutLeaveApprovalsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -12160,6 +12329,7 @@ export type UserCreateWithoutPerformanceReviewsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -12231,6 +12401,7 @@ export type UserUncheckedCreateWithoutPerformanceReviewsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -12310,6 +12481,7 @@ export type UserUpdateWithoutPerformanceReviewsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -12381,6 +12553,7 @@ export type UserUncheckedUpdateWithoutPerformanceReviewsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -12444,6 +12617,7 @@ export type UserCreateWithoutPaidExpensesInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -12515,6 +12689,7 @@ export type UserUncheckedCreateWithoutPaidExpensesInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -12594,6 +12769,7 @@ export type UserUpdateWithoutPaidExpensesInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -12665,6 +12841,7 @@ export type UserUncheckedUpdateWithoutPaidExpensesInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -12728,6 +12905,7 @@ export type UserCreateWithoutSavedReportsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -12799,6 +12977,7 @@ export type UserUncheckedCreateWithoutSavedReportsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -12878,6 +13057,7 @@ export type UserUpdateWithoutSavedReportsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -12949,6 +13129,7 @@ export type UserUncheckedUpdateWithoutSavedReportsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -13012,6 +13193,7 @@ export type UserCreateWithoutExportJobsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -13083,6 +13265,7 @@ export type UserUncheckedCreateWithoutExportJobsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -13162,6 +13345,7 @@ export type UserUpdateWithoutExportJobsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -13233,6 +13417,7 @@ export type UserUncheckedUpdateWithoutExportJobsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -13296,6 +13481,7 @@ export type UserCreateWithoutImportJobsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -13367,6 +13553,7 @@ export type UserUncheckedCreateWithoutImportJobsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -13446,6 +13633,7 @@ export type UserUpdateWithoutImportJobsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -13517,6 +13705,7 @@ export type UserUncheckedUpdateWithoutImportJobsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -13580,6 +13769,7 @@ export type UserCreateWithoutDashboardWidgetsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -13651,6 +13841,7 @@ export type UserUncheckedCreateWithoutDashboardWidgetsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -13730,6 +13921,7 @@ export type UserUpdateWithoutDashboardWidgetsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -13801,6 +13993,7 @@ export type UserUncheckedUpdateWithoutDashboardWidgetsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -13864,6 +14057,7 @@ export type UserCreateWithoutSavedFiltersInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -13935,6 +14129,7 @@ export type UserUncheckedCreateWithoutSavedFiltersInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -14014,6 +14209,7 @@ export type UserUpdateWithoutSavedFiltersInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -14085,6 +14281,7 @@ export type UserUncheckedUpdateWithoutSavedFiltersInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -14148,6 +14345,7 @@ export type UserCreateWithoutSentMessagesInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -14219,6 +14417,7 @@ export type UserUncheckedCreateWithoutSentMessagesInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -14298,6 +14497,7 @@ export type UserUpdateWithoutSentMessagesInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -14369,6 +14569,7 @@ export type UserUncheckedUpdateWithoutSentMessagesInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -14432,6 +14633,7 @@ export type UserCreateWithoutNotificationsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -14503,6 +14705,7 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -14582,6 +14785,7 @@ export type UserUpdateWithoutNotificationsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -14653,6 +14857,7 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -14716,6 +14921,7 @@ export type UserCreateWithoutNotificationPreferencesInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -14787,6 +14993,7 @@ export type UserUncheckedCreateWithoutNotificationPreferencesInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -14866,6 +15073,7 @@ export type UserUpdateWithoutNotificationPreferencesInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -14937,6 +15145,7 @@ export type UserUncheckedUpdateWithoutNotificationPreferencesInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -15003,6 +15212,7 @@ export type UserCreateManyOrganizationInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -15023,6 +15233,7 @@ export type UserUpdateWithoutOrganizationInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -15093,6 +15304,7 @@ export type UserUncheckedUpdateWithoutOrganizationInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -15160,6 +15372,7 @@ export type UserUncheckedUpdateManyWithoutOrganizationInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -15183,6 +15396,7 @@ export type UserCreateManyBranchInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -15203,6 +15417,7 @@ export type UserUpdateWithoutBranchInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -15273,6 +15488,7 @@ export type UserUncheckedUpdateWithoutBranchInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -15340,6 +15556,7 @@ export type UserUncheckedUpdateManyWithoutBranchInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -15363,6 +15580,7 @@ export type UserCreateManyDepartmentInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -15383,6 +15601,7 @@ export type UserUpdateWithoutDepartmentInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -15453,6 +15672,7 @@ export type UserUncheckedUpdateWithoutDepartmentInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -15520,6 +15740,7 @@ export type UserUncheckedUpdateManyWithoutDepartmentInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -15543,6 +15764,7 @@ export type UserCreateManyManagerInput = {
   twoFactorSecret?: string | null
   mustChangePassword?: boolean
   emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
   lastLoginAt?: Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
@@ -15563,6 +15785,7 @@ export type UserUpdateWithoutManagerInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -15633,6 +15856,7 @@ export type UserUncheckedUpdateWithoutManagerInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -15700,6 +15924,7 @@ export type UserUncheckedUpdateManyWithoutManagerInput = {
   twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
   emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -16133,6 +16358,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   twoFactorSecret?: boolean
   mustChangePassword?: boolean
   emailVerifiedAt?: boolean
+  googleSub?: boolean
   lastLoginAt?: boolean
   preferences?: boolean
   createdAt?: boolean
@@ -16208,6 +16434,7 @@ export type UserSelectScalar = {
   twoFactorSecret?: boolean
   mustChangePassword?: boolean
   emailVerifiedAt?: boolean
+  googleSub?: boolean
   lastLoginAt?: boolean
   preferences?: boolean
   createdAt?: boolean
@@ -16215,7 +16442,7 @@ export type UserSelectScalar = {
   deletedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "branchId" | "departmentId" | "email" | "phone" | "passwordHash" | "firstName" | "lastName" | "avatarFileId" | "status" | "managerId" | "twoFactorEnabled" | "twoFactorSecret" | "mustChangePassword" | "emailVerifiedAt" | "lastLoginAt" | "preferences" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "branchId" | "departmentId" | "email" | "phone" | "passwordHash" | "firstName" | "lastName" | "avatarFileId" | "status" | "managerId" | "twoFactorEnabled" | "twoFactorSecret" | "mustChangePassword" | "emailVerifiedAt" | "googleSub" | "lastLoginAt" | "preferences" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   branch?: boolean | Prisma.User$branchArgs<ExtArgs>
@@ -16337,6 +16564,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     twoFactorSecret: string | null
     mustChangePassword: boolean
     emailVerifiedAt: Date | null
+    googleSub: string | null
     lastLoginAt: Date | null
     preferences: runtime.JsonValue | null
     createdAt: Date
@@ -16775,6 +17003,7 @@ export interface UserFieldRefs {
   readonly twoFactorSecret: Prisma.FieldRef<"User", 'String'>
   readonly mustChangePassword: Prisma.FieldRef<"User", 'Boolean'>
   readonly emailVerifiedAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly googleSub: Prisma.FieldRef<"User", 'String'>
   readonly lastLoginAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly preferences: Prisma.FieldRef<"User", 'Json'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>

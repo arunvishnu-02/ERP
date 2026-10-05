@@ -36,6 +36,8 @@ export type ContactMinAggregateOutputType = {
   whatsappNumber: string | null
   isPrimary: boolean | null
   isBillingContact: boolean | null
+  portalAccess: boolean | null
+  portalLastSeenAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -52,6 +54,8 @@ export type ContactMaxAggregateOutputType = {
   whatsappNumber: string | null
   isPrimary: boolean | null
   isBillingContact: boolean | null
+  portalAccess: boolean | null
+  portalLastSeenAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -68,6 +72,8 @@ export type ContactCountAggregateOutputType = {
   whatsappNumber: number
   isPrimary: number
   isBillingContact: number
+  portalAccess: number
+  portalLastSeenAt: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -86,6 +92,8 @@ export type ContactMinAggregateInputType = {
   whatsappNumber?: true
   isPrimary?: true
   isBillingContact?: true
+  portalAccess?: true
+  portalLastSeenAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -102,6 +110,8 @@ export type ContactMaxAggregateInputType = {
   whatsappNumber?: true
   isPrimary?: true
   isBillingContact?: true
+  portalAccess?: true
+  portalLastSeenAt?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -118,6 +128,8 @@ export type ContactCountAggregateInputType = {
   whatsappNumber?: true
   isPrimary?: true
   isBillingContact?: true
+  portalAccess?: true
+  portalLastSeenAt?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -207,6 +219,8 @@ export type ContactGroupByOutputType = {
   whatsappNumber: string | null
   isPrimary: boolean
   isBillingContact: boolean
+  portalAccess: boolean
+  portalLastSeenAt: Date | null
   createdAt: Date
   updatedAt: Date
   _count: ContactCountAggregateOutputType | null
@@ -244,10 +258,15 @@ export type ContactWhereInput = {
   whatsappNumber?: Prisma.StringNullableFilter<"Contact"> | string | null
   isPrimary?: Prisma.BoolFilter<"Contact"> | boolean
   isBillingContact?: Prisma.BoolFilter<"Contact"> | boolean
+  portalAccess?: Prisma.BoolFilter<"Contact"> | boolean
+  portalLastSeenAt?: Prisma.DateTimeNullableFilter<"Contact"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Contact"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Contact"> | Date | string
   organization?: Prisma.XOR<Prisma.OrganizationScalarRelationFilter, Prisma.OrganizationWhereInput>
   customer?: Prisma.XOR<Prisma.CustomerScalarRelationFilter, Prisma.CustomerWhereInput>
+  portalSessions?: Prisma.PortalSessionListRelationFilter
+  portalCodes?: Prisma.PortalCodeListRelationFilter
+  comments?: Prisma.CommentListRelationFilter
   deals?: Prisma.DealListRelationFilter
   meetingAttendees?: Prisma.MeetingAttendeeListRelationFilter
   callLogs?: Prisma.CallLogListRelationFilter
@@ -269,10 +288,15 @@ export type ContactOrderByWithRelationInput = {
   whatsappNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   isPrimary?: Prisma.SortOrder
   isBillingContact?: Prisma.SortOrder
+  portalAccess?: Prisma.SortOrder
+  portalLastSeenAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   organization?: Prisma.OrganizationOrderByWithRelationInput
   customer?: Prisma.CustomerOrderByWithRelationInput
+  portalSessions?: Prisma.PortalSessionOrderByRelationAggregateInput
+  portalCodes?: Prisma.PortalCodeOrderByRelationAggregateInput
+  comments?: Prisma.CommentOrderByRelationAggregateInput
   deals?: Prisma.DealOrderByRelationAggregateInput
   meetingAttendees?: Prisma.MeetingAttendeeOrderByRelationAggregateInput
   callLogs?: Prisma.CallLogOrderByRelationAggregateInput
@@ -298,10 +322,15 @@ export type ContactWhereUniqueInput = Prisma.AtLeast<{
   whatsappNumber?: Prisma.StringNullableFilter<"Contact"> | string | null
   isPrimary?: Prisma.BoolFilter<"Contact"> | boolean
   isBillingContact?: Prisma.BoolFilter<"Contact"> | boolean
+  portalAccess?: Prisma.BoolFilter<"Contact"> | boolean
+  portalLastSeenAt?: Prisma.DateTimeNullableFilter<"Contact"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Contact"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Contact"> | Date | string
   organization?: Prisma.XOR<Prisma.OrganizationScalarRelationFilter, Prisma.OrganizationWhereInput>
   customer?: Prisma.XOR<Prisma.CustomerScalarRelationFilter, Prisma.CustomerWhereInput>
+  portalSessions?: Prisma.PortalSessionListRelationFilter
+  portalCodes?: Prisma.PortalCodeListRelationFilter
+  comments?: Prisma.CommentListRelationFilter
   deals?: Prisma.DealListRelationFilter
   meetingAttendees?: Prisma.MeetingAttendeeListRelationFilter
   callLogs?: Prisma.CallLogListRelationFilter
@@ -323,6 +352,8 @@ export type ContactOrderByWithAggregationInput = {
   whatsappNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   isPrimary?: Prisma.SortOrder
   isBillingContact?: Prisma.SortOrder
+  portalAccess?: Prisma.SortOrder
+  portalLastSeenAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ContactCountOrderByAggregateInput
@@ -345,6 +376,8 @@ export type ContactScalarWhereWithAggregatesInput = {
   whatsappNumber?: Prisma.StringNullableWithAggregatesFilter<"Contact"> | string | null
   isPrimary?: Prisma.BoolWithAggregatesFilter<"Contact"> | boolean
   isBillingContact?: Prisma.BoolWithAggregatesFilter<"Contact"> | boolean
+  portalAccess?: Prisma.BoolWithAggregatesFilter<"Contact"> | boolean
+  portalLastSeenAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Contact"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Contact"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Contact"> | Date | string
 }
@@ -359,10 +392,15 @@ export type ContactCreateInput = {
   whatsappNumber?: string | null
   isPrimary?: boolean
   isBillingContact?: boolean
+  portalAccess?: boolean
+  portalLastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   organization: Prisma.OrganizationCreateNestedOneWithoutContactsInput
   customer: Prisma.CustomerCreateNestedOneWithoutContactsInput
+  portalSessions?: Prisma.PortalSessionCreateNestedManyWithoutContactInput
+  portalCodes?: Prisma.PortalCodeCreateNestedManyWithoutContactInput
+  comments?: Prisma.CommentCreateNestedManyWithoutContactInput
   deals?: Prisma.DealCreateNestedManyWithoutContactInput
   meetingAttendees?: Prisma.MeetingAttendeeCreateNestedManyWithoutContactInput
   callLogs?: Prisma.CallLogCreateNestedManyWithoutContactInput
@@ -384,8 +422,13 @@ export type ContactUncheckedCreateInput = {
   whatsappNumber?: string | null
   isPrimary?: boolean
   isBillingContact?: boolean
+  portalAccess?: boolean
+  portalLastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  portalSessions?: Prisma.PortalSessionUncheckedCreateNestedManyWithoutContactInput
+  portalCodes?: Prisma.PortalCodeUncheckedCreateNestedManyWithoutContactInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutContactInput
   deals?: Prisma.DealUncheckedCreateNestedManyWithoutContactInput
   meetingAttendees?: Prisma.MeetingAttendeeUncheckedCreateNestedManyWithoutContactInput
   callLogs?: Prisma.CallLogUncheckedCreateNestedManyWithoutContactInput
@@ -405,10 +448,15 @@ export type ContactUpdateInput = {
   whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBillingContact?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalAccess?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalLastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutContactsNestedInput
   customer?: Prisma.CustomerUpdateOneRequiredWithoutContactsNestedInput
+  portalSessions?: Prisma.PortalSessionUpdateManyWithoutContactNestedInput
+  portalCodes?: Prisma.PortalCodeUpdateManyWithoutContactNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutContactNestedInput
   deals?: Prisma.DealUpdateManyWithoutContactNestedInput
   meetingAttendees?: Prisma.MeetingAttendeeUpdateManyWithoutContactNestedInput
   callLogs?: Prisma.CallLogUpdateManyWithoutContactNestedInput
@@ -430,8 +478,13 @@ export type ContactUncheckedUpdateInput = {
   whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBillingContact?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalAccess?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalLastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  portalSessions?: Prisma.PortalSessionUncheckedUpdateManyWithoutContactNestedInput
+  portalCodes?: Prisma.PortalCodeUncheckedUpdateManyWithoutContactNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutContactNestedInput
   deals?: Prisma.DealUncheckedUpdateManyWithoutContactNestedInput
   meetingAttendees?: Prisma.MeetingAttendeeUncheckedUpdateManyWithoutContactNestedInput
   callLogs?: Prisma.CallLogUncheckedUpdateManyWithoutContactNestedInput
@@ -453,6 +506,8 @@ export type ContactCreateManyInput = {
   whatsappNumber?: string | null
   isPrimary?: boolean
   isBillingContact?: boolean
+  portalAccess?: boolean
+  portalLastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -467,6 +522,8 @@ export type ContactUpdateManyMutationInput = {
   whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBillingContact?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalAccess?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalLastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -483,6 +540,8 @@ export type ContactUncheckedUpdateManyInput = {
   whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBillingContact?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalAccess?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalLastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -495,6 +554,16 @@ export type ContactListRelationFilter = {
 
 export type ContactOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type ContactScalarRelationFilter = {
+  is?: Prisma.ContactWhereInput
+  isNot?: Prisma.ContactWhereInput
+}
+
+export type ContactNullableScalarRelationFilter = {
+  is?: Prisma.ContactWhereInput | null
+  isNot?: Prisma.ContactWhereInput | null
 }
 
 export type ContactOrderByRelevanceInput = {
@@ -515,6 +584,8 @@ export type ContactCountOrderByAggregateInput = {
   whatsappNumber?: Prisma.SortOrder
   isPrimary?: Prisma.SortOrder
   isBillingContact?: Prisma.SortOrder
+  portalAccess?: Prisma.SortOrder
+  portalLastSeenAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -531,6 +602,8 @@ export type ContactMaxOrderByAggregateInput = {
   whatsappNumber?: Prisma.SortOrder
   isPrimary?: Prisma.SortOrder
   isBillingContact?: Prisma.SortOrder
+  portalAccess?: Prisma.SortOrder
+  portalLastSeenAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -547,13 +620,10 @@ export type ContactMinOrderByAggregateInput = {
   whatsappNumber?: Prisma.SortOrder
   isPrimary?: Prisma.SortOrder
   isBillingContact?: Prisma.SortOrder
+  portalAccess?: Prisma.SortOrder
+  portalLastSeenAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-}
-
-export type ContactNullableScalarRelationFilter = {
-  is?: Prisma.ContactWhereInput | null
-  isNot?: Prisma.ContactWhereInput | null
 }
 
 export type ContactCreateNestedManyWithoutOrganizationInput = {
@@ -596,6 +666,50 @@ export type ContactUncheckedUpdateManyWithoutOrganizationNestedInput = {
   update?: Prisma.ContactUpdateWithWhereUniqueWithoutOrganizationInput | Prisma.ContactUpdateWithWhereUniqueWithoutOrganizationInput[]
   updateMany?: Prisma.ContactUpdateManyWithWhereWithoutOrganizationInput | Prisma.ContactUpdateManyWithWhereWithoutOrganizationInput[]
   deleteMany?: Prisma.ContactScalarWhereInput | Prisma.ContactScalarWhereInput[]
+}
+
+export type ContactCreateNestedOneWithoutPortalSessionsInput = {
+  create?: Prisma.XOR<Prisma.ContactCreateWithoutPortalSessionsInput, Prisma.ContactUncheckedCreateWithoutPortalSessionsInput>
+  connectOrCreate?: Prisma.ContactCreateOrConnectWithoutPortalSessionsInput
+  connect?: Prisma.ContactWhereUniqueInput
+}
+
+export type ContactUpdateOneRequiredWithoutPortalSessionsNestedInput = {
+  create?: Prisma.XOR<Prisma.ContactCreateWithoutPortalSessionsInput, Prisma.ContactUncheckedCreateWithoutPortalSessionsInput>
+  connectOrCreate?: Prisma.ContactCreateOrConnectWithoutPortalSessionsInput
+  upsert?: Prisma.ContactUpsertWithoutPortalSessionsInput
+  connect?: Prisma.ContactWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ContactUpdateToOneWithWhereWithoutPortalSessionsInput, Prisma.ContactUpdateWithoutPortalSessionsInput>, Prisma.ContactUncheckedUpdateWithoutPortalSessionsInput>
+}
+
+export type ContactCreateNestedOneWithoutPortalCodesInput = {
+  create?: Prisma.XOR<Prisma.ContactCreateWithoutPortalCodesInput, Prisma.ContactUncheckedCreateWithoutPortalCodesInput>
+  connectOrCreate?: Prisma.ContactCreateOrConnectWithoutPortalCodesInput
+  connect?: Prisma.ContactWhereUniqueInput
+}
+
+export type ContactUpdateOneRequiredWithoutPortalCodesNestedInput = {
+  create?: Prisma.XOR<Prisma.ContactCreateWithoutPortalCodesInput, Prisma.ContactUncheckedCreateWithoutPortalCodesInput>
+  connectOrCreate?: Prisma.ContactCreateOrConnectWithoutPortalCodesInput
+  upsert?: Prisma.ContactUpsertWithoutPortalCodesInput
+  connect?: Prisma.ContactWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ContactUpdateToOneWithWhereWithoutPortalCodesInput, Prisma.ContactUpdateWithoutPortalCodesInput>, Prisma.ContactUncheckedUpdateWithoutPortalCodesInput>
+}
+
+export type ContactCreateNestedOneWithoutCommentsInput = {
+  create?: Prisma.XOR<Prisma.ContactCreateWithoutCommentsInput, Prisma.ContactUncheckedCreateWithoutCommentsInput>
+  connectOrCreate?: Prisma.ContactCreateOrConnectWithoutCommentsInput
+  connect?: Prisma.ContactWhereUniqueInput
+}
+
+export type ContactUpdateOneWithoutCommentsNestedInput = {
+  create?: Prisma.XOR<Prisma.ContactCreateWithoutCommentsInput, Prisma.ContactUncheckedCreateWithoutCommentsInput>
+  connectOrCreate?: Prisma.ContactCreateOrConnectWithoutCommentsInput
+  upsert?: Prisma.ContactUpsertWithoutCommentsInput
+  disconnect?: Prisma.ContactWhereInput | boolean
+  delete?: Prisma.ContactWhereInput | boolean
+  connect?: Prisma.ContactWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ContactUpdateToOneWithWhereWithoutCommentsInput, Prisma.ContactUpdateWithoutCommentsInput>, Prisma.ContactUncheckedUpdateWithoutCommentsInput>
 }
 
 export type ContactCreateNestedManyWithoutCustomerInput = {
@@ -762,9 +876,14 @@ export type ContactCreateWithoutOrganizationInput = {
   whatsappNumber?: string | null
   isPrimary?: boolean
   isBillingContact?: boolean
+  portalAccess?: boolean
+  portalLastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   customer: Prisma.CustomerCreateNestedOneWithoutContactsInput
+  portalSessions?: Prisma.PortalSessionCreateNestedManyWithoutContactInput
+  portalCodes?: Prisma.PortalCodeCreateNestedManyWithoutContactInput
+  comments?: Prisma.CommentCreateNestedManyWithoutContactInput
   deals?: Prisma.DealCreateNestedManyWithoutContactInput
   meetingAttendees?: Prisma.MeetingAttendeeCreateNestedManyWithoutContactInput
   callLogs?: Prisma.CallLogCreateNestedManyWithoutContactInput
@@ -785,8 +904,13 @@ export type ContactUncheckedCreateWithoutOrganizationInput = {
   whatsappNumber?: string | null
   isPrimary?: boolean
   isBillingContact?: boolean
+  portalAccess?: boolean
+  portalLastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  portalSessions?: Prisma.PortalSessionUncheckedCreateNestedManyWithoutContactInput
+  portalCodes?: Prisma.PortalCodeUncheckedCreateNestedManyWithoutContactInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutContactInput
   deals?: Prisma.DealUncheckedCreateNestedManyWithoutContactInput
   meetingAttendees?: Prisma.MeetingAttendeeUncheckedCreateNestedManyWithoutContactInput
   callLogs?: Prisma.CallLogUncheckedCreateNestedManyWithoutContactInput
@@ -837,8 +961,382 @@ export type ContactScalarWhereInput = {
   whatsappNumber?: Prisma.StringNullableFilter<"Contact"> | string | null
   isPrimary?: Prisma.BoolFilter<"Contact"> | boolean
   isBillingContact?: Prisma.BoolFilter<"Contact"> | boolean
+  portalAccess?: Prisma.BoolFilter<"Contact"> | boolean
+  portalLastSeenAt?: Prisma.DateTimeNullableFilter<"Contact"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Contact"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Contact"> | Date | string
+}
+
+export type ContactCreateWithoutPortalSessionsInput = {
+  id?: string
+  firstName: string
+  lastName?: string | null
+  designation?: string | null
+  email?: string | null
+  phone?: string | null
+  whatsappNumber?: string | null
+  isPrimary?: boolean
+  isBillingContact?: boolean
+  portalAccess?: boolean
+  portalLastSeenAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  organization: Prisma.OrganizationCreateNestedOneWithoutContactsInput
+  customer: Prisma.CustomerCreateNestedOneWithoutContactsInput
+  portalCodes?: Prisma.PortalCodeCreateNestedManyWithoutContactInput
+  comments?: Prisma.CommentCreateNestedManyWithoutContactInput
+  deals?: Prisma.DealCreateNestedManyWithoutContactInput
+  meetingAttendees?: Prisma.MeetingAttendeeCreateNestedManyWithoutContactInput
+  callLogs?: Prisma.CallLogCreateNestedManyWithoutContactInput
+  quotations?: Prisma.QuotationCreateNestedManyWithoutContactInput
+  invoices?: Prisma.InvoiceCreateNestedManyWithoutContactInput
+  tickets?: Prisma.TicketCreateNestedManyWithoutContactInput
+  messages?: Prisma.MessageCreateNestedManyWithoutContactInput
+}
+
+export type ContactUncheckedCreateWithoutPortalSessionsInput = {
+  id?: string
+  organizationId: string
+  customerId: string
+  firstName: string
+  lastName?: string | null
+  designation?: string | null
+  email?: string | null
+  phone?: string | null
+  whatsappNumber?: string | null
+  isPrimary?: boolean
+  isBillingContact?: boolean
+  portalAccess?: boolean
+  portalLastSeenAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  portalCodes?: Prisma.PortalCodeUncheckedCreateNestedManyWithoutContactInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutContactInput
+  deals?: Prisma.DealUncheckedCreateNestedManyWithoutContactInput
+  meetingAttendees?: Prisma.MeetingAttendeeUncheckedCreateNestedManyWithoutContactInput
+  callLogs?: Prisma.CallLogUncheckedCreateNestedManyWithoutContactInput
+  quotations?: Prisma.QuotationUncheckedCreateNestedManyWithoutContactInput
+  invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutContactInput
+  tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutContactInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutContactInput
+}
+
+export type ContactCreateOrConnectWithoutPortalSessionsInput = {
+  where: Prisma.ContactWhereUniqueInput
+  create: Prisma.XOR<Prisma.ContactCreateWithoutPortalSessionsInput, Prisma.ContactUncheckedCreateWithoutPortalSessionsInput>
+}
+
+export type ContactUpsertWithoutPortalSessionsInput = {
+  update: Prisma.XOR<Prisma.ContactUpdateWithoutPortalSessionsInput, Prisma.ContactUncheckedUpdateWithoutPortalSessionsInput>
+  create: Prisma.XOR<Prisma.ContactCreateWithoutPortalSessionsInput, Prisma.ContactUncheckedCreateWithoutPortalSessionsInput>
+  where?: Prisma.ContactWhereInput
+}
+
+export type ContactUpdateToOneWithWhereWithoutPortalSessionsInput = {
+  where?: Prisma.ContactWhereInput
+  data: Prisma.XOR<Prisma.ContactUpdateWithoutPortalSessionsInput, Prisma.ContactUncheckedUpdateWithoutPortalSessionsInput>
+}
+
+export type ContactUpdateWithoutPortalSessionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  designation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBillingContact?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalAccess?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalLastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  organization?: Prisma.OrganizationUpdateOneRequiredWithoutContactsNestedInput
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutContactsNestedInput
+  portalCodes?: Prisma.PortalCodeUpdateManyWithoutContactNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutContactNestedInput
+  deals?: Prisma.DealUpdateManyWithoutContactNestedInput
+  meetingAttendees?: Prisma.MeetingAttendeeUpdateManyWithoutContactNestedInput
+  callLogs?: Prisma.CallLogUpdateManyWithoutContactNestedInput
+  quotations?: Prisma.QuotationUpdateManyWithoutContactNestedInput
+  invoices?: Prisma.InvoiceUpdateManyWithoutContactNestedInput
+  tickets?: Prisma.TicketUpdateManyWithoutContactNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutContactNestedInput
+}
+
+export type ContactUncheckedUpdateWithoutPortalSessionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  designation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBillingContact?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalAccess?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalLastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  portalCodes?: Prisma.PortalCodeUncheckedUpdateManyWithoutContactNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutContactNestedInput
+  deals?: Prisma.DealUncheckedUpdateManyWithoutContactNestedInput
+  meetingAttendees?: Prisma.MeetingAttendeeUncheckedUpdateManyWithoutContactNestedInput
+  callLogs?: Prisma.CallLogUncheckedUpdateManyWithoutContactNestedInput
+  quotations?: Prisma.QuotationUncheckedUpdateManyWithoutContactNestedInput
+  invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutContactNestedInput
+  tickets?: Prisma.TicketUncheckedUpdateManyWithoutContactNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutContactNestedInput
+}
+
+export type ContactCreateWithoutPortalCodesInput = {
+  id?: string
+  firstName: string
+  lastName?: string | null
+  designation?: string | null
+  email?: string | null
+  phone?: string | null
+  whatsappNumber?: string | null
+  isPrimary?: boolean
+  isBillingContact?: boolean
+  portalAccess?: boolean
+  portalLastSeenAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  organization: Prisma.OrganizationCreateNestedOneWithoutContactsInput
+  customer: Prisma.CustomerCreateNestedOneWithoutContactsInput
+  portalSessions?: Prisma.PortalSessionCreateNestedManyWithoutContactInput
+  comments?: Prisma.CommentCreateNestedManyWithoutContactInput
+  deals?: Prisma.DealCreateNestedManyWithoutContactInput
+  meetingAttendees?: Prisma.MeetingAttendeeCreateNestedManyWithoutContactInput
+  callLogs?: Prisma.CallLogCreateNestedManyWithoutContactInput
+  quotations?: Prisma.QuotationCreateNestedManyWithoutContactInput
+  invoices?: Prisma.InvoiceCreateNestedManyWithoutContactInput
+  tickets?: Prisma.TicketCreateNestedManyWithoutContactInput
+  messages?: Prisma.MessageCreateNestedManyWithoutContactInput
+}
+
+export type ContactUncheckedCreateWithoutPortalCodesInput = {
+  id?: string
+  organizationId: string
+  customerId: string
+  firstName: string
+  lastName?: string | null
+  designation?: string | null
+  email?: string | null
+  phone?: string | null
+  whatsappNumber?: string | null
+  isPrimary?: boolean
+  isBillingContact?: boolean
+  portalAccess?: boolean
+  portalLastSeenAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  portalSessions?: Prisma.PortalSessionUncheckedCreateNestedManyWithoutContactInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutContactInput
+  deals?: Prisma.DealUncheckedCreateNestedManyWithoutContactInput
+  meetingAttendees?: Prisma.MeetingAttendeeUncheckedCreateNestedManyWithoutContactInput
+  callLogs?: Prisma.CallLogUncheckedCreateNestedManyWithoutContactInput
+  quotations?: Prisma.QuotationUncheckedCreateNestedManyWithoutContactInput
+  invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutContactInput
+  tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutContactInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutContactInput
+}
+
+export type ContactCreateOrConnectWithoutPortalCodesInput = {
+  where: Prisma.ContactWhereUniqueInput
+  create: Prisma.XOR<Prisma.ContactCreateWithoutPortalCodesInput, Prisma.ContactUncheckedCreateWithoutPortalCodesInput>
+}
+
+export type ContactUpsertWithoutPortalCodesInput = {
+  update: Prisma.XOR<Prisma.ContactUpdateWithoutPortalCodesInput, Prisma.ContactUncheckedUpdateWithoutPortalCodesInput>
+  create: Prisma.XOR<Prisma.ContactCreateWithoutPortalCodesInput, Prisma.ContactUncheckedCreateWithoutPortalCodesInput>
+  where?: Prisma.ContactWhereInput
+}
+
+export type ContactUpdateToOneWithWhereWithoutPortalCodesInput = {
+  where?: Prisma.ContactWhereInput
+  data: Prisma.XOR<Prisma.ContactUpdateWithoutPortalCodesInput, Prisma.ContactUncheckedUpdateWithoutPortalCodesInput>
+}
+
+export type ContactUpdateWithoutPortalCodesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  designation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBillingContact?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalAccess?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalLastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  organization?: Prisma.OrganizationUpdateOneRequiredWithoutContactsNestedInput
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutContactsNestedInput
+  portalSessions?: Prisma.PortalSessionUpdateManyWithoutContactNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutContactNestedInput
+  deals?: Prisma.DealUpdateManyWithoutContactNestedInput
+  meetingAttendees?: Prisma.MeetingAttendeeUpdateManyWithoutContactNestedInput
+  callLogs?: Prisma.CallLogUpdateManyWithoutContactNestedInput
+  quotations?: Prisma.QuotationUpdateManyWithoutContactNestedInput
+  invoices?: Prisma.InvoiceUpdateManyWithoutContactNestedInput
+  tickets?: Prisma.TicketUpdateManyWithoutContactNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutContactNestedInput
+}
+
+export type ContactUncheckedUpdateWithoutPortalCodesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  designation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBillingContact?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalAccess?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalLastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  portalSessions?: Prisma.PortalSessionUncheckedUpdateManyWithoutContactNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutContactNestedInput
+  deals?: Prisma.DealUncheckedUpdateManyWithoutContactNestedInput
+  meetingAttendees?: Prisma.MeetingAttendeeUncheckedUpdateManyWithoutContactNestedInput
+  callLogs?: Prisma.CallLogUncheckedUpdateManyWithoutContactNestedInput
+  quotations?: Prisma.QuotationUncheckedUpdateManyWithoutContactNestedInput
+  invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutContactNestedInput
+  tickets?: Prisma.TicketUncheckedUpdateManyWithoutContactNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutContactNestedInput
+}
+
+export type ContactCreateWithoutCommentsInput = {
+  id?: string
+  firstName: string
+  lastName?: string | null
+  designation?: string | null
+  email?: string | null
+  phone?: string | null
+  whatsappNumber?: string | null
+  isPrimary?: boolean
+  isBillingContact?: boolean
+  portalAccess?: boolean
+  portalLastSeenAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  organization: Prisma.OrganizationCreateNestedOneWithoutContactsInput
+  customer: Prisma.CustomerCreateNestedOneWithoutContactsInput
+  portalSessions?: Prisma.PortalSessionCreateNestedManyWithoutContactInput
+  portalCodes?: Prisma.PortalCodeCreateNestedManyWithoutContactInput
+  deals?: Prisma.DealCreateNestedManyWithoutContactInput
+  meetingAttendees?: Prisma.MeetingAttendeeCreateNestedManyWithoutContactInput
+  callLogs?: Prisma.CallLogCreateNestedManyWithoutContactInput
+  quotations?: Prisma.QuotationCreateNestedManyWithoutContactInput
+  invoices?: Prisma.InvoiceCreateNestedManyWithoutContactInput
+  tickets?: Prisma.TicketCreateNestedManyWithoutContactInput
+  messages?: Prisma.MessageCreateNestedManyWithoutContactInput
+}
+
+export type ContactUncheckedCreateWithoutCommentsInput = {
+  id?: string
+  organizationId: string
+  customerId: string
+  firstName: string
+  lastName?: string | null
+  designation?: string | null
+  email?: string | null
+  phone?: string | null
+  whatsappNumber?: string | null
+  isPrimary?: boolean
+  isBillingContact?: boolean
+  portalAccess?: boolean
+  portalLastSeenAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  portalSessions?: Prisma.PortalSessionUncheckedCreateNestedManyWithoutContactInput
+  portalCodes?: Prisma.PortalCodeUncheckedCreateNestedManyWithoutContactInput
+  deals?: Prisma.DealUncheckedCreateNestedManyWithoutContactInput
+  meetingAttendees?: Prisma.MeetingAttendeeUncheckedCreateNestedManyWithoutContactInput
+  callLogs?: Prisma.CallLogUncheckedCreateNestedManyWithoutContactInput
+  quotations?: Prisma.QuotationUncheckedCreateNestedManyWithoutContactInput
+  invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutContactInput
+  tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutContactInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutContactInput
+}
+
+export type ContactCreateOrConnectWithoutCommentsInput = {
+  where: Prisma.ContactWhereUniqueInput
+  create: Prisma.XOR<Prisma.ContactCreateWithoutCommentsInput, Prisma.ContactUncheckedCreateWithoutCommentsInput>
+}
+
+export type ContactUpsertWithoutCommentsInput = {
+  update: Prisma.XOR<Prisma.ContactUpdateWithoutCommentsInput, Prisma.ContactUncheckedUpdateWithoutCommentsInput>
+  create: Prisma.XOR<Prisma.ContactCreateWithoutCommentsInput, Prisma.ContactUncheckedCreateWithoutCommentsInput>
+  where?: Prisma.ContactWhereInput
+}
+
+export type ContactUpdateToOneWithWhereWithoutCommentsInput = {
+  where?: Prisma.ContactWhereInput
+  data: Prisma.XOR<Prisma.ContactUpdateWithoutCommentsInput, Prisma.ContactUncheckedUpdateWithoutCommentsInput>
+}
+
+export type ContactUpdateWithoutCommentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  designation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBillingContact?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalAccess?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalLastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  organization?: Prisma.OrganizationUpdateOneRequiredWithoutContactsNestedInput
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutContactsNestedInput
+  portalSessions?: Prisma.PortalSessionUpdateManyWithoutContactNestedInput
+  portalCodes?: Prisma.PortalCodeUpdateManyWithoutContactNestedInput
+  deals?: Prisma.DealUpdateManyWithoutContactNestedInput
+  meetingAttendees?: Prisma.MeetingAttendeeUpdateManyWithoutContactNestedInput
+  callLogs?: Prisma.CallLogUpdateManyWithoutContactNestedInput
+  quotations?: Prisma.QuotationUpdateManyWithoutContactNestedInput
+  invoices?: Prisma.InvoiceUpdateManyWithoutContactNestedInput
+  tickets?: Prisma.TicketUpdateManyWithoutContactNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutContactNestedInput
+}
+
+export type ContactUncheckedUpdateWithoutCommentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  designation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  isBillingContact?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalAccess?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalLastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  portalSessions?: Prisma.PortalSessionUncheckedUpdateManyWithoutContactNestedInput
+  portalCodes?: Prisma.PortalCodeUncheckedUpdateManyWithoutContactNestedInput
+  deals?: Prisma.DealUncheckedUpdateManyWithoutContactNestedInput
+  meetingAttendees?: Prisma.MeetingAttendeeUncheckedUpdateManyWithoutContactNestedInput
+  callLogs?: Prisma.CallLogUncheckedUpdateManyWithoutContactNestedInput
+  quotations?: Prisma.QuotationUncheckedUpdateManyWithoutContactNestedInput
+  invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutContactNestedInput
+  tickets?: Prisma.TicketUncheckedUpdateManyWithoutContactNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutContactNestedInput
 }
 
 export type ContactCreateWithoutCustomerInput = {
@@ -851,9 +1349,14 @@ export type ContactCreateWithoutCustomerInput = {
   whatsappNumber?: string | null
   isPrimary?: boolean
   isBillingContact?: boolean
+  portalAccess?: boolean
+  portalLastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   organization: Prisma.OrganizationCreateNestedOneWithoutContactsInput
+  portalSessions?: Prisma.PortalSessionCreateNestedManyWithoutContactInput
+  portalCodes?: Prisma.PortalCodeCreateNestedManyWithoutContactInput
+  comments?: Prisma.CommentCreateNestedManyWithoutContactInput
   deals?: Prisma.DealCreateNestedManyWithoutContactInput
   meetingAttendees?: Prisma.MeetingAttendeeCreateNestedManyWithoutContactInput
   callLogs?: Prisma.CallLogCreateNestedManyWithoutContactInput
@@ -874,8 +1377,13 @@ export type ContactUncheckedCreateWithoutCustomerInput = {
   whatsappNumber?: string | null
   isPrimary?: boolean
   isBillingContact?: boolean
+  portalAccess?: boolean
+  portalLastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  portalSessions?: Prisma.PortalSessionUncheckedCreateNestedManyWithoutContactInput
+  portalCodes?: Prisma.PortalCodeUncheckedCreateNestedManyWithoutContactInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutContactInput
   deals?: Prisma.DealUncheckedCreateNestedManyWithoutContactInput
   meetingAttendees?: Prisma.MeetingAttendeeUncheckedCreateNestedManyWithoutContactInput
   callLogs?: Prisma.CallLogUncheckedCreateNestedManyWithoutContactInput
@@ -921,10 +1429,15 @@ export type ContactCreateWithoutDealsInput = {
   whatsappNumber?: string | null
   isPrimary?: boolean
   isBillingContact?: boolean
+  portalAccess?: boolean
+  portalLastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   organization: Prisma.OrganizationCreateNestedOneWithoutContactsInput
   customer: Prisma.CustomerCreateNestedOneWithoutContactsInput
+  portalSessions?: Prisma.PortalSessionCreateNestedManyWithoutContactInput
+  portalCodes?: Prisma.PortalCodeCreateNestedManyWithoutContactInput
+  comments?: Prisma.CommentCreateNestedManyWithoutContactInput
   meetingAttendees?: Prisma.MeetingAttendeeCreateNestedManyWithoutContactInput
   callLogs?: Prisma.CallLogCreateNestedManyWithoutContactInput
   quotations?: Prisma.QuotationCreateNestedManyWithoutContactInput
@@ -945,8 +1458,13 @@ export type ContactUncheckedCreateWithoutDealsInput = {
   whatsappNumber?: string | null
   isPrimary?: boolean
   isBillingContact?: boolean
+  portalAccess?: boolean
+  portalLastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  portalSessions?: Prisma.PortalSessionUncheckedCreateNestedManyWithoutContactInput
+  portalCodes?: Prisma.PortalCodeUncheckedCreateNestedManyWithoutContactInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutContactInput
   meetingAttendees?: Prisma.MeetingAttendeeUncheckedCreateNestedManyWithoutContactInput
   callLogs?: Prisma.CallLogUncheckedCreateNestedManyWithoutContactInput
   quotations?: Prisma.QuotationUncheckedCreateNestedManyWithoutContactInput
@@ -981,10 +1499,15 @@ export type ContactUpdateWithoutDealsInput = {
   whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBillingContact?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalAccess?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalLastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutContactsNestedInput
   customer?: Prisma.CustomerUpdateOneRequiredWithoutContactsNestedInput
+  portalSessions?: Prisma.PortalSessionUpdateManyWithoutContactNestedInput
+  portalCodes?: Prisma.PortalCodeUpdateManyWithoutContactNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutContactNestedInput
   meetingAttendees?: Prisma.MeetingAttendeeUpdateManyWithoutContactNestedInput
   callLogs?: Prisma.CallLogUpdateManyWithoutContactNestedInput
   quotations?: Prisma.QuotationUpdateManyWithoutContactNestedInput
@@ -1005,8 +1528,13 @@ export type ContactUncheckedUpdateWithoutDealsInput = {
   whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBillingContact?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalAccess?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalLastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  portalSessions?: Prisma.PortalSessionUncheckedUpdateManyWithoutContactNestedInput
+  portalCodes?: Prisma.PortalCodeUncheckedUpdateManyWithoutContactNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutContactNestedInput
   meetingAttendees?: Prisma.MeetingAttendeeUncheckedUpdateManyWithoutContactNestedInput
   callLogs?: Prisma.CallLogUncheckedUpdateManyWithoutContactNestedInput
   quotations?: Prisma.QuotationUncheckedUpdateManyWithoutContactNestedInput
@@ -1025,10 +1553,15 @@ export type ContactCreateWithoutMeetingAttendeesInput = {
   whatsappNumber?: string | null
   isPrimary?: boolean
   isBillingContact?: boolean
+  portalAccess?: boolean
+  portalLastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   organization: Prisma.OrganizationCreateNestedOneWithoutContactsInput
   customer: Prisma.CustomerCreateNestedOneWithoutContactsInput
+  portalSessions?: Prisma.PortalSessionCreateNestedManyWithoutContactInput
+  portalCodes?: Prisma.PortalCodeCreateNestedManyWithoutContactInput
+  comments?: Prisma.CommentCreateNestedManyWithoutContactInput
   deals?: Prisma.DealCreateNestedManyWithoutContactInput
   callLogs?: Prisma.CallLogCreateNestedManyWithoutContactInput
   quotations?: Prisma.QuotationCreateNestedManyWithoutContactInput
@@ -1049,8 +1582,13 @@ export type ContactUncheckedCreateWithoutMeetingAttendeesInput = {
   whatsappNumber?: string | null
   isPrimary?: boolean
   isBillingContact?: boolean
+  portalAccess?: boolean
+  portalLastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  portalSessions?: Prisma.PortalSessionUncheckedCreateNestedManyWithoutContactInput
+  portalCodes?: Prisma.PortalCodeUncheckedCreateNestedManyWithoutContactInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutContactInput
   deals?: Prisma.DealUncheckedCreateNestedManyWithoutContactInput
   callLogs?: Prisma.CallLogUncheckedCreateNestedManyWithoutContactInput
   quotations?: Prisma.QuotationUncheckedCreateNestedManyWithoutContactInput
@@ -1085,10 +1623,15 @@ export type ContactUpdateWithoutMeetingAttendeesInput = {
   whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBillingContact?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalAccess?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalLastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutContactsNestedInput
   customer?: Prisma.CustomerUpdateOneRequiredWithoutContactsNestedInput
+  portalSessions?: Prisma.PortalSessionUpdateManyWithoutContactNestedInput
+  portalCodes?: Prisma.PortalCodeUpdateManyWithoutContactNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutContactNestedInput
   deals?: Prisma.DealUpdateManyWithoutContactNestedInput
   callLogs?: Prisma.CallLogUpdateManyWithoutContactNestedInput
   quotations?: Prisma.QuotationUpdateManyWithoutContactNestedInput
@@ -1109,8 +1652,13 @@ export type ContactUncheckedUpdateWithoutMeetingAttendeesInput = {
   whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBillingContact?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalAccess?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalLastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  portalSessions?: Prisma.PortalSessionUncheckedUpdateManyWithoutContactNestedInput
+  portalCodes?: Prisma.PortalCodeUncheckedUpdateManyWithoutContactNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutContactNestedInput
   deals?: Prisma.DealUncheckedUpdateManyWithoutContactNestedInput
   callLogs?: Prisma.CallLogUncheckedUpdateManyWithoutContactNestedInput
   quotations?: Prisma.QuotationUncheckedUpdateManyWithoutContactNestedInput
@@ -1129,10 +1677,15 @@ export type ContactCreateWithoutCallLogsInput = {
   whatsappNumber?: string | null
   isPrimary?: boolean
   isBillingContact?: boolean
+  portalAccess?: boolean
+  portalLastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   organization: Prisma.OrganizationCreateNestedOneWithoutContactsInput
   customer: Prisma.CustomerCreateNestedOneWithoutContactsInput
+  portalSessions?: Prisma.PortalSessionCreateNestedManyWithoutContactInput
+  portalCodes?: Prisma.PortalCodeCreateNestedManyWithoutContactInput
+  comments?: Prisma.CommentCreateNestedManyWithoutContactInput
   deals?: Prisma.DealCreateNestedManyWithoutContactInput
   meetingAttendees?: Prisma.MeetingAttendeeCreateNestedManyWithoutContactInput
   quotations?: Prisma.QuotationCreateNestedManyWithoutContactInput
@@ -1153,8 +1706,13 @@ export type ContactUncheckedCreateWithoutCallLogsInput = {
   whatsappNumber?: string | null
   isPrimary?: boolean
   isBillingContact?: boolean
+  portalAccess?: boolean
+  portalLastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  portalSessions?: Prisma.PortalSessionUncheckedCreateNestedManyWithoutContactInput
+  portalCodes?: Prisma.PortalCodeUncheckedCreateNestedManyWithoutContactInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutContactInput
   deals?: Prisma.DealUncheckedCreateNestedManyWithoutContactInput
   meetingAttendees?: Prisma.MeetingAttendeeUncheckedCreateNestedManyWithoutContactInput
   quotations?: Prisma.QuotationUncheckedCreateNestedManyWithoutContactInput
@@ -1189,10 +1747,15 @@ export type ContactUpdateWithoutCallLogsInput = {
   whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBillingContact?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalAccess?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalLastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutContactsNestedInput
   customer?: Prisma.CustomerUpdateOneRequiredWithoutContactsNestedInput
+  portalSessions?: Prisma.PortalSessionUpdateManyWithoutContactNestedInput
+  portalCodes?: Prisma.PortalCodeUpdateManyWithoutContactNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutContactNestedInput
   deals?: Prisma.DealUpdateManyWithoutContactNestedInput
   meetingAttendees?: Prisma.MeetingAttendeeUpdateManyWithoutContactNestedInput
   quotations?: Prisma.QuotationUpdateManyWithoutContactNestedInput
@@ -1213,8 +1776,13 @@ export type ContactUncheckedUpdateWithoutCallLogsInput = {
   whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBillingContact?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalAccess?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalLastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  portalSessions?: Prisma.PortalSessionUncheckedUpdateManyWithoutContactNestedInput
+  portalCodes?: Prisma.PortalCodeUncheckedUpdateManyWithoutContactNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutContactNestedInput
   deals?: Prisma.DealUncheckedUpdateManyWithoutContactNestedInput
   meetingAttendees?: Prisma.MeetingAttendeeUncheckedUpdateManyWithoutContactNestedInput
   quotations?: Prisma.QuotationUncheckedUpdateManyWithoutContactNestedInput
@@ -1233,10 +1801,15 @@ export type ContactCreateWithoutQuotationsInput = {
   whatsappNumber?: string | null
   isPrimary?: boolean
   isBillingContact?: boolean
+  portalAccess?: boolean
+  portalLastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   organization: Prisma.OrganizationCreateNestedOneWithoutContactsInput
   customer: Prisma.CustomerCreateNestedOneWithoutContactsInput
+  portalSessions?: Prisma.PortalSessionCreateNestedManyWithoutContactInput
+  portalCodes?: Prisma.PortalCodeCreateNestedManyWithoutContactInput
+  comments?: Prisma.CommentCreateNestedManyWithoutContactInput
   deals?: Prisma.DealCreateNestedManyWithoutContactInput
   meetingAttendees?: Prisma.MeetingAttendeeCreateNestedManyWithoutContactInput
   callLogs?: Prisma.CallLogCreateNestedManyWithoutContactInput
@@ -1257,8 +1830,13 @@ export type ContactUncheckedCreateWithoutQuotationsInput = {
   whatsappNumber?: string | null
   isPrimary?: boolean
   isBillingContact?: boolean
+  portalAccess?: boolean
+  portalLastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  portalSessions?: Prisma.PortalSessionUncheckedCreateNestedManyWithoutContactInput
+  portalCodes?: Prisma.PortalCodeUncheckedCreateNestedManyWithoutContactInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutContactInput
   deals?: Prisma.DealUncheckedCreateNestedManyWithoutContactInput
   meetingAttendees?: Prisma.MeetingAttendeeUncheckedCreateNestedManyWithoutContactInput
   callLogs?: Prisma.CallLogUncheckedCreateNestedManyWithoutContactInput
@@ -1293,10 +1871,15 @@ export type ContactUpdateWithoutQuotationsInput = {
   whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBillingContact?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalAccess?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalLastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutContactsNestedInput
   customer?: Prisma.CustomerUpdateOneRequiredWithoutContactsNestedInput
+  portalSessions?: Prisma.PortalSessionUpdateManyWithoutContactNestedInput
+  portalCodes?: Prisma.PortalCodeUpdateManyWithoutContactNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutContactNestedInput
   deals?: Prisma.DealUpdateManyWithoutContactNestedInput
   meetingAttendees?: Prisma.MeetingAttendeeUpdateManyWithoutContactNestedInput
   callLogs?: Prisma.CallLogUpdateManyWithoutContactNestedInput
@@ -1317,8 +1900,13 @@ export type ContactUncheckedUpdateWithoutQuotationsInput = {
   whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBillingContact?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalAccess?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalLastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  portalSessions?: Prisma.PortalSessionUncheckedUpdateManyWithoutContactNestedInput
+  portalCodes?: Prisma.PortalCodeUncheckedUpdateManyWithoutContactNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutContactNestedInput
   deals?: Prisma.DealUncheckedUpdateManyWithoutContactNestedInput
   meetingAttendees?: Prisma.MeetingAttendeeUncheckedUpdateManyWithoutContactNestedInput
   callLogs?: Prisma.CallLogUncheckedUpdateManyWithoutContactNestedInput
@@ -1337,10 +1925,15 @@ export type ContactCreateWithoutInvoicesInput = {
   whatsappNumber?: string | null
   isPrimary?: boolean
   isBillingContact?: boolean
+  portalAccess?: boolean
+  portalLastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   organization: Prisma.OrganizationCreateNestedOneWithoutContactsInput
   customer: Prisma.CustomerCreateNestedOneWithoutContactsInput
+  portalSessions?: Prisma.PortalSessionCreateNestedManyWithoutContactInput
+  portalCodes?: Prisma.PortalCodeCreateNestedManyWithoutContactInput
+  comments?: Prisma.CommentCreateNestedManyWithoutContactInput
   deals?: Prisma.DealCreateNestedManyWithoutContactInput
   meetingAttendees?: Prisma.MeetingAttendeeCreateNestedManyWithoutContactInput
   callLogs?: Prisma.CallLogCreateNestedManyWithoutContactInput
@@ -1361,8 +1954,13 @@ export type ContactUncheckedCreateWithoutInvoicesInput = {
   whatsappNumber?: string | null
   isPrimary?: boolean
   isBillingContact?: boolean
+  portalAccess?: boolean
+  portalLastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  portalSessions?: Prisma.PortalSessionUncheckedCreateNestedManyWithoutContactInput
+  portalCodes?: Prisma.PortalCodeUncheckedCreateNestedManyWithoutContactInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutContactInput
   deals?: Prisma.DealUncheckedCreateNestedManyWithoutContactInput
   meetingAttendees?: Prisma.MeetingAttendeeUncheckedCreateNestedManyWithoutContactInput
   callLogs?: Prisma.CallLogUncheckedCreateNestedManyWithoutContactInput
@@ -1397,10 +1995,15 @@ export type ContactUpdateWithoutInvoicesInput = {
   whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBillingContact?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalAccess?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalLastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutContactsNestedInput
   customer?: Prisma.CustomerUpdateOneRequiredWithoutContactsNestedInput
+  portalSessions?: Prisma.PortalSessionUpdateManyWithoutContactNestedInput
+  portalCodes?: Prisma.PortalCodeUpdateManyWithoutContactNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutContactNestedInput
   deals?: Prisma.DealUpdateManyWithoutContactNestedInput
   meetingAttendees?: Prisma.MeetingAttendeeUpdateManyWithoutContactNestedInput
   callLogs?: Prisma.CallLogUpdateManyWithoutContactNestedInput
@@ -1421,8 +2024,13 @@ export type ContactUncheckedUpdateWithoutInvoicesInput = {
   whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBillingContact?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalAccess?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalLastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  portalSessions?: Prisma.PortalSessionUncheckedUpdateManyWithoutContactNestedInput
+  portalCodes?: Prisma.PortalCodeUncheckedUpdateManyWithoutContactNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutContactNestedInput
   deals?: Prisma.DealUncheckedUpdateManyWithoutContactNestedInput
   meetingAttendees?: Prisma.MeetingAttendeeUncheckedUpdateManyWithoutContactNestedInput
   callLogs?: Prisma.CallLogUncheckedUpdateManyWithoutContactNestedInput
@@ -1441,10 +2049,15 @@ export type ContactCreateWithoutTicketsInput = {
   whatsappNumber?: string | null
   isPrimary?: boolean
   isBillingContact?: boolean
+  portalAccess?: boolean
+  portalLastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   organization: Prisma.OrganizationCreateNestedOneWithoutContactsInput
   customer: Prisma.CustomerCreateNestedOneWithoutContactsInput
+  portalSessions?: Prisma.PortalSessionCreateNestedManyWithoutContactInput
+  portalCodes?: Prisma.PortalCodeCreateNestedManyWithoutContactInput
+  comments?: Prisma.CommentCreateNestedManyWithoutContactInput
   deals?: Prisma.DealCreateNestedManyWithoutContactInput
   meetingAttendees?: Prisma.MeetingAttendeeCreateNestedManyWithoutContactInput
   callLogs?: Prisma.CallLogCreateNestedManyWithoutContactInput
@@ -1465,8 +2078,13 @@ export type ContactUncheckedCreateWithoutTicketsInput = {
   whatsappNumber?: string | null
   isPrimary?: boolean
   isBillingContact?: boolean
+  portalAccess?: boolean
+  portalLastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  portalSessions?: Prisma.PortalSessionUncheckedCreateNestedManyWithoutContactInput
+  portalCodes?: Prisma.PortalCodeUncheckedCreateNestedManyWithoutContactInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutContactInput
   deals?: Prisma.DealUncheckedCreateNestedManyWithoutContactInput
   meetingAttendees?: Prisma.MeetingAttendeeUncheckedCreateNestedManyWithoutContactInput
   callLogs?: Prisma.CallLogUncheckedCreateNestedManyWithoutContactInput
@@ -1501,10 +2119,15 @@ export type ContactUpdateWithoutTicketsInput = {
   whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBillingContact?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalAccess?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalLastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutContactsNestedInput
   customer?: Prisma.CustomerUpdateOneRequiredWithoutContactsNestedInput
+  portalSessions?: Prisma.PortalSessionUpdateManyWithoutContactNestedInput
+  portalCodes?: Prisma.PortalCodeUpdateManyWithoutContactNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutContactNestedInput
   deals?: Prisma.DealUpdateManyWithoutContactNestedInput
   meetingAttendees?: Prisma.MeetingAttendeeUpdateManyWithoutContactNestedInput
   callLogs?: Prisma.CallLogUpdateManyWithoutContactNestedInput
@@ -1525,8 +2148,13 @@ export type ContactUncheckedUpdateWithoutTicketsInput = {
   whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBillingContact?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalAccess?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalLastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  portalSessions?: Prisma.PortalSessionUncheckedUpdateManyWithoutContactNestedInput
+  portalCodes?: Prisma.PortalCodeUncheckedUpdateManyWithoutContactNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutContactNestedInput
   deals?: Prisma.DealUncheckedUpdateManyWithoutContactNestedInput
   meetingAttendees?: Prisma.MeetingAttendeeUncheckedUpdateManyWithoutContactNestedInput
   callLogs?: Prisma.CallLogUncheckedUpdateManyWithoutContactNestedInput
@@ -1545,10 +2173,15 @@ export type ContactCreateWithoutMessagesInput = {
   whatsappNumber?: string | null
   isPrimary?: boolean
   isBillingContact?: boolean
+  portalAccess?: boolean
+  portalLastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   organization: Prisma.OrganizationCreateNestedOneWithoutContactsInput
   customer: Prisma.CustomerCreateNestedOneWithoutContactsInput
+  portalSessions?: Prisma.PortalSessionCreateNestedManyWithoutContactInput
+  portalCodes?: Prisma.PortalCodeCreateNestedManyWithoutContactInput
+  comments?: Prisma.CommentCreateNestedManyWithoutContactInput
   deals?: Prisma.DealCreateNestedManyWithoutContactInput
   meetingAttendees?: Prisma.MeetingAttendeeCreateNestedManyWithoutContactInput
   callLogs?: Prisma.CallLogCreateNestedManyWithoutContactInput
@@ -1569,8 +2202,13 @@ export type ContactUncheckedCreateWithoutMessagesInput = {
   whatsappNumber?: string | null
   isPrimary?: boolean
   isBillingContact?: boolean
+  portalAccess?: boolean
+  portalLastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  portalSessions?: Prisma.PortalSessionUncheckedCreateNestedManyWithoutContactInput
+  portalCodes?: Prisma.PortalCodeUncheckedCreateNestedManyWithoutContactInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutContactInput
   deals?: Prisma.DealUncheckedCreateNestedManyWithoutContactInput
   meetingAttendees?: Prisma.MeetingAttendeeUncheckedCreateNestedManyWithoutContactInput
   callLogs?: Prisma.CallLogUncheckedCreateNestedManyWithoutContactInput
@@ -1605,10 +2243,15 @@ export type ContactUpdateWithoutMessagesInput = {
   whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBillingContact?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalAccess?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalLastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutContactsNestedInput
   customer?: Prisma.CustomerUpdateOneRequiredWithoutContactsNestedInput
+  portalSessions?: Prisma.PortalSessionUpdateManyWithoutContactNestedInput
+  portalCodes?: Prisma.PortalCodeUpdateManyWithoutContactNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutContactNestedInput
   deals?: Prisma.DealUpdateManyWithoutContactNestedInput
   meetingAttendees?: Prisma.MeetingAttendeeUpdateManyWithoutContactNestedInput
   callLogs?: Prisma.CallLogUpdateManyWithoutContactNestedInput
@@ -1629,8 +2272,13 @@ export type ContactUncheckedUpdateWithoutMessagesInput = {
   whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBillingContact?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalAccess?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalLastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  portalSessions?: Prisma.PortalSessionUncheckedUpdateManyWithoutContactNestedInput
+  portalCodes?: Prisma.PortalCodeUncheckedUpdateManyWithoutContactNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutContactNestedInput
   deals?: Prisma.DealUncheckedUpdateManyWithoutContactNestedInput
   meetingAttendees?: Prisma.MeetingAttendeeUncheckedUpdateManyWithoutContactNestedInput
   callLogs?: Prisma.CallLogUncheckedUpdateManyWithoutContactNestedInput
@@ -1650,6 +2298,8 @@ export type ContactCreateManyOrganizationInput = {
   whatsappNumber?: string | null
   isPrimary?: boolean
   isBillingContact?: boolean
+  portalAccess?: boolean
+  portalLastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1664,9 +2314,14 @@ export type ContactUpdateWithoutOrganizationInput = {
   whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBillingContact?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalAccess?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalLastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   customer?: Prisma.CustomerUpdateOneRequiredWithoutContactsNestedInput
+  portalSessions?: Prisma.PortalSessionUpdateManyWithoutContactNestedInput
+  portalCodes?: Prisma.PortalCodeUpdateManyWithoutContactNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutContactNestedInput
   deals?: Prisma.DealUpdateManyWithoutContactNestedInput
   meetingAttendees?: Prisma.MeetingAttendeeUpdateManyWithoutContactNestedInput
   callLogs?: Prisma.CallLogUpdateManyWithoutContactNestedInput
@@ -1687,8 +2342,13 @@ export type ContactUncheckedUpdateWithoutOrganizationInput = {
   whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBillingContact?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalAccess?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalLastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  portalSessions?: Prisma.PortalSessionUncheckedUpdateManyWithoutContactNestedInput
+  portalCodes?: Prisma.PortalCodeUncheckedUpdateManyWithoutContactNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutContactNestedInput
   deals?: Prisma.DealUncheckedUpdateManyWithoutContactNestedInput
   meetingAttendees?: Prisma.MeetingAttendeeUncheckedUpdateManyWithoutContactNestedInput
   callLogs?: Prisma.CallLogUncheckedUpdateManyWithoutContactNestedInput
@@ -1709,6 +2369,8 @@ export type ContactUncheckedUpdateManyWithoutOrganizationInput = {
   whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBillingContact?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalAccess?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalLastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1724,6 +2386,8 @@ export type ContactCreateManyCustomerInput = {
   whatsappNumber?: string | null
   isPrimary?: boolean
   isBillingContact?: boolean
+  portalAccess?: boolean
+  portalLastSeenAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -1738,9 +2402,14 @@ export type ContactUpdateWithoutCustomerInput = {
   whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBillingContact?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalAccess?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalLastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutContactsNestedInput
+  portalSessions?: Prisma.PortalSessionUpdateManyWithoutContactNestedInput
+  portalCodes?: Prisma.PortalCodeUpdateManyWithoutContactNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutContactNestedInput
   deals?: Prisma.DealUpdateManyWithoutContactNestedInput
   meetingAttendees?: Prisma.MeetingAttendeeUpdateManyWithoutContactNestedInput
   callLogs?: Prisma.CallLogUpdateManyWithoutContactNestedInput
@@ -1761,8 +2430,13 @@ export type ContactUncheckedUpdateWithoutCustomerInput = {
   whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBillingContact?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalAccess?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalLastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  portalSessions?: Prisma.PortalSessionUncheckedUpdateManyWithoutContactNestedInput
+  portalCodes?: Prisma.PortalCodeUncheckedUpdateManyWithoutContactNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutContactNestedInput
   deals?: Prisma.DealUncheckedUpdateManyWithoutContactNestedInput
   meetingAttendees?: Prisma.MeetingAttendeeUncheckedUpdateManyWithoutContactNestedInput
   callLogs?: Prisma.CallLogUncheckedUpdateManyWithoutContactNestedInput
@@ -1783,6 +2457,8 @@ export type ContactUncheckedUpdateManyWithoutCustomerInput = {
   whatsappNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   isPrimary?: Prisma.BoolFieldUpdateOperationsInput | boolean
   isBillingContact?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalAccess?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  portalLastSeenAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -1793,6 +2469,9 @@ export type ContactUncheckedUpdateManyWithoutCustomerInput = {
  */
 
 export type ContactCountOutputType = {
+  portalSessions: number
+  portalCodes: number
+  comments: number
   deals: number
   meetingAttendees: number
   callLogs: number
@@ -1803,6 +2482,9 @@ export type ContactCountOutputType = {
 }
 
 export type ContactCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  portalSessions?: boolean | ContactCountOutputTypeCountPortalSessionsArgs
+  portalCodes?: boolean | ContactCountOutputTypeCountPortalCodesArgs
+  comments?: boolean | ContactCountOutputTypeCountCommentsArgs
   deals?: boolean | ContactCountOutputTypeCountDealsArgs
   meetingAttendees?: boolean | ContactCountOutputTypeCountMeetingAttendeesArgs
   callLogs?: boolean | ContactCountOutputTypeCountCallLogsArgs
@@ -1820,6 +2502,27 @@ export type ContactCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Exte
    * Select specific fields to fetch from the ContactCountOutputType
    */
   select?: Prisma.ContactCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * ContactCountOutputType without action
+ */
+export type ContactCountOutputTypeCountPortalSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PortalSessionWhereInput
+}
+
+/**
+ * ContactCountOutputType without action
+ */
+export type ContactCountOutputTypeCountPortalCodesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PortalCodeWhereInput
+}
+
+/**
+ * ContactCountOutputType without action
+ */
+export type ContactCountOutputTypeCountCommentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CommentWhereInput
 }
 
 /**
@@ -1884,10 +2587,15 @@ export type ContactSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   whatsappNumber?: boolean
   isPrimary?: boolean
   isBillingContact?: boolean
+  portalAccess?: boolean
+  portalLastSeenAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
+  portalSessions?: boolean | Prisma.Contact$portalSessionsArgs<ExtArgs>
+  portalCodes?: boolean | Prisma.Contact$portalCodesArgs<ExtArgs>
+  comments?: boolean | Prisma.Contact$commentsArgs<ExtArgs>
   deals?: boolean | Prisma.Contact$dealsArgs<ExtArgs>
   meetingAttendees?: boolean | Prisma.Contact$meetingAttendeesArgs<ExtArgs>
   callLogs?: boolean | Prisma.Contact$callLogsArgs<ExtArgs>
@@ -1912,14 +2620,19 @@ export type ContactSelectScalar = {
   whatsappNumber?: boolean
   isPrimary?: boolean
   isBillingContact?: boolean
+  portalAccess?: boolean
+  portalLastSeenAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ContactOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "customerId" | "firstName" | "lastName" | "designation" | "email" | "phone" | "whatsappNumber" | "isPrimary" | "isBillingContact" | "createdAt" | "updatedAt", ExtArgs["result"]["contact"]>
+export type ContactOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "customerId" | "firstName" | "lastName" | "designation" | "email" | "phone" | "whatsappNumber" | "isPrimary" | "isBillingContact" | "portalAccess" | "portalLastSeenAt" | "createdAt" | "updatedAt", ExtArgs["result"]["contact"]>
 export type ContactInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
+  portalSessions?: boolean | Prisma.Contact$portalSessionsArgs<ExtArgs>
+  portalCodes?: boolean | Prisma.Contact$portalCodesArgs<ExtArgs>
+  comments?: boolean | Prisma.Contact$commentsArgs<ExtArgs>
   deals?: boolean | Prisma.Contact$dealsArgs<ExtArgs>
   meetingAttendees?: boolean | Prisma.Contact$meetingAttendeesArgs<ExtArgs>
   callLogs?: boolean | Prisma.Contact$callLogsArgs<ExtArgs>
@@ -1935,6 +2648,9 @@ export type $ContactPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   objects: {
     organization: Prisma.$OrganizationPayload<ExtArgs>
     customer: Prisma.$CustomerPayload<ExtArgs>
+    portalSessions: Prisma.$PortalSessionPayload<ExtArgs>[]
+    portalCodes: Prisma.$PortalCodePayload<ExtArgs>[]
+    comments: Prisma.$CommentPayload<ExtArgs>[]
     deals: Prisma.$DealPayload<ExtArgs>[]
     meetingAttendees: Prisma.$MeetingAttendeePayload<ExtArgs>[]
     callLogs: Prisma.$CallLogPayload<ExtArgs>[]
@@ -1955,6 +2671,8 @@ export type $ContactPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     whatsappNumber: string | null
     isPrimary: boolean
     isBillingContact: boolean
+    portalAccess: boolean
+    portalLastSeenAt: Date | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["contact"]>
@@ -2299,6 +3017,9 @@ export interface Prisma__ContactClient<T, Null = never, ExtArgs extends runtime.
   readonly [Symbol.toStringTag]: "PrismaPromise"
   organization<T extends Prisma.OrganizationDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OrganizationDefaultArgs<ExtArgs>>): Prisma.Prisma__OrganizationClient<runtime.Types.Result.GetResult<Prisma.$OrganizationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   customer<T extends Prisma.CustomerDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CustomerDefaultArgs<ExtArgs>>): Prisma.Prisma__CustomerClient<runtime.Types.Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  portalSessions<T extends Prisma.Contact$portalSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Contact$portalSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PortalSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  portalCodes<T extends Prisma.Contact$portalCodesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Contact$portalCodesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PortalCodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  comments<T extends Prisma.Contact$commentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Contact$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   deals<T extends Prisma.Contact$dealsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Contact$dealsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DealPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   meetingAttendees<T extends Prisma.Contact$meetingAttendeesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Contact$meetingAttendeesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MeetingAttendeePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   callLogs<T extends Prisma.Contact$callLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Contact$callLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CallLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2346,6 +3067,8 @@ export interface ContactFieldRefs {
   readonly whatsappNumber: Prisma.FieldRef<"Contact", 'String'>
   readonly isPrimary: Prisma.FieldRef<"Contact", 'Boolean'>
   readonly isBillingContact: Prisma.FieldRef<"Contact", 'Boolean'>
+  readonly portalAccess: Prisma.FieldRef<"Contact", 'Boolean'>
+  readonly portalLastSeenAt: Prisma.FieldRef<"Contact", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"Contact", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Contact", 'DateTime'>
 }
@@ -2693,6 +3416,78 @@ export type ContactDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Limit how many Contacts to delete.
    */
   limit?: number
+}
+
+/**
+ * Contact.portalSessions
+ */
+export type Contact$portalSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PortalSession
+   */
+  select?: Prisma.PortalSessionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PortalSession
+   */
+  omit?: Prisma.PortalSessionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PortalSessionInclude<ExtArgs> | null
+  where?: Prisma.PortalSessionWhereInput
+  orderBy?: Prisma.PortalSessionOrderByWithRelationInput | Prisma.PortalSessionOrderByWithRelationInput[]
+  cursor?: Prisma.PortalSessionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PortalSessionScalarFieldEnum | Prisma.PortalSessionScalarFieldEnum[]
+}
+
+/**
+ * Contact.portalCodes
+ */
+export type Contact$portalCodesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PortalCode
+   */
+  select?: Prisma.PortalCodeSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PortalCode
+   */
+  omit?: Prisma.PortalCodeOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PortalCodeInclude<ExtArgs> | null
+  where?: Prisma.PortalCodeWhereInput
+  orderBy?: Prisma.PortalCodeOrderByWithRelationInput | Prisma.PortalCodeOrderByWithRelationInput[]
+  cursor?: Prisma.PortalCodeWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PortalCodeScalarFieldEnum | Prisma.PortalCodeScalarFieldEnum[]
+}
+
+/**
+ * Contact.comments
+ */
+export type Contact$commentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Comment
+   */
+  select?: Prisma.CommentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Comment
+   */
+  omit?: Prisma.CommentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CommentInclude<ExtArgs> | null
+  where?: Prisma.CommentWhereInput
+  orderBy?: Prisma.CommentOrderByWithRelationInput | Prisma.CommentOrderByWithRelationInput[]
+  cursor?: Prisma.CommentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CommentScalarFieldEnum | Prisma.CommentScalarFieldEnum[]
 }
 
 /**

@@ -20,7 +20,7 @@ export function PublicDoc({ kind }: { kind: 'quotation' | 'invoice' }) {
   if (!data) return <div className="grid min-h-screen place-items-center text-muted">Loading…</div>
   const open = kind === 'quotation' && ['SENT', 'VIEWED'].includes(data.status)
   return (
-    <main className="mx-auto max-w-3xl space-y-4 px-4 py-6">
+    <main className="print-bare mx-auto max-w-[820px] space-y-4 px-4 py-6">
       <DocView kind={kind} doc={data} org={data.organization} />
       <div className="no-print flex flex-wrap justify-end gap-2">
         <Button onClick={() => window.print()}><Printer size={15} />Print or save as PDF</Button>

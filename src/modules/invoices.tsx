@@ -3,14 +3,15 @@ import { Plus, Printer, Trash2 } from 'lucide-react'
 import { useState } from 'react'
 import { toast } from 'sonner'
 import { DocEditor, DocView, type DocPreset } from '@/components/doc'
-import { ConfirmDialog, FormDialog } from '@/components/form'
+import { ConfirmDialog, FormDialog, type Field } from '@/components/form'
 import { Workflow } from '@/components/misc'
 import { RecordPanel } from '@/components/record'
 import { Resource } from '@/components/resource'
 import { Button, Card, Empty, Panel, Sheet, Status, Table, Tabs, Td, Th, Two } from '@/components/ui'
 import { api, useApi } from '@/lib/api'
 import { useAuth } from '@/lib/auth'
-import { fmtDate, human, inr, options, todayStr } from '@/lib/format'
+import { useUrlParam } from '@/lib/url'
+import { fmtDate, gstOff, human, inr, options, todayStr } from '@/lib/format'
 import { act, DueTag, useCustomerOptions } from './common'
 import { SendDialog } from './quotations'
 
@@ -42,6 +43,7 @@ export function PaymentDialog({ invoice, open, onClose, onSaved }: { invoice: an
 
 export function InvoiceSheet({ id, onClose, onChanged }: { id: string | null; onClose: () => void; onChanged: () => void }) {
   const { can, lookups } = useAuth()
+  const noGst = gstOff(lookups.organization)
   const { data: inv, reload } = useApi<any>(id ? `/invoices/${id}` : null)
   const [dlg, setDlg] = useState<null | 'edit' | 'send' | 'pay' | 'credit' | 'void' | 'delete'>(null)
   const [tick, setTick] = useState(0)
@@ -82,8 +84,8 @@ export function InvoiceSheet({ id, onClose, onChanged }: { id: string | null; on
         <SendDialog kind="invoice" doc={inv} open={dlg === 'send'} onClose={() => setDlg(null)} onSent={changed} />
         <PaymentDialog invoice={inv} open={dlg === 'pay'} onClose={() => setDlg(null)} onSaved={changed} />
         <FormDialog open={dlg === 'credit'} onClose={() => setDlg(null)} title="Issue a credit note" size="sm" submitLabel="Issue credit note"
-          intro={<p className="text-sm text-muted">Reduces what the customer owes on this invoice. GST is added in the same proportion as the invoice.</p>}
-          fields={[{ name: 'amount', label: 'Amount to credit, before GST (₹)', type: 'number', required: true, full: true }, { name: 'reason', label: 'Reason', type: 'textarea', required: true }]}
+          intro={<p className="text-sm text-muted">Reduces what the customer owes on this invoice.{noGst ? '' : ' GST is added in the same proportion as the invoice.'}</p>}
+          fields={[{ name: 'amount', label: noGst ? 'Amount to credit (₹)' : 'Amount to credit, before GST (₹)', type: 'number', required: true, full: true }, { name: 'reason', label: 'Reason', type: 'textarea', required: true }]}
           onSubmit={async (v) => { const c = await api('/credit-notes', { body: { ...v, invoiceId: inv.id } }); toast.success(`Credit note ${c.creditNoteNumber} issued`); changed() }} />
         <ConfirmDialog open={dlg === 'void'} onClose={() => setDlg(null)} title="Void this invoice?" confirmLabel="Void invoice" danger onConfirm={async () => { await api(`/invoices/${inv.id}/void`, { method: 'POST' }); toast.success('Invoice voided'); changed() }}>The number {inv.invoiceNumber} stays used and the invoice is marked void. This cannot be undone.</ConfirmDialog>
         <ConfirmDialog open={dlg === 'delete'} onClose={() => setDlg(null)} title="Delete this draft?" confirmLabel="Delete draft" danger onConfirm={async () => { await api(`/invoices/${inv.id}`, { method: 'DELETE' }); toast.success('Draft deleted'); onChanged(); onClose() }}>The draft is removed. Nothing has been sent to the customer.</ConfirmDialog>
@@ -94,6 +96,7 @@ export function InvoiceSheet({ id, onClose, onChanged }: { id: string | null; on
 
 function Recurring() {
   const { can, lookups } = useAuth()
+  const noGst = gstOff(lookups.organization)
   const customers = useCustomerOptions()
   const { data, reload } = useApi<{ items: any[] }>('/recurring-invoices')
   const [add, setAdd] = useState(false)
@@ -106,7 +109,7 @@ function Recurring() {
       <Card className="overflow-hidden">
         {!data?.items.length ? <Empty>No recurring invoices. Use them for retainers, AMCs and monthly services.</Empty> : (
           <Table>
-            <thead><tr><Th>Customer</Th><Th>For</Th><Th right>Amount before GST</Th><Th>Repeats</Th><Th>Next invoice</Th><Th>Status</Th><Th /></tr></thead>
+            <thead><tr><Th>Customer</Th><Th>For</Th><Th right>{noGst ? 'Amount' : 'Amount before GST'}</Th><Th>Repeats</Th><Th>Next invoice</Th><Th>Status</Th><Th /></tr></thead>
             <tbody>{data.items.map((r) => (
               <tr key={r.id}>
                 <Td className="font-medium">{r.customer.name}</Td><Td>{r.title}</Td><Td right>{inr(r.items.reduce((a: number, i: any) => a + i.quantity * i.unitPrice, 0))}</Td><Td>{human(r.frequency)}</Td>
@@ -121,14 +124,15 @@ function Recurring() {
           </Table>
         )}
       </Card>
-      <FormDialog open={add} onClose={() => setAdd(false)} title="Add recurring invoice" submitLabel="Add recurring invoice" initial={{ frequency: 'MONTHLY', startDate: todayStr(), quantity: 1, taxRate: 18 }}
+      <FormDialog open={add} onClose={() => setAdd(false)} title="Add recurring invoice" submitLabel="Add recurring invoice" initial={{ frequency: 'MONTHLY', startDate: todayStr(), quantity: 1, taxRate: noGst ? 0 : 18 }}
         fields={[
           { name: 'customerId', label: 'Customer', type: 'select', options: customers, required: true, full: true }, { name: 'title', label: 'What it is for', required: true, full: true, placeholder: 'Social media management' },
           { name: 'frequency', label: 'Repeats', type: 'select', options: options(['MONTHLY', 'QUARTERLY', 'HALF_YEARLY', 'YEARLY']), required: true }, { name: 'startDate', label: 'First invoice on', type: 'date', required: true },
-          { name: 'unitPrice', label: 'Amount before GST (₹)', type: 'number', required: true }, { name: 'taxRate', label: 'GST %', type: 'select', options: lookups.taxRates.map((t: any) => ({ value: String(t.rate), label: `${t.rate}%` })), required: true },
-          { name: 'sacCode', label: 'SAC code' }, { name: 'endDate', label: 'Ends on (optional)', type: 'date' },
+          { name: 'unitPrice', label: noGst ? 'Amount (₹)' : 'Amount before GST (₹)', type: 'number', required: true },
+          ...(noGst ? [] : [{ name: 'taxRate', label: 'GST %', type: 'select', options: lookups.taxRates.map((t: any) => ({ value: String(t.rate), label: `${t.rate}%` })), required: true } as Field, { name: 'sacCode', label: 'SAC code' } as Field]),
+          { name: 'endDate', label: 'Ends on (optional)', type: 'date' },
         ]}
-        onSubmit={async (v) => { await api('/recurring-invoices', { body: { customerId: v.customerId, title: v.title, frequency: v.frequency, startDate: v.startDate, endDate: v.endDate, items: [{ description: v.title, quantity: 1, unitPrice: Number(v.unitPrice), taxRate: Number(v.taxRate), sacCode: v.sacCode }] } }); toast.success('Recurring invoice added'); reload() }} />
+        onSubmit={async (v) => { await api('/recurring-invoices', { body: { customerId: v.customerId, title: v.title, frequency: v.frequency, startDate: v.startDate, endDate: v.endDate, items: [{ description: v.title, quantity: 1, unitPrice: Number(v.unitPrice), taxRate: noGst ? 0 : Number(v.taxRate), sacCode: noGst ? '' : v.sacCode }] } }); toast.success('Recurring invoice added'); reload() }} />
     </div>
   )
 }
@@ -136,6 +140,7 @@ function Recurring() {
 export default function Invoices() {
   const [tab, setTab] = useState('invoices')
   const [openId, setOpenId] = useState<string | null>(null)
+  useUrlParam('open', setOpenId)
   const [creating, setCreating] = useState<DocPreset | null>(null)
   const [rk, setRk] = useState(0)
   const refresh = () => setRk((k) => k + 1)

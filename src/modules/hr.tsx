@@ -1,6 +1,6 @@
 'use client'
 // Employees, attendance, leave, holidays and performance reviews.
-import { Check, Plus, X } from 'lucide-react'
+import { Check, ClipboardList, FileSignature, Plus, X } from 'lucide-react'
 import { useState } from 'react'
 import { toast } from 'sonner'
 import { FormDialog } from '@/components/form'
@@ -10,6 +10,8 @@ import { api, useApi } from '@/lib/api'
 import { useAuth } from '@/lib/auth'
 import { day, fmtDate, fmtDateTime, human, inr, options, personName, todayStr } from '@/lib/format'
 import { act } from './common'
+import Hiring from './hiring'
+import Payroll from './payroll'
 
 const employeeOptions = (lookups: any) => lookups.employees.filter((e: any) => e.status !== 'EXITED').map((e: any) => ({ value: e.id, label: e.name }))
 
@@ -19,6 +21,11 @@ function Employees() {
   return (
     <>
       <Resource path="/hr/employees" module="HR" noun="employee" search="Search name, code or designation" exportName="employees" afterSave={reloadLookups}
+        toolbar={() => <Button onClick={() => window.open('/print/joining/new', '_blank')}><ClipboardList size={15} />Blank joining form</Button>}
+        rowActions={(r) => <>
+          <Button size="icon" variant="ghost" aria-label={`Joining form for ${personName(r)}`} title="Joining form" onClick={() => window.open(`/print/joining/${r.id}`, '_blank')}><ClipboardList size={15} /></Button>
+          <Button size="icon" variant="ghost" aria-label={`Appointment letter for ${personName(r)}`} title="Appointment letter" onClick={() => window.open(`/print/appointment/${r.id}`, '_blank')}><FileSignature size={15} /></Button>
+        </>}
         defaults={{ employmentType: 'FULL_TIME', status: 'ACTIVE', dateOfJoining: todayStr() }}
         filter={{ param: 'status', options: [{ value: '', label: 'All' }, ...options(lookups.enums.EmployeeStatus)] }}
         toForm={(r) => ({ ...r, lastName: r.lastName ?? '', dateOfJoining: day(r.dateOfJoining), dateOfBirth: day(r.dateOfBirth), exitDate: day(r.exitDate), departmentId: r.departmentId ?? '', reportingManagerId: r.reportingManagerId ?? '', phone: r.phone ?? '', personalEmail: r.personalEmail ?? '', address: r.address ?? '', ctcAnnual: r.ctcAnnual ?? '' })}
@@ -127,10 +134,12 @@ export default function HR() {
   const [tab, setTab] = useState('employees')
   return (
     <div className="space-y-3">
-      <Tabs value={tab} onChange={setTab} options={[{ value: 'employees', label: 'Employees' }, { value: 'attendance', label: 'Attendance' }, { value: 'leave', label: 'Leave requests' }, { value: 'holidays', label: 'Holidays' }, { value: 'reviews', label: 'Performance reviews' }, { value: 'types', label: 'Leave types' }]} />
+      <Tabs value={tab} onChange={setTab} options={[{ value: 'employees', label: 'Employees' }, { value: 'attendance', label: 'Attendance' }, { value: 'leave', label: 'Leave requests' }, { value: 'payroll', label: 'Payroll' }, { value: 'hiring', label: 'Hiring' }, { value: 'holidays', label: 'Holidays' }, { value: 'reviews', label: 'Performance reviews' }, { value: 'types', label: 'Leave types' }]} />
       {tab === 'employees' && <Employees />}
       {tab === 'attendance' && <Attendance />}
       {tab === 'leave' && <Leave />}
+      {tab === 'payroll' && <Payroll />}
+      {tab === 'hiring' && <Hiring />}
       {tab === 'holidays' && (
         <Resource path="/hr/holidays" module="HR" noun="holiday" defaults={{ date: todayStr() }} empty="No holidays yet. Add the days the office is closed this year."
           fields={[{ name: 'name', label: 'Holiday', required: true }, { name: 'date', label: 'Date', type: 'date', required: true }, { name: 'isOptional', label: 'Optional', type: 'checkbox', placeholder: 'People can choose to take it' }]}

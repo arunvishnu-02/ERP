@@ -10,13 +10,14 @@ export const publicRouter = Router()
 publicRouter.use(rateLimit({ windowMs: 60_000, limit: 60 }))
 
 const orgSelect = { name: true, legalName: true, gstin: true, addressLine1: true, addressLine2: true, city: true, state: true, pincode: true, phone: true, email: true, settings: true }
-const company = (o: any) => ({ ...o, settings: { bankDetails: o.settings?.bankDetails ?? null } })
+const PUBLIC_SETTINGS = ['bankDetails', 'gstRegistered', 'website', 'tagline', 'upiId', 'signatory', 'logo']
+const company = (o: any) => ({ ...o, settings: Object.fromEntries(PUBLIC_SETTINGS.map((k) => [k, o.settings?.[k] ?? null])) })
 const token = (t: unknown) => (typeof t === 'string' && t.length >= 20 ? t : '-')
 
 async function quotationByToken(t: unknown) {
   const q = await prisma.quotation.findUnique({
     where: { publicToken: token(t) },
-    include: { items: { orderBy: { position: 'asc' } }, organization: { select: orgSelect }, customer: { select: { name: true, gstin: true, billingState: true, billingAddressLine1: true, billingCity: true } }, lead: { select: { firstName: true, lastName: true, companyName: true, state: true, city: true } } },
+    include: { items: { orderBy: { position: 'asc' } }, organization: { select: orgSelect }, customer: { select: { name: true, gstin: true, email: true, phone: true, billingState: true, billingAddressLine1: true, billingAddressLine2: true, billingCity: true, billingPincode: true } }, lead: { select: { firstName: true, lastName: true, companyName: true, state: true, city: true } } },
   })
   if (!q || q.deletedAt || !q.isLatest) throw notFound('Quotation')
   return q
@@ -48,7 +49,7 @@ publicRouter.post('/quotations/:token/:decision', async (req, res) => {
 publicRouter.get('/invoices/:token', async (req, res) => {
   const inv = await prisma.invoice.findUnique({
     where: { publicToken: token(req.params.token) },
-    include: { items: { orderBy: { position: 'asc' } }, organization: { select: orgSelect }, customer: { select: { name: true, gstin: true, billingState: true, billingAddressLine1: true, billingAddressLine2: true, billingCity: true, billingPincode: true } } },
+    include: { items: { orderBy: { position: 'asc' } }, organization: { select: orgSelect }, customer: { select: { name: true, gstin: true, email: true, phone: true, billingState: true, billingAddressLine1: true, billingAddressLine2: true, billingCity: true, billingPincode: true } } },
   })
   if (!inv || inv.deletedAt || inv.status === 'DRAFT') throw notFound('Invoice')
   if (!inv.viewedAt) await prisma.invoice.update({ where: { id: inv.id }, data: { viewedAt: new Date() } })

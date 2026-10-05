@@ -2,21 +2,21 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Ink and teal. One accent, cool neutrals, status colours kept for status only. */
+/* Cipher Mutex navy and cyan. One accent, cool neutrals, status colours kept for status only. */
 :root {
-  --bg: #f4f6f8;
+  --bg: #f4f6f9;
   --surface: #ffffff;
-  --surface-2: #eef1f4;
-  --ink: #0f1c2b;
-  --muted: #586676;
-  --line: #dde3e9;
-  --accent: #0b7a75;
+  --surface-2: #eef1f6;
+  --ink: #0e0b33;
+  --muted: #5a6075;
+  --line: #dde1ea;
+  --accent: #0a6fa8;
   --accent-ink: #ffffff;
-  --accent-soft: #d8efec;
-  --rail: #0f1c2b;
-  --rail-ink: #b8c4d0;
-  --rail-mute: #7c8b9b;
-  --rail-active: #1c2f43;
+  --accent-soft: #e1f3fb;
+  --rail: #08043a;
+  --rail-ink: #c3c6e6;
+  --rail-mute: #8a8db8;
+  --rail-active: #1d1866;
   --good: #1b7a48;
   --good-soft: #dcf2e5;
   --warn: #8f5406;
@@ -25,23 +25,23 @@
   --bad-soft: #f9dedb;
   --info: #2a5db0;
   --info-soft: #dee8f9;
-  --chart-1: #0a8ba6;
+  --chart-1: #02a6dc;
   --chart-2: #c4841d;
 }
 .dark {
-  --bg: #0a1118;
-  --surface: #121b24;
-  --surface-2: #18242f;
+  --bg: #070b14;
+  --surface: #10151f;
+  --surface-2: #171e2b;
   --ink: #e6edf3;
-  --muted: #93a3b3;
-  --line: #243240;
-  --accent: #45c2b8;
-  --accent-ink: #04201e;
-  --accent-soft: #12383a;
-  --rail: #070c12;
-  --rail-ink: #a9b8c5;
-  --rail-mute: #6b7c8a;
-  --rail-active: #15232e;
+  --muted: #95a0b5;
+  --line: #242d3d;
+  --accent: #3cc2ef;
+  --accent-ink: #03141f;
+  --accent-soft: #0d2c3d;
+  --rail: #05032a;
+  --rail-ink: #b4b8dc;
+  --rail-mute: #7276a3;
+  --rail-active: #14114a;
   --good: #5ccb8d;
   --good-soft: #143524;
   --warn: #e9b15a;
@@ -50,7 +50,7 @@
   --bad-soft: #40191a;
   --info: #86aeef;
   --info-soft: #16294a;
-  --chart-1: #2fa6b0;
+  --chart-1: #3cc2ef;
   --chart-2: #b87f24;
   color-scheme: dark;
 }
@@ -118,7 +118,27 @@ button:not(:disabled),
   .sheet-in, .pop-in { animation: none; }
 }
 
+/* Quotations, invoices and receipts: always a white page in the company's house style, in light and dark mode. */
+.paper {
+  --doc-navy: #08043a;
+  --doc-cyan: #02a6dc;
+  --doc-soft: #bfe9f7;
+  --doc-ink: #0e0b33;
+  --doc-muted: #5f6378;
+  --doc-line: #e3e6ee;
+  --doc-tint: #f3f6fb;
+  font-family: 'Poppins', var(--font-sans);
+  background: #fff;
+  color: var(--doc-ink);
+  color-scheme: light;
+}
+
+@page { size: A4; margin: 12mm 0 0; }
+@page :first { margin-top: 0; }
 @media print {
-  body { background: #fff; }
+  html, body { background: #fff !important; }
   .no-print { display: none !important; }
+  .paper { border: 0 !important; border-radius: 0 !important; box-shadow: none !important; min-height: 287mm; }
+  .print-bare { max-width: none !important; padding: 0 !important; margin: 0 !important; }
+  .paper, .paper * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 }

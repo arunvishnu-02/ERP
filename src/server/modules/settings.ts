@@ -11,7 +11,7 @@ import * as E from '../../generated/prisma/enums'
 /** Small reference lists every screen needs for its dropdowns. */
 export async function lookups(req: Request, res: Response) {
   const w = { organizationId: req.user.organizationId }
-  const [org, users, departments, branches, teams, roles, leadStages, leadSources, pipelines, taxRates, expenseCategories, leaveTypes, services, packages, bankAccounts, vendors, employees] = await Promise.all([
+  const [org, users, departments, branches, teams, roles, leadStages, leadSources, pipelines, taxRates, expenseCategories, leaveTypes, services, packages, bankAccounts, vendors, employees, google] = await Promise.all([
     prisma.organization.findUniqueOrThrow({ where: { id: w.organizationId } }),
     prisma.user.findMany({ where: { ...w, deletedAt: null }, select: { id: true, firstName: true, lastName: true, departmentId: true, status: true }, orderBy: { firstName: 'asc' } }),
     prisma.department.findMany({ where: w, orderBy: { name: 'asc' } }),
@@ -29,6 +29,7 @@ export async function lookups(req: Request, res: Response) {
     prisma.bankAccount.findMany({ where: { ...w, isActive: true }, orderBy: { name: 'asc' } }),
     prisma.vendor.findMany({ where: w, orderBy: { name: 'asc' } }),
     prisma.employee.findMany({ where: w, select: { id: true, firstName: true, lastName: true, userId: true, status: true }, orderBy: { firstName: 'asc' } }),
+    prisma.integrationSetting.findUnique({ where: { organizationId_provider: { organizationId: w.organizationId, provider: 'GOOGLE' } }, select: { isActive: true } }),
   ])
   const settings = { ...((org.settings as any) ?? {}) }
   if (!can(req.user, 'SETTINGS', 'VIEW')) delete settings.leadFormKey
@@ -38,6 +39,7 @@ export async function lookups(req: Request, res: Response) {
     employees: employees.map((e) => ({ id: e.id, name: fullName(e), userId: e.userId, status: e.status })),
     departments, branches, teams, roles, leadStages, leadSources, pipelines, taxRates, expenseCategories, leaveTypes, services, packages, bankAccounts, vendors,
     states: STATES,
+    google: { drive: !!google?.isActive },
     enums: Object.fromEntries(Object.entries(E).map(([k, v]) => [k, Object.values(v as object)])),
   })
 }
@@ -49,11 +51,14 @@ settingsRouter.patch('/organization', authorize(S, 'EDIT'), async (req, res) => 
   const d = parse(shape({
     name: 's', legalName: 's?', gstin: 's?', pan: 's?', email: 's?', phone: 's?', addressLine1: 's?', addressLine2: 's?', city: 's?', stateCode: 's?', pincode: 's?',
     financialYearStartMonth: 'i?', docPrefix: 's?', paymentTermsDays: 'i?', invoiceTerms: 's?', quotationTerms: 's?', bankDetails: 's?',
+    gstRegistered: 'b?', website: 's?', tagline: 's?', upiId: 's?', signatory: 's?', logo: 'j?',
   }).partial(), req.body)
-  const { docPrefix, paymentTermsDays, invoiceTerms, quotationTerms, bankDetails, ...cols } = d
+  const { docPrefix, paymentTermsDays, invoiceTerms, quotationTerms, bankDetails, gstRegistered, website, tagline, upiId, signatory, logo, ...cols } = d
+  // The logo is kept as a small data URL so it also shows on the public quotation and invoice pages.
+  if (logo != null && (typeof logo !== 'string' || !/^data:image\/(png|jpeg|webp|svg\+xml);base64,/.test(logo) || logo.length > 400_000)) throw bad('Use a PNG, JPG, WebP or SVG logo smaller than 300 KB')
   const org = await prisma.organization.findUniqueOrThrow({ where: { id: req.user.organizationId } })
   const settings = { ...((org.settings as any) ?? {}) }
-  for (const [k, v] of Object.entries({ docPrefix, paymentTermsDays, invoiceTerms, quotationTerms, bankDetails })) if (v !== undefined) settings[k] = v
+  for (const [k, v] of Object.entries({ docPrefix, paymentTermsDays, invoiceTerms, quotationTerms, bankDetails, gstRegistered, website, tagline, upiId, signatory, logo })) if (v !== undefined) settings[k] = v
   if (cols.stateCode !== undefined) cols.state = stateName(cols.stateCode)
   if (cols.financialYearStartMonth === null) delete cols.financialYearStartMonth
   const updated = await prisma.organization.update({ where: { id: org.id }, data: { ...cols, settings } })

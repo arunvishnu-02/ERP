@@ -6,10 +6,11 @@ import { toast } from 'sonner'
 import { ConfirmDialog, FormDialog, type Field } from '@/components/form'
 import { RecordPanel } from '@/components/record'
 import { Resource } from '@/components/resource'
-import { Badge, Button, Card, Chips, Empty, KV, Sheet, Status, Table, Tabs, Td, Th, Two } from '@/components/ui'
+import { Badge, Button, Card, Chips, Empty, KV, Select, Sheet, Status, Table, Tabs, Td, Textarea, Th, Two } from '@/components/ui'
 import { api, downloadFile, useApi } from '@/lib/api'
 import { useAuth } from '@/lib/auth'
-import { ago, day, fmtDate, human, inr, options, personName, plusDays } from '@/lib/format'
+import { useUrlParam } from '@/lib/url'
+import { ago, day, fmtDate, gstOff, human, inr, options, personName, plusDays } from '@/lib/format'
 import { act, ExpiryTag, Person, useCustomerOptions, userOptions } from './common'
 
 function Credentials() {
@@ -82,7 +83,7 @@ export function Websites() {
         <p className="text-xs text-muted">Reminders go out 30, 15, 7 and 1 days before expiry.</p>
         <ConfirmDialog open={!!renew} onClose={() => setRenew(null)} title={`Renew ${renew?.row.name} for one year?`} confirmLabel="Renew"
           onConfirm={async () => { const r = await api(`/web-assets/${renew!.row.id}/renew`, { body: {} }); toast.success(r.invoice ? 'Renewed. A draft invoice was created.' : 'Renewed'); renew!.reload() }}>
-          The expiry date moves forward one year.{renew?.row.billingAmount ? ` A draft invoice for ${inr(renew.row.billingAmount)} plus GST is created for ${renew.row.customer.name}.` : ''} Renew with the provider separately.
+          The expiry date moves forward one year.{renew?.row.billingAmount ? ` A draft invoice for ${inr(renew.row.billingAmount)}${gstOff(lookups.organization) ? '' : ' plus GST'} is created for ${renew.row.customer.name}.` : ''} Renew with the provider separately.
         </ConfirmDialog>
       </>}
       {tab === 'websites' && (
@@ -95,10 +96,61 @@ export function Websites() {
   )
 }
 
+/** Replies to the customer (sent by email) and team notes on a ticket, oldest first. */
+function Conversation({ ticket, onChanged }: { ticket: any; onChanged: (t?: any) => void }) {
+  const { can } = useAuth()
+  const { data, reload } = useApi<{ items: any[]; replyTo: string | null }>(`/tickets/${ticket.id}/conversation`)
+  const [mode, setMode] = useState('reply')
+  const [body, setBody] = useState('')
+  const [status, setStatus] = useState('')
+  const [busy, setBusy] = useState(false)
+  const internal = mode === 'note'
+  async function send() {
+    if (!body.trim()) return
+    setBusy(true)
+    try {
+      const r = await api<any>(`/tickets/${ticket.id}/reply`, { body: { body, internal, status: status || undefined } })
+      if (internal) toast.success('Note added')
+      else if (r.mail?.sent) toast.success(`Reply sent to ${data?.replyTo}`)
+      else toast.warning(`Reply saved, but the email was not sent. ${r.mail?.error ?? ''}`)
+      setBody(''); setStatus(''); reload(); onChanged()
+    } catch (e: any) { toast.error(e.message) } finally { setBusy(false) }
+  }
+  return (
+    <Card className="p-4">
+      <h3 className="mb-3 font-display text-[15px] font-semibold">Conversation</h3>
+      <ul className="space-y-2.5">
+        <li className="rounded-xl bg-surface-2 px-3 py-2 text-sm"><div className="mb-0.5 text-xs text-muted">{ticket.customer.name}, {fmtDate(ticket.createdAt)}</div><div className="whitespace-pre-wrap">{ticket.description}</div></li>
+        {data?.items.map((c) => (
+          <li key={c.id} className={c.isInternal ? 'rounded-xl border border-dashed border-line px-3 py-2 text-sm' : c.contact ? 'rounded-xl bg-surface-2 px-3 py-2 text-sm' : 'ml-6 rounded-xl bg-accent-soft px-3 py-2 text-sm'}>
+            <div className="mb-0.5 text-xs text-muted">{c.contact ? personName(c.contact) : personName(c.author)}, {ago(c.createdAt)}, {c.isInternal ? 'team note' : c.contact ? 'from the client portal' : 'sent to customer'}</div>
+            <div className="whitespace-pre-wrap">{c.body}</div>
+          </li>
+        ))}
+      </ul>
+      {can('TICKETS', 'EDIT') && (
+        <div className="mt-4 space-y-2 border-t border-line pt-3">
+          <Tabs value={mode} onChange={setMode} options={[{ value: 'reply', label: 'Reply to customer' }, { value: 'note', label: 'Team note' }]} />
+          {!internal && <p className="text-xs text-muted">{data?.replyTo ? `Goes by email to ${data.replyTo}.` : 'This customer has no email address yet. Add one to send replies.'}</p>}
+          <Textarea value={body} onChange={(e) => setBody(e.target.value)} placeholder={internal ? 'Only your team sees this' : 'Write your reply'} rows={4} />
+          <div className="flex flex-wrap items-center justify-end gap-2">
+            <Select className="h-9 w-auto text-[13px]" value={status} onChange={(e) => setStatus(e.target.value)} aria-label="Status after sending">
+              <option value="">Keep status</option>
+              {['IN_PROGRESS', 'WAITING_ON_CUSTOMER', 'RESOLVED', 'CLOSED'].map((v) => <option key={v} value={v}>Set to {human(v).toLowerCase()}</option>)}
+            </Select>
+            <Button variant="primary" disabled={busy || !body.trim() || (!internal && !data?.replyTo)} onClick={send}>{internal ? 'Add note' : 'Send reply'}</Button>
+          </div>
+        </div>
+      )}
+    </Card>
+  )
+}
+
 export function Tickets() {
   const { lookups, can } = useAuth()
   const customers = useCustomerOptions()
   const [openRow, setOpenRow] = useState<any>(null)
+  useUrlParam('open', (id) => { api(`/tickets/${id}`).then(setOpenRow).catch(() => {}) })
   const [rk, setRk] = useState(0)
   const devs = userOptions(lookups)
   return (
@@ -116,7 +168,8 @@ export function Tickets() {
         actions={openRow && can('TICKETS', 'EDIT') && !['RESOLVED', 'CLOSED'].includes(openRow.status) && <Button variant="primary" onClick={() => act(async () => { setOpenRow(await api(`/tickets/${openRow.id}`, { method: 'PATCH', body: { status: 'RESOLVED' } })); setRk((k) => k + 1) }, 'Ticket resolved')}>Mark resolved</Button>}>
         {openRow && <>
           <Card className="p-4"><KV rows={[['Status', <Status key="s" value={openRow.status} />], ['Priority', human(openRow.priority)], ['Assigned to', <Person key="a" user={openRow.assignee} />], ['Website', openRow.website?.name], ['Problem', <span key="d" className="whitespace-pre-wrap">{openRow.description}</span>], ['Resolution', openRow.resolutionNotes && <span className="whitespace-pre-wrap">{openRow.resolutionNotes}</span>]]} /></Card>
-          <RecordPanel entityType="TICKET" entityId={openRow.id} tabs={['comments', 'timeline', 'files']} reloadKey={openRow.status} />
+          <Conversation ticket={openRow} onChanged={async () => { setOpenRow(await api(`/tickets/${openRow.id}`)); setRk((k) => k + 1) }} />
+          <RecordPanel entityType="TICKET" entityId={openRow.id} tabs={['timeline', 'files']} reloadKey={openRow.status} />
         </>}
       </Sheet>
     </>

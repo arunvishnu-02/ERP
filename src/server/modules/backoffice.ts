@@ -228,6 +228,59 @@ const F = 'FINANCE'
 financeRouter.use('/vendors', crud({ model: 'vendor', module: F, label: 'Vendor', orderBy: { name: 'asc' }, search: ['name'], fields: { name: 's', gstin: 's?', email: 's?', phone: 's?', notes: 's?' } }))
 financeRouter.use('/expense-categories', crud({ model: 'expenseCategory', module: F, label: 'Category', orderBy: { name: 'asc' }, fields: { name: 's', parentId: 'id?' } }))
 
+/** A vendor bill that was approved is marked paid once the money goes out. */
+financeRouter.post('/expenses/:id/paid', authorize(F, 'APPROVE'), async (req, res) => {
+  const x = isUuid(req.params.id) ? await prisma.expense.findFirst({ where: { id: String(req.params.id), organizationId: req.user.organizationId } }) : null
+  if (!x) throw notFound('Expense')
+  if (x.status !== 'APPROVED') throw conflict(x.status === 'PAID' ? 'This bill is already paid' : 'Approve the bill before marking it paid')
+  const row = await prisma.$transaction(async (tx) => {
+    const u = await tx.expense.update({ where: { id: x.id }, data: { status: 'PAID', updatedById: req.user.id } })
+    await audit(tx, req, 'UPDATE', F, 'Expense', x.id, { status: x.status }, { status: 'PAID' })
+    return u
+  })
+  res.json(row)
+})
+
+/** Vendors with what was paid to them this year and what is still to pay on their bills. A bill is an expense with a due date. */
+financeRouter.get('/vendors-summary', authorize(F, 'VIEW'), async (req, res) => {
+  const organizationId = req.user.organizationId
+  const t = todayStr()
+  const [y, m] = t.split('-').map(Number)
+  const fyStart = dateOnly(`${m >= 4 ? y : y - 1}-04-01`)
+  const monthStart = dateOnly(`${t.slice(0, 7)}-01`)
+  const today0 = dateOnly(t)
+  const [vendors, rows, bills] = await Promise.all([
+    prisma.vendor.findMany({ where: { organizationId }, orderBy: { name: 'asc' } }),
+    prisma.expense.findMany({ where: { organizationId, vendorId: { not: null }, status: { in: ['SUBMITTED', 'APPROVED', 'PAID'] } }, select: { vendorId: true, amount: true, taxAmount: true, status: true, dueDate: true, expenseDate: true, updatedAt: true } }),
+    prisma.expense.findMany({
+      where: { organizationId, dueDate: { not: null }, status: { in: ['SUBMITTED', 'APPROVED', 'PAID'] } },
+      include: { vendor: { select: { id: true, name: true } }, project: { select: { id: true, name: true } } }, orderBy: [{ dueDate: 'desc' }], take: 50,
+    }),
+  ])
+  const total = (x: { amount: any; taxAmount: any }) => Number(x.amount) + Number(x.taxAmount)
+  const open = (x: { status: string; dueDate: Date | null }) => !!x.dueDate && (x.status === 'APPROVED' || x.status === 'SUBMITTED')
+  const items = vendors.map((v) => {
+    const mine = rows.filter((r) => r.vendorId === v.id)
+    return {
+      ...v, bills: mine.length,
+      paidThisYear: mine.filter((r) => (r.status === 'PAID' || (r.status === 'APPROVED' && !r.dueDate)) && r.expenseDate >= fyStart).reduce((n, r) => n + total(r), 0),
+      toPay: mine.filter(open).reduce((n, r) => n + total(r), 0),
+    }
+  })
+  const due = rows.filter(open)
+  const weekEnd = addDays(today0, 7)
+  res.json({
+    items,
+    bills: bills.map((b) => ({ ...b, total: total(b), overdue: open(b) && b.dueDate! < today0 })),
+    stats: {
+      toPay: due.reduce((n, r) => n + total(r), 0), dueThisWeek: due.filter((r) => r.dueDate! >= today0 && r.dueDate! < weekEnd).length,
+      paidThisMonth: rows.filter((r) => r.status === 'PAID' && r.updatedAt >= monthStart).reduce((n, r) => n + total(r), 0), paidThisMonthCount: rows.filter((r) => r.status === 'PAID' && r.updatedAt >= monthStart).length,
+      activeVendors: new Set(rows.filter((r) => r.expenseDate >= fyStart).map((r) => r.vendorId)).size,
+      overdue: due.filter((r) => r.dueDate! < today0).length, overdueAmount: due.filter((r) => r.dueDate! < today0).reduce((n, r) => n + total(r), 0),
+    },
+  })
+})
+
 financeRouter.post('/expenses/:id/:decision', authorize(F, 'APPROVE'), async (req, res) => {
   const decision = req.params.decision === 'approve' ? 'APPROVED' : req.params.decision === 'reject' ? 'REJECTED' : null
   const x = decision && isUuid(req.params.id) ? await prisma.expense.findFirst({ where: { id: String(req.params.id), organizationId: req.user.organizationId }, include: { category: true } }) : null
@@ -244,7 +297,7 @@ financeRouter.post('/expenses/:id/:decision', authorize(F, 'APPROVE'), async (re
 })
 financeRouter.use('/expenses', crud({
   model: 'expense', module: F, label: 'Expense', by: true, number: ['expenseNumber', 'EXPENSE'], orderBy: [{ expenseDate: 'desc' }, { createdAt: 'desc' }], dateField: 'expenseDate',
-  fields: { categoryId: 'id', vendorId: 'id?', projectId: 'id?', campaignId: 'id?', expenseDate: 'd', amount: 'n', 'taxAmount?': 'n', description: 's', 'paymentMethod?': Object.values(E.PaymentMethod), bankAccountId: 'id?', paidById: 'id?', 'isReimbursable?': 'b' },
+  fields: { categoryId: 'id', vendorId: 'id?', projectId: 'id?', campaignId: 'id?', expenseDate: 'd', billNumber: 's?', dueDate: 'd?', amount: 'n', 'taxAmount?': 'n', description: 's', 'paymentMethod?': Object.values(E.PaymentMethod), bankAccountId: 'id?', paidById: 'id?', 'isReimbursable?': 'b' },
   search: ['description', 'expenseNumber', 'vendor.name'], filters: ['status', 'categoryId', 'projectId'],
   include: { category: true, vendor: { select: { id: true, name: true } }, paidBy: U, project: { select: { id: true, name: true } } },
   beforeCreate: (d) => { d.status = 'SUBMITTED' },
@@ -255,6 +308,46 @@ financeRouter.use('/expenses', crud({
   beforeDelete: async (before, _req, tx) => { await tx.ledgerEntry.deleteMany({ where: { sourceType: 'EXPENSE', sourceId: before.id } }) },
 }))
 
+/** Billed amount, team time cost and expenses for each project over a period (default: this financial year). */
+financeRouter.get('/project-profit', authorize(F, 'VIEW'), async (req, res) => {
+  const organizationId = req.user.organizationId
+  const isDay = (v: unknown) => typeof v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(v)
+  const t = todayStr()
+  const [y, m] = t.split('-').map(Number)
+  const from = isDay(req.query.from) ? String(req.query.from) : `${m >= 4 ? y : y - 1}-04-01`
+  const to = isDay(req.query.to) ? String(req.query.to) : t
+  const range = { gte: dateOnly(from), lt: addDays(dateOnly(to), 1) }
+  const [invoices, time, expenses] = await Promise.all([
+    prisma.invoice.groupBy({ by: ['projectId'], where: { organizationId, deletedAt: null, projectId: { not: null }, status: { notIn: ['DRAFT', 'CANCELLED', 'VOID'] }, issueDate: range }, _sum: { taxableAmount: true, creditedAmount: true, amountPaid: true } }),
+    prisma.timeEntry.groupBy({ by: ['projectId', 'userId'], where: { organizationId, projectId: { not: null }, endedAt: { not: null }, startedAt: range }, _sum: { minutes: true } }),
+    prisma.expense.groupBy({ by: ['projectId'], where: { organizationId, projectId: { not: null }, status: { in: ['APPROVED', 'PAID'] }, expenseDate: range }, _sum: { amount: true } }),
+  ])
+  const ids = [...new Set([...invoices, ...time, ...expenses].map((r) => r.projectId!))]
+  const [projects, members, employees] = await Promise.all([
+    prisma.project.findMany({ where: { id: { in: ids }, organizationId }, select: { id: true, name: true, status: true, budget: true, customer: { select: { name: true } } } }),
+    prisma.projectMember.findMany({ where: { projectId: { in: ids } }, select: { projectId: true, userId: true, hourlyCost: true } }),
+    prisma.employee.findMany({ where: { organizationId, userId: { in: [...new Set(time.map((r) => r.userId))] } }, select: { userId: true, ctcAnnual: true } }),
+  ])
+  // hourly cost: the rate set on the project member, else yearly CTC spread over 2,496 working hours (48 h x 52 weeks)
+  const rate = (projectId: string, userId: string) => {
+    const pm = members.find((x) => x.projectId === projectId && x.userId === userId)
+    if (pm?.hourlyCost != null) return Number(pm.hourlyCost)
+    const e = employees.find((x) => x.userId === userId)
+    return e?.ctcAnnual != null ? Number(e.ctcAnnual) / 2496 : 0
+  }
+  const items = projects.map((p) => {
+    const inv = invoices.find((r) => r.projectId === p.id)
+    const billed = Number(inv?._sum.taxableAmount ?? 0) - Number(inv?._sum.creditedAmount ?? 0)
+    const rows = time.filter((r) => r.projectId === p.id)
+    const minutes = rows.reduce((a, r) => a + (r._sum.minutes ?? 0), 0)
+    const unpriced = rows.filter((r) => (r._sum.minutes ?? 0) > 0 && !rate(p.id, r.userId)).length
+    const timeCost = Math.round(rows.reduce((a, r) => a + ((r._sum.minutes ?? 0) / 60) * rate(p.id, r.userId), 0))
+    const spent = Number(expenses.find((r) => r.projectId === p.id)?._sum.amount ?? 0)
+    const profit = billed - timeCost - spent
+    return { id: p.id, name: p.name, customer: p.customer?.name ?? null, status: p.status, budget: p.budget == null ? null : Number(p.budget), billed, received: Number(inv?._sum.amountPaid ?? 0), minutes, timeCost, expenses: spent, profit, margin: billed ? Math.round((profit / billed) * 100) : null, unpriced }
+  }).sort((a, b) => b.billed - a.billed)
+  res.json({ from, to, items })
+})
 financeRouter.get('/summary', authorize(F, 'VIEW'), async (req, res) => {
   const organizationId = req.user.organizationId
   const months = Math.min(Math.max(Number(req.query.months) || 6, 1), 24)
