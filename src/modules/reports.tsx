@@ -1,8 +1,8 @@
 'use client'
-import { Download, Printer } from 'lucide-react'
+import { Printer } from 'lucide-react'
 import { useState } from 'react'
 import { HBars, PairBars } from '@/components/misc'
-import { exportXlsx, type Column } from '@/components/resource'
+import { ExportButton, type Column } from '@/components/resource'
 import { Button, Empty, Loading, Panel, Select, StatBand, Table, Td, Th } from '@/components/ui'
 import { useApi } from '@/lib/api'
 import { useAuth } from '@/lib/auth'
@@ -19,7 +19,7 @@ export default function Reports() {
   if (!data) return <Loading />
   const s = data.summary
   const canExport = can('REPORTS', 'EXPORT')
-  const Export = ({ name, columns, rows }: { name: string; columns: Column[]; rows: any[] }) => (canExport && rows.length ? <Button size="sm" className="no-print" onClick={() => exportXlsx(name, columns, rows)}><Download size={14} />Excel</Button> : null)
+  const Export = ({ name, columns, rows }: { name: string; columns: Column[]; rows: any[] }) => (canExport && rows.length ? <ExportButton size="sm" className="no-print" name={name} module="REPORTS" columns={columns} load={() => rows} /> : null)
   return (
     <div className="space-y-4">
       <div className="no-print flex flex-wrap items-center gap-2">

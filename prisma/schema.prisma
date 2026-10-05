@@ -644,6 +644,7 @@ enum IntegrationProvider {
   SMS_GATEWAY
   PAYMENT_GATEWAY
   OBJECT_STORAGE
+  GOOGLE
 }
 
 enum OutboxStatus {
@@ -871,6 +872,7 @@ model User {
   twoFactorSecret    String?
   mustChangePassword Boolean      @default(false)
   emailVerifiedAt    DateTime?
+  googleSub          String?      @unique // the Google account linked by "Sign in with Google"
   lastLoginAt        DateTime?
   preferences        Json? // theme (dark mode), locale, default branch
   createdAt          DateTime     @default(now())
@@ -992,7 +994,9 @@ model Session {
   @@index([expiresAt])
 }
 
-/** A client contact signed in to the portal. Like Session, only the SHA-256 of the cookie is stored. */
+/**
+ * A client contact signed in to the portal. Like Session, only the SHA-256 of the cookie is stored.
+ */
 model PortalSession {
   id         String   @id @default(uuid()) @db.Char(36)
   contactId  String   @db.Char(36)
@@ -1005,7 +1009,9 @@ model PortalSession {
   @@index([contactId])
 }
 
-/** A one-time sign-in code emailed to a client contact. */
+/**
+ * A one-time sign-in code emailed to a client contact.
+ */
 model PortalCode {
   id        String    @id @default(uuid()) @db.Char(36)
   contactId String    @db.Char(36)
@@ -1078,6 +1084,8 @@ model File {
   sizeBytes      BigInt
   checksum       String?
   uploadedById   String?      @db.Char(36)
+  driveFileId    String? // set once a copy is saved to the company's Google Drive
+  driveUrl       String?      @db.VarChar(500)
   createdAt      DateTime     @default(now())
 
   attachments      Attachment[]
@@ -3128,7 +3136,9 @@ enum CandidateStage {
   REJECTED
 }
 
-/** A role the company is hiring for. */
+/**
+ * A role the company is hiring for.
+ */
 model JobOpening {
   id             String         @id @default(uuid()) @db.Char(36)
   organizationId String         @db.Char(36)
@@ -3149,7 +3159,9 @@ model JobOpening {
   @@index([organizationId, status])
 }
 
-/** A person who applied for a job opening, from first contact to joining. */
+/**
+ * A person who applied for a job opening, from first contact to joining.
+ */
 model Candidate {
   id              String         @id @default(uuid()) @db.Char(36)
   organizationId  String         @db.Char(36)

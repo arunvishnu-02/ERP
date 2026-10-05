@@ -6,6 +6,7 @@ import { sendMail } from '../core/mail'
 import { bootstrap } from '../core/seed'
 import { STATES } from '../core/util'
 import { prisma } from '../db'
+import { googleSignInOn } from './google'
 
 export const authRouter = Router()
 const limiter = rateLimit({ windowMs: 60_000, limit: 20, message: { message: 'Too many attempts. Wait a minute and try again.' } })
@@ -14,7 +15,7 @@ const codeLimiter = rateLimit({ windowMs: 60_000, limit: 10, message: { message:
 const unauthorized = (m = 'Sign in to continue') => new HttpError(401, m)
 
 authRouter.get('/status', async (_req, res) => {
-  res.json({ needsSetup: (await prisma.organization.count()) === 0, states: STATES })
+  res.json({ needsSetup: (await prisma.organization.count()) === 0, states: STATES, google: await googleSignInOn() })
 })
 
 authRouter.post('/setup', limiter, async (req, res) => {

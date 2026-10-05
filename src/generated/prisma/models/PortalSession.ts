@@ -14,7 +14,8 @@ import type * as Prisma from "../internal/prismaNamespace"
 
 /**
  * Model PortalSession
- * * A client contact signed in to the portal. Like Session, only the SHA-256 of the cookie is stored.
+ * *
+ *  * A client contact signed in to the portal. Like Session, only the SHA-256 of the cookie is stored.
  */
 export type PortalSessionModel = runtime.Types.Result.DefaultSelection<Prisma.$PortalSessionPayload>
 

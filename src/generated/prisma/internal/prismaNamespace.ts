@@ -7863,6 +7863,7 @@ export const UserScalarFieldEnum = {
   twoFactorSecret: 'twoFactorSecret',
   mustChangePassword: 'mustChangePassword',
   emailVerifiedAt: 'emailVerifiedAt',
+  googleSub: 'googleSub',
   lastLoginAt: 'lastLoginAt',
   preferences: 'preferences',
   createdAt: 'createdAt',
@@ -8012,6 +8013,8 @@ export const FileScalarFieldEnum = {
   sizeBytes: 'sizeBytes',
   checksum: 'checksum',
   uploadedById: 'uploadedById',
+  driveFileId: 'driveFileId',
+  driveUrl: 'driveUrl',
   createdAt: 'createdAt'
 } as const
 
@@ -9863,7 +9866,8 @@ export const UserOrderByRelevanceFieldEnum = {
   lastName: 'lastName',
   avatarFileId: 'avatarFileId',
   managerId: 'managerId',
-  twoFactorSecret: 'twoFactorSecret'
+  twoFactorSecret: 'twoFactorSecret',
+  googleSub: 'googleSub'
 } as const
 
 export type UserOrderByRelevanceFieldEnum = (typeof UserOrderByRelevanceFieldEnum)[keyof typeof UserOrderByRelevanceFieldEnum]
@@ -9976,7 +9980,9 @@ export const FileOrderByRelevanceFieldEnum = {
   fileName: 'fileName',
   mimeType: 'mimeType',
   checksum: 'checksum',
-  uploadedById: 'uploadedById'
+  uploadedById: 'uploadedById',
+  driveFileId: 'driveFileId',
+  driveUrl: 'driveUrl'
 } as const
 
 export type FileOrderByRelevanceFieldEnum = (typeof FileOrderByRelevanceFieldEnum)[keyof typeof FileOrderByRelevanceFieldEnum]
