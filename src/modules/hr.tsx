@@ -10,6 +10,7 @@ import { api, useApi } from '@/lib/api'
 import { useAuth } from '@/lib/auth'
 import { day, fmtDate, fmtDateTime, human, inr, options, personName, todayStr } from '@/lib/format'
 import { act } from './common'
+import Hiring from './hiring'
 import Payroll from './payroll'
 
 const employeeOptions = (lookups: any) => lookups.employees.filter((e: any) => e.status !== 'EXITED').map((e: any) => ({ value: e.id, label: e.name }))
@@ -133,11 +134,12 @@ export default function HR() {
   const [tab, setTab] = useState('employees')
   return (
     <div className="space-y-3">
-      <Tabs value={tab} onChange={setTab} options={[{ value: 'employees', label: 'Employees' }, { value: 'attendance', label: 'Attendance' }, { value: 'leave', label: 'Leave requests' }, { value: 'payroll', label: 'Payroll' }, { value: 'holidays', label: 'Holidays' }, { value: 'reviews', label: 'Performance reviews' }, { value: 'types', label: 'Leave types' }]} />
+      <Tabs value={tab} onChange={setTab} options={[{ value: 'employees', label: 'Employees' }, { value: 'attendance', label: 'Attendance' }, { value: 'leave', label: 'Leave requests' }, { value: 'payroll', label: 'Payroll' }, { value: 'hiring', label: 'Hiring' }, { value: 'holidays', label: 'Holidays' }, { value: 'reviews', label: 'Performance reviews' }, { value: 'types', label: 'Leave types' }]} />
       {tab === 'employees' && <Employees />}
       {tab === 'attendance' && <Attendance />}
       {tab === 'leave' && <Leave />}
       {tab === 'payroll' && <Payroll />}
+      {tab === 'hiring' && <Hiring />}
       {tab === 'holidays' && (
         <Resource path="/hr/holidays" module="HR" noun="holiday" defaults={{ date: todayStr() }} empty="No holidays yet. Add the days the office is closed this year."
           fields={[{ name: 'name', label: 'Holiday', required: true }, { name: 'date', label: 'Date', type: 'date', required: true }, { name: 'isOptional', label: 'Optional', type: 'checkbox', placeholder: 'People can choose to take it' }]}

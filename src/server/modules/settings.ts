@@ -11,7 +11,7 @@ import * as E from '../../generated/prisma/enums'
 /** Small reference lists every screen needs for its dropdowns. */
 export async function lookups(req: Request, res: Response) {
   const w = { organizationId: req.user.organizationId }
-  const [org, users, departments, branches, teams, roles, leadStages, leadSources, pipelines, taxRates, expenseCategories, leaveTypes, services, packages, bankAccounts, vendors, employees] = await Promise.all([
+  const [org, users, departments, branches, teams, roles, leadStages, leadSources, pipelines, taxRates, expenseCategories, leaveTypes, services, packages, bankAccounts, vendors, employees, google] = await Promise.all([
     prisma.organization.findUniqueOrThrow({ where: { id: w.organizationId } }),
     prisma.user.findMany({ where: { ...w, deletedAt: null }, select: { id: true, firstName: true, lastName: true, departmentId: true, status: true }, orderBy: { firstName: 'asc' } }),
     prisma.department.findMany({ where: w, orderBy: { name: 'asc' } }),
@@ -29,6 +29,7 @@ export async function lookups(req: Request, res: Response) {
     prisma.bankAccount.findMany({ where: { ...w, isActive: true }, orderBy: { name: 'asc' } }),
     prisma.vendor.findMany({ where: w, orderBy: { name: 'asc' } }),
     prisma.employee.findMany({ where: w, select: { id: true, firstName: true, lastName: true, userId: true, status: true }, orderBy: { firstName: 'asc' } }),
+    prisma.integrationSetting.findUnique({ where: { organizationId_provider: { organizationId: w.organizationId, provider: 'GOOGLE' } }, select: { isActive: true } }),
   ])
   const settings = { ...((org.settings as any) ?? {}) }
   if (!can(req.user, 'SETTINGS', 'VIEW')) delete settings.leadFormKey
@@ -38,6 +39,7 @@ export async function lookups(req: Request, res: Response) {
     employees: employees.map((e) => ({ id: e.id, name: fullName(e), userId: e.userId, status: e.status })),
     departments, branches, teams, roles, leadStages, leadSources, pipelines, taxRates, expenseCategories, leaveTypes, services, packages, bankAccounts, vendors,
     states: STATES,
+    google: { drive: !!google?.isActive },
     enums: Object.fromEntries(Object.entries(E).map(([k, v]) => [k, Object.values(v as object)])),
   })
 }

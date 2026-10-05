@@ -18,6 +18,8 @@ export interface MailInput {
   customerId?: string | null
   entityType?: string | null
   entityId?: string | null
+  /** What the message log keeps instead of the text, when the text holds a secret such as a sign-in code. */
+  logText?: string
 }
 
 /** Sends an email through the company's SMTP settings and records it in the message log either way. */
@@ -35,7 +37,7 @@ export async function sendMail(organizationId: string, m: MailInput) {
   }
   await prisma.message.create({
     data: {
-      organizationId, channel: 'EMAIL', direction: 'OUTBOUND', fromAddress: cfg?.fromEmail ?? 'not set up', toAddress: m.to, subject: m.subject, body: m.text,
+      organizationId, channel: 'EMAIL', direction: 'OUTBOUND', fromAddress: cfg?.fromEmail ?? 'not set up', toAddress: m.to, subject: m.logText ? m.subject.replace(/\d{6}/g, '••••••') : m.subject, body: m.logText ?? m.text,
       status: error ? 'FAILED' : 'SENT', error, sentAt: error ? null : new Date(), sentById: m.sentById ?? null, leadId: m.leadId ?? null, customerId: m.customerId ?? null,
       entityType: (m.entityType as any) ?? null, entityId: m.entityId ?? null,
     },

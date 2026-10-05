@@ -27,13 +27,13 @@ function Receipt({ p, org }: { p: any; org: any }) {
   )
 }
 
-const LETTERS = ['offer', 'internship', 'experience', 'terms']
+const LETTERS = ['offer', 'candidate-offer', 'internship', 'experience', 'terms']
 const plus = (iso: string, n: number) => new Date(Date.parse(`${iso}T00:00:00Z`) + n * 864e5).toISOString().slice(0, 10)
 
 /** Dates and wording for letters, changed above the page before printing. Nothing here is saved. */
 function LetterOptions({ kind, opts, set }: { kind: string; opts: Record<string, string>; set: (o: Record<string, string>) => void }) {
   const fields: [string, string, 'date' | 'text'][] = [['date', kind === 'terms' ? 'Applies from' : 'Letter date', 'date']]
-  if (kind === 'offer') fields.push(['joining', 'Joining date', 'date'], ['replyBy', 'Reply by', 'date'])
+  if (kind === 'offer' || kind === 'candidate-offer') fields.push(['joining', 'Joining date', 'date'], ['replyBy', 'Reply by', 'date'])
   if (kind === 'internship') fields.push(['from', 'From', 'date'], ['to', 'To', 'date'], ['work', 'What they did (optional)', 'text'])
   if (kind === 'experience') fields.push(['lastDay', 'Last working day', 'date'])
   return (
@@ -52,7 +52,7 @@ function PrintBody() {
   const { lookups, can } = useAuth()
   const paths: Record<string, string> = {
     quotation: `/quotations/${id}`, invoice: `/invoices/${id}`, receipt: `/payments/${id}`,
-    payslip: can('HR', 'VIEW') ? `/payroll/payslips/${id}` : `/me/payslips/${id}`, appointment: `/payroll/appointment/${id}`, offer: `/payroll/appointment/${id}`,
+    payslip: can('HR', 'VIEW') ? `/payroll/payslips/${id}` : `/me/payslips/${id}`, appointment: `/payroll/appointment/${id}`, offer: `/payroll/appointment/${id}`, 'candidate-offer': `/hr/hiring/candidates/${id}/offer`,
     joining: `/payroll/joining/${id}`, internship: `/payroll/joining/${id}`, experience: `/payroll/joining/${id}`, terms: '/payroll/joining/new',
   }
   const path = paths[kind] ?? null
@@ -76,7 +76,7 @@ function PrintBody() {
         : kind === 'payslip' ? <PayslipDoc p={data} org={org} />
           : kind === 'appointment' ? <AppointmentLetter d={data} org={org} />
             : kind === 'joining' ? <JoiningForm d={data} org={org} />
-              : kind === 'offer' ? <OfferLetter d={data} org={org} opts={o} />
+              : kind === 'offer' || kind === 'candidate-offer' ? <OfferLetter d={data} org={org} opts={o} />
                 : kind === 'internship' ? <InternshipCertificate d={data} org={org} opts={o} />
                   : kind === 'experience' ? <ExperienceLetter d={data} org={org} opts={o} />
                     : kind === 'terms' ? <StaffTerms d={data} org={org} opts={o} />

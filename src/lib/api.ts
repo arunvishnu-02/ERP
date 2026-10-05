@@ -22,7 +22,7 @@ export async function api<T = any>(path: string, o: Options = {}): Promise<T> {
     body: o.form ?? (o.body !== undefined ? JSON.stringify(o.body) : undefined),
   })
   // The session ended: send the person to the sign-in page, unless this call was itself about signing in.
-  if (res.status === 401 && !path.startsWith('/auth/') && !path.startsWith('/public/') && typeof window !== 'undefined') window.location.href = '/login'
+  if (res.status === 401 && !path.startsWith('/auth/') && !path.startsWith('/public/') && !path.startsWith('/portal/auth/') && typeof window !== 'undefined') window.location.href = path.startsWith('/portal/') ? '/portal/login' : '/login'
   if (o.raw) return res as any
   if (res.status === 204) return undefined as T
   const data = await res.json().catch(() => null)

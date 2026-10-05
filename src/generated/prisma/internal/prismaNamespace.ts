@@ -408,6 +408,8 @@ export const ModelName = {
   Permission: 'Permission',
   RolePermission: 'RolePermission',
   Session: 'Session',
+  PortalSession: 'PortalSession',
+  PortalCode: 'PortalCode',
   PasswordResetToken: 'PasswordResetToken',
   ApiKey: 'ApiKey',
   AuditLog: 'AuditLog',
@@ -501,7 +503,9 @@ export const ModelName = {
   NotificationPreference: 'NotificationPreference',
   IntegrationSetting: 'IntegrationSetting',
   WebhookEvent: 'WebhookEvent',
-  OutboxEvent: 'OutboxEvent'
+  OutboxEvent: 'OutboxEvent',
+  JobOpening: 'JobOpening',
+  Candidate: 'Candidate'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -517,7 +521,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "organization" | "branch" | "department" | "team" | "teamMember" | "user" | "role" | "userRole" | "permission" | "rolePermission" | "session" | "passwordResetToken" | "apiKey" | "auditLog" | "file" | "attachment" | "note" | "comment" | "activity" | "tag" | "tagAssignment" | "numberSequence" | "leadSource" | "leadStage" | "lead" | "followUp" | "customer" | "contact" | "pipeline" | "pipelineStage" | "deal" | "meeting" | "meetingAttendee" | "callLog" | "service" | "servicePackage" | "servicePackageItem" | "priceRule" | "taxRate" | "quotation" | "quotationItem" | "approvalRule" | "approvalRequest" | "approvalStep" | "invoiceTemplate" | "invoice" | "invoiceItem" | "creditNote" | "creditNoteItem" | "recurringInvoice" | "recurringInvoiceItem" | "bankAccount" | "payment" | "paymentAllocation" | "paymentReminder" | "project" | "projectMember" | "milestone" | "task" | "timeEntry" | "socialAccount" | "campaign" | "contentItem" | "adSpend" | "campaignReport" | "website" | "webAsset" | "credential" | "credentialAccessLog" | "ticket" | "documentFolder" | "document" | "documentVersion" | "employee" | "attendance" | "leaveType" | "leaveBalance" | "leaveRequest" | "holiday" | "payrollRun" | "payslip" | "performanceReview" | "asset" | "assetAssignment" | "assetMaintenance" | "expenseCategory" | "vendor" | "expense" | "ledgerEntry" | "savedReport" | "exportJob" | "importJob" | "dashboardWidget" | "savedFilter" | "automationRule" | "automationAction" | "automationRun" | "leadAssignmentRule" | "messageTemplate" | "message" | "notification" | "notificationPreference" | "integrationSetting" | "webhookEvent" | "outboxEvent"
+    modelProps: "organization" | "branch" | "department" | "team" | "teamMember" | "user" | "role" | "userRole" | "permission" | "rolePermission" | "session" | "portalSession" | "portalCode" | "passwordResetToken" | "apiKey" | "auditLog" | "file" | "attachment" | "note" | "comment" | "activity" | "tag" | "tagAssignment" | "numberSequence" | "leadSource" | "leadStage" | "lead" | "followUp" | "customer" | "contact" | "pipeline" | "pipelineStage" | "deal" | "meeting" | "meetingAttendee" | "callLog" | "service" | "servicePackage" | "servicePackageItem" | "priceRule" | "taxRate" | "quotation" | "quotationItem" | "approvalRule" | "approvalRequest" | "approvalStep" | "invoiceTemplate" | "invoice" | "invoiceItem" | "creditNote" | "creditNoteItem" | "recurringInvoice" | "recurringInvoiceItem" | "bankAccount" | "payment" | "paymentAllocation" | "paymentReminder" | "project" | "projectMember" | "milestone" | "task" | "timeEntry" | "socialAccount" | "campaign" | "contentItem" | "adSpend" | "campaignReport" | "website" | "webAsset" | "credential" | "credentialAccessLog" | "ticket" | "documentFolder" | "document" | "documentVersion" | "employee" | "attendance" | "leaveType" | "leaveBalance" | "leaveRequest" | "holiday" | "payrollRun" | "payslip" | "performanceReview" | "asset" | "assetAssignment" | "assetMaintenance" | "expenseCategory" | "vendor" | "expense" | "ledgerEntry" | "savedReport" | "exportJob" | "importJob" | "dashboardWidget" | "savedFilter" | "automationRule" | "automationAction" | "automationRun" | "leadAssignmentRule" | "messageTemplate" | "message" | "notification" | "notificationPreference" | "integrationSetting" | "webhookEvent" | "outboxEvent" | "jobOpening" | "candidate"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1244,6 +1248,138 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.SessionCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.SessionCountAggregateOutputType> | number
+        }
+      }
+    }
+    PortalSession: {
+      payload: Prisma.$PortalSessionPayload<ExtArgs>
+      fields: Prisma.PortalSessionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PortalSessionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortalSessionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PortalSessionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortalSessionPayload>
+        }
+        findFirst: {
+          args: Prisma.PortalSessionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortalSessionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PortalSessionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortalSessionPayload>
+        }
+        findMany: {
+          args: Prisma.PortalSessionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortalSessionPayload>[]
+        }
+        create: {
+          args: Prisma.PortalSessionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortalSessionPayload>
+        }
+        createMany: {
+          args: Prisma.PortalSessionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.PortalSessionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortalSessionPayload>
+        }
+        update: {
+          args: Prisma.PortalSessionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortalSessionPayload>
+        }
+        deleteMany: {
+          args: Prisma.PortalSessionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PortalSessionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.PortalSessionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortalSessionPayload>
+        }
+        aggregate: {
+          args: Prisma.PortalSessionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePortalSession>
+        }
+        groupBy: {
+          args: Prisma.PortalSessionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PortalSessionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PortalSessionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PortalSessionCountAggregateOutputType> | number
+        }
+      }
+    }
+    PortalCode: {
+      payload: Prisma.$PortalCodePayload<ExtArgs>
+      fields: Prisma.PortalCodeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PortalCodeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortalCodePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PortalCodeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortalCodePayload>
+        }
+        findFirst: {
+          args: Prisma.PortalCodeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortalCodePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PortalCodeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortalCodePayload>
+        }
+        findMany: {
+          args: Prisma.PortalCodeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortalCodePayload>[]
+        }
+        create: {
+          args: Prisma.PortalCodeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortalCodePayload>
+        }
+        createMany: {
+          args: Prisma.PortalCodeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.PortalCodeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortalCodePayload>
+        }
+        update: {
+          args: Prisma.PortalCodeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortalCodePayload>
+        }
+        deleteMany: {
+          args: Prisma.PortalCodeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PortalCodeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.PortalCodeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PortalCodePayload>
+        }
+        aggregate: {
+          args: Prisma.PortalCodeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePortalCode>
+        }
+        groupBy: {
+          args: Prisma.PortalCodeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PortalCodeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PortalCodeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PortalCodeCountAggregateOutputType> | number
         }
       }
     }
@@ -7451,6 +7587,138 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    JobOpening: {
+      payload: Prisma.$JobOpeningPayload<ExtArgs>
+      fields: Prisma.JobOpeningFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.JobOpeningFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$JobOpeningPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.JobOpeningFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$JobOpeningPayload>
+        }
+        findFirst: {
+          args: Prisma.JobOpeningFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$JobOpeningPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.JobOpeningFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$JobOpeningPayload>
+        }
+        findMany: {
+          args: Prisma.JobOpeningFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$JobOpeningPayload>[]
+        }
+        create: {
+          args: Prisma.JobOpeningCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$JobOpeningPayload>
+        }
+        createMany: {
+          args: Prisma.JobOpeningCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.JobOpeningDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$JobOpeningPayload>
+        }
+        update: {
+          args: Prisma.JobOpeningUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$JobOpeningPayload>
+        }
+        deleteMany: {
+          args: Prisma.JobOpeningDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.JobOpeningUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.JobOpeningUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$JobOpeningPayload>
+        }
+        aggregate: {
+          args: Prisma.JobOpeningAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateJobOpening>
+        }
+        groupBy: {
+          args: Prisma.JobOpeningGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.JobOpeningGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.JobOpeningCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.JobOpeningCountAggregateOutputType> | number
+        }
+      }
+    }
+    Candidate: {
+      payload: Prisma.$CandidatePayload<ExtArgs>
+      fields: Prisma.CandidateFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CandidateFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CandidatePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CandidateFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CandidatePayload>
+        }
+        findFirst: {
+          args: Prisma.CandidateFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CandidatePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CandidateFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CandidatePayload>
+        }
+        findMany: {
+          args: Prisma.CandidateFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CandidatePayload>[]
+        }
+        create: {
+          args: Prisma.CandidateCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CandidatePayload>
+        }
+        createMany: {
+          args: Prisma.CandidateCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.CandidateDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CandidatePayload>
+        }
+        update: {
+          args: Prisma.CandidateUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CandidatePayload>
+        }
+        deleteMany: {
+          args: Prisma.CandidateDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CandidateUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.CandidateUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CandidatePayload>
+        }
+        aggregate: {
+          args: Prisma.CandidateAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCandidate>
+        }
+        groupBy: {
+          args: Prisma.CandidateGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CandidateGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CandidateCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CandidateCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -7595,6 +7863,7 @@ export const UserScalarFieldEnum = {
   twoFactorSecret: 'twoFactorSecret',
   mustChangePassword: 'mustChangePassword',
   emailVerifiedAt: 'emailVerifiedAt',
+  googleSub: 'googleSub',
   lastLoginAt: 'lastLoginAt',
   preferences: 'preferences',
   createdAt: 'createdAt',
@@ -7662,6 +7931,31 @@ export const SessionScalarFieldEnum = {
 export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
 
 
+export const PortalSessionScalarFieldEnum = {
+  id: 'id',
+  contactId: 'contactId',
+  tokenHash: 'tokenHash',
+  expiresAt: 'expiresAt',
+  lastUsedAt: 'lastUsedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type PortalSessionScalarFieldEnum = (typeof PortalSessionScalarFieldEnum)[keyof typeof PortalSessionScalarFieldEnum]
+
+
+export const PortalCodeScalarFieldEnum = {
+  id: 'id',
+  contactId: 'contactId',
+  codeHash: 'codeHash',
+  tries: 'tries',
+  expiresAt: 'expiresAt',
+  usedAt: 'usedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type PortalCodeScalarFieldEnum = (typeof PortalCodeScalarFieldEnum)[keyof typeof PortalCodeScalarFieldEnum]
+
+
 export const PasswordResetTokenScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -7719,6 +8013,8 @@ export const FileScalarFieldEnum = {
   sizeBytes: 'sizeBytes',
   checksum: 'checksum',
   uploadedById: 'uploadedById',
+  driveFileId: 'driveFileId',
+  driveUrl: 'driveUrl',
   createdAt: 'createdAt'
 } as const
 
@@ -7762,6 +8058,7 @@ export const CommentScalarFieldEnum = {
   isInternal: 'isInternal',
   mentions: 'mentions',
   authorId: 'authorId',
+  contactId: 'contactId',
   parentId: 'parentId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
@@ -7953,6 +8250,8 @@ export const ContactScalarFieldEnum = {
   whatsappNumber: 'whatsappNumber',
   isPrimary: 'isPrimary',
   isBillingContact: 'isBillingContact',
+  portalAccess: 'portalAccess',
+  portalLastSeenAt: 'portalLastSeenAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -9084,6 +9383,8 @@ export const ExpenseScalarFieldEnum = {
   projectId: 'projectId',
   campaignId: 'campaignId',
   expenseDate: 'expenseDate',
+  billNumber: 'billNumber',
+  dueDate: 'dueDate',
   amount: 'amount',
   taxAmount: 'taxAmount',
   description: 'description',
@@ -9385,6 +9686,53 @@ export const OutboxEventScalarFieldEnum = {
 export type OutboxEventScalarFieldEnum = (typeof OutboxEventScalarFieldEnum)[keyof typeof OutboxEventScalarFieldEnum]
 
 
+export const JobOpeningScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  title: 'title',
+  departmentId: 'departmentId',
+  employmentType: 'employmentType',
+  location: 'location',
+  salaryRange: 'salaryRange',
+  description: 'description',
+  status: 'status',
+  openedOn: 'openedOn',
+  createdById: 'createdById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type JobOpeningScalarFieldEnum = (typeof JobOpeningScalarFieldEnum)[keyof typeof JobOpeningScalarFieldEnum]
+
+
+export const CandidateScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  jobId: 'jobId',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  email: 'email',
+  phone: 'phone',
+  source: 'source',
+  experience: 'experience',
+  link: 'link',
+  stage: 'stage',
+  interviewAt: 'interviewAt',
+  monthlySalary: 'monthlySalary',
+  joiningDate: 'joiningDate',
+  offerSentAt: 'offerSentAt',
+  offerAccepted: 'offerAccepted',
+  notes: 'notes',
+  rejectionReason: 'rejectionReason',
+  employeeId: 'employeeId',
+  createdById: 'createdById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CandidateScalarFieldEnum = (typeof CandidateScalarFieldEnum)[keyof typeof CandidateScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -9518,7 +9866,8 @@ export const UserOrderByRelevanceFieldEnum = {
   lastName: 'lastName',
   avatarFileId: 'avatarFileId',
   managerId: 'managerId',
-  twoFactorSecret: 'twoFactorSecret'
+  twoFactorSecret: 'twoFactorSecret',
+  googleSub: 'googleSub'
 } as const
 
 export type UserOrderByRelevanceFieldEnum = (typeof UserOrderByRelevanceFieldEnum)[keyof typeof UserOrderByRelevanceFieldEnum]
@@ -9571,6 +9920,24 @@ export const SessionOrderByRelevanceFieldEnum = {
 export type SessionOrderByRelevanceFieldEnum = (typeof SessionOrderByRelevanceFieldEnum)[keyof typeof SessionOrderByRelevanceFieldEnum]
 
 
+export const PortalSessionOrderByRelevanceFieldEnum = {
+  id: 'id',
+  contactId: 'contactId',
+  tokenHash: 'tokenHash'
+} as const
+
+export type PortalSessionOrderByRelevanceFieldEnum = (typeof PortalSessionOrderByRelevanceFieldEnum)[keyof typeof PortalSessionOrderByRelevanceFieldEnum]
+
+
+export const PortalCodeOrderByRelevanceFieldEnum = {
+  id: 'id',
+  contactId: 'contactId',
+  codeHash: 'codeHash'
+} as const
+
+export type PortalCodeOrderByRelevanceFieldEnum = (typeof PortalCodeOrderByRelevanceFieldEnum)[keyof typeof PortalCodeOrderByRelevanceFieldEnum]
+
+
 export const PasswordResetTokenOrderByRelevanceFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -9613,7 +9980,9 @@ export const FileOrderByRelevanceFieldEnum = {
   fileName: 'fileName',
   mimeType: 'mimeType',
   checksum: 'checksum',
-  uploadedById: 'uploadedById'
+  uploadedById: 'uploadedById',
+  driveFileId: 'driveFileId',
+  driveUrl: 'driveUrl'
 } as const
 
 export type FileOrderByRelevanceFieldEnum = (typeof FileOrderByRelevanceFieldEnum)[keyof typeof FileOrderByRelevanceFieldEnum]
@@ -9647,6 +10016,7 @@ export const CommentOrderByRelevanceFieldEnum = {
   entityId: 'entityId',
   body: 'body',
   authorId: 'authorId',
+  contactId: 'contactId',
   parentId: 'parentId'
 } as const
 
@@ -10560,6 +10930,7 @@ export const ExpenseOrderByRelevanceFieldEnum = {
   vendorId: 'vendorId',
   projectId: 'projectId',
   campaignId: 'campaignId',
+  billNumber: 'billNumber',
   description: 'description',
   bankAccountId: 'bankAccountId',
   paidById: 'paidById',
@@ -10762,6 +11133,40 @@ export const OutboxEventOrderByRelevanceFieldEnum = {
 } as const
 
 export type OutboxEventOrderByRelevanceFieldEnum = (typeof OutboxEventOrderByRelevanceFieldEnum)[keyof typeof OutboxEventOrderByRelevanceFieldEnum]
+
+
+export const JobOpeningOrderByRelevanceFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  title: 'title',
+  departmentId: 'departmentId',
+  location: 'location',
+  salaryRange: 'salaryRange',
+  description: 'description',
+  createdById: 'createdById'
+} as const
+
+export type JobOpeningOrderByRelevanceFieldEnum = (typeof JobOpeningOrderByRelevanceFieldEnum)[keyof typeof JobOpeningOrderByRelevanceFieldEnum]
+
+
+export const CandidateOrderByRelevanceFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  jobId: 'jobId',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  email: 'email',
+  phone: 'phone',
+  source: 'source',
+  experience: 'experience',
+  link: 'link',
+  notes: 'notes',
+  rejectionReason: 'rejectionReason',
+  employeeId: 'employeeId',
+  createdById: 'createdById'
+} as const
+
+export type CandidateOrderByRelevanceFieldEnum = (typeof CandidateOrderByRelevanceFieldEnum)[keyof typeof CandidateOrderByRelevanceFieldEnum]
 
 
 
@@ -11315,6 +11720,20 @@ export type EnumIntegrationProviderFieldRefInput<$PrismaModel> = FieldRefInputTy
 export type EnumOutboxStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OutboxStatus'>
     
 
+
+/**
+ * Reference to a field of type 'OpeningStatus'
+ */
+export type EnumOpeningStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OpeningStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'CandidateStage'
+ */
+export type EnumCandidateStageFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CandidateStage'>
+    
+
 /**
  * Batch Payload for updateMany & deleteMany & createMany
  */
@@ -11477,6 +11896,8 @@ export type GlobalOmitConfig = {
   permission?: Prisma.PermissionOmit
   rolePermission?: Prisma.RolePermissionOmit
   session?: Prisma.SessionOmit
+  portalSession?: Prisma.PortalSessionOmit
+  portalCode?: Prisma.PortalCodeOmit
   passwordResetToken?: Prisma.PasswordResetTokenOmit
   apiKey?: Prisma.ApiKeyOmit
   auditLog?: Prisma.AuditLogOmit
@@ -11571,6 +11992,8 @@ export type GlobalOmitConfig = {
   integrationSetting?: Prisma.IntegrationSettingOmit
   webhookEvent?: Prisma.WebhookEventOmit
   outboxEvent?: Prisma.OutboxEventOmit
+  jobOpening?: Prisma.JobOpeningOmit
+  candidate?: Prisma.CandidateOmit
 }
 
 /* Types for Logging */

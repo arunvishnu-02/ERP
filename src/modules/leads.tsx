@@ -10,6 +10,7 @@ import { exportXlsx, Resource } from '@/components/resource'
 import { Badge, Button, Card, Dialog, Field as FieldWrap, Input, KV, Select, Sheet, Status, Tabs, Textarea, Two } from '@/components/ui'
 import { api, useApi } from '@/lib/api'
 import { useAuth } from '@/lib/auth'
+import { useUrlParam } from '@/lib/url'
 import { day, human, inr, inrShort, leadLabel, personName, plusDays, waLink } from '@/lib/format'
 import { act, DueTag, Person, userOptions } from './common'
 
@@ -132,6 +133,7 @@ export default function Leads() {
   const fields = useLeadFields()
   const [view, setView] = useState('list')
   const [openId, setOpenId] = useState<string | null>(null)
+  useUrlParam('open', setOpenId)
   const [importing, setImporting] = useState(false)
   const [rk, setRk] = useState(0)
   const board = useApi<{ items: any[] }>(view === 'board' ? '/leads?limit=500' : null)
