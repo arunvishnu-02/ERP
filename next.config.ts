@@ -5,7 +5,7 @@ const config: NextConfig = {
   // Types are checked in development and in `npm run typecheck`. Set SKIP_TYPECHECK=1 on a small host to make the build lighter.
   typescript: { ignoreBuildErrors: process.env.SKIP_TYPECHECK === '1' },
   // Database and mail drivers are loaded from node_modules at run time instead of being bundled.
-  serverExternalPackages: ['mariadb', '@prisma/adapter-mariadb', 'nodemailer'],
+  serverExternalPackages: ['pg', '@prisma/adapter-pg', 'nodemailer'],
   async headers() {
     return [
       {
