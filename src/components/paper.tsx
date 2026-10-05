@@ -35,7 +35,7 @@ export function PaperHeader({ org, title, children }: { org: any; title: string;
         {s.tagline && !s.logo && <div className="mt-0.5 text-[11px] font-medium text-[var(--doc-cyan)]">{s.tagline}</div>}
       </div>
       <div className="text-right">
-        <div className="text-[26px] leading-none font-bold tracking-wide text-[var(--doc-navy)] sm:text-[30px]">{title}</div>
+        <div className={cn('leading-none font-bold tracking-wide text-[var(--doc-navy)]', title.length > 18 ? 'text-[20px] sm:text-[22px]' : 'text-[26px] sm:text-[30px]')}>{title}</div>
         <div className="mt-1.5 text-[11px] text-[var(--doc-muted)]">{org.legalName || org.name}</div>
         {children}
       </div>

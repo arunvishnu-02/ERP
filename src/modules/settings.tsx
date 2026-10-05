@@ -10,6 +10,7 @@ import { api, useApi } from '@/lib/api'
 import { useAuth } from '@/lib/auth'
 import { fmtDateTime, gstOff, human, personName } from '@/lib/format'
 import { act, stateOptions, userOptions } from './common'
+import DocTemplates from './doc-templates'
 
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'].map((m, i) => ({ value: String(i + 1), label: m }))
 
@@ -360,8 +361,9 @@ export default function Settings() {
   const [tab, setTab] = useState('company')
   return (
     <div className="space-y-4">
-      <Tabs value={tab} onChange={setTab} options={[{ value: 'company', label: 'Company' }, { value: 'users', label: 'Users' }, { value: 'roles', label: 'Roles and permissions' }, { value: 'structure', label: 'Branches and teams' }, { value: 'lists', label: 'Lists' }, { value: 'email', label: 'Email and WhatsApp' }, { value: 'form', label: 'Website form' }, { value: 'audit', label: 'Audit log' }]} />
+      <Tabs value={tab} onChange={setTab} options={[{ value: 'company', label: 'Company' }, { value: 'documents', label: 'Documents' }, { value: 'users', label: 'Users' }, { value: 'roles', label: 'Roles and permissions' }, { value: 'structure', label: 'Branches and teams' }, { value: 'lists', label: 'Lists' }, { value: 'email', label: 'Email and WhatsApp' }, { value: 'form', label: 'Website form' }, { value: 'audit', label: 'Audit log' }]} />
       {tab === 'company' && <Company />}
+      {tab === 'documents' && <DocTemplates />}
       {tab === 'users' && <Users />}
       {tab === 'roles' && <Roles />}
       {tab === 'structure' && <Structure />}
