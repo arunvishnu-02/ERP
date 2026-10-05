@@ -174,7 +174,6 @@ export type TagAssignmentOrderByWithRelationInput = {
   entityType?: Prisma.SortOrder
   entityId?: Prisma.SortOrder
   tag?: Prisma.TagOrderByWithRelationInput
-  _relevance?: Prisma.TagAssignmentOrderByRelevanceInput
 }
 
 export type TagAssignmentWhereUniqueInput = Prisma.AtLeast<{
@@ -255,12 +254,6 @@ export type TagAssignmentListRelationFilter = {
 
 export type TagAssignmentOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type TagAssignmentOrderByRelevanceInput = {
-  fields: Prisma.TagAssignmentOrderByRelevanceFieldEnum | Prisma.TagAssignmentOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type TagAssignmentTagIdEntityTypeEntityIdCompoundUniqueInput = {
@@ -403,7 +396,19 @@ export type TagAssignmentSelect<ExtArgs extends runtime.Types.Extensions.Interna
   tag?: boolean | Prisma.TagDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["tagAssignment"]>
 
+export type TagAssignmentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  tagId?: boolean
+  entityType?: boolean
+  entityId?: boolean
+  tag?: boolean | Prisma.TagDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["tagAssignment"]>
 
+export type TagAssignmentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  tagId?: boolean
+  entityType?: boolean
+  entityId?: boolean
+  tag?: boolean | Prisma.TagDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["tagAssignment"]>
 
 export type TagAssignmentSelectScalar = {
   tagId?: boolean
@@ -413,6 +418,12 @@ export type TagAssignmentSelectScalar = {
 
 export type TagAssignmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"tagId" | "entityType" | "entityId", ExtArgs["result"]["tagAssignment"]>
 export type TagAssignmentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  tag?: boolean | Prisma.TagDefaultArgs<ExtArgs>
+}
+export type TagAssignmentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  tag?: boolean | Prisma.TagDefaultArgs<ExtArgs>
+}
+export type TagAssignmentIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   tag?: boolean | Prisma.TagDefaultArgs<ExtArgs>
 }
 
@@ -543,6 +554,30 @@ export interface TagAssignmentDelegate<ExtArgs extends runtime.Types.Extensions.
   createMany<T extends TagAssignmentCreateManyArgs>(args?: Prisma.SelectSubset<T, TagAssignmentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many TagAssignments and returns the data saved in the database.
+   * @param {TagAssignmentCreateManyAndReturnArgs} args - Arguments to create many TagAssignments.
+   * @example
+   * // Create many TagAssignments
+   * const tagAssignment = await prisma.tagAssignment.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many TagAssignments and only return the `tagId`
+   * const tagAssignmentWithTagIdOnly = await prisma.tagAssignment.createManyAndReturn({
+   *   select: { tagId: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends TagAssignmentCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, TagAssignmentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TagAssignmentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a TagAssignment.
    * @param {TagAssignmentDeleteArgs} args - Arguments to delete one TagAssignment.
    * @example
@@ -605,6 +640,36 @@ export interface TagAssignmentDelegate<ExtArgs extends runtime.Types.Extensions.
    * 
    */
   updateMany<T extends TagAssignmentUpdateManyArgs>(args: Prisma.SelectSubset<T, TagAssignmentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more TagAssignments and returns the data updated in the database.
+   * @param {TagAssignmentUpdateManyAndReturnArgs} args - Arguments to update many TagAssignments.
+   * @example
+   * // Update many TagAssignments
+   * const tagAssignment = await prisma.tagAssignment.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more TagAssignments and only return the `tagId`
+   * const tagAssignmentWithTagIdOnly = await prisma.tagAssignment.updateManyAndReturn({
+   *   select: { tagId: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends TagAssignmentUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, TagAssignmentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TagAssignmentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one TagAssignment.
@@ -1036,6 +1101,29 @@ export type TagAssignmentCreateManyArgs<ExtArgs extends runtime.Types.Extensions
 }
 
 /**
+ * TagAssignment createManyAndReturn
+ */
+export type TagAssignmentCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TagAssignment
+   */
+  select?: Prisma.TagAssignmentSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the TagAssignment
+   */
+  omit?: Prisma.TagAssignmentOmit<ExtArgs> | null
+  /**
+   * The data used to create many TagAssignments.
+   */
+  data: Prisma.TagAssignmentCreateManyInput | Prisma.TagAssignmentCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TagAssignmentIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * TagAssignment update
  */
 export type TagAssignmentUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1077,6 +1165,36 @@ export type TagAssignmentUpdateManyArgs<ExtArgs extends runtime.Types.Extensions
    * Limit how many TagAssignments to update.
    */
   limit?: number
+}
+
+/**
+ * TagAssignment updateManyAndReturn
+ */
+export type TagAssignmentUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TagAssignment
+   */
+  select?: Prisma.TagAssignmentSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the TagAssignment
+   */
+  omit?: Prisma.TagAssignmentOmit<ExtArgs> | null
+  /**
+   * The data used to update TagAssignments.
+   */
+  data: Prisma.XOR<Prisma.TagAssignmentUpdateManyMutationInput, Prisma.TagAssignmentUncheckedUpdateManyInput>
+  /**
+   * Filter which TagAssignments to update
+   */
+  where?: Prisma.TagAssignmentWhereInput
+  /**
+   * Limit how many TagAssignments to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TagAssignmentIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

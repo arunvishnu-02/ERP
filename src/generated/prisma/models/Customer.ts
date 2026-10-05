@@ -506,7 +506,6 @@ export type CustomerOrderByWithRelationInput = {
   tickets?: Prisma.TicketOrderByRelationAggregateInput
   documents?: Prisma.DocumentOrderByRelationAggregateInput
   messages?: Prisma.MessageOrderByRelationAggregateInput
-  _relevance?: Prisma.CustomerOrderByRelevanceInput
 }
 
 export type CustomerWhereUniqueInput = Prisma.AtLeast<{
@@ -979,12 +978,6 @@ export type CustomerOrderByRelationAggregateInput = {
 export type CustomerNullableScalarRelationFilter = {
   is?: Prisma.CustomerWhereInput | null
   isNot?: Prisma.CustomerWhereInput | null
-}
-
-export type CustomerOrderByRelevanceInput = {
-  fields: Prisma.CustomerOrderByRelevanceFieldEnum | Prisma.CustomerOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type CustomerOrganizationIdCustomerNumberCompoundUniqueInput = {
@@ -7656,7 +7649,79 @@ export type CustomerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   _count?: boolean | Prisma.CustomerCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["customer"]>
 
+export type CustomerSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  branchId?: boolean
+  customerNumber?: boolean
+  type?: boolean
+  name?: boolean
+  legalName?: boolean
+  gstin?: boolean
+  pan?: boolean
+  industry?: boolean
+  website?: boolean
+  email?: boolean
+  phone?: boolean
+  billingAddressLine1?: boolean
+  billingAddressLine2?: boolean
+  billingCity?: boolean
+  billingState?: boolean
+  billingStateCode?: boolean
+  billingPincode?: boolean
+  country?: boolean
+  isExport?: boolean
+  paymentTermsDays?: boolean
+  creditLimit?: boolean
+  accountManagerId?: boolean
+  status?: boolean
+  customFields?: boolean
+  createdById?: boolean
+  updatedById?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  deletedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  branch?: boolean | Prisma.Customer$branchArgs<ExtArgs>
+  accountManager?: boolean | Prisma.Customer$accountManagerArgs<ExtArgs>
+}, ExtArgs["result"]["customer"]>
 
+export type CustomerSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  branchId?: boolean
+  customerNumber?: boolean
+  type?: boolean
+  name?: boolean
+  legalName?: boolean
+  gstin?: boolean
+  pan?: boolean
+  industry?: boolean
+  website?: boolean
+  email?: boolean
+  phone?: boolean
+  billingAddressLine1?: boolean
+  billingAddressLine2?: boolean
+  billingCity?: boolean
+  billingState?: boolean
+  billingStateCode?: boolean
+  billingPincode?: boolean
+  country?: boolean
+  isExport?: boolean
+  paymentTermsDays?: boolean
+  creditLimit?: boolean
+  accountManagerId?: boolean
+  status?: boolean
+  customFields?: boolean
+  createdById?: boolean
+  updatedById?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  deletedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  branch?: boolean | Prisma.Customer$branchArgs<ExtArgs>
+  accountManager?: boolean | Prisma.Customer$accountManagerArgs<ExtArgs>
+}, ExtArgs["result"]["customer"]>
 
 export type CustomerSelectScalar = {
   id?: boolean
@@ -7719,6 +7784,16 @@ export type CustomerInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
   documents?: boolean | Prisma.Customer$documentsArgs<ExtArgs>
   messages?: boolean | Prisma.Customer$messagesArgs<ExtArgs>
   _count?: boolean | Prisma.CustomerCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type CustomerIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  branch?: boolean | Prisma.Customer$branchArgs<ExtArgs>
+  accountManager?: boolean | Prisma.Customer$accountManagerArgs<ExtArgs>
+}
+export type CustomerIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  branch?: boolean | Prisma.Customer$branchArgs<ExtArgs>
+  accountManager?: boolean | Prisma.Customer$accountManagerArgs<ExtArgs>
 }
 
 export type $CustomerPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -7899,6 +7974,30 @@ export interface CustomerDelegate<ExtArgs extends runtime.Types.Extensions.Inter
   createMany<T extends CustomerCreateManyArgs>(args?: Prisma.SelectSubset<T, CustomerCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many Customers and returns the data saved in the database.
+   * @param {CustomerCreateManyAndReturnArgs} args - Arguments to create many Customers.
+   * @example
+   * // Create many Customers
+   * const customer = await prisma.customer.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many Customers and only return the `id`
+   * const customerWithIdOnly = await prisma.customer.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends CustomerCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, CustomerCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a Customer.
    * @param {CustomerDeleteArgs} args - Arguments to delete one Customer.
    * @example
@@ -7961,6 +8060,36 @@ export interface CustomerDelegate<ExtArgs extends runtime.Types.Extensions.Inter
    * 
    */
   updateMany<T extends CustomerUpdateManyArgs>(args: Prisma.SelectSubset<T, CustomerUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more Customers and returns the data updated in the database.
+   * @param {CustomerUpdateManyAndReturnArgs} args - Arguments to update many Customers.
+   * @example
+   * // Update many Customers
+   * const customer = await prisma.customer.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more Customers and only return the `id`
+   * const customerWithIdOnly = await prisma.customer.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends CustomerUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, CustomerUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CustomerPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one Customer.
@@ -8443,6 +8572,29 @@ export type CustomerCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
+ * Customer createManyAndReturn
+ */
+export type CustomerCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Customer
+   */
+  select?: Prisma.CustomerSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Customer
+   */
+  omit?: Prisma.CustomerOmit<ExtArgs> | null
+  /**
+   * The data used to create many Customers.
+   */
+  data: Prisma.CustomerCreateManyInput | Prisma.CustomerCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CustomerIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * Customer update
  */
 export type CustomerUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -8484,6 +8636,36 @@ export type CustomerUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Limit how many Customers to update.
    */
   limit?: number
+}
+
+/**
+ * Customer updateManyAndReturn
+ */
+export type CustomerUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Customer
+   */
+  select?: Prisma.CustomerSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Customer
+   */
+  omit?: Prisma.CustomerOmit<ExtArgs> | null
+  /**
+   * The data used to update Customers.
+   */
+  data: Prisma.XOR<Prisma.CustomerUpdateManyMutationInput, Prisma.CustomerUncheckedUpdateManyInput>
+  /**
+   * Filter which Customers to update
+   */
+  where?: Prisma.CustomerWhereInput
+  /**
+   * Limit how many Customers to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CustomerIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

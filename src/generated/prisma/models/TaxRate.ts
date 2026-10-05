@@ -235,7 +235,6 @@ export type TaxRateOrderByWithRelationInput = {
   isDefault?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   organization?: Prisma.OrganizationOrderByWithRelationInput
-  _relevance?: Prisma.TaxRateOrderByRelevanceInput
 }
 
 export type TaxRateWhereUniqueInput = Prisma.AtLeast<{
@@ -348,12 +347,6 @@ export type TaxRateListRelationFilter = {
 
 export type TaxRateOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type TaxRateOrderByRelevanceInput = {
-  fields: Prisma.TaxRateOrderByRelevanceFieldEnum | Prisma.TaxRateOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type TaxRateOrganizationIdNameCompoundUniqueInput = {
@@ -536,7 +529,25 @@ export type TaxRateSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["taxRate"]>
 
+export type TaxRateSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  name?: boolean
+  rate?: boolean
+  isDefault?: boolean
+  isActive?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["taxRate"]>
 
+export type TaxRateSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  name?: boolean
+  rate?: boolean
+  isDefault?: boolean
+  isActive?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["taxRate"]>
 
 export type TaxRateSelectScalar = {
   id?: boolean
@@ -549,6 +560,12 @@ export type TaxRateSelectScalar = {
 
 export type TaxRateOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "name" | "rate" | "isDefault" | "isActive", ExtArgs["result"]["taxRate"]>
 export type TaxRateInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}
+export type TaxRateIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}
+export type TaxRateIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
 }
 
@@ -682,6 +699,30 @@ export interface TaxRateDelegate<ExtArgs extends runtime.Types.Extensions.Intern
   createMany<T extends TaxRateCreateManyArgs>(args?: Prisma.SelectSubset<T, TaxRateCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many TaxRates and returns the data saved in the database.
+   * @param {TaxRateCreateManyAndReturnArgs} args - Arguments to create many TaxRates.
+   * @example
+   * // Create many TaxRates
+   * const taxRate = await prisma.taxRate.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many TaxRates and only return the `id`
+   * const taxRateWithIdOnly = await prisma.taxRate.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends TaxRateCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, TaxRateCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TaxRatePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a TaxRate.
    * @param {TaxRateDeleteArgs} args - Arguments to delete one TaxRate.
    * @example
@@ -744,6 +785,36 @@ export interface TaxRateDelegate<ExtArgs extends runtime.Types.Extensions.Intern
    * 
    */
   updateMany<T extends TaxRateUpdateManyArgs>(args: Prisma.SelectSubset<T, TaxRateUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more TaxRates and returns the data updated in the database.
+   * @param {TaxRateUpdateManyAndReturnArgs} args - Arguments to update many TaxRates.
+   * @example
+   * // Update many TaxRates
+   * const taxRate = await prisma.taxRate.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more TaxRates and only return the `id`
+   * const taxRateWithIdOnly = await prisma.taxRate.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends TaxRateUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, TaxRateUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TaxRatePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one TaxRate.
@@ -1178,6 +1249,29 @@ export type TaxRateCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
+ * TaxRate createManyAndReturn
+ */
+export type TaxRateCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TaxRate
+   */
+  select?: Prisma.TaxRateSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the TaxRate
+   */
+  omit?: Prisma.TaxRateOmit<ExtArgs> | null
+  /**
+   * The data used to create many TaxRates.
+   */
+  data: Prisma.TaxRateCreateManyInput | Prisma.TaxRateCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TaxRateIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * TaxRate update
  */
 export type TaxRateUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1219,6 +1313,36 @@ export type TaxRateUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Limit how many TaxRates to update.
    */
   limit?: number
+}
+
+/**
+ * TaxRate updateManyAndReturn
+ */
+export type TaxRateUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TaxRate
+   */
+  select?: Prisma.TaxRateSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the TaxRate
+   */
+  omit?: Prisma.TaxRateOmit<ExtArgs> | null
+  /**
+   * The data used to update TaxRates.
+   */
+  data: Prisma.XOR<Prisma.TaxRateUpdateManyMutationInput, Prisma.TaxRateUncheckedUpdateManyInput>
+  /**
+   * Filter which TaxRates to update
+   */
+  where?: Prisma.TaxRateWhereInput
+  /**
+   * Limit how many TaxRates to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TaxRateIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

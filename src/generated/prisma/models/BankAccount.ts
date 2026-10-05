@@ -277,7 +277,6 @@ export type BankAccountOrderByWithRelationInput = {
   payments?: Prisma.PaymentOrderByRelationAggregateInput
   expenses?: Prisma.ExpenseOrderByRelationAggregateInput
   ledgerEntries?: Prisma.LedgerEntryOrderByRelationAggregateInput
-  _relevance?: Prisma.BankAccountOrderByRelevanceInput
 }
 
 export type BankAccountWhereUniqueInput = Prisma.AtLeast<{
@@ -444,12 +443,6 @@ export type BankAccountListRelationFilter = {
 
 export type BankAccountOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type BankAccountOrderByRelevanceInput = {
-  fields: Prisma.BankAccountOrderByRelevanceFieldEnum | Prisma.BankAccountOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type BankAccountCountOrderByAggregateInput = {
@@ -1015,7 +1008,33 @@ export type BankAccountSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   _count?: boolean | Prisma.BankAccountCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["bankAccount"]>
 
+export type BankAccountSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  name?: boolean
+  bankName?: boolean
+  accountNumberLast4?: boolean
+  ifsc?: boolean
+  upiId?: boolean
+  openingBalance?: boolean
+  isDefault?: boolean
+  isActive?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["bankAccount"]>
 
+export type BankAccountSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  name?: boolean
+  bankName?: boolean
+  accountNumberLast4?: boolean
+  ifsc?: boolean
+  upiId?: boolean
+  openingBalance?: boolean
+  isDefault?: boolean
+  isActive?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["bankAccount"]>
 
 export type BankAccountSelectScalar = {
   id?: boolean
@@ -1037,6 +1056,12 @@ export type BankAccountInclude<ExtArgs extends runtime.Types.Extensions.Internal
   expenses?: boolean | Prisma.BankAccount$expensesArgs<ExtArgs>
   ledgerEntries?: boolean | Prisma.BankAccount$ledgerEntriesArgs<ExtArgs>
   _count?: boolean | Prisma.BankAccountCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type BankAccountIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}
+export type BankAccountIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
 }
 
 export type $BankAccountPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1176,6 +1201,30 @@ export interface BankAccountDelegate<ExtArgs extends runtime.Types.Extensions.In
   createMany<T extends BankAccountCreateManyArgs>(args?: Prisma.SelectSubset<T, BankAccountCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many BankAccounts and returns the data saved in the database.
+   * @param {BankAccountCreateManyAndReturnArgs} args - Arguments to create many BankAccounts.
+   * @example
+   * // Create many BankAccounts
+   * const bankAccount = await prisma.bankAccount.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many BankAccounts and only return the `id`
+   * const bankAccountWithIdOnly = await prisma.bankAccount.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends BankAccountCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, BankAccountCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BankAccountPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a BankAccount.
    * @param {BankAccountDeleteArgs} args - Arguments to delete one BankAccount.
    * @example
@@ -1238,6 +1287,36 @@ export interface BankAccountDelegate<ExtArgs extends runtime.Types.Extensions.In
    * 
    */
   updateMany<T extends BankAccountUpdateManyArgs>(args: Prisma.SelectSubset<T, BankAccountUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more BankAccounts and returns the data updated in the database.
+   * @param {BankAccountUpdateManyAndReturnArgs} args - Arguments to update many BankAccounts.
+   * @example
+   * // Update many BankAccounts
+   * const bankAccount = await prisma.bankAccount.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more BankAccounts and only return the `id`
+   * const bankAccountWithIdOnly = await prisma.bankAccount.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends BankAccountUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, BankAccountUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BankAccountPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one BankAccount.
@@ -1679,6 +1758,29 @@ export type BankAccountCreateManyArgs<ExtArgs extends runtime.Types.Extensions.I
 }
 
 /**
+ * BankAccount createManyAndReturn
+ */
+export type BankAccountCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the BankAccount
+   */
+  select?: Prisma.BankAccountSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the BankAccount
+   */
+  omit?: Prisma.BankAccountOmit<ExtArgs> | null
+  /**
+   * The data used to create many BankAccounts.
+   */
+  data: Prisma.BankAccountCreateManyInput | Prisma.BankAccountCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BankAccountIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * BankAccount update
  */
 export type BankAccountUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1720,6 +1822,36 @@ export type BankAccountUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Limit how many BankAccounts to update.
    */
   limit?: number
+}
+
+/**
+ * BankAccount updateManyAndReturn
+ */
+export type BankAccountUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the BankAccount
+   */
+  select?: Prisma.BankAccountSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the BankAccount
+   */
+  omit?: Prisma.BankAccountOmit<ExtArgs> | null
+  /**
+   * The data used to update BankAccounts.
+   */
+  data: Prisma.XOR<Prisma.BankAccountUpdateManyMutationInput, Prisma.BankAccountUncheckedUpdateManyInput>
+  /**
+   * Filter which BankAccounts to update
+   */
+  where?: Prisma.BankAccountWhereInput
+  /**
+   * Limit how many BankAccounts to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BankAccountIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

@@ -273,7 +273,6 @@ export type AttendanceOrderByWithRelationInput = {
   notes?: Prisma.SortOrderInput | Prisma.SortOrder
   organization?: Prisma.OrganizationOrderByWithRelationInput
   employee?: Prisma.EmployeeOrderByWithRelationInput
-  _relevance?: Prisma.AttendanceOrderByRelevanceInput
 }
 
 export type AttendanceWhereUniqueInput = Prisma.AtLeast<{
@@ -426,12 +425,6 @@ export type AttendanceListRelationFilter = {
 
 export type AttendanceOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type AttendanceOrderByRelevanceInput = {
-  fields: Prisma.AttendanceOrderByRelevanceFieldEnum | Prisma.AttendanceOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type AttendanceEmployeeIdDateCompoundUniqueInput = {
@@ -807,7 +800,35 @@ export type AttendanceSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   employee?: boolean | Prisma.EmployeeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["attendance"]>
 
+export type AttendanceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  employeeId?: boolean
+  date?: boolean
+  status?: boolean
+  checkInAt?: boolean
+  checkOutAt?: boolean
+  workMinutes?: boolean
+  source?: boolean
+  notes?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  employee?: boolean | Prisma.EmployeeDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["attendance"]>
 
+export type AttendanceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  employeeId?: boolean
+  date?: boolean
+  status?: boolean
+  checkInAt?: boolean
+  checkOutAt?: boolean
+  workMinutes?: boolean
+  source?: boolean
+  notes?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  employee?: boolean | Prisma.EmployeeDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["attendance"]>
 
 export type AttendanceSelectScalar = {
   id?: boolean
@@ -824,6 +845,14 @@ export type AttendanceSelectScalar = {
 
 export type AttendanceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "employeeId" | "date" | "status" | "checkInAt" | "checkOutAt" | "workMinutes" | "source" | "notes", ExtArgs["result"]["attendance"]>
 export type AttendanceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  employee?: boolean | Prisma.EmployeeDefaultArgs<ExtArgs>
+}
+export type AttendanceIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  employee?: boolean | Prisma.EmployeeDefaultArgs<ExtArgs>
+}
+export type AttendanceIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   employee?: boolean | Prisma.EmployeeDefaultArgs<ExtArgs>
 }
@@ -963,6 +992,30 @@ export interface AttendanceDelegate<ExtArgs extends runtime.Types.Extensions.Int
   createMany<T extends AttendanceCreateManyArgs>(args?: Prisma.SelectSubset<T, AttendanceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many Attendances and returns the data saved in the database.
+   * @param {AttendanceCreateManyAndReturnArgs} args - Arguments to create many Attendances.
+   * @example
+   * // Create many Attendances
+   * const attendance = await prisma.attendance.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many Attendances and only return the `id`
+   * const attendanceWithIdOnly = await prisma.attendance.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends AttendanceCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, AttendanceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a Attendance.
    * @param {AttendanceDeleteArgs} args - Arguments to delete one Attendance.
    * @example
@@ -1025,6 +1078,36 @@ export interface AttendanceDelegate<ExtArgs extends runtime.Types.Extensions.Int
    * 
    */
   updateMany<T extends AttendanceUpdateManyArgs>(args: Prisma.SelectSubset<T, AttendanceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more Attendances and returns the data updated in the database.
+   * @param {AttendanceUpdateManyAndReturnArgs} args - Arguments to update many Attendances.
+   * @example
+   * // Update many Attendances
+   * const attendance = await prisma.attendance.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more Attendances and only return the `id`
+   * const attendanceWithIdOnly = await prisma.attendance.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends AttendanceUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, AttendanceUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AttendancePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one Attendance.
@@ -1464,6 +1547,29 @@ export type AttendanceCreateManyArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
+ * Attendance createManyAndReturn
+ */
+export type AttendanceCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Attendance
+   */
+  select?: Prisma.AttendanceSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Attendance
+   */
+  omit?: Prisma.AttendanceOmit<ExtArgs> | null
+  /**
+   * The data used to create many Attendances.
+   */
+  data: Prisma.AttendanceCreateManyInput | Prisma.AttendanceCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AttendanceIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * Attendance update
  */
 export type AttendanceUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1505,6 +1611,36 @@ export type AttendanceUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Limit how many Attendances to update.
    */
   limit?: number
+}
+
+/**
+ * Attendance updateManyAndReturn
+ */
+export type AttendanceUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Attendance
+   */
+  select?: Prisma.AttendanceSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Attendance
+   */
+  omit?: Prisma.AttendanceOmit<ExtArgs> | null
+  /**
+   * The data used to update Attendances.
+   */
+  data: Prisma.XOR<Prisma.AttendanceUpdateManyMutationInput, Prisma.AttendanceUncheckedUpdateManyInput>
+  /**
+   * Filter which Attendances to update
+   */
+  where?: Prisma.AttendanceWhereInput
+  /**
+   * Limit how many Attendances to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AttendanceIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

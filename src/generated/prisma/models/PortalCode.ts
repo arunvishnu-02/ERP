@@ -245,7 +245,6 @@ export type PortalCodeOrderByWithRelationInput = {
   usedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   contact?: Prisma.ContactOrderByWithRelationInput
-  _relevance?: Prisma.PortalCodeOrderByRelevanceInput
 }
 
 export type PortalCodeWhereUniqueInput = Prisma.AtLeast<{
@@ -357,12 +356,6 @@ export type PortalCodeUncheckedUpdateManyInput = {
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   usedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type PortalCodeOrderByRelevanceInput = {
-  fields: Prisma.PortalCodeOrderByRelevanceFieldEnum | Prisma.PortalCodeOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type PortalCodeCountOrderByAggregateInput = {
@@ -561,7 +554,27 @@ export type PortalCodeSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   contact?: boolean | Prisma.ContactDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["portalCode"]>
 
+export type PortalCodeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  contactId?: boolean
+  codeHash?: boolean
+  tries?: boolean
+  expiresAt?: boolean
+  usedAt?: boolean
+  createdAt?: boolean
+  contact?: boolean | Prisma.ContactDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["portalCode"]>
 
+export type PortalCodeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  contactId?: boolean
+  codeHash?: boolean
+  tries?: boolean
+  expiresAt?: boolean
+  usedAt?: boolean
+  createdAt?: boolean
+  contact?: boolean | Prisma.ContactDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["portalCode"]>
 
 export type PortalCodeSelectScalar = {
   id?: boolean
@@ -575,6 +588,12 @@ export type PortalCodeSelectScalar = {
 
 export type PortalCodeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "contactId" | "codeHash" | "tries" | "expiresAt" | "usedAt" | "createdAt", ExtArgs["result"]["portalCode"]>
 export type PortalCodeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  contact?: boolean | Prisma.ContactDefaultArgs<ExtArgs>
+}
+export type PortalCodeIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  contact?: boolean | Prisma.ContactDefaultArgs<ExtArgs>
+}
+export type PortalCodeIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   contact?: boolean | Prisma.ContactDefaultArgs<ExtArgs>
 }
 
@@ -709,6 +728,30 @@ export interface PortalCodeDelegate<ExtArgs extends runtime.Types.Extensions.Int
   createMany<T extends PortalCodeCreateManyArgs>(args?: Prisma.SelectSubset<T, PortalCodeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many PortalCodes and returns the data saved in the database.
+   * @param {PortalCodeCreateManyAndReturnArgs} args - Arguments to create many PortalCodes.
+   * @example
+   * // Create many PortalCodes
+   * const portalCode = await prisma.portalCode.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many PortalCodes and only return the `id`
+   * const portalCodeWithIdOnly = await prisma.portalCode.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends PortalCodeCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, PortalCodeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PortalCodePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a PortalCode.
    * @param {PortalCodeDeleteArgs} args - Arguments to delete one PortalCode.
    * @example
@@ -771,6 +814,36 @@ export interface PortalCodeDelegate<ExtArgs extends runtime.Types.Extensions.Int
    * 
    */
   updateMany<T extends PortalCodeUpdateManyArgs>(args: Prisma.SelectSubset<T, PortalCodeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more PortalCodes and returns the data updated in the database.
+   * @param {PortalCodeUpdateManyAndReturnArgs} args - Arguments to update many PortalCodes.
+   * @example
+   * // Update many PortalCodes
+   * const portalCode = await prisma.portalCode.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more PortalCodes and only return the `id`
+   * const portalCodeWithIdOnly = await prisma.portalCode.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends PortalCodeUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, PortalCodeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PortalCodePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one PortalCode.
@@ -1206,6 +1279,29 @@ export type PortalCodeCreateManyArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
+ * PortalCode createManyAndReturn
+ */
+export type PortalCodeCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PortalCode
+   */
+  select?: Prisma.PortalCodeSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the PortalCode
+   */
+  omit?: Prisma.PortalCodeOmit<ExtArgs> | null
+  /**
+   * The data used to create many PortalCodes.
+   */
+  data: Prisma.PortalCodeCreateManyInput | Prisma.PortalCodeCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PortalCodeIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * PortalCode update
  */
 export type PortalCodeUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1247,6 +1343,36 @@ export type PortalCodeUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Limit how many PortalCodes to update.
    */
   limit?: number
+}
+
+/**
+ * PortalCode updateManyAndReturn
+ */
+export type PortalCodeUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PortalCode
+   */
+  select?: Prisma.PortalCodeSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the PortalCode
+   */
+  omit?: Prisma.PortalCodeOmit<ExtArgs> | null
+  /**
+   * The data used to update PortalCodes.
+   */
+  data: Prisma.XOR<Prisma.PortalCodeUpdateManyMutationInput, Prisma.PortalCodeUncheckedUpdateManyInput>
+  /**
+   * Filter which PortalCodes to update
+   */
+  where?: Prisma.PortalCodeWhereInput
+  /**
+   * Limit how many PortalCodes to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PortalCodeIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

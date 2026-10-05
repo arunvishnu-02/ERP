@@ -208,7 +208,6 @@ export type InvoiceTemplateOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   organization?: Prisma.OrganizationOrderByWithRelationInput
   invoices?: Prisma.InvoiceOrderByRelationAggregateInput
-  _relevance?: Prisma.InvoiceTemplateOrderByRelevanceInput
 }
 
 export type InvoiceTemplateWhereUniqueInput = Prisma.AtLeast<{
@@ -333,12 +332,6 @@ export type InvoiceTemplateListRelationFilter = {
 
 export type InvoiceTemplateOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type InvoiceTemplateOrderByRelevanceInput = {
-  fields: Prisma.InvoiceTemplateOrderByRelevanceFieldEnum | Prisma.InvoiceTemplateOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type InvoiceTemplateCountOrderByAggregateInput = {
@@ -629,7 +622,27 @@ export type InvoiceTemplateSelect<ExtArgs extends runtime.Types.Extensions.Inter
   _count?: boolean | Prisma.InvoiceTemplateCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["invoiceTemplate"]>
 
+export type InvoiceTemplateSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  name?: boolean
+  layout?: boolean
+  isDefault?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["invoiceTemplate"]>
 
+export type InvoiceTemplateSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  name?: boolean
+  layout?: boolean
+  isDefault?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["invoiceTemplate"]>
 
 export type InvoiceTemplateSelectScalar = {
   id?: boolean
@@ -646,6 +659,12 @@ export type InvoiceTemplateInclude<ExtArgs extends runtime.Types.Extensions.Inte
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   invoices?: boolean | Prisma.InvoiceTemplate$invoicesArgs<ExtArgs>
   _count?: boolean | Prisma.InvoiceTemplateCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type InvoiceTemplateIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}
+export type InvoiceTemplateIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
 }
 
 export type $InvoiceTemplatePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -780,6 +799,30 @@ export interface InvoiceTemplateDelegate<ExtArgs extends runtime.Types.Extension
   createMany<T extends InvoiceTemplateCreateManyArgs>(args?: Prisma.SelectSubset<T, InvoiceTemplateCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many InvoiceTemplates and returns the data saved in the database.
+   * @param {InvoiceTemplateCreateManyAndReturnArgs} args - Arguments to create many InvoiceTemplates.
+   * @example
+   * // Create many InvoiceTemplates
+   * const invoiceTemplate = await prisma.invoiceTemplate.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many InvoiceTemplates and only return the `id`
+   * const invoiceTemplateWithIdOnly = await prisma.invoiceTemplate.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends InvoiceTemplateCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, InvoiceTemplateCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InvoiceTemplatePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a InvoiceTemplate.
    * @param {InvoiceTemplateDeleteArgs} args - Arguments to delete one InvoiceTemplate.
    * @example
@@ -842,6 +885,36 @@ export interface InvoiceTemplateDelegate<ExtArgs extends runtime.Types.Extension
    * 
    */
   updateMany<T extends InvoiceTemplateUpdateManyArgs>(args: Prisma.SelectSubset<T, InvoiceTemplateUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more InvoiceTemplates and returns the data updated in the database.
+   * @param {InvoiceTemplateUpdateManyAndReturnArgs} args - Arguments to update many InvoiceTemplates.
+   * @example
+   * // Update many InvoiceTemplates
+   * const invoiceTemplate = await prisma.invoiceTemplate.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more InvoiceTemplates and only return the `id`
+   * const invoiceTemplateWithIdOnly = await prisma.invoiceTemplate.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends InvoiceTemplateUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, InvoiceTemplateUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InvoiceTemplatePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one InvoiceTemplate.
@@ -1278,6 +1351,29 @@ export type InvoiceTemplateCreateManyArgs<ExtArgs extends runtime.Types.Extensio
 }
 
 /**
+ * InvoiceTemplate createManyAndReturn
+ */
+export type InvoiceTemplateCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the InvoiceTemplate
+   */
+  select?: Prisma.InvoiceTemplateSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the InvoiceTemplate
+   */
+  omit?: Prisma.InvoiceTemplateOmit<ExtArgs> | null
+  /**
+   * The data used to create many InvoiceTemplates.
+   */
+  data: Prisma.InvoiceTemplateCreateManyInput | Prisma.InvoiceTemplateCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InvoiceTemplateIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * InvoiceTemplate update
  */
 export type InvoiceTemplateUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1319,6 +1415,36 @@ export type InvoiceTemplateUpdateManyArgs<ExtArgs extends runtime.Types.Extensio
    * Limit how many InvoiceTemplates to update.
    */
   limit?: number
+}
+
+/**
+ * InvoiceTemplate updateManyAndReturn
+ */
+export type InvoiceTemplateUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the InvoiceTemplate
+   */
+  select?: Prisma.InvoiceTemplateSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the InvoiceTemplate
+   */
+  omit?: Prisma.InvoiceTemplateOmit<ExtArgs> | null
+  /**
+   * The data used to update InvoiceTemplates.
+   */
+  data: Prisma.XOR<Prisma.InvoiceTemplateUpdateManyMutationInput, Prisma.InvoiceTemplateUncheckedUpdateManyInput>
+  /**
+   * Filter which InvoiceTemplates to update
+   */
+  where?: Prisma.InvoiceTemplateWhereInput
+  /**
+   * Limit how many InvoiceTemplates to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.InvoiceTemplateIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

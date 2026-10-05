@@ -232,7 +232,6 @@ export type PaymentAllocationOrderByWithRelationInput = {
   tdsAmount?: Prisma.SortOrder
   payment?: Prisma.PaymentOrderByWithRelationInput
   invoice?: Prisma.InvoiceOrderByWithRelationInput
-  _relevance?: Prisma.PaymentAllocationOrderByRelevanceInput
 }
 
 export type PaymentAllocationWhereUniqueInput = Prisma.AtLeast<{
@@ -335,12 +334,6 @@ export type PaymentAllocationListRelationFilter = {
 
 export type PaymentAllocationOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type PaymentAllocationOrderByRelevanceInput = {
-  fields: Prisma.PaymentAllocationOrderByRelevanceFieldEnum | Prisma.PaymentAllocationOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type PaymentAllocationPaymentIdInvoiceIdCompoundUniqueInput = {
@@ -625,7 +618,25 @@ export type PaymentAllocationSelect<ExtArgs extends runtime.Types.Extensions.Int
   invoice?: boolean | Prisma.InvoiceDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["paymentAllocation"]>
 
+export type PaymentAllocationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  paymentId?: boolean
+  invoiceId?: boolean
+  amount?: boolean
+  tdsAmount?: boolean
+  payment?: boolean | Prisma.PaymentDefaultArgs<ExtArgs>
+  invoice?: boolean | Prisma.InvoiceDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["paymentAllocation"]>
 
+export type PaymentAllocationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  paymentId?: boolean
+  invoiceId?: boolean
+  amount?: boolean
+  tdsAmount?: boolean
+  payment?: boolean | Prisma.PaymentDefaultArgs<ExtArgs>
+  invoice?: boolean | Prisma.InvoiceDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["paymentAllocation"]>
 
 export type PaymentAllocationSelectScalar = {
   id?: boolean
@@ -637,6 +648,14 @@ export type PaymentAllocationSelectScalar = {
 
 export type PaymentAllocationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "paymentId" | "invoiceId" | "amount" | "tdsAmount", ExtArgs["result"]["paymentAllocation"]>
 export type PaymentAllocationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  payment?: boolean | Prisma.PaymentDefaultArgs<ExtArgs>
+  invoice?: boolean | Prisma.InvoiceDefaultArgs<ExtArgs>
+}
+export type PaymentAllocationIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  payment?: boolean | Prisma.PaymentDefaultArgs<ExtArgs>
+  invoice?: boolean | Prisma.InvoiceDefaultArgs<ExtArgs>
+}
+export type PaymentAllocationIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   payment?: boolean | Prisma.PaymentDefaultArgs<ExtArgs>
   invoice?: boolean | Prisma.InvoiceDefaultArgs<ExtArgs>
 }
@@ -771,6 +790,30 @@ export interface PaymentAllocationDelegate<ExtArgs extends runtime.Types.Extensi
   createMany<T extends PaymentAllocationCreateManyArgs>(args?: Prisma.SelectSubset<T, PaymentAllocationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many PaymentAllocations and returns the data saved in the database.
+   * @param {PaymentAllocationCreateManyAndReturnArgs} args - Arguments to create many PaymentAllocations.
+   * @example
+   * // Create many PaymentAllocations
+   * const paymentAllocation = await prisma.paymentAllocation.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many PaymentAllocations and only return the `id`
+   * const paymentAllocationWithIdOnly = await prisma.paymentAllocation.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends PaymentAllocationCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, PaymentAllocationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentAllocationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a PaymentAllocation.
    * @param {PaymentAllocationDeleteArgs} args - Arguments to delete one PaymentAllocation.
    * @example
@@ -833,6 +876,36 @@ export interface PaymentAllocationDelegate<ExtArgs extends runtime.Types.Extensi
    * 
    */
   updateMany<T extends PaymentAllocationUpdateManyArgs>(args: Prisma.SelectSubset<T, PaymentAllocationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more PaymentAllocations and returns the data updated in the database.
+   * @param {PaymentAllocationUpdateManyAndReturnArgs} args - Arguments to update many PaymentAllocations.
+   * @example
+   * // Update many PaymentAllocations
+   * const paymentAllocation = await prisma.paymentAllocation.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more PaymentAllocations and only return the `id`
+   * const paymentAllocationWithIdOnly = await prisma.paymentAllocation.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends PaymentAllocationUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, PaymentAllocationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentAllocationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one PaymentAllocation.
@@ -1267,6 +1340,29 @@ export type PaymentAllocationCreateManyArgs<ExtArgs extends runtime.Types.Extens
 }
 
 /**
+ * PaymentAllocation createManyAndReturn
+ */
+export type PaymentAllocationCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PaymentAllocation
+   */
+  select?: Prisma.PaymentAllocationSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the PaymentAllocation
+   */
+  omit?: Prisma.PaymentAllocationOmit<ExtArgs> | null
+  /**
+   * The data used to create many PaymentAllocations.
+   */
+  data: Prisma.PaymentAllocationCreateManyInput | Prisma.PaymentAllocationCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PaymentAllocationIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * PaymentAllocation update
  */
 export type PaymentAllocationUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1308,6 +1404,36 @@ export type PaymentAllocationUpdateManyArgs<ExtArgs extends runtime.Types.Extens
    * Limit how many PaymentAllocations to update.
    */
   limit?: number
+}
+
+/**
+ * PaymentAllocation updateManyAndReturn
+ */
+export type PaymentAllocationUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PaymentAllocation
+   */
+  select?: Prisma.PaymentAllocationSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the PaymentAllocation
+   */
+  omit?: Prisma.PaymentAllocationOmit<ExtArgs> | null
+  /**
+   * The data used to update PaymentAllocations.
+   */
+  data: Prisma.XOR<Prisma.PaymentAllocationUpdateManyMutationInput, Prisma.PaymentAllocationUncheckedUpdateManyInput>
+  /**
+   * Filter which PaymentAllocations to update
+   */
+  where?: Prisma.PaymentAllocationWhereInput
+  /**
+   * Limit how many PaymentAllocations to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PaymentAllocationIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

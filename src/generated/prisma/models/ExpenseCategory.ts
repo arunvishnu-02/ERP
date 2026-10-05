@@ -189,7 +189,6 @@ export type ExpenseCategoryOrderByWithRelationInput = {
   parent?: Prisma.ExpenseCategoryOrderByWithRelationInput
   children?: Prisma.ExpenseCategoryOrderByRelationAggregateInput
   expenses?: Prisma.ExpenseOrderByRelationAggregateInput
-  _relevance?: Prisma.ExpenseCategoryOrderByRelevanceInput
 }
 
 export type ExpenseCategoryWhereUniqueInput = Prisma.AtLeast<{
@@ -295,12 +294,6 @@ export type ExpenseCategoryOrderByRelationAggregateInput = {
 export type ExpenseCategoryNullableScalarRelationFilter = {
   is?: Prisma.ExpenseCategoryWhereInput | null
   isNot?: Prisma.ExpenseCategoryWhereInput | null
-}
-
-export type ExpenseCategoryOrderByRelevanceInput = {
-  fields: Prisma.ExpenseCategoryOrderByRelevanceFieldEnum | Prisma.ExpenseCategoryOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type ExpenseCategoryOrganizationIdNameCompoundUniqueInput = {
@@ -746,7 +739,23 @@ export type ExpenseCategorySelect<ExtArgs extends runtime.Types.Extensions.Inter
   _count?: boolean | Prisma.ExpenseCategoryCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["expenseCategory"]>
 
+export type ExpenseCategorySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  name?: boolean
+  parentId?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  parent?: boolean | Prisma.ExpenseCategory$parentArgs<ExtArgs>
+}, ExtArgs["result"]["expenseCategory"]>
 
+export type ExpenseCategorySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  name?: boolean
+  parentId?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  parent?: boolean | Prisma.ExpenseCategory$parentArgs<ExtArgs>
+}, ExtArgs["result"]["expenseCategory"]>
 
 export type ExpenseCategorySelectScalar = {
   id?: boolean
@@ -762,6 +771,14 @@ export type ExpenseCategoryInclude<ExtArgs extends runtime.Types.Extensions.Inte
   children?: boolean | Prisma.ExpenseCategory$childrenArgs<ExtArgs>
   expenses?: boolean | Prisma.ExpenseCategory$expensesArgs<ExtArgs>
   _count?: boolean | Prisma.ExpenseCategoryCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type ExpenseCategoryIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  parent?: boolean | Prisma.ExpenseCategory$parentArgs<ExtArgs>
+}
+export type ExpenseCategoryIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  parent?: boolean | Prisma.ExpenseCategory$parentArgs<ExtArgs>
 }
 
 export type $ExpenseCategoryPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -895,6 +912,30 @@ export interface ExpenseCategoryDelegate<ExtArgs extends runtime.Types.Extension
   createMany<T extends ExpenseCategoryCreateManyArgs>(args?: Prisma.SelectSubset<T, ExpenseCategoryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many ExpenseCategories and returns the data saved in the database.
+   * @param {ExpenseCategoryCreateManyAndReturnArgs} args - Arguments to create many ExpenseCategories.
+   * @example
+   * // Create many ExpenseCategories
+   * const expenseCategory = await prisma.expenseCategory.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many ExpenseCategories and only return the `id`
+   * const expenseCategoryWithIdOnly = await prisma.expenseCategory.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends ExpenseCategoryCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, ExpenseCategoryCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExpenseCategoryPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a ExpenseCategory.
    * @param {ExpenseCategoryDeleteArgs} args - Arguments to delete one ExpenseCategory.
    * @example
@@ -957,6 +998,36 @@ export interface ExpenseCategoryDelegate<ExtArgs extends runtime.Types.Extension
    * 
    */
   updateMany<T extends ExpenseCategoryUpdateManyArgs>(args: Prisma.SelectSubset<T, ExpenseCategoryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more ExpenseCategories and returns the data updated in the database.
+   * @param {ExpenseCategoryUpdateManyAndReturnArgs} args - Arguments to update many ExpenseCategories.
+   * @example
+   * // Update many ExpenseCategories
+   * const expenseCategory = await prisma.expenseCategory.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more ExpenseCategories and only return the `id`
+   * const expenseCategoryWithIdOnly = await prisma.expenseCategory.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends ExpenseCategoryUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, ExpenseCategoryUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExpenseCategoryPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one ExpenseCategory.
@@ -1392,6 +1463,29 @@ export type ExpenseCategoryCreateManyArgs<ExtArgs extends runtime.Types.Extensio
 }
 
 /**
+ * ExpenseCategory createManyAndReturn
+ */
+export type ExpenseCategoryCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ExpenseCategory
+   */
+  select?: Prisma.ExpenseCategorySelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the ExpenseCategory
+   */
+  omit?: Prisma.ExpenseCategoryOmit<ExtArgs> | null
+  /**
+   * The data used to create many ExpenseCategories.
+   */
+  data: Prisma.ExpenseCategoryCreateManyInput | Prisma.ExpenseCategoryCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ExpenseCategoryIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * ExpenseCategory update
  */
 export type ExpenseCategoryUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1433,6 +1527,36 @@ export type ExpenseCategoryUpdateManyArgs<ExtArgs extends runtime.Types.Extensio
    * Limit how many ExpenseCategories to update.
    */
   limit?: number
+}
+
+/**
+ * ExpenseCategory updateManyAndReturn
+ */
+export type ExpenseCategoryUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ExpenseCategory
+   */
+  select?: Prisma.ExpenseCategorySelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the ExpenseCategory
+   */
+  omit?: Prisma.ExpenseCategoryOmit<ExtArgs> | null
+  /**
+   * The data used to update ExpenseCategories.
+   */
+  data: Prisma.XOR<Prisma.ExpenseCategoryUpdateManyMutationInput, Prisma.ExpenseCategoryUncheckedUpdateManyInput>
+  /**
+   * Filter which ExpenseCategories to update
+   */
+  where?: Prisma.ExpenseCategoryWhereInput
+  /**
+   * Limit how many ExpenseCategories to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ExpenseCategoryIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

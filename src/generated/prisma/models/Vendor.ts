@@ -230,7 +230,6 @@ export type VendorOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   organization?: Prisma.OrganizationOrderByWithRelationInput
   expenses?: Prisma.ExpenseOrderByRelationAggregateInput
-  _relevance?: Prisma.VendorOrderByRelevanceInput
 }
 
 export type VendorWhereUniqueInput = Prisma.AtLeast<{
@@ -376,12 +375,6 @@ export type VendorListRelationFilter = {
 
 export type VendorOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type VendorOrderByRelevanceInput = {
-  fields: Prisma.VendorOrderByRelevanceFieldEnum | Prisma.VendorOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type VendorOrganizationIdNameCompoundUniqueInput = {
@@ -709,7 +702,31 @@ export type VendorSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   _count?: boolean | Prisma.VendorCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["vendor"]>
 
+export type VendorSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  name?: boolean
+  gstin?: boolean
+  email?: boolean
+  phone?: boolean
+  notes?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["vendor"]>
 
+export type VendorSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  name?: boolean
+  gstin?: boolean
+  email?: boolean
+  phone?: boolean
+  notes?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["vendor"]>
 
 export type VendorSelectScalar = {
   id?: boolean
@@ -728,6 +745,12 @@ export type VendorInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   expenses?: boolean | Prisma.Vendor$expensesArgs<ExtArgs>
   _count?: boolean | Prisma.VendorCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type VendorIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}
+export type VendorIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
 }
 
 export type $VendorPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -864,6 +887,30 @@ export interface VendorDelegate<ExtArgs extends runtime.Types.Extensions.Interna
   createMany<T extends VendorCreateManyArgs>(args?: Prisma.SelectSubset<T, VendorCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many Vendors and returns the data saved in the database.
+   * @param {VendorCreateManyAndReturnArgs} args - Arguments to create many Vendors.
+   * @example
+   * // Create many Vendors
+   * const vendor = await prisma.vendor.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many Vendors and only return the `id`
+   * const vendorWithIdOnly = await prisma.vendor.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends VendorCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, VendorCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VendorPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a Vendor.
    * @param {VendorDeleteArgs} args - Arguments to delete one Vendor.
    * @example
@@ -926,6 +973,36 @@ export interface VendorDelegate<ExtArgs extends runtime.Types.Extensions.Interna
    * 
    */
   updateMany<T extends VendorUpdateManyArgs>(args: Prisma.SelectSubset<T, VendorUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more Vendors and returns the data updated in the database.
+   * @param {VendorUpdateManyAndReturnArgs} args - Arguments to update many Vendors.
+   * @example
+   * // Update many Vendors
+   * const vendor = await prisma.vendor.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more Vendors and only return the `id`
+   * const vendorWithIdOnly = await prisma.vendor.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends VendorUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, VendorUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VendorPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one Vendor.
@@ -1364,6 +1441,29 @@ export type VendorCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 /**
+ * Vendor createManyAndReturn
+ */
+export type VendorCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Vendor
+   */
+  select?: Prisma.VendorSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Vendor
+   */
+  omit?: Prisma.VendorOmit<ExtArgs> | null
+  /**
+   * The data used to create many Vendors.
+   */
+  data: Prisma.VendorCreateManyInput | Prisma.VendorCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VendorIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * Vendor update
  */
 export type VendorUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1405,6 +1505,36 @@ export type VendorUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Limit how many Vendors to update.
    */
   limit?: number
+}
+
+/**
+ * Vendor updateManyAndReturn
+ */
+export type VendorUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Vendor
+   */
+  select?: Prisma.VendorSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Vendor
+   */
+  omit?: Prisma.VendorOmit<ExtArgs> | null
+  /**
+   * The data used to update Vendors.
+   */
+  data: Prisma.XOR<Prisma.VendorUpdateManyMutationInput, Prisma.VendorUncheckedUpdateManyInput>
+  /**
+   * Filter which Vendors to update
+   */
+  where?: Prisma.VendorWhereInput
+  /**
+   * Limit how many Vendors to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VendorIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

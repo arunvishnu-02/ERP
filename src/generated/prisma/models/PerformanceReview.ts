@@ -316,7 +316,6 @@ export type PerformanceReviewOrderByWithRelationInput = {
   organization?: Prisma.OrganizationOrderByWithRelationInput
   employee?: Prisma.EmployeeOrderByWithRelationInput
   reviewer?: Prisma.UserOrderByWithRelationInput
-  _relevance?: Prisma.PerformanceReviewOrderByRelevanceInput
 }
 
 export type PerformanceReviewWhereUniqueInput = Prisma.AtLeast<{
@@ -518,12 +517,6 @@ export type PerformanceReviewListRelationFilter = {
 
 export type PerformanceReviewOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type PerformanceReviewOrderByRelevanceInput = {
-  fields: Prisma.PerformanceReviewOrderByRelevanceFieldEnum | Prisma.PerformanceReviewOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type PerformanceReviewCountOrderByAggregateInput = {
@@ -1144,7 +1137,47 @@ export type PerformanceReviewSelect<ExtArgs extends runtime.Types.Extensions.Int
   reviewer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["performanceReview"]>
 
+export type PerformanceReviewSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  employeeId?: boolean
+  reviewerId?: boolean
+  periodStart?: boolean
+  periodEnd?: boolean
+  rating?: boolean
+  goals?: boolean
+  strengths?: boolean
+  improvements?: boolean
+  status?: boolean
+  submittedAt?: boolean
+  acknowledgedAt?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  employee?: boolean | Prisma.EmployeeDefaultArgs<ExtArgs>
+  reviewer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["performanceReview"]>
 
+export type PerformanceReviewSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  employeeId?: boolean
+  reviewerId?: boolean
+  periodStart?: boolean
+  periodEnd?: boolean
+  rating?: boolean
+  goals?: boolean
+  strengths?: boolean
+  improvements?: boolean
+  status?: boolean
+  submittedAt?: boolean
+  acknowledgedAt?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  employee?: boolean | Prisma.EmployeeDefaultArgs<ExtArgs>
+  reviewer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["performanceReview"]>
 
 export type PerformanceReviewSelectScalar = {
   id?: boolean
@@ -1166,6 +1199,16 @@ export type PerformanceReviewSelectScalar = {
 
 export type PerformanceReviewOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "employeeId" | "reviewerId" | "periodStart" | "periodEnd" | "rating" | "goals" | "strengths" | "improvements" | "status" | "submittedAt" | "acknowledgedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["performanceReview"]>
 export type PerformanceReviewInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  employee?: boolean | Prisma.EmployeeDefaultArgs<ExtArgs>
+  reviewer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type PerformanceReviewIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  employee?: boolean | Prisma.EmployeeDefaultArgs<ExtArgs>
+  reviewer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type PerformanceReviewIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   employee?: boolean | Prisma.EmployeeDefaultArgs<ExtArgs>
   reviewer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1312,6 +1355,30 @@ export interface PerformanceReviewDelegate<ExtArgs extends runtime.Types.Extensi
   createMany<T extends PerformanceReviewCreateManyArgs>(args?: Prisma.SelectSubset<T, PerformanceReviewCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many PerformanceReviews and returns the data saved in the database.
+   * @param {PerformanceReviewCreateManyAndReturnArgs} args - Arguments to create many PerformanceReviews.
+   * @example
+   * // Create many PerformanceReviews
+   * const performanceReview = await prisma.performanceReview.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many PerformanceReviews and only return the `id`
+   * const performanceReviewWithIdOnly = await prisma.performanceReview.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends PerformanceReviewCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, PerformanceReviewCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PerformanceReviewPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a PerformanceReview.
    * @param {PerformanceReviewDeleteArgs} args - Arguments to delete one PerformanceReview.
    * @example
@@ -1374,6 +1441,36 @@ export interface PerformanceReviewDelegate<ExtArgs extends runtime.Types.Extensi
    * 
    */
   updateMany<T extends PerformanceReviewUpdateManyArgs>(args: Prisma.SelectSubset<T, PerformanceReviewUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more PerformanceReviews and returns the data updated in the database.
+   * @param {PerformanceReviewUpdateManyAndReturnArgs} args - Arguments to update many PerformanceReviews.
+   * @example
+   * // Update many PerformanceReviews
+   * const performanceReview = await prisma.performanceReview.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more PerformanceReviews and only return the `id`
+   * const performanceReviewWithIdOnly = await prisma.performanceReview.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends PerformanceReviewUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, PerformanceReviewUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PerformanceReviewPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one PerformanceReview.
@@ -1819,6 +1916,29 @@ export type PerformanceReviewCreateManyArgs<ExtArgs extends runtime.Types.Extens
 }
 
 /**
+ * PerformanceReview createManyAndReturn
+ */
+export type PerformanceReviewCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PerformanceReview
+   */
+  select?: Prisma.PerformanceReviewSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the PerformanceReview
+   */
+  omit?: Prisma.PerformanceReviewOmit<ExtArgs> | null
+  /**
+   * The data used to create many PerformanceReviews.
+   */
+  data: Prisma.PerformanceReviewCreateManyInput | Prisma.PerformanceReviewCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PerformanceReviewIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * PerformanceReview update
  */
 export type PerformanceReviewUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1860,6 +1980,36 @@ export type PerformanceReviewUpdateManyArgs<ExtArgs extends runtime.Types.Extens
    * Limit how many PerformanceReviews to update.
    */
   limit?: number
+}
+
+/**
+ * PerformanceReview updateManyAndReturn
+ */
+export type PerformanceReviewUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PerformanceReview
+   */
+  select?: Prisma.PerformanceReviewSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the PerformanceReview
+   */
+  omit?: Prisma.PerformanceReviewOmit<ExtArgs> | null
+  /**
+   * The data used to update PerformanceReviews.
+   */
+  data: Prisma.XOR<Prisma.PerformanceReviewUpdateManyMutationInput, Prisma.PerformanceReviewUncheckedUpdateManyInput>
+  /**
+   * Filter which PerformanceReviews to update
+   */
+  where?: Prisma.PerformanceReviewWhereInput
+  /**
+   * Limit how many PerformanceReviews to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PerformanceReviewIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

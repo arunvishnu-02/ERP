@@ -354,7 +354,6 @@ export type PriceRuleOrderByWithRelationInput = {
   organization?: Prisma.OrganizationOrderByWithRelationInput
   service?: Prisma.ServiceOrderByWithRelationInput
   package?: Prisma.ServicePackageOrderByWithRelationInput
-  _relevance?: Prisma.PriceRuleOrderByRelevanceInput
 }
 
 export type PriceRuleWhereUniqueInput = Prisma.AtLeast<{
@@ -576,12 +575,6 @@ export type PriceRuleListRelationFilter = {
 
 export type PriceRuleOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type PriceRuleOrderByRelevanceInput = {
-  fields: Prisma.PriceRuleOrderByRelevanceFieldEnum | Prisma.PriceRuleOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type PriceRuleCountOrderByAggregateInput = {
@@ -1258,7 +1251,51 @@ export type PriceRuleSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   package?: boolean | Prisma.PriceRule$packageArgs<ExtArgs>
 }, ExtArgs["result"]["priceRule"]>
 
+export type PriceRuleSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  name?: boolean
+  type?: boolean
+  serviceId?: boolean
+  packageId?: boolean
+  minQuantity?: boolean
+  minContractMonths?: boolean
+  customerTier?: boolean
+  discountPercent?: boolean
+  discountAmount?: boolean
+  validFrom?: boolean
+  validTo?: boolean
+  priority?: boolean
+  isActive?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  service?: boolean | Prisma.PriceRule$serviceArgs<ExtArgs>
+  package?: boolean | Prisma.PriceRule$packageArgs<ExtArgs>
+}, ExtArgs["result"]["priceRule"]>
 
+export type PriceRuleSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  name?: boolean
+  type?: boolean
+  serviceId?: boolean
+  packageId?: boolean
+  minQuantity?: boolean
+  minContractMonths?: boolean
+  customerTier?: boolean
+  discountPercent?: boolean
+  discountAmount?: boolean
+  validFrom?: boolean
+  validTo?: boolean
+  priority?: boolean
+  isActive?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  service?: boolean | Prisma.PriceRule$serviceArgs<ExtArgs>
+  package?: boolean | Prisma.PriceRule$packageArgs<ExtArgs>
+}, ExtArgs["result"]["priceRule"]>
 
 export type PriceRuleSelectScalar = {
   id?: boolean
@@ -1282,6 +1319,16 @@ export type PriceRuleSelectScalar = {
 
 export type PriceRuleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "name" | "type" | "serviceId" | "packageId" | "minQuantity" | "minContractMonths" | "customerTier" | "discountPercent" | "discountAmount" | "validFrom" | "validTo" | "priority" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["priceRule"]>
 export type PriceRuleInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  service?: boolean | Prisma.PriceRule$serviceArgs<ExtArgs>
+  package?: boolean | Prisma.PriceRule$packageArgs<ExtArgs>
+}
+export type PriceRuleIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  service?: boolean | Prisma.PriceRule$serviceArgs<ExtArgs>
+  package?: boolean | Prisma.PriceRule$packageArgs<ExtArgs>
+}
+export type PriceRuleIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   service?: boolean | Prisma.PriceRule$serviceArgs<ExtArgs>
   package?: boolean | Prisma.PriceRule$packageArgs<ExtArgs>
@@ -1430,6 +1477,30 @@ export interface PriceRuleDelegate<ExtArgs extends runtime.Types.Extensions.Inte
   createMany<T extends PriceRuleCreateManyArgs>(args?: Prisma.SelectSubset<T, PriceRuleCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many PriceRules and returns the data saved in the database.
+   * @param {PriceRuleCreateManyAndReturnArgs} args - Arguments to create many PriceRules.
+   * @example
+   * // Create many PriceRules
+   * const priceRule = await prisma.priceRule.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many PriceRules and only return the `id`
+   * const priceRuleWithIdOnly = await prisma.priceRule.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends PriceRuleCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, PriceRuleCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PriceRulePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a PriceRule.
    * @param {PriceRuleDeleteArgs} args - Arguments to delete one PriceRule.
    * @example
@@ -1492,6 +1563,36 @@ export interface PriceRuleDelegate<ExtArgs extends runtime.Types.Extensions.Inte
    * 
    */
   updateMany<T extends PriceRuleUpdateManyArgs>(args: Prisma.SelectSubset<T, PriceRuleUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more PriceRules and returns the data updated in the database.
+   * @param {PriceRuleUpdateManyAndReturnArgs} args - Arguments to update many PriceRules.
+   * @example
+   * // Update many PriceRules
+   * const priceRule = await prisma.priceRule.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more PriceRules and only return the `id`
+   * const priceRuleWithIdOnly = await prisma.priceRule.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends PriceRuleUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, PriceRuleUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PriceRulePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one PriceRule.
@@ -1939,6 +2040,29 @@ export type PriceRuleCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 /**
+ * PriceRule createManyAndReturn
+ */
+export type PriceRuleCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PriceRule
+   */
+  select?: Prisma.PriceRuleSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the PriceRule
+   */
+  omit?: Prisma.PriceRuleOmit<ExtArgs> | null
+  /**
+   * The data used to create many PriceRules.
+   */
+  data: Prisma.PriceRuleCreateManyInput | Prisma.PriceRuleCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PriceRuleIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * PriceRule update
  */
 export type PriceRuleUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1980,6 +2104,36 @@ export type PriceRuleUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Limit how many PriceRules to update.
    */
   limit?: number
+}
+
+/**
+ * PriceRule updateManyAndReturn
+ */
+export type PriceRuleUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PriceRule
+   */
+  select?: Prisma.PriceRuleSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the PriceRule
+   */
+  omit?: Prisma.PriceRuleOmit<ExtArgs> | null
+  /**
+   * The data used to update PriceRules.
+   */
+  data: Prisma.XOR<Prisma.PriceRuleUpdateManyMutationInput, Prisma.PriceRuleUncheckedUpdateManyInput>
+  /**
+   * Filter which PriceRules to update
+   */
+  where?: Prisma.PriceRuleWhereInput
+  /**
+   * Limit how many PriceRules to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PriceRuleIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

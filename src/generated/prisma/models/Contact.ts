@@ -304,7 +304,6 @@ export type ContactOrderByWithRelationInput = {
   invoices?: Prisma.InvoiceOrderByRelationAggregateInput
   tickets?: Prisma.TicketOrderByRelationAggregateInput
   messages?: Prisma.MessageOrderByRelationAggregateInput
-  _relevance?: Prisma.ContactOrderByRelevanceInput
 }
 
 export type ContactWhereUniqueInput = Prisma.AtLeast<{
@@ -564,12 +563,6 @@ export type ContactScalarRelationFilter = {
 export type ContactNullableScalarRelationFilter = {
   is?: Prisma.ContactWhereInput | null
   isNot?: Prisma.ContactWhereInput | null
-}
-
-export type ContactOrderByRelevanceInput = {
-  fields: Prisma.ContactOrderByRelevanceFieldEnum | Prisma.ContactOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type ContactCountOrderByAggregateInput = {
@@ -2606,7 +2599,45 @@ export type ContactSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   _count?: boolean | Prisma.ContactCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["contact"]>
 
+export type ContactSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  customerId?: boolean
+  firstName?: boolean
+  lastName?: boolean
+  designation?: boolean
+  email?: boolean
+  phone?: boolean
+  whatsappNumber?: boolean
+  isPrimary?: boolean
+  isBillingContact?: boolean
+  portalAccess?: boolean
+  portalLastSeenAt?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["contact"]>
 
+export type ContactSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  customerId?: boolean
+  firstName?: boolean
+  lastName?: boolean
+  designation?: boolean
+  email?: boolean
+  phone?: boolean
+  whatsappNumber?: boolean
+  isPrimary?: boolean
+  isBillingContact?: boolean
+  portalAccess?: boolean
+  portalLastSeenAt?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["contact"]>
 
 export type ContactSelectScalar = {
   id?: boolean
@@ -2641,6 +2672,14 @@ export type ContactInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   tickets?: boolean | Prisma.Contact$ticketsArgs<ExtArgs>
   messages?: boolean | Prisma.Contact$messagesArgs<ExtArgs>
   _count?: boolean | Prisma.ContactCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type ContactIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
+}
+export type ContactIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
 }
 
 export type $ContactPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2793,6 +2832,30 @@ export interface ContactDelegate<ExtArgs extends runtime.Types.Extensions.Intern
   createMany<T extends ContactCreateManyArgs>(args?: Prisma.SelectSubset<T, ContactCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many Contacts and returns the data saved in the database.
+   * @param {ContactCreateManyAndReturnArgs} args - Arguments to create many Contacts.
+   * @example
+   * // Create many Contacts
+   * const contact = await prisma.contact.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many Contacts and only return the `id`
+   * const contactWithIdOnly = await prisma.contact.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends ContactCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, ContactCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ContactPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a Contact.
    * @param {ContactDeleteArgs} args - Arguments to delete one Contact.
    * @example
@@ -2855,6 +2918,36 @@ export interface ContactDelegate<ExtArgs extends runtime.Types.Extensions.Intern
    * 
    */
   updateMany<T extends ContactUpdateManyArgs>(args: Prisma.SelectSubset<T, ContactUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more Contacts and returns the data updated in the database.
+   * @param {ContactUpdateManyAndReturnArgs} args - Arguments to update many Contacts.
+   * @example
+   * // Update many Contacts
+   * const contact = await prisma.contact.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more Contacts and only return the `id`
+   * const contactWithIdOnly = await prisma.contact.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends ContactUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, ContactUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ContactPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one Contact.
@@ -3309,6 +3402,29 @@ export type ContactCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
+ * Contact createManyAndReturn
+ */
+export type ContactCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Contact
+   */
+  select?: Prisma.ContactSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Contact
+   */
+  omit?: Prisma.ContactOmit<ExtArgs> | null
+  /**
+   * The data used to create many Contacts.
+   */
+  data: Prisma.ContactCreateManyInput | Prisma.ContactCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ContactIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * Contact update
  */
 export type ContactUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3350,6 +3466,36 @@ export type ContactUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Limit how many Contacts to update.
    */
   limit?: number
+}
+
+/**
+ * Contact updateManyAndReturn
+ */
+export type ContactUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Contact
+   */
+  select?: Prisma.ContactSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Contact
+   */
+  omit?: Prisma.ContactOmit<ExtArgs> | null
+  /**
+   * The data used to update Contacts.
+   */
+  data: Prisma.XOR<Prisma.ContactUpdateManyMutationInput, Prisma.ContactUncheckedUpdateManyInput>
+  /**
+   * Filter which Contacts to update
+   */
+  where?: Prisma.ContactWhereInput
+  /**
+   * Limit how many Contacts to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ContactIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
