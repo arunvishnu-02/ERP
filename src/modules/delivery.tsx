@@ -121,8 +121,8 @@ function Conversation({ ticket, onChanged }: { ticket: any; onChanged: (t?: any)
       <ul className="space-y-2.5">
         <li className="rounded-xl bg-surface-2 px-3 py-2 text-sm"><div className="mb-0.5 text-xs text-muted">{ticket.customer.name}, {fmtDate(ticket.createdAt)}</div><div className="whitespace-pre-wrap">{ticket.description}</div></li>
         {data?.items.map((c) => (
-          <li key={c.id} className={c.isInternal ? 'rounded-xl border border-dashed border-line px-3 py-2 text-sm' : 'ml-6 rounded-xl bg-accent-soft px-3 py-2 text-sm'}>
-            <div className="mb-0.5 text-xs text-muted">{personName(c.author)}, {ago(c.createdAt)}, {c.isInternal ? 'team note' : 'sent to customer'}</div>
+          <li key={c.id} className={c.isInternal ? 'rounded-xl border border-dashed border-line px-3 py-2 text-sm' : c.contact ? 'rounded-xl bg-surface-2 px-3 py-2 text-sm' : 'ml-6 rounded-xl bg-accent-soft px-3 py-2 text-sm'}>
+            <div className="mb-0.5 text-xs text-muted">{c.contact ? personName(c.contact) : personName(c.author)}, {ago(c.createdAt)}, {c.isInternal ? 'team note' : c.contact ? 'from the client portal' : 'sent to customer'}</div>
             <div className="whitespace-pre-wrap">{c.body}</div>
           </li>
         ))}

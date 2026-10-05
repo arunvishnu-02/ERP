@@ -8,7 +8,7 @@ import { Button, Card, KV, Panel, Sheet, Status, Two } from '@/components/ui'
 import { api, useApi } from '@/lib/api'
 import { useAuth } from '@/lib/auth'
 import { fmtDate, human, inr, options, personName } from '@/lib/format'
-import { ExpiryTag, Person, stateOptions, userOptions } from './common'
+import { act, ExpiryTag, Person, stateOptions, userOptions } from './common'
 
 const contactFields: Field[] = [
   { name: 'firstName', label: 'First name', required: true }, { name: 'lastName', label: 'Last name' }, { name: 'designation', label: 'Designation' },
@@ -45,7 +45,11 @@ function CustomerSheet({ id, onClose, onChanged }: { id: string | null; onClose:
           <Panel title="Contacts" action={can('CUSTOMERS', 'EDIT') && <Button size="sm" onClick={() => setContact(true)}>Add contact</Button>}>
             {c.contacts.length ? (
               <ul className="divide-y divide-line text-sm">
-                {c.contacts.map((p: any) => <li key={p.id} className="flex flex-wrap items-center justify-between gap-2 py-2 first:pt-0 last:pb-0"><Two top={<>{personName(p)}{p.isPrimary && <span className="ml-2 text-xs font-normal text-accent">Primary</span>}</>} bottom={p.designation} /><span className="text-[13px] text-muted">{[p.email, p.phone].filter(Boolean).join(' | ')}</span></li>)}
+                {c.contacts.map((p: any) => <li key={p.id} className="flex flex-wrap items-center justify-between gap-2 py-2 first:pt-0 last:pb-0"><Two top={<>{personName(p)}{p.isPrimary && <span className="ml-2 text-xs font-normal text-accent">Primary</span>}</>} bottom={p.designation} /><span className="flex flex-wrap items-center gap-2 text-[13px] text-muted">{[p.email, p.phone].filter(Boolean).join(' | ')}
+                  {can('CUSTOMERS', 'EDIT') && p.email && <Button size="sm" variant={p.portalAccess ? 'primary' : undefined} title={p.portalAccess ? 'Can sign in to the client portal. Click to turn off.' : 'Let this person sign in to the client portal with a code sent to their email'}
+                    onClick={() => act(() => api(`/customers/${c.id}/contacts/${p.id}`, { method: 'PATCH', body: { portalAccess: !p.portalAccess } }), p.portalAccess ? 'Portal access turned off' : `${p.firstName} can now sign in at ${window.location.origin}/portal`).then(reload)}>
+                    {p.portalAccess ? 'Portal on' : 'Give portal access'}</Button>}
+                </span></li>)}
               </ul>
             ) : <p className="text-sm text-muted">No contacts yet. Add the person who receives quotations and invoices.</p>}
           </Panel>

@@ -617,3 +617,78 @@ test('part 3: forgot password, approvals inbox, timesheet, ticket replies and pr
   assert.deepEqual([row.billed, row.minutes, row.timeCost, row.expenses, row.profit, row.margin], [0, 120, 1200, 2000, -3200, null])
   assert.ok(pp.items.find((r: any) => r.id === S.project.id).billed > 0)
 })
+
+test('client portal: email code sign-in, own records only, support tickets both ways', async () => {
+  const { prisma } = await import('../src/server/db')
+  const { sha } = await import('../src/server/core/auth')
+  const cust = S.customer
+  const contact = (await ok('GET', `/customers/${cust.id}/contacts`, S.admin)).items[0]
+  await ok('PATCH', `/customers/${cust.id}/contacts/${contact.id}`, S.admin, { email: 'owner@urbannest.example' })
+  // no access until staff switch it on
+  await ok('POST', '/portal/auth/code', undefined, { email: 'owner@urbannest.example' })
+  assert.equal(await prisma.portalCode.count({ where: { contactId: contact.id } }), 0)
+  const on = await ok('PATCH', `/customers/${cust.id}/contacts/${contact.id}`, S.admin, { portalAccess: true })
+  assert.deepEqual([on.portalAccess, on.firstName], [true, contact.firstName])
+  await deny('PATCH', `/customers/${cust.id}/contacts/${contact.id}`, S.dev, { portalAccess: false })
+
+  assert.equal((await ok('GET', '/portal/auth/brand')).name, 'Cipher Mutex')
+  assert.deepEqual(await ok('POST', '/portal/auth/code', undefined, { email: 'stranger@example.com' }), { ok: true, minutes: 15 })
+  await ok('POST', '/portal/auth/code', undefined, { email: 'Owner@UrbanNest.example' })
+  const mail = await prisma.message.findFirst({ where: { toAddress: 'owner@urbannest.example' }, orderBy: { createdAt: 'desc' } })
+  assert.ok(mail && !/\d{6}/.test(mail.subject ?? '') && !/\d{6}/.test(mail.body))
+  const pc = await prisma.portalCode.findFirstOrThrow({ where: { contactId: contact.id, usedAt: null } })
+  await prisma.portalCode.update({ where: { id: pc.id }, data: { codeHash: sha(`portal:${contact.id}:654321`) } })
+  await deny('POST', '/portal/auth/verify', undefined, { email: 'owner@urbannest.example', code: '111111' }, 400)
+  const v = await call('POST', '/portal/auth/verify', undefined, { email: 'owner@urbannest.example', code: '654321' })
+  assert.equal(v.status, 200, JSON.stringify(v.body))
+  assert.match(String(v.headers.get('set-cookie')), /cx_portal=.+HttpOnly/)
+  const P = cookieOf(v)
+  await deny('POST', '/portal/auth/verify', undefined, { email: 'owner@urbannest.example', code: '654321' }, 400) // one use only
+
+  // the two kinds of sign-in never open each other's doors
+  await deny('GET', '/leads', P, undefined, 401)
+  await deny('GET', '/portal/me', S.admin, undefined, 401)
+  await deny('GET', '/portal/me', undefined, undefined, 401)
+
+  const me = await ok('GET', '/portal/me', P)
+  assert.deepEqual([me.contact.id, me.customer.name, me.organization.name], [contact.id, 'UrbanNest Realty', 'Cipher Mutex'])
+  const quotes = (await ok('GET', '/portal/quotations', P)).items
+  assert.ok(quotes.length >= 1 && quotes.every((q: any) => !['DRAFT', 'PENDING_APPROVAL', 'APPROVED', 'REJECTED'].includes(q.status)))
+  assert.ok(quotes.every((q: any) => q.publicToken === undefined && q.link?.startsWith('/q/')))
+  const invoices = (await ok('GET', '/portal/invoices', P)).items
+  assert.ok(invoices.length >= 1 && invoices.every((i: any) => i.status !== 'DRAFT' && i.link?.startsWith('/i/')))
+  assert.equal((await ok('GET', `/public${invoices[0].link.replace('/i/', '/invoices/')}`)).invoiceNumber, invoices[0].invoiceNumber)
+  const projects = (await ok('GET', '/portal/projects', P)).items
+  assert.deepEqual(projects.map((p: any) => p.id), [S.project.id])
+  assert.equal(projects[0].milestones.length, 2)
+  const home = await ok('GET', '/portal/home', P)
+  assert.equal(home.balanceDue, home.unpaid.reduce((n: number, i: any) => n + Number(i.balanceDue), 0))
+
+  // support: the client opens a ticket, staff reply and add a note, the client sees only the reply
+  const mine = await ok('POST', '/portal/tickets', P, { subject: 'Contact form not sending', description: 'Nothing arrives when we test it', priority: 'HIGH' })
+  const staffView = await ok('GET', `/tickets/${mine.id}`, S.admin)
+  assert.deepEqual([staffView.channel, staffView.contactId, staffView.customerId], ['PORTAL', contact.id, cust.id])
+  await ok('POST', `/tickets/${mine.id}/reply`, S.admin, { body: 'Fixed the mail settings. Please test again.', status: 'WAITING_ON_CUSTOMER' })
+  await ok('POST', `/tickets/${mine.id}/reply`, S.admin, { body: 'SMTP password had expired', internal: true })
+  let t = await ok('GET', `/portal/tickets/${mine.id}`, P)
+  assert.deepEqual([t.status, t.messages.length, t.messages[0].fromClient, t.messages[0].name], ['WAITING_ON_CUSTOMER', 1, false, 'Kiran'])
+  await ok('POST', `/portal/tickets/${mine.id}/reply`, P, { body: 'Still not working' })
+  t = await ok('GET', `/portal/tickets/${mine.id}`, P)
+  assert.deepEqual([t.status, t.messages.length, t.messages[1].fromClient], ['IN_PROGRESS', 2, true])
+  const conv = await ok('GET', `/tickets/${mine.id}/conversation`, S.admin)
+  assert.equal(conv.items.find((c: any) => c.contact)?.contact.id, contact.id)
+  assert.ok((await ok('GET', '/portal/tickets', P)).items.some((x: any) => x.id === mine.id))
+  // another customer's ticket stays hidden
+  const other = await ok('POST', '/tickets', S.admin, { customerId: S.acme.id, subject: 'Other', description: 'Not theirs' })
+  await deny('GET', `/portal/tickets/${other.id}`, P, undefined, 404)
+  await deny('POST', `/portal/tickets/${other.id}/reply`, P, { body: 'Hi' }, 404)
+  assert.ok(!(await ok('GET', '/portal/tickets', P)).items.some((x: any) => x.id === other.id))
+
+  // switching access off ends the portal session at once; logging out ends it too
+  await ok('PATCH', `/customers/${cust.id}/contacts/${contact.id}`, S.admin, { portalAccess: false })
+  await deny('GET', '/portal/me', P, undefined, 401)
+  await ok('PATCH', `/customers/${cust.id}/contacts/${contact.id}`, S.admin, { portalAccess: true })
+  assert.equal((await ok('GET', '/portal/me', P)).contact.id, contact.id)
+  assert.equal((await call('POST', '/portal/auth/logout', P)).status, 204)
+  await deny('GET', '/portal/me', P, undefined, 401)
+})

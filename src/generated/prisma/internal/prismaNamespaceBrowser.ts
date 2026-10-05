@@ -62,6 +62,8 @@ export const ModelName = {
   Permission: 'Permission',
   RolePermission: 'RolePermission',
   Session: 'Session',
+  PortalSession: 'PortalSession',
+  PortalCode: 'PortalCode',
   PasswordResetToken: 'PasswordResetToken',
   ApiKey: 'ApiKey',
   AuditLog: 'AuditLog',
@@ -346,6 +348,31 @@ export const SessionScalarFieldEnum = {
 export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
 
 
+export const PortalSessionScalarFieldEnum = {
+  id: 'id',
+  contactId: 'contactId',
+  tokenHash: 'tokenHash',
+  expiresAt: 'expiresAt',
+  lastUsedAt: 'lastUsedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type PortalSessionScalarFieldEnum = (typeof PortalSessionScalarFieldEnum)[keyof typeof PortalSessionScalarFieldEnum]
+
+
+export const PortalCodeScalarFieldEnum = {
+  id: 'id',
+  contactId: 'contactId',
+  codeHash: 'codeHash',
+  tries: 'tries',
+  expiresAt: 'expiresAt',
+  usedAt: 'usedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type PortalCodeScalarFieldEnum = (typeof PortalCodeScalarFieldEnum)[keyof typeof PortalCodeScalarFieldEnum]
+
+
 export const PasswordResetTokenScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -446,6 +473,7 @@ export const CommentScalarFieldEnum = {
   isInternal: 'isInternal',
   mentions: 'mentions',
   authorId: 'authorId',
+  contactId: 'contactId',
   parentId: 'parentId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
@@ -637,6 +665,8 @@ export const ContactScalarFieldEnum = {
   whatsappNumber: 'whatsappNumber',
   isPrimary: 'isPrimary',
   isBillingContact: 'isBillingContact',
+  portalAccess: 'portalAccess',
+  portalLastSeenAt: 'portalLastSeenAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -2255,6 +2285,24 @@ export const SessionOrderByRelevanceFieldEnum = {
 export type SessionOrderByRelevanceFieldEnum = (typeof SessionOrderByRelevanceFieldEnum)[keyof typeof SessionOrderByRelevanceFieldEnum]
 
 
+export const PortalSessionOrderByRelevanceFieldEnum = {
+  id: 'id',
+  contactId: 'contactId',
+  tokenHash: 'tokenHash'
+} as const
+
+export type PortalSessionOrderByRelevanceFieldEnum = (typeof PortalSessionOrderByRelevanceFieldEnum)[keyof typeof PortalSessionOrderByRelevanceFieldEnum]
+
+
+export const PortalCodeOrderByRelevanceFieldEnum = {
+  id: 'id',
+  contactId: 'contactId',
+  codeHash: 'codeHash'
+} as const
+
+export type PortalCodeOrderByRelevanceFieldEnum = (typeof PortalCodeOrderByRelevanceFieldEnum)[keyof typeof PortalCodeOrderByRelevanceFieldEnum]
+
+
 export const PasswordResetTokenOrderByRelevanceFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -2331,6 +2379,7 @@ export const CommentOrderByRelevanceFieldEnum = {
   entityId: 'entityId',
   body: 'body',
   authorId: 'authorId',
+  contactId: 'contactId',
   parentId: 'parentId'
 } as const
 
