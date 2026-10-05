@@ -6,6 +6,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
+import { NewMenu, SearchEverywhere } from '@/components/command'
 import { FormDialog } from '@/components/form'
 import { Avatar, Button, cn } from '@/components/ui'
 import { api, useApi } from '@/lib/api'
@@ -105,6 +106,8 @@ function Shell({ children }: { children: React.ReactNode }) {
         <header className="sticky top-0 z-20 flex items-center gap-2 border-b border-line bg-bg/95 px-4 py-2.5 backdrop-blur lg:px-7">
           <Button size="icon" variant="ghost" className="lg:hidden" aria-label="Open menu" onClick={() => setOpen(true)}><MenuIcon size={18} /></Button>
           <h1 className="min-w-0 flex-1 truncate font-display text-xl font-semibold tracking-tight">{TITLES[key] ?? 'CX CRM ERP'}</h1>
+          <SearchEverywhere pages={NAV.flatMap((g) => g.items.filter(([, , module]) => !module || can(module)).map(([path, label]) => ({ path, label })))} />
+          <NewMenu />
           <Notifications />
           <ThemeToggle />
           <Menu.Root>

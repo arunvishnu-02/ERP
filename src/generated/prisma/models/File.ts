@@ -44,6 +44,8 @@ export type FileMinAggregateOutputType = {
   sizeBytes: bigint | null
   checksum: string | null
   uploadedById: string | null
+  driveFileId: string | null
+  driveUrl: string | null
   createdAt: Date | null
 }
 
@@ -57,6 +59,8 @@ export type FileMaxAggregateOutputType = {
   sizeBytes: bigint | null
   checksum: string | null
   uploadedById: string | null
+  driveFileId: string | null
+  driveUrl: string | null
   createdAt: Date | null
 }
 
@@ -70,6 +74,8 @@ export type FileCountAggregateOutputType = {
   sizeBytes: number
   checksum: number
   uploadedById: number
+  driveFileId: number
+  driveUrl: number
   createdAt: number
   _all: number
 }
@@ -93,6 +99,8 @@ export type FileMinAggregateInputType = {
   sizeBytes?: true
   checksum?: true
   uploadedById?: true
+  driveFileId?: true
+  driveUrl?: true
   createdAt?: true
 }
 
@@ -106,6 +114,8 @@ export type FileMaxAggregateInputType = {
   sizeBytes?: true
   checksum?: true
   uploadedById?: true
+  driveFileId?: true
+  driveUrl?: true
   createdAt?: true
 }
 
@@ -119,6 +129,8 @@ export type FileCountAggregateInputType = {
   sizeBytes?: true
   checksum?: true
   uploadedById?: true
+  driveFileId?: true
+  driveUrl?: true
   createdAt?: true
   _all?: true
 }
@@ -219,6 +231,8 @@ export type FileGroupByOutputType = {
   sizeBytes: bigint
   checksum: string | null
   uploadedById: string | null
+  driveFileId: string | null
+  driveUrl: string | null
   createdAt: Date
   _count: FileCountAggregateOutputType | null
   _avg: FileAvgAggregateOutputType | null
@@ -255,6 +269,8 @@ export type FileWhereInput = {
   sizeBytes?: Prisma.BigIntFilter<"File"> | bigint | number
   checksum?: Prisma.StringNullableFilter<"File"> | string | null
   uploadedById?: Prisma.StringNullableFilter<"File"> | string | null
+  driveFileId?: Prisma.StringNullableFilter<"File"> | string | null
+  driveUrl?: Prisma.StringNullableFilter<"File"> | string | null
   createdAt?: Prisma.DateTimeFilter<"File"> | Date | string
   organization?: Prisma.XOR<Prisma.OrganizationScalarRelationFilter, Prisma.OrganizationWhereInput>
   attachments?: Prisma.AttachmentListRelationFilter
@@ -271,6 +287,8 @@ export type FileOrderByWithRelationInput = {
   sizeBytes?: Prisma.SortOrder
   checksum?: Prisma.SortOrderInput | Prisma.SortOrder
   uploadedById?: Prisma.SortOrderInput | Prisma.SortOrder
+  driveFileId?: Prisma.SortOrderInput | Prisma.SortOrder
+  driveUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   organization?: Prisma.OrganizationOrderByWithRelationInput
   attachments?: Prisma.AttachmentOrderByRelationAggregateInput
@@ -292,6 +310,8 @@ export type FileWhereUniqueInput = Prisma.AtLeast<{
   sizeBytes?: Prisma.BigIntFilter<"File"> | bigint | number
   checksum?: Prisma.StringNullableFilter<"File"> | string | null
   uploadedById?: Prisma.StringNullableFilter<"File"> | string | null
+  driveFileId?: Prisma.StringNullableFilter<"File"> | string | null
+  driveUrl?: Prisma.StringNullableFilter<"File"> | string | null
   createdAt?: Prisma.DateTimeFilter<"File"> | Date | string
   organization?: Prisma.XOR<Prisma.OrganizationScalarRelationFilter, Prisma.OrganizationWhereInput>
   attachments?: Prisma.AttachmentListRelationFilter
@@ -308,6 +328,8 @@ export type FileOrderByWithAggregationInput = {
   sizeBytes?: Prisma.SortOrder
   checksum?: Prisma.SortOrderInput | Prisma.SortOrder
   uploadedById?: Prisma.SortOrderInput | Prisma.SortOrder
+  driveFileId?: Prisma.SortOrderInput | Prisma.SortOrder
+  driveUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.FileCountOrderByAggregateInput
   _avg?: Prisma.FileAvgOrderByAggregateInput
@@ -329,6 +351,8 @@ export type FileScalarWhereWithAggregatesInput = {
   sizeBytes?: Prisma.BigIntWithAggregatesFilter<"File"> | bigint | number
   checksum?: Prisma.StringNullableWithAggregatesFilter<"File"> | string | null
   uploadedById?: Prisma.StringNullableWithAggregatesFilter<"File"> | string | null
+  driveFileId?: Prisma.StringNullableWithAggregatesFilter<"File"> | string | null
+  driveUrl?: Prisma.StringNullableWithAggregatesFilter<"File"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"File"> | Date | string
 }
 
@@ -341,6 +365,8 @@ export type FileCreateInput = {
   sizeBytes: bigint | number
   checksum?: string | null
   uploadedById?: string | null
+  driveFileId?: string | null
+  driveUrl?: string | null
   createdAt?: Date | string
   organization: Prisma.OrganizationCreateNestedOneWithoutFilesInput
   attachments?: Prisma.AttachmentCreateNestedManyWithoutFileInput
@@ -357,6 +383,8 @@ export type FileUncheckedCreateInput = {
   sizeBytes: bigint | number
   checksum?: string | null
   uploadedById?: string | null
+  driveFileId?: string | null
+  driveUrl?: string | null
   createdAt?: Date | string
   attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutFileInput
   documentVersions?: Prisma.DocumentVersionUncheckedCreateNestedManyWithoutFileInput
@@ -371,6 +399,8 @@ export type FileUpdateInput = {
   sizeBytes?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   checksum?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uploadedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  driveFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  driveUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutFilesNestedInput
   attachments?: Prisma.AttachmentUpdateManyWithoutFileNestedInput
@@ -387,6 +417,8 @@ export type FileUncheckedUpdateInput = {
   sizeBytes?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   checksum?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uploadedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  driveFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  driveUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutFileNestedInput
   documentVersions?: Prisma.DocumentVersionUncheckedUpdateManyWithoutFileNestedInput
@@ -402,6 +434,8 @@ export type FileCreateManyInput = {
   sizeBytes: bigint | number
   checksum?: string | null
   uploadedById?: string | null
+  driveFileId?: string | null
+  driveUrl?: string | null
   createdAt?: Date | string
 }
 
@@ -414,6 +448,8 @@ export type FileUpdateManyMutationInput = {
   sizeBytes?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   checksum?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uploadedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  driveFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  driveUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -427,6 +463,8 @@ export type FileUncheckedUpdateManyInput = {
   sizeBytes?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   checksum?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uploadedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  driveFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  driveUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -461,6 +499,8 @@ export type FileCountOrderByAggregateInput = {
   sizeBytes?: Prisma.SortOrder
   checksum?: Prisma.SortOrder
   uploadedById?: Prisma.SortOrder
+  driveFileId?: Prisma.SortOrder
+  driveUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -478,6 +518,8 @@ export type FileMaxOrderByAggregateInput = {
   sizeBytes?: Prisma.SortOrder
   checksum?: Prisma.SortOrder
   uploadedById?: Prisma.SortOrder
+  driveFileId?: Prisma.SortOrder
+  driveUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -491,6 +533,8 @@ export type FileMinOrderByAggregateInput = {
   sizeBytes?: Prisma.SortOrder
   checksum?: Prisma.SortOrder
   uploadedById?: Prisma.SortOrder
+  driveFileId?: Prisma.SortOrder
+  driveUrl?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -590,6 +634,8 @@ export type FileCreateWithoutOrganizationInput = {
   sizeBytes: bigint | number
   checksum?: string | null
   uploadedById?: string | null
+  driveFileId?: string | null
+  driveUrl?: string | null
   createdAt?: Date | string
   attachments?: Prisma.AttachmentCreateNestedManyWithoutFileInput
   documentVersions?: Prisma.DocumentVersionCreateNestedManyWithoutFileInput
@@ -604,6 +650,8 @@ export type FileUncheckedCreateWithoutOrganizationInput = {
   sizeBytes: bigint | number
   checksum?: string | null
   uploadedById?: string | null
+  driveFileId?: string | null
+  driveUrl?: string | null
   createdAt?: Date | string
   attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutFileInput
   documentVersions?: Prisma.DocumentVersionUncheckedCreateNestedManyWithoutFileInput
@@ -648,6 +696,8 @@ export type FileScalarWhereInput = {
   sizeBytes?: Prisma.BigIntFilter<"File"> | bigint | number
   checksum?: Prisma.StringNullableFilter<"File"> | string | null
   uploadedById?: Prisma.StringNullableFilter<"File"> | string | null
+  driveFileId?: Prisma.StringNullableFilter<"File"> | string | null
+  driveUrl?: Prisma.StringNullableFilter<"File"> | string | null
   createdAt?: Prisma.DateTimeFilter<"File"> | Date | string
 }
 
@@ -660,6 +710,8 @@ export type FileCreateWithoutAttachmentsInput = {
   sizeBytes: bigint | number
   checksum?: string | null
   uploadedById?: string | null
+  driveFileId?: string | null
+  driveUrl?: string | null
   createdAt?: Date | string
   organization: Prisma.OrganizationCreateNestedOneWithoutFilesInput
   documentVersions?: Prisma.DocumentVersionCreateNestedManyWithoutFileInput
@@ -675,6 +727,8 @@ export type FileUncheckedCreateWithoutAttachmentsInput = {
   sizeBytes: bigint | number
   checksum?: string | null
   uploadedById?: string | null
+  driveFileId?: string | null
+  driveUrl?: string | null
   createdAt?: Date | string
   documentVersions?: Prisma.DocumentVersionUncheckedCreateNestedManyWithoutFileInput
 }
@@ -704,6 +758,8 @@ export type FileUpdateWithoutAttachmentsInput = {
   sizeBytes?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   checksum?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uploadedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  driveFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  driveUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutFilesNestedInput
   documentVersions?: Prisma.DocumentVersionUpdateManyWithoutFileNestedInput
@@ -719,6 +775,8 @@ export type FileUncheckedUpdateWithoutAttachmentsInput = {
   sizeBytes?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   checksum?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uploadedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  driveFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  driveUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   documentVersions?: Prisma.DocumentVersionUncheckedUpdateManyWithoutFileNestedInput
 }
@@ -732,6 +790,8 @@ export type FileCreateWithoutDocumentVersionsInput = {
   sizeBytes: bigint | number
   checksum?: string | null
   uploadedById?: string | null
+  driveFileId?: string | null
+  driveUrl?: string | null
   createdAt?: Date | string
   organization: Prisma.OrganizationCreateNestedOneWithoutFilesInput
   attachments?: Prisma.AttachmentCreateNestedManyWithoutFileInput
@@ -747,6 +807,8 @@ export type FileUncheckedCreateWithoutDocumentVersionsInput = {
   sizeBytes: bigint | number
   checksum?: string | null
   uploadedById?: string | null
+  driveFileId?: string | null
+  driveUrl?: string | null
   createdAt?: Date | string
   attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutFileInput
 }
@@ -776,6 +838,8 @@ export type FileUpdateWithoutDocumentVersionsInput = {
   sizeBytes?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   checksum?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uploadedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  driveFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  driveUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   organization?: Prisma.OrganizationUpdateOneRequiredWithoutFilesNestedInput
   attachments?: Prisma.AttachmentUpdateManyWithoutFileNestedInput
@@ -791,6 +855,8 @@ export type FileUncheckedUpdateWithoutDocumentVersionsInput = {
   sizeBytes?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   checksum?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uploadedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  driveFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  driveUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutFileNestedInput
 }
@@ -804,6 +870,8 @@ export type FileCreateManyOrganizationInput = {
   sizeBytes: bigint | number
   checksum?: string | null
   uploadedById?: string | null
+  driveFileId?: string | null
+  driveUrl?: string | null
   createdAt?: Date | string
 }
 
@@ -816,6 +884,8 @@ export type FileUpdateWithoutOrganizationInput = {
   sizeBytes?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   checksum?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uploadedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  driveFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  driveUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   attachments?: Prisma.AttachmentUpdateManyWithoutFileNestedInput
   documentVersions?: Prisma.DocumentVersionUpdateManyWithoutFileNestedInput
@@ -830,6 +900,8 @@ export type FileUncheckedUpdateWithoutOrganizationInput = {
   sizeBytes?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   checksum?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uploadedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  driveFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  driveUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutFileNestedInput
   documentVersions?: Prisma.DocumentVersionUncheckedUpdateManyWithoutFileNestedInput
@@ -844,6 +916,8 @@ export type FileUncheckedUpdateManyWithoutOrganizationInput = {
   sizeBytes?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
   checksum?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uploadedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  driveFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  driveUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -897,6 +971,8 @@ export type FileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   sizeBytes?: boolean
   checksum?: boolean
   uploadedById?: boolean
+  driveFileId?: boolean
+  driveUrl?: boolean
   createdAt?: boolean
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   attachments?: boolean | Prisma.File$attachmentsArgs<ExtArgs>
@@ -916,10 +992,12 @@ export type FileSelectScalar = {
   sizeBytes?: boolean
   checksum?: boolean
   uploadedById?: boolean
+  driveFileId?: boolean
+  driveUrl?: boolean
   createdAt?: boolean
 }
 
-export type FileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "bucket" | "key" | "fileName" | "mimeType" | "sizeBytes" | "checksum" | "uploadedById" | "createdAt", ExtArgs["result"]["file"]>
+export type FileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "bucket" | "key" | "fileName" | "mimeType" | "sizeBytes" | "checksum" | "uploadedById" | "driveFileId" | "driveUrl" | "createdAt", ExtArgs["result"]["file"]>
 export type FileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   attachments?: boolean | Prisma.File$attachmentsArgs<ExtArgs>
@@ -944,6 +1022,8 @@ export type $FilePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     sizeBytes: bigint
     checksum: string | null
     uploadedById: string | null
+    driveFileId: string | null
+    driveUrl: string | null
     createdAt: Date
   }, ExtArgs["result"]["file"]>
   composites: {}
@@ -1326,6 +1406,8 @@ export interface FileFieldRefs {
   readonly sizeBytes: Prisma.FieldRef<"File", 'BigInt'>
   readonly checksum: Prisma.FieldRef<"File", 'String'>
   readonly uploadedById: Prisma.FieldRef<"File", 'String'>
+  readonly driveFileId: Prisma.FieldRef<"File", 'String'>
+  readonly driveUrl: Prisma.FieldRef<"File", 'String'>
   readonly createdAt: Prisma.FieldRef<"File", 'DateTime'>
 }
     

@@ -9,6 +9,7 @@ import { Resource } from '@/components/resource'
 import { Button, Card, KV, Panel, Progress, Sheet, Status, Table, Td, Th, Two } from '@/components/ui'
 import { api, useApi } from '@/lib/api'
 import { useAuth } from '@/lib/auth'
+import { useUrlParam } from '@/lib/url'
 import { day, fmtDate, human, inr, options, personName, plusDays } from '@/lib/format'
 import { act, DueTag, Person, useCustomerOptions, userOptions } from './common'
 import { InvoiceSheet } from './invoices'
@@ -88,6 +89,7 @@ export default function Projects() {
   const { lookups } = useAuth()
   const customers = useCustomerOptions()
   const [openId, setOpenId] = useState<string | null>(null)
+  useUrlParam('open', setOpenId)
   const [rk, setRk] = useState(0)
   const fields: Field[] = [
     { name: 'name', label: 'Project name', required: true, full: true }, { name: 'customerId', label: 'Customer', type: 'select', options: customers, required: true },

@@ -8,6 +8,7 @@ import { RecordPanel } from '@/components/record'
 import { Avatar, Badge, Button, Card, KV, Panel, Select, Sheet, Tabs } from '@/components/ui'
 import { api, useApi } from '@/lib/api'
 import { useAuth } from '@/lib/auth'
+import { useUrlParam } from '@/lib/url'
 import { day, daysFromToday, fmtDateTime, human, options, personName, plusDays } from '@/lib/format'
 import { act, DueTag, Person, userOptions } from './common'
 import Timesheet from './timesheet'
@@ -63,6 +64,8 @@ export default function Tasks() {
   const [who, setWho] = useState('mine')
   const [view, setView] = useState('board')
   const [openId, setOpenId] = useState<string | null>(null)
+  useUrlParam('open', setOpenId)
+  useUrlParam('new', () => setAdd(true))
   const [add, setAdd] = useState(false)
   const { data, reload } = useApi<{ items: any[] }>(`/tasks?limit=500${who === 'mine' ? '&mine=1' : ''}`)
   const projects = useApi<{ items: any[] }>(can('PROJECTS') ? '/projects?limit=200' : null).data?.items ?? []

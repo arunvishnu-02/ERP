@@ -46,6 +46,8 @@ export type ExpenseMinAggregateOutputType = {
   projectId: string | null
   campaignId: string | null
   expenseDate: Date | null
+  billNumber: string | null
+  dueDate: Date | null
   amount: runtime.Decimal | null
   taxAmount: runtime.Decimal | null
   description: string | null
@@ -71,6 +73,8 @@ export type ExpenseMaxAggregateOutputType = {
   projectId: string | null
   campaignId: string | null
   expenseDate: Date | null
+  billNumber: string | null
+  dueDate: Date | null
   amount: runtime.Decimal | null
   taxAmount: runtime.Decimal | null
   description: string | null
@@ -96,6 +100,8 @@ export type ExpenseCountAggregateOutputType = {
   projectId: number
   campaignId: number
   expenseDate: number
+  billNumber: number
+  dueDate: number
   amount: number
   taxAmount: number
   description: number
@@ -133,6 +139,8 @@ export type ExpenseMinAggregateInputType = {
   projectId?: true
   campaignId?: true
   expenseDate?: true
+  billNumber?: true
+  dueDate?: true
   amount?: true
   taxAmount?: true
   description?: true
@@ -158,6 +166,8 @@ export type ExpenseMaxAggregateInputType = {
   projectId?: true
   campaignId?: true
   expenseDate?: true
+  billNumber?: true
+  dueDate?: true
   amount?: true
   taxAmount?: true
   description?: true
@@ -183,6 +193,8 @@ export type ExpenseCountAggregateInputType = {
   projectId?: true
   campaignId?: true
   expenseDate?: true
+  billNumber?: true
+  dueDate?: true
   amount?: true
   taxAmount?: true
   description?: true
@@ -295,6 +307,8 @@ export type ExpenseGroupByOutputType = {
   projectId: string | null
   campaignId: string | null
   expenseDate: Date
+  billNumber: string | null
+  dueDate: Date | null
   amount: runtime.Decimal
   taxAmount: runtime.Decimal
   description: string
@@ -343,6 +357,8 @@ export type ExpenseWhereInput = {
   projectId?: Prisma.StringNullableFilter<"Expense"> | string | null
   campaignId?: Prisma.StringNullableFilter<"Expense"> | string | null
   expenseDate?: Prisma.DateTimeFilter<"Expense"> | Date | string
+  billNumber?: Prisma.StringNullableFilter<"Expense"> | string | null
+  dueDate?: Prisma.DateTimeNullableFilter<"Expense"> | Date | string | null
   amount?: Prisma.DecimalFilter<"Expense"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: Prisma.DecimalFilter<"Expense"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringFilter<"Expense"> | string
@@ -376,6 +392,8 @@ export type ExpenseOrderByWithRelationInput = {
   projectId?: Prisma.SortOrderInput | Prisma.SortOrder
   campaignId?: Prisma.SortOrderInput | Prisma.SortOrder
   expenseDate?: Prisma.SortOrder
+  billNumber?: Prisma.SortOrderInput | Prisma.SortOrder
+  dueDate?: Prisma.SortOrderInput | Prisma.SortOrder
   amount?: Prisma.SortOrder
   taxAmount?: Prisma.SortOrder
   description?: Prisma.SortOrder
@@ -414,6 +432,8 @@ export type ExpenseWhereUniqueInput = Prisma.AtLeast<{
   projectId?: Prisma.StringNullableFilter<"Expense"> | string | null
   campaignId?: Prisma.StringNullableFilter<"Expense"> | string | null
   expenseDate?: Prisma.DateTimeFilter<"Expense"> | Date | string
+  billNumber?: Prisma.StringNullableFilter<"Expense"> | string | null
+  dueDate?: Prisma.DateTimeNullableFilter<"Expense"> | Date | string | null
   amount?: Prisma.DecimalFilter<"Expense"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: Prisma.DecimalFilter<"Expense"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringFilter<"Expense"> | string
@@ -447,6 +467,8 @@ export type ExpenseOrderByWithAggregationInput = {
   projectId?: Prisma.SortOrderInput | Prisma.SortOrder
   campaignId?: Prisma.SortOrderInput | Prisma.SortOrder
   expenseDate?: Prisma.SortOrder
+  billNumber?: Prisma.SortOrderInput | Prisma.SortOrder
+  dueDate?: Prisma.SortOrderInput | Prisma.SortOrder
   amount?: Prisma.SortOrder
   taxAmount?: Prisma.SortOrder
   description?: Prisma.SortOrder
@@ -480,6 +502,8 @@ export type ExpenseScalarWhereWithAggregatesInput = {
   projectId?: Prisma.StringNullableWithAggregatesFilter<"Expense"> | string | null
   campaignId?: Prisma.StringNullableWithAggregatesFilter<"Expense"> | string | null
   expenseDate?: Prisma.DateTimeWithAggregatesFilter<"Expense"> | Date | string
+  billNumber?: Prisma.StringNullableWithAggregatesFilter<"Expense"> | string | null
+  dueDate?: Prisma.DateTimeNullableWithAggregatesFilter<"Expense"> | Date | string | null
   amount?: Prisma.DecimalWithAggregatesFilter<"Expense"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: Prisma.DecimalWithAggregatesFilter<"Expense"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringWithAggregatesFilter<"Expense"> | string
@@ -499,6 +523,8 @@ export type ExpenseCreateInput = {
   id?: string
   expenseNumber: string
   expenseDate: Date | string
+  billNumber?: string | null
+  dueDate?: Date | string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   description: string
@@ -530,6 +556,8 @@ export type ExpenseUncheckedCreateInput = {
   projectId?: string | null
   campaignId?: string | null
   expenseDate: Date | string
+  billNumber?: string | null
+  dueDate?: Date | string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   description: string
@@ -549,6 +577,8 @@ export type ExpenseUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   expenseNumber?: Prisma.StringFieldUpdateOperationsInput | string
   expenseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  billNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -580,6 +610,8 @@ export type ExpenseUncheckedUpdateInput = {
   projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   campaignId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expenseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  billNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -605,6 +637,8 @@ export type ExpenseCreateManyInput = {
   projectId?: string | null
   campaignId?: string | null
   expenseDate: Date | string
+  billNumber?: string | null
+  dueDate?: Date | string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   description: string
@@ -624,6 +658,8 @@ export type ExpenseUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   expenseNumber?: Prisma.StringFieldUpdateOperationsInput | string
   expenseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  billNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -647,6 +683,8 @@ export type ExpenseUncheckedUpdateManyInput = {
   projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   campaignId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expenseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  billNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -693,6 +731,8 @@ export type ExpenseCountOrderByAggregateInput = {
   projectId?: Prisma.SortOrder
   campaignId?: Prisma.SortOrder
   expenseDate?: Prisma.SortOrder
+  billNumber?: Prisma.SortOrder
+  dueDate?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   taxAmount?: Prisma.SortOrder
   description?: Prisma.SortOrder
@@ -723,6 +763,8 @@ export type ExpenseMaxOrderByAggregateInput = {
   projectId?: Prisma.SortOrder
   campaignId?: Prisma.SortOrder
   expenseDate?: Prisma.SortOrder
+  billNumber?: Prisma.SortOrder
+  dueDate?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   taxAmount?: Prisma.SortOrder
   description?: Prisma.SortOrder
@@ -748,6 +790,8 @@ export type ExpenseMinOrderByAggregateInput = {
   projectId?: Prisma.SortOrder
   campaignId?: Prisma.SortOrder
   expenseDate?: Prisma.SortOrder
+  billNumber?: Prisma.SortOrder
+  dueDate?: Prisma.SortOrder
   amount?: Prisma.SortOrder
   taxAmount?: Prisma.SortOrder
   description?: Prisma.SortOrder
@@ -1116,6 +1160,8 @@ export type ExpenseCreateWithoutOrganizationInput = {
   id?: string
   expenseNumber: string
   expenseDate: Date | string
+  billNumber?: string | null
+  dueDate?: Date | string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   description: string
@@ -1145,6 +1191,8 @@ export type ExpenseUncheckedCreateWithoutOrganizationInput = {
   projectId?: string | null
   campaignId?: string | null
   expenseDate: Date | string
+  billNumber?: string | null
+  dueDate?: Date | string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   description: string
@@ -1199,6 +1247,8 @@ export type ExpenseScalarWhereInput = {
   projectId?: Prisma.StringNullableFilter<"Expense"> | string | null
   campaignId?: Prisma.StringNullableFilter<"Expense"> | string | null
   expenseDate?: Prisma.DateTimeFilter<"Expense"> | Date | string
+  billNumber?: Prisma.StringNullableFilter<"Expense"> | string | null
+  dueDate?: Prisma.DateTimeNullableFilter<"Expense"> | Date | string | null
   amount?: Prisma.DecimalFilter<"Expense"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: Prisma.DecimalFilter<"Expense"> | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringFilter<"Expense"> | string
@@ -1218,6 +1268,8 @@ export type ExpenseCreateWithoutBranchInput = {
   id?: string
   expenseNumber: string
   expenseDate: Date | string
+  billNumber?: string | null
+  dueDate?: Date | string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   description: string
@@ -1247,6 +1299,8 @@ export type ExpenseUncheckedCreateWithoutBranchInput = {
   projectId?: string | null
   campaignId?: string | null
   expenseDate: Date | string
+  billNumber?: string | null
+  dueDate?: Date | string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   description: string
@@ -1292,6 +1346,8 @@ export type ExpenseCreateWithoutPaidByInput = {
   id?: string
   expenseNumber: string
   expenseDate: Date | string
+  billNumber?: string | null
+  dueDate?: Date | string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   description: string
@@ -1322,6 +1378,8 @@ export type ExpenseUncheckedCreateWithoutPaidByInput = {
   projectId?: string | null
   campaignId?: string | null
   expenseDate: Date | string
+  billNumber?: string | null
+  dueDate?: Date | string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   description: string
@@ -1366,6 +1424,8 @@ export type ExpenseCreateWithoutBankAccountInput = {
   id?: string
   expenseNumber: string
   expenseDate: Date | string
+  billNumber?: string | null
+  dueDate?: Date | string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   description: string
@@ -1396,6 +1456,8 @@ export type ExpenseUncheckedCreateWithoutBankAccountInput = {
   projectId?: string | null
   campaignId?: string | null
   expenseDate: Date | string
+  billNumber?: string | null
+  dueDate?: Date | string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   description: string
@@ -1440,6 +1502,8 @@ export type ExpenseCreateWithoutProjectInput = {
   id?: string
   expenseNumber: string
   expenseDate: Date | string
+  billNumber?: string | null
+  dueDate?: Date | string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   description: string
@@ -1469,6 +1533,8 @@ export type ExpenseUncheckedCreateWithoutProjectInput = {
   vendorId?: string | null
   campaignId?: string | null
   expenseDate: Date | string
+  billNumber?: string | null
+  dueDate?: Date | string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   description: string
@@ -1514,6 +1580,8 @@ export type ExpenseCreateWithoutCampaignInput = {
   id?: string
   expenseNumber: string
   expenseDate: Date | string
+  billNumber?: string | null
+  dueDate?: Date | string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   description: string
@@ -1543,6 +1611,8 @@ export type ExpenseUncheckedCreateWithoutCampaignInput = {
   vendorId?: string | null
   projectId?: string | null
   expenseDate: Date | string
+  billNumber?: string | null
+  dueDate?: Date | string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   description: string
@@ -1588,6 +1658,8 @@ export type ExpenseCreateWithoutCategoryInput = {
   id?: string
   expenseNumber: string
   expenseDate: Date | string
+  billNumber?: string | null
+  dueDate?: Date | string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   description: string
@@ -1617,6 +1689,8 @@ export type ExpenseUncheckedCreateWithoutCategoryInput = {
   projectId?: string | null
   campaignId?: string | null
   expenseDate: Date | string
+  billNumber?: string | null
+  dueDate?: Date | string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   description: string
@@ -1662,6 +1736,8 @@ export type ExpenseCreateWithoutVendorInput = {
   id?: string
   expenseNumber: string
   expenseDate: Date | string
+  billNumber?: string | null
+  dueDate?: Date | string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   description: string
@@ -1691,6 +1767,8 @@ export type ExpenseUncheckedCreateWithoutVendorInput = {
   projectId?: string | null
   campaignId?: string | null
   expenseDate: Date | string
+  billNumber?: string | null
+  dueDate?: Date | string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   description: string
@@ -1741,6 +1819,8 @@ export type ExpenseCreateManyOrganizationInput = {
   projectId?: string | null
   campaignId?: string | null
   expenseDate: Date | string
+  billNumber?: string | null
+  dueDate?: Date | string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   description: string
@@ -1760,6 +1840,8 @@ export type ExpenseUpdateWithoutOrganizationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   expenseNumber?: Prisma.StringFieldUpdateOperationsInput | string
   expenseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  billNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1789,6 +1871,8 @@ export type ExpenseUncheckedUpdateWithoutOrganizationInput = {
   projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   campaignId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expenseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  billNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1813,6 +1897,8 @@ export type ExpenseUncheckedUpdateManyWithoutOrganizationInput = {
   projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   campaignId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expenseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  billNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1837,6 +1923,8 @@ export type ExpenseCreateManyBranchInput = {
   projectId?: string | null
   campaignId?: string | null
   expenseDate: Date | string
+  billNumber?: string | null
+  dueDate?: Date | string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   description: string
@@ -1856,6 +1944,8 @@ export type ExpenseUpdateWithoutBranchInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   expenseNumber?: Prisma.StringFieldUpdateOperationsInput | string
   expenseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  billNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1885,6 +1975,8 @@ export type ExpenseUncheckedUpdateWithoutBranchInput = {
   projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   campaignId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expenseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  billNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1909,6 +2001,8 @@ export type ExpenseUncheckedUpdateManyWithoutBranchInput = {
   projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   campaignId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expenseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  billNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1934,6 +2028,8 @@ export type ExpenseCreateManyPaidByInput = {
   projectId?: string | null
   campaignId?: string | null
   expenseDate: Date | string
+  billNumber?: string | null
+  dueDate?: Date | string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   description: string
@@ -1952,6 +2048,8 @@ export type ExpenseUpdateWithoutPaidByInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   expenseNumber?: Prisma.StringFieldUpdateOperationsInput | string
   expenseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  billNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1982,6 +2080,8 @@ export type ExpenseUncheckedUpdateWithoutPaidByInput = {
   projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   campaignId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expenseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  billNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2006,6 +2106,8 @@ export type ExpenseUncheckedUpdateManyWithoutPaidByInput = {
   projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   campaignId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expenseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  billNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2030,6 +2132,8 @@ export type ExpenseCreateManyBankAccountInput = {
   projectId?: string | null
   campaignId?: string | null
   expenseDate: Date | string
+  billNumber?: string | null
+  dueDate?: Date | string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   description: string
@@ -2048,6 +2152,8 @@ export type ExpenseUpdateWithoutBankAccountInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   expenseNumber?: Prisma.StringFieldUpdateOperationsInput | string
   expenseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  billNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2078,6 +2184,8 @@ export type ExpenseUncheckedUpdateWithoutBankAccountInput = {
   projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   campaignId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expenseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  billNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2102,6 +2210,8 @@ export type ExpenseUncheckedUpdateManyWithoutBankAccountInput = {
   projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   campaignId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expenseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  billNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2125,6 +2235,8 @@ export type ExpenseCreateManyProjectInput = {
   vendorId?: string | null
   campaignId?: string | null
   expenseDate: Date | string
+  billNumber?: string | null
+  dueDate?: Date | string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   description: string
@@ -2144,6 +2256,8 @@ export type ExpenseUpdateWithoutProjectInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   expenseNumber?: Prisma.StringFieldUpdateOperationsInput | string
   expenseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  billNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2173,6 +2287,8 @@ export type ExpenseUncheckedUpdateWithoutProjectInput = {
   vendorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   campaignId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expenseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  billNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2197,6 +2313,8 @@ export type ExpenseUncheckedUpdateManyWithoutProjectInput = {
   vendorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   campaignId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expenseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  billNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2221,6 +2339,8 @@ export type ExpenseCreateManyCampaignInput = {
   vendorId?: string | null
   projectId?: string | null
   expenseDate: Date | string
+  billNumber?: string | null
+  dueDate?: Date | string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   description: string
@@ -2240,6 +2360,8 @@ export type ExpenseUpdateWithoutCampaignInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   expenseNumber?: Prisma.StringFieldUpdateOperationsInput | string
   expenseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  billNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2269,6 +2391,8 @@ export type ExpenseUncheckedUpdateWithoutCampaignInput = {
   vendorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expenseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  billNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2293,6 +2417,8 @@ export type ExpenseUncheckedUpdateManyWithoutCampaignInput = {
   vendorId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expenseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  billNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2317,6 +2443,8 @@ export type ExpenseCreateManyCategoryInput = {
   projectId?: string | null
   campaignId?: string | null
   expenseDate: Date | string
+  billNumber?: string | null
+  dueDate?: Date | string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   description: string
@@ -2336,6 +2464,8 @@ export type ExpenseUpdateWithoutCategoryInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   expenseNumber?: Prisma.StringFieldUpdateOperationsInput | string
   expenseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  billNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2365,6 +2495,8 @@ export type ExpenseUncheckedUpdateWithoutCategoryInput = {
   projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   campaignId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expenseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  billNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2389,6 +2521,8 @@ export type ExpenseUncheckedUpdateManyWithoutCategoryInput = {
   projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   campaignId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expenseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  billNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2413,6 +2547,8 @@ export type ExpenseCreateManyVendorInput = {
   projectId?: string | null
   campaignId?: string | null
   expenseDate: Date | string
+  billNumber?: string | null
+  dueDate?: Date | string | null
   amount: runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: runtime.Decimal | runtime.DecimalJsLike | number | string
   description: string
@@ -2432,6 +2568,8 @@ export type ExpenseUpdateWithoutVendorInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   expenseNumber?: Prisma.StringFieldUpdateOperationsInput | string
   expenseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  billNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2461,6 +2599,8 @@ export type ExpenseUncheckedUpdateWithoutVendorInput = {
   projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   campaignId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expenseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  billNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2485,6 +2625,8 @@ export type ExpenseUncheckedUpdateManyWithoutVendorInput = {
   projectId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   campaignId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expenseDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  billNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   amount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   taxAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2512,6 +2654,8 @@ export type ExpenseSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   projectId?: boolean
   campaignId?: boolean
   expenseDate?: boolean
+  billNumber?: boolean
+  dueDate?: boolean
   amount?: boolean
   taxAmount?: boolean
   description?: boolean
@@ -2547,6 +2691,8 @@ export type ExpenseSelectScalar = {
   projectId?: boolean
   campaignId?: boolean
   expenseDate?: boolean
+  billNumber?: boolean
+  dueDate?: boolean
   amount?: boolean
   taxAmount?: boolean
   description?: boolean
@@ -2562,7 +2708,7 @@ export type ExpenseSelectScalar = {
   updatedAt?: boolean
 }
 
-export type ExpenseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "branchId" | "expenseNumber" | "categoryId" | "vendorId" | "projectId" | "campaignId" | "expenseDate" | "amount" | "taxAmount" | "description" | "paymentMethod" | "bankAccountId" | "paidById" | "isReimbursable" | "status" | "receiptFileId" | "createdById" | "updatedById" | "createdAt" | "updatedAt", ExtArgs["result"]["expense"]>
+export type ExpenseOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "branchId" | "expenseNumber" | "categoryId" | "vendorId" | "projectId" | "campaignId" | "expenseDate" | "billNumber" | "dueDate" | "amount" | "taxAmount" | "description" | "paymentMethod" | "bankAccountId" | "paidById" | "isReimbursable" | "status" | "receiptFileId" | "createdById" | "updatedById" | "createdAt" | "updatedAt", ExtArgs["result"]["expense"]>
 export type ExpenseInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   branch?: boolean | Prisma.Expense$branchArgs<ExtArgs>
@@ -2596,6 +2742,8 @@ export type $ExpensePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     projectId: string | null
     campaignId: string | null
     expenseDate: Date
+    billNumber: string | null
+    dueDate: Date | null
     amount: runtime.Decimal
     taxAmount: runtime.Decimal
     description: string
@@ -2995,6 +3143,8 @@ export interface ExpenseFieldRefs {
   readonly projectId: Prisma.FieldRef<"Expense", 'String'>
   readonly campaignId: Prisma.FieldRef<"Expense", 'String'>
   readonly expenseDate: Prisma.FieldRef<"Expense", 'DateTime'>
+  readonly billNumber: Prisma.FieldRef<"Expense", 'String'>
+  readonly dueDate: Prisma.FieldRef<"Expense", 'DateTime'>
   readonly amount: Prisma.FieldRef<"Expense", 'Decimal'>
   readonly taxAmount: Prisma.FieldRef<"Expense", 'Decimal'>
   readonly description: Prisma.FieldRef<"Expense", 'String'>

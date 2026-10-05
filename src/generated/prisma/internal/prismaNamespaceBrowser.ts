@@ -157,7 +157,9 @@ export const ModelName = {
   NotificationPreference: 'NotificationPreference',
   IntegrationSetting: 'IntegrationSetting',
   WebhookEvent: 'WebhookEvent',
-  OutboxEvent: 'OutboxEvent'
+  OutboxEvent: 'OutboxEvent',
+  JobOpening: 'JobOpening',
+  Candidate: 'Candidate'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -281,6 +283,7 @@ export const UserScalarFieldEnum = {
   twoFactorSecret: 'twoFactorSecret',
   mustChangePassword: 'mustChangePassword',
   emailVerifiedAt: 'emailVerifiedAt',
+  googleSub: 'googleSub',
   lastLoginAt: 'lastLoginAt',
   preferences: 'preferences',
   createdAt: 'createdAt',
@@ -430,6 +433,8 @@ export const FileScalarFieldEnum = {
   sizeBytes: 'sizeBytes',
   checksum: 'checksum',
   uploadedById: 'uploadedById',
+  driveFileId: 'driveFileId',
+  driveUrl: 'driveUrl',
   createdAt: 'createdAt'
 } as const
 
@@ -1798,6 +1803,8 @@ export const ExpenseScalarFieldEnum = {
   projectId: 'projectId',
   campaignId: 'campaignId',
   expenseDate: 'expenseDate',
+  billNumber: 'billNumber',
+  dueDate: 'dueDate',
   amount: 'amount',
   taxAmount: 'taxAmount',
   description: 'description',
@@ -2099,6 +2106,53 @@ export const OutboxEventScalarFieldEnum = {
 export type OutboxEventScalarFieldEnum = (typeof OutboxEventScalarFieldEnum)[keyof typeof OutboxEventScalarFieldEnum]
 
 
+export const JobOpeningScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  title: 'title',
+  departmentId: 'departmentId',
+  employmentType: 'employmentType',
+  location: 'location',
+  salaryRange: 'salaryRange',
+  description: 'description',
+  status: 'status',
+  openedOn: 'openedOn',
+  createdById: 'createdById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type JobOpeningScalarFieldEnum = (typeof JobOpeningScalarFieldEnum)[keyof typeof JobOpeningScalarFieldEnum]
+
+
+export const CandidateScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  jobId: 'jobId',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  email: 'email',
+  phone: 'phone',
+  source: 'source',
+  experience: 'experience',
+  link: 'link',
+  stage: 'stage',
+  interviewAt: 'interviewAt',
+  monthlySalary: 'monthlySalary',
+  joiningDate: 'joiningDate',
+  offerSentAt: 'offerSentAt',
+  offerAccepted: 'offerAccepted',
+  notes: 'notes',
+  rejectionReason: 'rejectionReason',
+  employeeId: 'employeeId',
+  createdById: 'createdById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CandidateScalarFieldEnum = (typeof CandidateScalarFieldEnum)[keyof typeof CandidateScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2232,7 +2286,8 @@ export const UserOrderByRelevanceFieldEnum = {
   lastName: 'lastName',
   avatarFileId: 'avatarFileId',
   managerId: 'managerId',
-  twoFactorSecret: 'twoFactorSecret'
+  twoFactorSecret: 'twoFactorSecret',
+  googleSub: 'googleSub'
 } as const
 
 export type UserOrderByRelevanceFieldEnum = (typeof UserOrderByRelevanceFieldEnum)[keyof typeof UserOrderByRelevanceFieldEnum]
@@ -2345,7 +2400,9 @@ export const FileOrderByRelevanceFieldEnum = {
   fileName: 'fileName',
   mimeType: 'mimeType',
   checksum: 'checksum',
-  uploadedById: 'uploadedById'
+  uploadedById: 'uploadedById',
+  driveFileId: 'driveFileId',
+  driveUrl: 'driveUrl'
 } as const
 
 export type FileOrderByRelevanceFieldEnum = (typeof FileOrderByRelevanceFieldEnum)[keyof typeof FileOrderByRelevanceFieldEnum]
@@ -3293,6 +3350,7 @@ export const ExpenseOrderByRelevanceFieldEnum = {
   vendorId: 'vendorId',
   projectId: 'projectId',
   campaignId: 'campaignId',
+  billNumber: 'billNumber',
   description: 'description',
   bankAccountId: 'bankAccountId',
   paidById: 'paidById',
@@ -3495,4 +3553,38 @@ export const OutboxEventOrderByRelevanceFieldEnum = {
 } as const
 
 export type OutboxEventOrderByRelevanceFieldEnum = (typeof OutboxEventOrderByRelevanceFieldEnum)[keyof typeof OutboxEventOrderByRelevanceFieldEnum]
+
+
+export const JobOpeningOrderByRelevanceFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  title: 'title',
+  departmentId: 'departmentId',
+  location: 'location',
+  salaryRange: 'salaryRange',
+  description: 'description',
+  createdById: 'createdById'
+} as const
+
+export type JobOpeningOrderByRelevanceFieldEnum = (typeof JobOpeningOrderByRelevanceFieldEnum)[keyof typeof JobOpeningOrderByRelevanceFieldEnum]
+
+
+export const CandidateOrderByRelevanceFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  jobId: 'jobId',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  email: 'email',
+  phone: 'phone',
+  source: 'source',
+  experience: 'experience',
+  link: 'link',
+  notes: 'notes',
+  rejectionReason: 'rejectionReason',
+  employeeId: 'employeeId',
+  createdById: 'createdById'
+} as const
+
+export type CandidateOrderByRelevanceFieldEnum = (typeof CandidateOrderByRelevanceFieldEnum)[keyof typeof CandidateOrderByRelevanceFieldEnum]
 

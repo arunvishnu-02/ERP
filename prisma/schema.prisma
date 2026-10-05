@@ -644,6 +644,7 @@ enum IntegrationProvider {
   SMS_GATEWAY
   PAYMENT_GATEWAY
   OBJECT_STORAGE
+  GOOGLE
 }
 
 enum OutboxStatus {
@@ -871,6 +872,7 @@ model User {
   twoFactorSecret    String?
   mustChangePassword Boolean      @default(false)
   emailVerifiedAt    DateTime?
+  googleSub          String?      @unique // the Google account linked by "Sign in with Google"
   lastLoginAt        DateTime?
   preferences        Json? // theme (dark mode), locale, default branch
   createdAt          DateTime     @default(now())
@@ -992,7 +994,9 @@ model Session {
   @@index([expiresAt])
 }
 
-/** A client contact signed in to the portal. Like Session, only the SHA-256 of the cookie is stored. */
+/**
+ * A client contact signed in to the portal. Like Session, only the SHA-256 of the cookie is stored.
+ */
 model PortalSession {
   id         String   @id @default(uuid()) @db.Char(36)
   contactId  String   @db.Char(36)
@@ -1005,7 +1009,9 @@ model PortalSession {
   @@index([contactId])
 }
 
-/** A one-time sign-in code emailed to a client contact. */
+/**
+ * A one-time sign-in code emailed to a client contact.
+ */
 model PortalCode {
   id        String    @id @default(uuid()) @db.Char(36)
   contactId String    @db.Char(36)
@@ -1078,6 +1084,8 @@ model File {
   sizeBytes      BigInt
   checksum       String?
   uploadedById   String?      @db.Char(36)
+  driveFileId    String? // set once a copy is saved to the company's Google Drive
+  driveUrl       String?      @db.VarChar(500)
   createdAt      DateTime     @default(now())
 
   attachments      Attachment[]
@@ -2782,6 +2790,8 @@ model Expense {
   campaignId     String?         @db.Char(36)
   campaign       Campaign?       @relation(fields: [campaignId], references: [id])
   expenseDate    DateTime        @db.Date
+  billNumber     String? // the vendor's own bill number, for purchase bills
+  dueDate        DateTime?       @db.Date // when a vendor bill must be paid
   amount         Decimal         @db.Decimal(14, 2)
   taxAmount      Decimal         @default(0) @db.Decimal(14, 2)
   description    String          @db.Text
@@ -3108,4 +3118,74 @@ model OutboxEvent {
   publishedAt    DateTime?
 
   @@index([status, createdAt])
+}
+
+// ─────────────── Hiring ───────────────
+
+enum OpeningStatus {
+  OPEN
+  ON_HOLD
+  CLOSED
+}
+
+enum CandidateStage {
+  APPLIED
+  INTERVIEW
+  OFFER
+  JOINED
+  REJECTED
+}
+
+/**
+ * A role the company is hiring for.
+ */
+model JobOpening {
+  id             String         @id @default(uuid()) @db.Char(36)
+  organizationId String         @db.Char(36)
+  title          String
+  departmentId   String?        @db.Char(36)
+  employmentType EmploymentType @default(FULL_TIME)
+  location       String?
+  salaryRange    String?
+  description    String?        @db.Text
+  status         OpeningStatus  @default(OPEN)
+  openedOn       DateTime       @db.Date
+  createdById    String?        @db.Char(36)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  candidates Candidate[]
+
+  @@index([organizationId, status])
+}
+
+/**
+ * A person who applied for a job opening, from first contact to joining.
+ */
+model Candidate {
+  id              String         @id @default(uuid()) @db.Char(36)
+  organizationId  String         @db.Char(36)
+  jobId           String         @db.Char(36)
+  job             JobOpening     @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  firstName       String
+  lastName        String?
+  email           String?
+  phone           String?
+  source          String? // referral, LinkedIn, walk-in, website...
+  experience      String? // "Fresher", "2 years"
+  link            String?        @db.VarChar(500) // portfolio, LinkedIn or resume link
+  stage           CandidateStage @default(APPLIED)
+  interviewAt     DateTime?
+  monthlySalary   Decimal?       @db.Decimal(14, 2) // offered
+  joiningDate     DateTime?      @db.Date
+  offerSentAt     DateTime?
+  offerAccepted   Boolean        @default(false)
+  notes           String?        @db.Text
+  rejectionReason String?
+  employeeId      String?        @db.Char(36) // set once they join
+  createdById     String?        @db.Char(36)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  @@index([organizationId, jobId, stage])
 }

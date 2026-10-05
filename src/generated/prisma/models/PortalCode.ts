@@ -14,7 +14,8 @@ import type * as Prisma from "../internal/prismaNamespace"
 
 /**
  * Model PortalCode
- * * A one-time sign-in code emailed to a client contact.
+ * *
+ *  * A one-time sign-in code emailed to a client contact.
  */
 export type PortalCodeModel = runtime.Types.Result.DefaultSelection<Prisma.$PortalCodePayload>
 
