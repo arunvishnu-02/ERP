@@ -66,10 +66,11 @@ export function Board<T extends { id: string }>({ columns, items, columnOf, rend
 }
 
 /** Two bars per month: billed against collected. */
-export function PairBars({ data }: { data: { month: string; billed: number; collected: number }[] }) {
+export function PairBars({ data, second = 'collected', legend = true }: { data: { month: string; billed: number; collected: number; costs?: number }[]; second?: 'collected' | 'costs'; legend?: boolean }) {
+  const name = second === 'costs' ? 'Costs' : 'Collected'
   const W = 600, H = 220, pl = 50, pr = 6, pt = 10, pb = 26
   const iw = W - pl - pr, ih = H - pt - pb
-  const raw = Math.max(1, ...data.flatMap((d) => [d.billed, d.collected])) / 4
+  const raw = Math.max(1, ...data.flatMap((d) => [d.billed, d[second] ?? 0])) / 4
   const pow = 10 ** Math.floor(Math.log10(raw))
   const step = [1, 2, 2.5, 5, 10].find((m) => m * pow >= raw)! * pow
   const max = step * 4
@@ -84,11 +85,8 @@ export function PairBars({ data }: { data: { month: string; billed: number; coll
   }
   return (
     <div>
-      <div className="mb-1 flex gap-4 text-xs text-muted">
-        <span><i className="mr-1.5 inline-block h-2.5 w-2.5 rounded-sm bg-chart-1" />Billed</span>
-        <span><i className="mr-1.5 inline-block h-2.5 w-2.5 rounded-sm bg-chart-2" />Collected</span>
-      </div>
-      <svg viewBox={`0 0 ${W} ${H}`} className="block h-auto w-full" role="img" aria-label="Billed and collected amounts by month">
+      {legend && <ChartLegend second={name} />}
+      <svg viewBox={`0 0 ${W} ${H}`} className="block h-auto w-full" role="img" aria-label={`Billed and ${name.toLowerCase()} amounts by month`}>
         {[0, 1, 2, 3, 4].map((i) => (
           <g key={i}>
             <line x1={pl} x2={W - pr} y1={y(step * i)} y2={y(step * i)} className={i ? 'stroke-line' : 'stroke-muted'} strokeWidth={1} />
@@ -100,7 +98,7 @@ export function PairBars({ data }: { data: { month: string; billed: number; coll
           return (
             <g key={d.month}>
               {bar(cx - bw - 1, d.billed, 'fill-chart-1', `${monthLabel(d.month)}: billed ${inr(d.billed)}`)}
-              {bar(cx + 1, d.collected, 'fill-chart-2', `${monthLabel(d.month)}: collected ${inr(d.collected)}`)}
+              {bar(cx + 1, d[second] ?? 0, 'fill-chart-2', `${monthLabel(d.month)}: ${name.toLowerCase()} ${inr(d[second] ?? 0)}`)}
               <text x={cx} y={H - 8} textAnchor="middle" className="fill-muted text-[10.5px]">{monthLabel(d.month)}</text>
             </g>
           )
@@ -109,6 +107,13 @@ export function PairBars({ data }: { data: { month: string; billed: number; coll
     </div>
   )
 }
+
+export const ChartLegend = ({ second }: { second: string }) => (
+  <div className="mb-1 flex gap-4 text-xs text-muted">
+    <span><i className="mr-1.5 inline-block h-2.5 w-2.5 rounded-sm bg-chart-1" />Billed</span>
+    <span><i className="mr-1.5 inline-block h-2.5 w-2.5 rounded-sm bg-chart-2" />{second}</span>
+  </div>
+)
 
 /** Horizontal bars for comparing a handful of named values. */
 export function HBars({ rows, empty = 'Nothing to show yet.' }: { rows: { label: string; value: number; text?: string }[]; empty?: string }) {

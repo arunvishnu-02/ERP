@@ -8,13 +8,14 @@ import { human, initials, toneOf, type Tone } from '@/lib/format'
 export const cn = (...a: ClassValue[]) => twMerge(clsx(a))
 
 const BTN = {
-  primary: 'bg-accent text-accent-ink hover:brightness-110',
+  primary: 'btn-primary',
+  bright: 'btn-bright',
   secondary: 'border border-line bg-surface text-ink hover:bg-surface-2',
   ghost: 'text-muted hover:bg-surface-2 hover:text-ink',
   danger: 'border border-bad/40 bg-surface text-bad hover:bg-bad-soft',
   link: 'h-auto px-0 text-accent hover:underline',
 }
-const BTN_SIZE = { md: 'h-9 px-3.5 text-sm', sm: 'h-7 rounded-md px-2.5 text-[13px]', icon: 'h-8 w-8 rounded-md' }
+const BTN_SIZE = { md: 'h-9 rounded-[10px] px-3.5 text-sm', sm: 'h-7 rounded-md px-2.5 text-[13px]', icon: 'h-8 w-8 rounded-lg' }
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: keyof typeof BTN; size?: keyof typeof BTN_SIZE; loading?: boolean }
 export function Button({ variant = 'secondary', size = 'md', loading, className, children, disabled, type = 'button', ...p }: ButtonProps) {
   return (
@@ -49,15 +50,15 @@ export function Badge({ tone = 'mute', children, className }: { tone?: Tone; chi
 }
 export const Status = ({ value, label }: { value?: string | null; label?: string }) => (value ? <Badge tone={toneOf(value)}>{label ?? human(value)}</Badge> : null)
 
-export const Card = ({ className, ...p }: React.HTMLAttributes<HTMLDivElement>) => <div className={cn('rounded-xl border border-line bg-surface', className)} {...p} />
+export const Card = ({ className, ...p }: React.HTMLAttributes<HTMLDivElement>) => <div className={cn('card-shadow rounded-[20px] border border-line/60 bg-surface dark:border-line', className)} {...p} />
 export function Panel({ title, action, children, className, flush }: { title: React.ReactNode; action?: React.ReactNode; children: React.ReactNode; className?: string; flush?: boolean }) {
   return (
     <Card className={cn('min-w-0', className)}>
-      <div className="flex flex-wrap items-center justify-between gap-2 px-4 pt-3.5 pb-2">
-        <h3 className="font-display text-[15px] font-semibold">{title}</h3>
+      <div className="flex flex-wrap items-center justify-between gap-2 px-5 pt-4 pb-2.5">
+        <h3 className="font-display text-base font-semibold tracking-tight">{title}</h3>
         {action}
       </div>
-      <div className={flush ? '' : 'px-4 pb-4'}>{children}</div>
+      <div className={flush ? '' : 'px-5 pb-5'}>{children}</div>
     </Card>
   )
 }
@@ -69,13 +70,13 @@ export function Dialog({ open, onClose, title, children, footer, size = 'md' }: 
     <D.Root open={open} onOpenChange={(v) => !v && onClose()}>
       <D.Portal>
         <D.Overlay className="fixed inset-0 z-50 bg-black/45" />
-        <D.Content aria-describedby={undefined} className={cn('pop-in fixed top-[5vh] left-1/2 z-50 flex max-h-[90vh] w-[calc(100%-1.5rem)] -translate-x-1/2 flex-col rounded-xl border border-line bg-surface shadow-2xl', SIZES[size])}>
+        <D.Content aria-describedby={undefined} className={cn('pop-in fixed top-[5vh] left-1/2 z-50 flex max-h-[90vh] w-[calc(100%-1.5rem)] -translate-x-1/2 flex-col rounded-[20px] border border-line bg-surface shadow-2xl', SIZES[size])}>
           <div className="flex items-center justify-between gap-3 border-b border-line px-5 py-3">
             <D.Title className="font-display text-[17px] font-semibold">{title}</D.Title>
             <D.Close className="rounded-md p-1 text-muted hover:bg-surface-2 hover:text-ink" aria-label="Close"><X size={18} /></D.Close>
           </div>
           <div className="min-h-0 flex-1 overflow-y-auto px-5 py-4">{children}</div>
-          {footer && <div className="flex flex-wrap justify-end gap-2 rounded-b-xl border-t border-line bg-surface-2/50 px-5 py-3">{footer}</div>}
+          {footer && <div className="flex flex-wrap justify-end gap-2 rounded-b-[20px] border-t border-line bg-surface-2/50 px-5 py-3">{footer}</div>}
         </D.Content>
       </D.Portal>
     </D.Root>
@@ -106,11 +107,11 @@ export function Sheet({ open, onClose, title, subtitle, children, actions }: { o
 export interface TabOption { value: string; label: string; count?: number }
 export function Tabs({ value, onChange, options, className }: { value: string; onChange: (v: string) => void; options: TabOption[]; className?: string }) {
   return (
-    <div role="tablist" className={cn('inline-flex max-w-full flex-wrap gap-1 rounded-lg bg-surface-2 p-1', className)}>
+    <div role="tablist" className={cn('flex max-w-full gap-x-6 overflow-x-auto border-b border-line', className)}>
       {options.map((o) => (
-        <button key={o.value} role="tab" type="button" aria-selected={o.value === value} onClick={() => onChange(o.value)} className={cn('rounded-md px-3 py-1.5 text-[13px] font-medium', o.value === value ? 'bg-surface text-ink shadow-sm' : 'text-muted hover:text-ink')}>
+        <button key={o.value} role="tab" type="button" aria-selected={o.value === value} onClick={() => onChange(o.value)} className={cn('-mb-px flex shrink-0 items-center gap-2 border-b-2 pt-2.5 pb-3 text-sm font-medium whitespace-nowrap', o.value === value ? 'border-accent text-ink' : 'border-transparent text-muted hover:text-ink')}>
           {o.label}
-          {o.count !== undefined && <span className="num ml-1.5 text-muted">{o.count}</span>}
+          {o.count !== undefined && <span className={cn('num rounded-full px-[7px] py-px text-xs', o.value === value ? 'bg-accent-soft text-accent' : 'bg-surface-2 text-muted')}>{o.count}</span>}
         </button>
       ))}
     </div>
@@ -118,9 +119,9 @@ export function Tabs({ value, onChange, options, className }: { value: string; o
 }
 export function Chips({ value, onChange, options }: { value: string; onChange: (v: string) => void; options: TabOption[] }) {
   return (
-    <div className="flex flex-wrap gap-1.5">
+    <div className="inline-flex max-w-full flex-wrap gap-0.5 rounded-[10px] bg-surface-2 p-[3px]">
       {options.map((o) => (
-        <button key={o.value} type="button" aria-pressed={o.value === value} onClick={() => onChange(o.value)} className={cn('rounded-full border px-3 py-1 text-[13px]', o.value === value ? 'border-ink bg-ink text-bg' : 'border-line bg-surface text-muted hover:text-ink')}>
+        <button key={o.value} type="button" aria-pressed={o.value === value} onClick={() => onChange(o.value)} className={cn('rounded-md px-3 py-1.5 text-[13px] font-medium', o.value === value ? 'bg-surface text-ink shadow-[0_1px_2px_rgba(15,28,43,0.08)]' : 'text-muted hover:text-ink')}>
           {o.label}
         </button>
       ))}
@@ -132,16 +133,16 @@ export const Table = ({ children, className }: { children: React.ReactNode; clas
   <div className="overflow-x-auto"><table className={cn('w-full border-collapse text-sm', className)}>{children}</table></div>
 )
 export const Th = ({ className, right, ...p }: React.ThHTMLAttributes<HTMLTableCellElement> & { right?: boolean }) => (
-  <th className={cn('border-b border-line px-3 py-2.5 text-xs font-medium whitespace-nowrap text-muted first:pl-4 last:pr-4', right ? 'text-right' : 'text-left', className)} {...p} />
+  <th className={cn('border-b border-line px-3 py-3 text-xs font-medium whitespace-nowrap text-muted first:pl-5 last:pr-5', right ? 'text-right' : 'text-left', className)} {...p} />
 )
 export const Td = ({ className, right, ...p }: React.TdHTMLAttributes<HTMLTableCellElement> & { right?: boolean }) => (
-  <td className={cn('border-b border-line/70 px-3 py-2.5 align-middle first:pl-4 last:pr-4', right && 'num text-right whitespace-nowrap', className)} {...p} />
+  <td className={cn('border-b border-line/70 px-3 py-3 align-middle first:pl-5 last:pr-5', right && 'num text-right whitespace-nowrap', className)} {...p} />
 )
 
 export const Empty = ({ children }: { children: React.ReactNode }) => <div className="px-4 py-10 text-center text-sm text-muted">{children}</div>
 export const Loading = () => <div className="flex items-center justify-center gap-2 px-4 py-10 text-sm text-muted"><Loader2 size={16} className="animate-spin" />Loading…</div>
 export const Avatar = ({ name, className }: { name: string; className?: string }) => (
-  <span title={name} className={cn('inline-grid h-6 w-6 shrink-0 place-items-center rounded-full bg-accent-soft text-[10px] font-semibold text-accent', className)}>{initials(name) || '?'}</span>
+  <span title={name} className={cn('inline-grid h-6 w-6 shrink-0 place-items-center rounded-full bg-accent-soft text-[10px] font-semibold text-accent ring-1 ring-surface', className)}>{initials(name) || '?'}</span>
 )
 export const Progress = ({ value, hot }: { value: number; hot?: boolean }) => (
   <div className="h-1.5 w-full min-w-16 overflow-hidden rounded-full bg-surface-2"><div className={cn('h-full rounded-full', hot ? 'bg-bad' : 'bg-chart-1')} style={{ width: `${Math.max(0, Math.min(100, value))}%` }} /></div>
@@ -161,18 +162,18 @@ export function KV({ rows }: { rows: [string, React.ReactNode][] }) {
 /** A row of figures in one band with dividers, used at the top of dashboards and summaries. */
 export function StatBand({ items }: { items: { label: string; value: React.ReactNode; hint?: React.ReactNode; tone?: 'good' | 'bad'; href?: string }[] }) {
   return (
-    <Card className="grid grid-cols-2 divide-line overflow-hidden sm:grid-cols-3 lg:flex lg:divide-x">
+    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:flex lg:gap-4">
       {items.map((s) => {
         const body = (
           <>
             <div className="text-[13px] text-muted">{s.label}</div>
-            <div className={cn('num mt-0.5 font-display text-2xl font-semibold tracking-tight', s.tone === 'good' && 'text-good', s.tone === 'bad' && 'text-bad')}>{s.value}</div>
-            {s.hint && <div className="mt-0.5 text-xs text-muted">{s.hint}</div>}
+            <div className={cn('num mt-1.5 font-display text-[26px] leading-8 font-semibold tracking-tight', s.tone === 'good' && 'text-good', s.tone === 'bad' && 'text-bad')}>{s.value}</div>
+            {s.hint && <div className="mt-1.5 text-xs text-muted">{s.hint}</div>}
           </>
         )
-        const cls = '-mb-px min-w-0 flex-1 border-b border-line px-4 py-3.5 lg:mb-0 lg:border-b-0'
-        return s.href ? <a key={s.label} href={s.href} className={cn(cls, 'hover:bg-surface-2/60')}>{body}</a> : <div key={s.label} className={cls}>{body}</div>
+        const cls = 'card-shadow min-w-0 flex-1 rounded-[20px] border border-line/60 bg-surface px-5 py-4 dark:border-line'
+        return s.href ? <a key={s.label} href={s.href} className={cn(cls, 'hover:border-accent/40')}>{body}</a> : <div key={s.label} className={cls}>{body}</div>
       })}
-    </Card>
+    </div>
   )
 }
