@@ -62,6 +62,8 @@ export const ModelName = {
   Permission: 'Permission',
   RolePermission: 'RolePermission',
   Session: 'Session',
+  PortalSession: 'PortalSession',
+  PortalCode: 'PortalCode',
   PasswordResetToken: 'PasswordResetToken',
   ApiKey: 'ApiKey',
   AuditLog: 'AuditLog',
@@ -155,7 +157,9 @@ export const ModelName = {
   NotificationPreference: 'NotificationPreference',
   IntegrationSetting: 'IntegrationSetting',
   WebhookEvent: 'WebhookEvent',
-  OutboxEvent: 'OutboxEvent'
+  OutboxEvent: 'OutboxEvent',
+  JobOpening: 'JobOpening',
+  Candidate: 'Candidate'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -279,6 +283,7 @@ export const UserScalarFieldEnum = {
   twoFactorSecret: 'twoFactorSecret',
   mustChangePassword: 'mustChangePassword',
   emailVerifiedAt: 'emailVerifiedAt',
+  googleSub: 'googleSub',
   lastLoginAt: 'lastLoginAt',
   preferences: 'preferences',
   createdAt: 'createdAt',
@@ -346,6 +351,31 @@ export const SessionScalarFieldEnum = {
 export type SessionScalarFieldEnum = (typeof SessionScalarFieldEnum)[keyof typeof SessionScalarFieldEnum]
 
 
+export const PortalSessionScalarFieldEnum = {
+  id: 'id',
+  contactId: 'contactId',
+  tokenHash: 'tokenHash',
+  expiresAt: 'expiresAt',
+  lastUsedAt: 'lastUsedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type PortalSessionScalarFieldEnum = (typeof PortalSessionScalarFieldEnum)[keyof typeof PortalSessionScalarFieldEnum]
+
+
+export const PortalCodeScalarFieldEnum = {
+  id: 'id',
+  contactId: 'contactId',
+  codeHash: 'codeHash',
+  tries: 'tries',
+  expiresAt: 'expiresAt',
+  usedAt: 'usedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type PortalCodeScalarFieldEnum = (typeof PortalCodeScalarFieldEnum)[keyof typeof PortalCodeScalarFieldEnum]
+
+
 export const PasswordResetTokenScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -403,6 +433,8 @@ export const FileScalarFieldEnum = {
   sizeBytes: 'sizeBytes',
   checksum: 'checksum',
   uploadedById: 'uploadedById',
+  driveFileId: 'driveFileId',
+  driveUrl: 'driveUrl',
   createdAt: 'createdAt'
 } as const
 
@@ -446,6 +478,7 @@ export const CommentScalarFieldEnum = {
   isInternal: 'isInternal',
   mentions: 'mentions',
   authorId: 'authorId',
+  contactId: 'contactId',
   parentId: 'parentId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
@@ -637,6 +670,8 @@ export const ContactScalarFieldEnum = {
   whatsappNumber: 'whatsappNumber',
   isPrimary: 'isPrimary',
   isBillingContact: 'isBillingContact',
+  portalAccess: 'portalAccess',
+  portalLastSeenAt: 'portalLastSeenAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -1768,6 +1803,8 @@ export const ExpenseScalarFieldEnum = {
   projectId: 'projectId',
   campaignId: 'campaignId',
   expenseDate: 'expenseDate',
+  billNumber: 'billNumber',
+  dueDate: 'dueDate',
   amount: 'amount',
   taxAmount: 'taxAmount',
   description: 'description',
@@ -2069,6 +2106,53 @@ export const OutboxEventScalarFieldEnum = {
 export type OutboxEventScalarFieldEnum = (typeof OutboxEventScalarFieldEnum)[keyof typeof OutboxEventScalarFieldEnum]
 
 
+export const JobOpeningScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  title: 'title',
+  departmentId: 'departmentId',
+  employmentType: 'employmentType',
+  location: 'location',
+  salaryRange: 'salaryRange',
+  description: 'description',
+  status: 'status',
+  openedOn: 'openedOn',
+  createdById: 'createdById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type JobOpeningScalarFieldEnum = (typeof JobOpeningScalarFieldEnum)[keyof typeof JobOpeningScalarFieldEnum]
+
+
+export const CandidateScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  jobId: 'jobId',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  email: 'email',
+  phone: 'phone',
+  source: 'source',
+  experience: 'experience',
+  link: 'link',
+  stage: 'stage',
+  interviewAt: 'interviewAt',
+  monthlySalary: 'monthlySalary',
+  joiningDate: 'joiningDate',
+  offerSentAt: 'offerSentAt',
+  offerAccepted: 'offerAccepted',
+  notes: 'notes',
+  rejectionReason: 'rejectionReason',
+  employeeId: 'employeeId',
+  createdById: 'createdById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CandidateScalarFieldEnum = (typeof CandidateScalarFieldEnum)[keyof typeof CandidateScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -2202,7 +2286,8 @@ export const UserOrderByRelevanceFieldEnum = {
   lastName: 'lastName',
   avatarFileId: 'avatarFileId',
   managerId: 'managerId',
-  twoFactorSecret: 'twoFactorSecret'
+  twoFactorSecret: 'twoFactorSecret',
+  googleSub: 'googleSub'
 } as const
 
 export type UserOrderByRelevanceFieldEnum = (typeof UserOrderByRelevanceFieldEnum)[keyof typeof UserOrderByRelevanceFieldEnum]
@@ -2255,6 +2340,24 @@ export const SessionOrderByRelevanceFieldEnum = {
 export type SessionOrderByRelevanceFieldEnum = (typeof SessionOrderByRelevanceFieldEnum)[keyof typeof SessionOrderByRelevanceFieldEnum]
 
 
+export const PortalSessionOrderByRelevanceFieldEnum = {
+  id: 'id',
+  contactId: 'contactId',
+  tokenHash: 'tokenHash'
+} as const
+
+export type PortalSessionOrderByRelevanceFieldEnum = (typeof PortalSessionOrderByRelevanceFieldEnum)[keyof typeof PortalSessionOrderByRelevanceFieldEnum]
+
+
+export const PortalCodeOrderByRelevanceFieldEnum = {
+  id: 'id',
+  contactId: 'contactId',
+  codeHash: 'codeHash'
+} as const
+
+export type PortalCodeOrderByRelevanceFieldEnum = (typeof PortalCodeOrderByRelevanceFieldEnum)[keyof typeof PortalCodeOrderByRelevanceFieldEnum]
+
+
 export const PasswordResetTokenOrderByRelevanceFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -2297,7 +2400,9 @@ export const FileOrderByRelevanceFieldEnum = {
   fileName: 'fileName',
   mimeType: 'mimeType',
   checksum: 'checksum',
-  uploadedById: 'uploadedById'
+  uploadedById: 'uploadedById',
+  driveFileId: 'driveFileId',
+  driveUrl: 'driveUrl'
 } as const
 
 export type FileOrderByRelevanceFieldEnum = (typeof FileOrderByRelevanceFieldEnum)[keyof typeof FileOrderByRelevanceFieldEnum]
@@ -2331,6 +2436,7 @@ export const CommentOrderByRelevanceFieldEnum = {
   entityId: 'entityId',
   body: 'body',
   authorId: 'authorId',
+  contactId: 'contactId',
   parentId: 'parentId'
 } as const
 
@@ -3244,6 +3350,7 @@ export const ExpenseOrderByRelevanceFieldEnum = {
   vendorId: 'vendorId',
   projectId: 'projectId',
   campaignId: 'campaignId',
+  billNumber: 'billNumber',
   description: 'description',
   bankAccountId: 'bankAccountId',
   paidById: 'paidById',
@@ -3446,4 +3553,38 @@ export const OutboxEventOrderByRelevanceFieldEnum = {
 } as const
 
 export type OutboxEventOrderByRelevanceFieldEnum = (typeof OutboxEventOrderByRelevanceFieldEnum)[keyof typeof OutboxEventOrderByRelevanceFieldEnum]
+
+
+export const JobOpeningOrderByRelevanceFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  title: 'title',
+  departmentId: 'departmentId',
+  location: 'location',
+  salaryRange: 'salaryRange',
+  description: 'description',
+  createdById: 'createdById'
+} as const
+
+export type JobOpeningOrderByRelevanceFieldEnum = (typeof JobOpeningOrderByRelevanceFieldEnum)[keyof typeof JobOpeningOrderByRelevanceFieldEnum]
+
+
+export const CandidateOrderByRelevanceFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  jobId: 'jobId',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  email: 'email',
+  phone: 'phone',
+  source: 'source',
+  experience: 'experience',
+  link: 'link',
+  notes: 'notes',
+  rejectionReason: 'rejectionReason',
+  employeeId: 'employeeId',
+  createdById: 'createdById'
+} as const
+
+export type CandidateOrderByRelevanceFieldEnum = (typeof CandidateOrderByRelevanceFieldEnum)[keyof typeof CandidateOrderByRelevanceFieldEnum]
 

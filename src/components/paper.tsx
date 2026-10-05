@@ -1,6 +1,7 @@
 'use client'
 // The company's house style for every printed document: a white A4 page with a navy and cyan stripe on the left,
 // the logo at the top and a contact footer at the bottom. Quotations, invoices, receipts and HR letters all use it.
+import { Globe, Mail, MapPin, Phone } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { cn } from './ui'
 
@@ -35,7 +36,7 @@ export function PaperHeader({ org, title, children }: { org: any; title: string;
         {s.tagline && !s.logo && <div className="mt-0.5 text-[11px] font-medium text-[var(--doc-cyan)]">{s.tagline}</div>}
       </div>
       <div className="text-right">
-        <div className="text-[26px] leading-none font-bold tracking-wide text-[var(--doc-navy)] sm:text-[30px]">{title}</div>
+        <div className={cn('leading-none font-bold tracking-wide text-[var(--doc-navy)]', title.length > 18 ? 'text-[20px] sm:text-[22px]' : 'text-[26px] sm:text-[30px]')}>{title}</div>
         <div className="mt-1.5 text-[11px] text-[var(--doc-muted)]">{org.legalName || org.name}</div>
         {children}
       </div>
@@ -77,20 +78,27 @@ export function Signatures({ org, client }: { org: any; client?: string }) {
   )
 }
 
+/** The address on three short lines: street, area and city, then state and pincode. */
+const officeLines = (org: any) =>
+  [org.addressLine1, [org.addressLine2, org.city].filter(Boolean).join(', '), [org.state, org.pincode].filter(Boolean).join(' ')].filter(Boolean).join('\n') || undefined
+
 /** Navy and cyan bar with the company's phone, email, website and office. */
 export function ContactFooter({ org }: { org: any }) {
   const s = org.settings ?? {}
-  const cols: [string, string | undefined][] = [['Phone', org.phone], ['Email', org.email], ['Web', s.website], ['Office', orgAddress(org)]]
+  const cols: [string, string | undefined, typeof Phone][] = [['Phone', org.phone, Phone], ['Email', org.email, Mail], ['Web', s.website, Globe], ['Office', officeLines(org), MapPin]]
   const shown = cols.filter(([, v]) => v)
   if (!shown.length) return null
   return (
     <footer className="pr-6 pb-7 pl-9 sm:pr-11 sm:pl-14">
       <div className="mb-3 flex h-1 overflow-hidden rounded-full"><span className="w-1/4 bg-[var(--doc-navy)]" /><span className="w-1/6 bg-[var(--doc-cyan)]" /><span className="flex-1 bg-[var(--doc-soft)]" /></div>
-      <div className="grid grid-cols-2 gap-x-6 gap-y-2 sm:grid-cols-4">
-        {shown.map(([k, v]) => (
-          <div key={k} className={cn('min-w-0', k === 'Office' && 'col-span-2 sm:col-span-1')}>
-            <div className="text-[9px] font-semibold tracking-wider text-[var(--doc-cyan)] uppercase">{k}</div>
-            <div className="text-[10.5px] leading-snug break-words">{v}</div>
+      <div className="grid grid-cols-2 gap-x-5 gap-y-2 sm:grid-cols-[auto_auto_auto_1fr]">
+        {shown.map(([k, v, Icon]) => (
+          <div key={k} className={cn('flex min-w-0 items-start gap-2', k === 'Office' && 'col-span-2 sm:col-span-1')}>
+            <span aria-hidden className="mt-px grid h-[22px] w-[22px] shrink-0 place-items-center rounded-full bg-[var(--doc-navy)] text-white"><Icon size={11} strokeWidth={2.2} /></span>
+            <div className="min-w-0">
+              <div className="text-[9px] font-semibold tracking-wider text-[var(--doc-cyan)] uppercase">{k}</div>
+              <div className="text-[10.5px] leading-snug break-words whitespace-pre-line">{v}</div>
+            </div>
           </div>
         ))}
       </div>

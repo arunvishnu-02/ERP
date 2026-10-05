@@ -31,7 +31,7 @@ const applyState = (d: any) => {
 
 customersRouter.use('/:customerId/contacts', crud({
   model: 'contact', module: M, label: 'Contact', orderBy: [{ isPrimary: 'desc' }, { firstName: 'asc' }],
-  fields: { firstName: 's', lastName: 's?', designation: 's?', email: 's?', phone: 's?', whatsappNumber: 's?', 'isPrimary?': 'b', 'isBillingContact?': 'b' },
+  fields: { firstName: 's', lastName: 's?', designation: 's?', email: 's?', phone: 's?', whatsappNumber: 's?', 'isPrimary?': 'b', 'isBillingContact?': 'b', 'portalAccess?': 'b' },
   where: (req) => ({ customerId: (req.params as any).customerId }),
   beforeCreate: (d, req) => { d.customerId = (req.params as any).customerId },
 }))

@@ -825,7 +825,8 @@ export const IntegrationProvider = {
   WHATSAPP_CLOUD: 'WHATSAPP_CLOUD',
   SMS_GATEWAY: 'SMS_GATEWAY',
   PAYMENT_GATEWAY: 'PAYMENT_GATEWAY',
-  OBJECT_STORAGE: 'OBJECT_STORAGE'
+  OBJECT_STORAGE: 'OBJECT_STORAGE',
+  GOOGLE: 'GOOGLE'
 } as const
 
 export type IntegrationProvider = (typeof IntegrationProvider)[keyof typeof IntegrationProvider]
@@ -838,3 +839,23 @@ export const OutboxStatus = {
 } as const
 
 export type OutboxStatus = (typeof OutboxStatus)[keyof typeof OutboxStatus]
+
+
+export const OpeningStatus = {
+  OPEN: 'OPEN',
+  ON_HOLD: 'ON_HOLD',
+  CLOSED: 'CLOSED'
+} as const
+
+export type OpeningStatus = (typeof OpeningStatus)[keyof typeof OpeningStatus]
+
+
+export const CandidateStage = {
+  APPLIED: 'APPLIED',
+  INTERVIEW: 'INTERVIEW',
+  OFFER: 'OFFER',
+  JOINED: 'JOINED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type CandidateStage = (typeof CandidateStage)[keyof typeof CandidateStage]

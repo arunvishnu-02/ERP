@@ -10,6 +10,7 @@ import { Resource } from '@/components/resource'
 import { Button, Card, Empty, Panel, Sheet, Status, Table, Tabs, Td, Th, Two } from '@/components/ui'
 import { api, useApi } from '@/lib/api'
 import { useAuth } from '@/lib/auth'
+import { useUrlParam } from '@/lib/url'
 import { fmtDate, gstOff, human, inr, options, todayStr } from '@/lib/format'
 import { act, DueTag, useCustomerOptions } from './common'
 import { SendDialog } from './quotations'
@@ -139,6 +140,7 @@ function Recurring() {
 export default function Invoices() {
   const [tab, setTab] = useState('invoices')
   const [openId, setOpenId] = useState<string | null>(null)
+  useUrlParam('open', setOpenId)
   const [creating, setCreating] = useState<DocPreset | null>(null)
   const [rk, setRk] = useState(0)
   const refresh = () => setRk((k) => k + 1)

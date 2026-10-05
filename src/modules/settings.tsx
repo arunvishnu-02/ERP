@@ -1,6 +1,7 @@
 'use client'
 // Company details, users, roles and permissions, structure, lists, email, website form and the audit log.
 import { Copy, KeyRound, Pencil, Plus, Trash2, UserCheck, UserX } from 'lucide-react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import { ConfirmDialog, FormDialog, InlineForm, type Field } from '@/components/form'
@@ -10,6 +11,8 @@ import { api, useApi } from '@/lib/api'
 import { useAuth } from '@/lib/auth'
 import { fmtDateTime, gstOff, human, personName } from '@/lib/format'
 import { act, stateOptions, userOptions } from './common'
+import DocTemplates from './doc-templates'
+import Integrations, { GOOGLE_RESULT } from './integrations'
 
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'].map((m, i) => ({ value: String(i + 1), label: m }))
 
@@ -357,15 +360,26 @@ function AuditLog() {
 }
 
 export default function Settings() {
-  const [tab, setTab] = useState('company')
+  const sp = useSearchParams()
+  const router = useRouter()
+  const [tab, setTab] = useState(sp.get('tab') || 'company')
+  // coming back from Google: say how it went, then tidy the address bar
+  useEffect(() => {
+    const g = sp.get('google')
+    if (!sp.get('tab') && !g) return
+    if (g) { const [ok, text] = GOOGLE_RESULT[g] ?? [false, 'Google could not be connected. Try again.']; if (ok) toast.success(text); else toast.error(text) }
+    router.replace('/settings', { scroll: false })
+  }, [sp, router])
   return (
     <div className="space-y-4">
-      <Tabs value={tab} onChange={setTab} options={[{ value: 'company', label: 'Company' }, { value: 'users', label: 'Users' }, { value: 'roles', label: 'Roles and permissions' }, { value: 'structure', label: 'Branches and teams' }, { value: 'lists', label: 'Lists' }, { value: 'email', label: 'Email and WhatsApp' }, { value: 'form', label: 'Website form' }, { value: 'audit', label: 'Audit log' }]} />
+      <Tabs value={tab} onChange={setTab} options={[{ value: 'company', label: 'Company' }, { value: 'documents', label: 'Documents' }, { value: 'users', label: 'Users' }, { value: 'roles', label: 'Roles and permissions' }, { value: 'structure', label: 'Branches and teams' }, { value: 'lists', label: 'Lists' }, { value: 'integrations', label: 'Integrations' }, { value: 'email', label: 'Email and WhatsApp' }, { value: 'form', label: 'Website form' }, { value: 'audit', label: 'Audit log' }]} />
       {tab === 'company' && <Company />}
+      {tab === 'documents' && <DocTemplates />}
       {tab === 'users' && <Users />}
       {tab === 'roles' && <Roles />}
       {tab === 'structure' && <Structure />}
       {tab === 'lists' && <Lists />}
+      {tab === 'integrations' && <Integrations goEmail={() => setTab('email')} />}
       {tab === 'email' && <Email />}
       {tab === 'form' && <WebsiteForm />}
       {tab === 'audit' && <AuditLog />}
