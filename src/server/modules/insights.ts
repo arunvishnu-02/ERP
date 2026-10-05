@@ -15,6 +15,42 @@ const monthsFrom = (months: number) => {
 }
 const OPEN_INV = ['SENT', 'VIEWED', 'PARTIALLY_PAID', 'OVERDUE'] as any
 
+/** The founder's view: this month's money, where every deal stands, and who owes what. */
+async function companyOverview(organizationId: string, t: Date, months: { billed: number; collected: number; costs: number }[]) {
+  const [now, before] = [months[months.length - 1], months[months.length - 2]]
+  const monthStart = new Date(Date.UTC(t.getUTCFullYear(), t.getUTCMonth(), 1))
+  const live = { organizationId, deletedAt: null }
+  const [leadsOpen, followUpsToday, sent, pending, oldestPending, projectsOpen, projectsLate, drafts, open, overdue, done, toCollect] = await Promise.all([
+    prisma.lead.count({ where: { ...live, status: 'OPEN' } }),
+    prisma.lead.count({ where: { ...live, status: 'OPEN', nextFollowUpAt: { lt: addDays(t, 1) } } }),
+    prisma.quotation.aggregate({ where: { ...live, isLatest: true, status: { in: ['SENT', 'VIEWED'] } }, _count: true, _sum: { totalAmount: true } }),
+    prisma.quotation.aggregate({ where: { ...live, isLatest: true, status: 'PENDING_APPROVAL' }, _count: true, _sum: { totalAmount: true } }),
+    prisma.quotation.findFirst({ where: { ...live, isLatest: true, status: 'PENDING_APPROVAL' }, orderBy: { updatedAt: 'asc' }, select: { updatedAt: true } }),
+    prisma.project.count({ where: { ...live, status: { notIn: ['COMPLETED', 'CANCELLED'] } } }),
+    prisma.project.count({ where: { ...live, status: { notIn: ['COMPLETED', 'CANCELLED'] }, dueDate: { lt: t } } }),
+    prisma.invoice.aggregate({ where: { ...live, status: 'DRAFT' }, _count: true, _sum: { totalAmount: true } }),
+    prisma.invoice.aggregate({ where: { ...live, status: { in: OPEN_INV } }, _count: true, _sum: { balanceDue: true } }),
+    prisma.invoice.count({ where: { ...live, status: { in: OPEN_INV }, dueDate: { lt: t } } }),
+    prisma.project.count({ where: { ...live, status: 'COMPLETED', updatedAt: { gte: monthStart } } }),
+    prisma.invoice.findMany({ where: { ...live, status: { in: OPEN_INV }, balanceDue: { gt: 0 } }, select: { id: true, invoiceNumber: true, balanceDue: true, dueDate: true, customer: { select: { name: true } } }, orderBy: { dueDate: 'asc' }, take: 4 }),
+  ])
+  const money = (n: unknown) => Number(n ?? 0)
+  return {
+    billed: now.billed, billedBefore: before?.billed ?? 0, collected: now.collected, costs: now.costs, profit: now.billed - now.costs,
+    toCollect: money(open._sum.balanceDue), overdue,
+    steps: {
+      leads: leadsOpen, followUps: followUpsToday,
+      quotations: sent._count, quotationsValue: money(sent._sum.totalAmount),
+      approvals: pending._count, approvalsValue: money(pending._sum.totalAmount), approvalDays: oldestPending ? Math.floor((Date.now() - oldestPending.updatedAt.getTime()) / 864e5) : 0,
+      projects: projectsOpen, projectsLate,
+      invoices: drafts._count, invoicesValue: money(drafts._sum.totalAmount),
+      payments: open._count, paymentsValue: money(open._sum.balanceDue),
+      completed: done,
+    },
+    collect: toCollect.map((i) => ({ id: i.id, number: i.invoiceNumber, customer: i.customer.name, amount: money(i.balanceDue), dueDate: i.dueDate })),
+  }
+}
+
 // ── Dashboard ──
 export const dashboardRouter = Router()
 dashboardRouter.get('/', authorize('DASHBOARD', 'VIEW'), async (req, res) => {
@@ -70,11 +106,18 @@ dashboardRouter.get('/', authorize('DASHBOARD', 'VIEW'), async (req, res) => {
       prisma.invoice.findMany({ where: { organizationId, deletedAt: null, status: { notIn: ['DRAFT', 'VOID', 'CANCELLED'] }, issueDate: { gte: from } }, select: { issueDate: true, totalAmount: true } }),
       prisma.payment.findMany({ where: { organizationId, paymentDate: { gte: from } }, select: { paymentDate: true, amount: true, tdsAmount: true } }),
     ])
+    const [spent, payroll] = await Promise.all([
+      prisma.expense.findMany({ where: { organizationId, status: { in: ['APPROVED', 'PAID'] }, expenseDate: { gte: from } }, select: { expenseDate: true, amount: true, taxAmount: true } }),
+      prisma.payrollRun.findMany({ where: { organizationId, status: { not: 'DRAFT' }, month: { gte: keys[0] } }, select: { month: true, totalGross: true } }),
+    ])
     out.revenue = keys.map((month) => ({
       month,
       billed: inv.filter((i) => ymd(i.issueDate).startsWith(month)).reduce((a, i) => a + Number(i.totalAmount), 0),
       collected: pay.filter((p) => ymd(p.paymentDate).startsWith(month)).reduce((a, p) => a + Number(p.amount) + Number(p.tdsAmount), 0),
+      costs: spent.filter((x) => ymd(x.expenseDate).startsWith(month)).reduce((a, x) => a + Number(x.amount) + Number(x.taxAmount), 0)
+        + payroll.filter((r) => r.month === month).reduce((a, r) => a + Number(r.totalGross), 0),
     }))
+    out.overview = await companyOverview(organizationId, t, out.revenue)
   }
   if (can(req.user, 'TASKS', 'VIEW') === 'ALL' || can(req.user, 'REPORTS', 'VIEW')) {
     const from = new Date(Date.UTC(t.getUTCFullYear(), t.getUTCMonth(), 1))

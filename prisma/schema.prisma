@@ -645,6 +645,7 @@ enum IntegrationProvider {
   PAYMENT_GATEWAY
   OBJECT_STORAGE
   GOOGLE
+  RESEND
 }
 
 enum OutboxStatus {

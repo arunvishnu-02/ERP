@@ -9,6 +9,27 @@ export async function smtpConfig(organizationId: string) {
   return { host: String(c.host), port: Number(c.port), secure: !!c.secure, user: c.user as string | undefined, fromName: String(c.fromName), fromEmail: String(c.fromEmail), pass: decrypt(s) }
 }
 
+/** Resend (resend.com) sends email through an API key instead of a mailbox. When it is switched on, it is used instead of SMTP. */
+export async function resendConfig(organizationId: string) {
+  const s = await prisma.integrationSetting.findUnique({ where: { organizationId_provider: { organizationId, provider: 'RESEND' } } })
+  if (!s || !s.isActive || !s.secretCiphertext) return null
+  const c = s.config as any
+  return { fromName: String(c.fromName), fromEmail: String(c.fromEmail), apiKey: decrypt(s) }
+}
+
+async function viaResend(cfg: { fromName: string; fromEmail: string; apiKey: string }, m: MailInput) {
+  const r = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${cfg.apiKey}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ from: `${cfg.fromName} <${cfg.fromEmail}>`, to: [m.to], subject: m.subject, text: m.text }),
+    signal: AbortSignal.timeout(15_000),
+  })
+  if (!r.ok) {
+    const b = (await r.json().catch(() => null)) as { message?: string } | null
+    throw new Error(`Resend: ${b?.message ?? `error ${r.status}`}`)
+  }
+}
+
 export interface MailInput {
   to: string
   subject: string
@@ -22,14 +43,19 @@ export interface MailInput {
   logText?: string
 }
 
-/** Sends an email through the company's SMTP settings and records it in the message log either way. */
+/** Sends an email through Resend when it is on, otherwise the company's SMTP mailbox, and records it in the message log either way. */
 export async function sendMail(organizationId: string, m: MailInput) {
-  const cfg = await smtpConfig(organizationId)
-  let error: string | null = 'Email is not set up yet. Add the SMTP details under Settings.'
+  const resend = await resendConfig(organizationId)
+  const cfg = resend ?? (await smtpConfig(organizationId))
+  let error: string | null = 'Email is not set up yet. Add Resend or your mailbox under Settings > Email.'
   if (cfg) {
     try {
-      const t = nodemailer.createTransport({ host: cfg.host, port: cfg.port, secure: cfg.secure, auth: cfg.user ? { user: cfg.user, pass: cfg.pass } : undefined })
-      await t.sendMail({ from: `"${cfg.fromName}" <${cfg.fromEmail}>`, to: m.to, subject: m.subject, text: m.text })
+      if (resend) await viaResend(resend, m)
+      else {
+        const c = cfg as NonNullable<Awaited<ReturnType<typeof smtpConfig>>>
+        const t = nodemailer.createTransport({ host: c.host, port: c.port, secure: c.secure, auth: c.user ? { user: c.user, pass: c.pass } : undefined })
+        await t.sendMail({ from: `"${c.fromName}" <${c.fromEmail}>`, to: m.to, subject: m.subject, text: m.text })
+      }
       error = null
     } catch (e: any) {
       error = String(e?.message ?? e).slice(0, 500)

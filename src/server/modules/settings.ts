@@ -219,6 +219,34 @@ settingsRouter.put('/integrations/smtp', authorize(S, 'EDIT'), async (req, res) 
   res.status(204).end()
 })
 
+// ── Email (Resend) ──
+settingsRouter.get('/integrations/resend', authorize(S, 'VIEW'), async (req, res) => {
+  const s = await prisma.integrationSetting.findUnique({ where: { organizationId_provider: { organizationId: req.user.organizationId, provider: 'RESEND' } } })
+  res.json({ config: s?.config ?? {}, isActive: s?.isActive ?? false, hasKey: !!s?.secretCiphertext })
+})
+
+settingsRouter.put('/integrations/resend', authorize(S, 'EDIT'), async (req, res) => {
+  const d = parse(shape({ apiKey: 's?', fromName: 's', fromEmail: 's', isActive: 'b?' }), req.body)
+  const organizationId = req.user.organizationId
+  const key = d.apiKey?.trim()
+  if (key && !/^re_[\w-]{8,}$/.test(key)) throw bad('A Resend API key starts with re_')
+  const fromEmail = d.fromEmail.trim().toLowerCase()
+  if (!/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(fromEmail)) throw bad('Write the sender email like info@ciphermutex.com')
+  const fromName = d.fromName.trim().replace(/[<>"]/g, '')
+  if (!fromName) throw bad('Give a sender name')
+  const old = await prisma.integrationSetting.findUnique({ where: { organizationId_provider: { organizationId, provider: 'RESEND' } } })
+  if (!key && !old?.secretCiphertext) throw bad('Paste the Resend API key')
+  const config = { fromName, fromEmail }
+  const secret = key ? encrypt(key) : {}
+  await prisma.integrationSetting.upsert({
+    where: { organizationId_provider: { organizationId, provider: 'RESEND' } },
+    create: { organizationId, provider: 'RESEND', config, isActive: d.isActive ?? true, ...secret },
+    update: { config, isActive: d.isActive ?? true, ...secret },
+  })
+  await audit(prisma as unknown as Tx, req, 'UPDATE', S, 'IntegrationSetting', null, null, { resend: { ...config, isActive: d.isActive ?? true } })
+  res.status(204).end()
+})
+
 settingsRouter.post('/integrations/smtp/test', authorize(S, 'EDIT'), async (req, res) => {
   const d = parse(shape({ to: 's' }), req.body)
   res.json(await sendMail(req.user.organizationId, { to: d.to, subject: 'Test email from CX CRM ERP', text: 'Email is set up correctly.', sentById: req.user.id }))
