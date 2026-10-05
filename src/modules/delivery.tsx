@@ -9,7 +9,7 @@ import { Resource } from '@/components/resource'
 import { Badge, Button, Card, Chips, Empty, KV, Sheet, Status, Table, Tabs, Td, Th, Two } from '@/components/ui'
 import { api, downloadFile, useApi } from '@/lib/api'
 import { useAuth } from '@/lib/auth'
-import { ago, day, fmtDate, human, inr, options, personName, plusDays } from '@/lib/format'
+import { ago, day, fmtDate, gstOff, human, inr, options, personName, plusDays } from '@/lib/format'
 import { act, ExpiryTag, Person, useCustomerOptions, userOptions } from './common'
 
 function Credentials() {
@@ -82,7 +82,7 @@ export function Websites() {
         <p className="text-xs text-muted">Reminders go out 30, 15, 7 and 1 days before expiry.</p>
         <ConfirmDialog open={!!renew} onClose={() => setRenew(null)} title={`Renew ${renew?.row.name} for one year?`} confirmLabel="Renew"
           onConfirm={async () => { const r = await api(`/web-assets/${renew!.row.id}/renew`, { body: {} }); toast.success(r.invoice ? 'Renewed. A draft invoice was created.' : 'Renewed'); renew!.reload() }}>
-          The expiry date moves forward one year.{renew?.row.billingAmount ? ` A draft invoice for ${inr(renew.row.billingAmount)} plus GST is created for ${renew.row.customer.name}.` : ''} Renew with the provider separately.
+          The expiry date moves forward one year.{renew?.row.billingAmount ? ` A draft invoice for ${inr(renew.row.billingAmount)}${gstOff(lookups.organization) ? '' : ' plus GST'} is created for ${renew.row.customer.name}.` : ''} Renew with the provider separately.
         </ConfirmDialog>
       </>}
       {tab === 'websites' && (

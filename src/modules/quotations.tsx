@@ -3,13 +3,13 @@ import { Copy, Mail, MessageCircle, Plus, Printer, Trash2, X } from 'lucide-reac
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import { DocEditor, DocView } from '@/components/doc'
-import { FormDialog } from '@/components/form'
+import { FormDialog, type Field as FormField } from '@/components/form'
 import { Workflow } from '@/components/misc'
 import { Resource } from '@/components/resource'
 import { Button, Card, Dialog, Empty, Field, Input, Panel, Select, Sheet, Status, Table, Tabs, Td, Th, Two } from '@/components/ui'
 import { api, useApi } from '@/lib/api'
 import { useAuth } from '@/lib/auth'
-import { ago, fmtDate, human, inr, leadLabel, options, personName, waLink } from '@/lib/format'
+import { ago, fmtDate, gstOff, human, inr, leadLabel, options, personName, waLink } from '@/lib/format'
 import { act, Person, userOptions } from './common'
 
 const partyName = (q: any) => q.customer?.name ?? leadLabel(q.lead)
@@ -147,6 +147,7 @@ function Packages() {
 
 export default function Quotations() {
   const { lookups, reloadLookups } = useAuth()
+  const noGst = gstOff(lookups.organization)
   const [tab, setTab] = useState('quotations')
   const [openId, setOpenId] = useState<string | null>(null)
   const [creating, setCreating] = useState(false)
@@ -168,8 +169,8 @@ export default function Quotations() {
       {tab === 'services' && (
         <Resource path="/services" module="QUOTATIONS" noun="service" search="Search services" afterSave={reloadLookups} defaults={{ unit: 'nos', gstRate: 18, billingCycle: 'ONE_TIME', isActive: true, category: 'OTHER' }}
           empty="No services yet. Add what you sell so quotations and invoices can be built quickly."
-          fields={[{ name: 'name', label: 'Service', required: true, full: true }, { name: 'category', label: 'Category', type: 'select', options: options(lookups.enums.ServiceCategory), required: true }, { name: 'sacCode', label: 'SAC code', help: 'Ask your accountant for the right code' }, { name: 'unit', label: 'Unit', placeholder: 'nos, hrs, months' }, { name: 'basePrice', label: 'Price (₹)', type: 'number', required: true }, { name: 'gstRate', label: 'GST %', type: 'number' }, { name: 'billingCycle', label: 'Billing', type: 'select', options: options(lookups.enums.BillingCycle) }, { name: 'description', label: 'Description', type: 'textarea' }, { name: 'isActive', label: 'Available', type: 'checkbox', placeholder: 'Show in quotations' }]}
-          columns={[{ header: 'Service', cell: (r) => <Two top={r.name} bottom={r.description} /> }, { header: 'Category', cell: (r) => human(r.category) }, { header: 'SAC', cell: (r) => <span className="num">{r.sacCode}</span> }, { header: 'Billing', cell: (r) => human(r.billingCycle) }, { header: 'Price', right: true, cell: (r) => `${inr(r.basePrice)} / ${r.unit}` }, { header: 'GST', right: true, cell: (r) => `${r.gstRate}%` }, { header: '', cell: (r) => (r.isActive ? null : <Status value="PAUSED" label="Hidden" />) }]} />
+          fields={[{ name: 'name', label: 'Service', required: true, full: true }, { name: 'category', label: 'Category', type: 'select', options: options(lookups.enums.ServiceCategory), required: true }, ...(noGst ? [] : [{ name: 'sacCode', label: 'SAC code', help: 'Ask your accountant for the right code' } as FormField]), { name: 'unit', label: 'Unit', placeholder: 'nos, hrs, months' }, { name: 'basePrice', label: 'Price (₹)', type: 'number', required: true }, ...(noGst ? [] : [{ name: 'gstRate', label: 'GST %', type: 'number' } as FormField]), { name: 'billingCycle', label: 'Billing', type: 'select', options: options(lookups.enums.BillingCycle) }, { name: 'description', label: 'Description', type: 'textarea' }, { name: 'isActive', label: 'Available', type: 'checkbox', placeholder: 'Show in quotations' }]}
+          columns={[{ header: 'Service', cell: (r) => <Two top={r.name} bottom={r.description} /> }, { header: 'Category', cell: (r) => human(r.category) }, ...(noGst ? [] : [{ header: 'SAC', cell: (r: any) => <span className="num">{r.sacCode}</span> }]), { header: 'Billing', cell: (r) => human(r.billingCycle) }, { header: 'Price', right: true, cell: (r) => `${inr(r.basePrice)} / ${r.unit}` }, ...(noGst ? [] : [{ header: 'GST', right: true, cell: (r: any) => `${r.gstRate}%` }]), { header: '', cell: (r) => (r.isActive ? null : <Status value="PAUSED" label="Hidden" />) }]} />
       )}
       {tab === 'packages' && <Packages />}
       <DocEditor kind="quotation" open={creating} onClose={() => setCreating(false)} onSaved={(q) => { refresh(); setOpenId(q.id) }} />

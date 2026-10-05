@@ -8,31 +8,76 @@ import { Resource } from '@/components/resource'
 import { Badge, Button, Card, Chips, cn, Empty, Input, Loading, Panel, Select, Status, Table, Tabs, Td, Th, Two } from '@/components/ui'
 import { api, useApi } from '@/lib/api'
 import { useAuth } from '@/lib/auth'
-import { fmtDateTime, human, personName } from '@/lib/format'
+import { fmtDateTime, gstOff, human, personName } from '@/lib/format'
 import { act, stateOptions, userOptions } from './common'
 
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'].map((m, i) => ({ value: String(i + 1), label: m }))
+
+/** The logo printed on quotations, invoices and HR letters. Kept small so it loads fast on customers' phones. */
+function Logo() {
+  const { lookups, reloadLookups } = useAuth()
+  const logo = lookups.organization.settings?.logo
+  const [busy, setBusy] = useState(false)
+  const save = async (value: string | null) => {
+    setBusy(true)
+    try { await api('/settings/organization', { method: 'PATCH', body: { logo: value } }); await reloadLookups(); toast.success(value ? 'Logo saved' : 'Logo removed') } catch (e) { toast.error((e as Error).message) } finally { setBusy(false) }
+  }
+  const pick = (f?: File | null) => {
+    if (!f) return
+    if (f.size > 300_000) return toast.error('Use a logo smaller than 300 KB')
+    const r = new FileReader()
+    r.onload = () => save(String(r.result))
+    r.readAsDataURL(f)
+  }
+  return (
+    <div className="flex flex-wrap items-center gap-4 border-b border-line pb-4">
+      <div className="grid h-16 w-56 place-items-center rounded-lg border border-dashed border-line bg-white px-3">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        {logo ? <img src={logo} alt="Company logo" className="max-h-12 max-w-full object-contain" /> : <span className="text-xs text-muted">No logo yet</span>}
+      </div>
+      <div className="space-y-1.5">
+        <div className="text-[13px] font-medium">Logo on documents</div>
+        <div className="flex gap-2">
+          <label className={cn('inline-flex h-7 cursor-pointer items-center rounded-md border border-line bg-surface px-2.5 text-[13px] font-medium hover:bg-surface-2', busy && 'pointer-events-none opacity-50')}>
+            {logo ? 'Change logo' : 'Upload logo'}
+            <input type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" className="sr-only" onChange={(e) => { pick(e.target.files?.[0]); e.target.value = '' }} />
+          </label>
+          {logo && <Button size="sm" variant="ghost" disabled={busy} onClick={() => save(null)}>Remove</Button>}
+        </div>
+        <p className="text-xs text-muted">The wide logo with the company name works best. PNG, JPG or SVG, under 300 KB.</p>
+      </div>
+    </div>
+  )
+}
 
 function Company() {
   const { lookups, reloadLookups, can } = useAuth()
   const o = lookups.organization
   const s = o.settings ?? {}
+  const gst = (v: any) => !!v.gstRegistered
   const fields: Field[] = [
-    { name: 'name', label: 'Company name', required: true }, { name: 'legalName', label: 'Legal name, if different' }, { name: 'gstin', label: 'GSTIN' }, { name: 'pan', label: 'PAN' },
-    { name: 'email', label: 'Email shown on documents', type: 'email' }, { name: 'phone', label: 'Phone' }, { name: 'addressLine1', label: 'Address line 1' }, { name: 'addressLine2', label: 'Address line 2' },
-    { name: 'city', label: 'City' }, { name: 'stateCode', label: 'State', type: 'select', options: stateOptions(lookups), required: true, help: 'Decides CGST and SGST or IGST on each document.' }, { name: 'pincode', label: 'PIN code' },
+    { name: 'name', label: 'Company name', required: true }, { name: 'legalName', label: 'Legal name, if different' },
+    { name: 'tagline', label: 'Tagline', placeholder: 'Your Gateway to Digital Realm', help: 'Shown under the name when there is no logo.' }, { name: 'signatory', label: 'Who signs documents', placeholder: 'Arun G, Founder & Director' },
+    { name: 'gstRegistered', label: 'GST', type: 'checkbox', placeholder: 'We are registered for GST', full: true, help: 'Switch off if you are not registered. Quotations and invoices then show no GSTIN, GST rate or GST amount.' },
+    { name: 'gstin', label: 'GSTIN', show: gst }, { name: 'pan', label: 'PAN' },
+    { name: 'email', label: 'Email shown on documents', type: 'email' }, { name: 'phone', label: 'Phone' }, { name: 'website', label: 'Website', placeholder: 'www.ciphermutex.com' },
+    { name: 'addressLine1', label: 'Address line 1' }, { name: 'addressLine2', label: 'Address line 2' },
+    { name: 'city', label: 'City' }, { name: 'stateCode', label: 'State', type: 'select', options: stateOptions(lookups), required: true, help: s.gstRegistered === false ? undefined : 'Decides CGST and SGST or IGST on each document.' }, { name: 'pincode', label: 'PIN code' },
     { name: 'financialYearStartMonth', label: 'Financial year starts in', type: 'select', options: MONTHS, required: true },
     { name: 'docPrefix', label: 'Document number prefix', help: `Numbers look like ${s.docPrefix || 'CX'}/INV/2026-27/0001.` }, { name: 'paymentTermsDays', label: 'Days to pay an invoice', type: 'number' },
-    { name: 'bankDetails', label: 'Bank details printed on invoices', type: 'textarea', placeholder: 'Account name, account number, IFSC, bank and branch, UPI ID' },
+    { name: 'upiId', label: 'UPI ID', placeholder: 'yourname@sbi', help: 'Invoices show a QR code that fills in this UPI ID and the amount.' },
+    { name: 'bankDetails', label: 'Bank details printed on invoices', type: 'textarea', placeholder: 'Account name, account number, IFSC, bank and branch' },
     { name: 'quotationTerms', label: 'Terms printed on quotations', type: 'textarea' }, { name: 'invoiceTerms', label: 'Terms printed on invoices', type: 'textarea' },
   ]
   const initial = Object.fromEntries(fields.map((f) => [f.name, f.name in s ? s[f.name] ?? '' : o[f.name] ?? '']))
   initial.financialYearStartMonth = String(o.financialYearStartMonth ?? 4)
   initial.docPrefix = s.docPrefix ?? 'CX'
+  initial.gstRegistered = s.gstRegistered !== false
   if (!can('SETTINGS', 'EDIT')) return <Card className="p-4 text-sm text-muted">You can view settings but not change them.</Card>
   return (
-    <Card className="max-w-3xl p-5">
-      <InlineForm fields={fields} initial={initial} onSubmit={async (v) => { await api('/settings/organization', { method: 'PATCH', body: { ...v, financialYearStartMonth: Number(v.financialYearStartMonth) } }); await reloadLookups(); toast.success('Company details saved') }} />
+    <Card className="max-w-3xl space-y-4 p-5">
+      <Logo />
+      <InlineForm fields={fields} initial={initial} onSubmit={async (v) => { await api('/settings/organization', { method: 'PATCH', body: { ...v, financialYearStartMonth: Number(v.financialYearStartMonth), ...(v.gstRegistered ? {} : { gstin: '' }) } }); await reloadLookups(); toast.success('Company details saved') }} />
     </Card>
   )
 }
@@ -198,7 +243,7 @@ function Structure() {
 }
 
 function Lists() {
-  const { reloadLookups } = useAuth()
+  const { reloadLookups, lookups } = useAuth()
   return (
     <div className="grid gap-6 lg:grid-cols-2">
       <section className="space-y-2">
@@ -213,12 +258,12 @@ function Lists() {
           fields={[{ name: 'name', label: 'Source', required: true }, { name: 'isActive', label: 'In use', type: 'checkbox', placeholder: 'Show in lists' }]}
           columns={[{ header: 'Source', cell: (r) => <span className="font-medium">{r.name}</span> }, { header: 'In use', cell: (r) => (r.isActive ? 'Yes' : 'No') }]} />
       </section>
-      <section className="space-y-2">
+      {!gstOff(lookups.organization) && <section className="space-y-2">
         <h2 className="font-display text-[15px] font-semibold">GST rates</h2>
         <Resource path="/settings/tax-rates" module="SETTINGS" noun="rate" afterSave={reloadLookups} defaults={{ isActive: true }}
           fields={[{ name: 'name', label: 'Name', required: true, placeholder: 'GST 18%' }, { name: 'rate', label: 'Rate (%)', type: 'number', required: true }, { name: 'isDefault', label: 'Default', type: 'checkbox', placeholder: 'Use for new lines' }, { name: 'isActive', label: 'In use', type: 'checkbox', placeholder: 'Show in lists' }]}
           columns={[{ header: 'Rate', cell: (r) => <span className="font-medium">{r.name}</span> }, { header: 'Percent', right: true, cell: (r) => `${r.rate}%` }, { header: 'Default', cell: (r) => (r.isDefault ? 'Yes' : '') }, { header: 'In use', cell: (r) => (r.isActive ? 'Yes' : 'No') }]} />
-      </section>
+      </section>}
       <p className="self-end text-xs text-muted">Services and packages are under Quotations. Leave types are under HR. Expense categories and bank accounts are under Finance.</p>
     </div>
   )
@@ -315,7 +360,7 @@ export default function Settings() {
   const [tab, setTab] = useState('company')
   return (
     <div className="space-y-4">
-      <Tabs value={tab} onChange={setTab} options={[{ value: 'company', label: 'Company and GST' }, { value: 'users', label: 'Users' }, { value: 'roles', label: 'Roles and permissions' }, { value: 'structure', label: 'Branches and teams' }, { value: 'lists', label: 'Lists' }, { value: 'email', label: 'Email and WhatsApp' }, { value: 'form', label: 'Website form' }, { value: 'audit', label: 'Audit log' }]} />
+      <Tabs value={tab} onChange={setTab} options={[{ value: 'company', label: 'Company' }, { value: 'users', label: 'Users' }, { value: 'roles', label: 'Roles and permissions' }, { value: 'structure', label: 'Branches and teams' }, { value: 'lists', label: 'Lists' }, { value: 'email', label: 'Email and WhatsApp' }, { value: 'form', label: 'Website form' }, { value: 'audit', label: 'Audit log' }]} />
       {tab === 'company' && <Company />}
       {tab === 'users' && <Users />}
       {tab === 'roles' && <Roles />}

@@ -49,11 +49,14 @@ settingsRouter.patch('/organization', authorize(S, 'EDIT'), async (req, res) => 
   const d = parse(shape({
     name: 's', legalName: 's?', gstin: 's?', pan: 's?', email: 's?', phone: 's?', addressLine1: 's?', addressLine2: 's?', city: 's?', stateCode: 's?', pincode: 's?',
     financialYearStartMonth: 'i?', docPrefix: 's?', paymentTermsDays: 'i?', invoiceTerms: 's?', quotationTerms: 's?', bankDetails: 's?',
+    gstRegistered: 'b?', website: 's?', tagline: 's?', upiId: 's?', signatory: 's?', logo: 'j?',
   }).partial(), req.body)
-  const { docPrefix, paymentTermsDays, invoiceTerms, quotationTerms, bankDetails, ...cols } = d
+  const { docPrefix, paymentTermsDays, invoiceTerms, quotationTerms, bankDetails, gstRegistered, website, tagline, upiId, signatory, logo, ...cols } = d
+  // The logo is kept as a small data URL so it also shows on the public quotation and invoice pages.
+  if (logo != null && (typeof logo !== 'string' || !/^data:image\/(png|jpeg|webp|svg\+xml);base64,/.test(logo) || logo.length > 400_000)) throw bad('Use a PNG, JPG, WebP or SVG logo smaller than 300 KB')
   const org = await prisma.organization.findUniqueOrThrow({ where: { id: req.user.organizationId } })
   const settings = { ...((org.settings as any) ?? {}) }
-  for (const [k, v] of Object.entries({ docPrefix, paymentTermsDays, invoiceTerms, quotationTerms, bankDetails })) if (v !== undefined) settings[k] = v
+  for (const [k, v] of Object.entries({ docPrefix, paymentTermsDays, invoiceTerms, quotationTerms, bankDetails, gstRegistered, website, tagline, upiId, signatory, logo })) if (v !== undefined) settings[k] = v
   if (cols.stateCode !== undefined) cols.state = stateName(cols.stateCode)
   if (cols.financialYearStartMonth === null) delete cols.financialYearStartMonth
   const updated = await prisma.organization.update({ where: { id: org.id }, data: { ...cols, settings } })

@@ -434,3 +434,22 @@ test('sessions: cookie login, request protection, password change and logout', a
   await deny('GET', '/auth/me', dev, undefined, 401)
   assert.equal((await ok('GET', '/health')).ok, true)
 })
+
+test('a company that is not GST registered issues documents with no GST, and shows its branding publicly', async () => {
+  const A = S.admin
+  await ok('PATCH', '/settings/organization', A, { gstRegistered: false, gstin: '', website: 'www.ciphermutex.com', upiId: 'ciphermutexpvtltd@sbi', signatory: 'Arun G', logo: 'data:image/png;base64,iVBORw0KGgo=' })
+  await deny('PATCH', '/settings/organization', A, { logo: 'javascript:alert(1)' }, 400)
+  const items = [{ description: 'Website', quantity: 1, unitPrice: 35000, taxRate: 18 }, { description: 'Admin dashboard', quantity: 2, unitPrice: 5000, discountPercent: 10, taxRate: 18 }]
+  const q = await ok('POST', '/quotations', A, { customerId: S.acme.id, title: 'E-commerce website', items })
+  assert.deepEqual([q.taxableAmount, q.cgstAmount, q.sgstAmount, q.igstAmount, q.totalAmount, q.title], [44000, 0, 0, 0, 44000, 'E-commerce website'])
+  assert.ok(q.items.every((i: any) => Number(i.taxRate) === 0))
+  const inv = await ok('POST', '/invoices', A, { customerId: S.acme.id, items })
+  assert.deepEqual([inv.totalAmount, inv.isInterState], [44000, false])
+  const sent = await ok('POST', `/invoices/${inv.id}/send`, A, { channel: 'LINK' })
+  const pub = await ok('GET', `/public/invoices/${sent.publicToken}`, undefined)
+  assert.deepEqual([pub.organization.settings.gstRegistered, pub.organization.settings.upiId, pub.organization.settings.website, pub.organization.gstin], [false, 'ciphermutexpvtltd@sbi', 'www.ciphermutex.com', null])
+  assert.equal(pub.organization.settings.leadFormKey, undefined)
+  await ok('PATCH', '/settings/organization', A, { gstRegistered: true, logo: null })
+  const back = await ok('POST', '/quotations', A, { customerId: S.acme.id, items: [{ description: 'SEO', quantity: 1, unitPrice: 1000, taxRate: 18 }] })
+  assert.equal(back.totalAmount, 1180)
+})

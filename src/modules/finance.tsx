@@ -2,12 +2,13 @@
 // Income, expenses, profit and loss, cash flow, vendors and bank accounts.
 import { Check, Download, X } from 'lucide-react'
 import { useState } from 'react'
+import type { Field } from '@/components/form'
 import { HBars } from '@/components/misc'
 import { exportXlsx, Resource } from '@/components/resource'
 import { Button, cn, Loading, Panel, Select, StatBand, Status, Table, Tabs, Td, Th, Two } from '@/components/ui'
 import { api, useApi } from '@/lib/api'
 import { useAuth } from '@/lib/auth'
-import { day, fmtDate, human, inr, inrShort, monthLabel, options, todayStr } from '@/lib/format'
+import { day, fmtDate, gstOff, human, inr, inrShort, monthLabel, options, todayStr } from '@/lib/format'
 import { act, userOptions } from './common'
 
 function Overview() {
@@ -51,6 +52,7 @@ function Overview() {
 
 function Expenses() {
   const { lookups, can } = useAuth()
+  const noGst = gstOff(lookups.organization)
   const projects = useApi<{ items: any[] }>(can('PROJECTS') ? '/projects?limit=200' : null).data?.items ?? []
   const opt = (list: any[]) => list.map((x) => ({ value: x.id, label: x.name }))
   const decide = async (id: string, decision: 'approve' | 'reject', reload: () => void) => { if (await act(() => api(`/finance/expenses/${id}/${decision}`, { body: {} }), decision === 'approve' ? 'Expense approved' : 'Expense rejected')) reload() }
@@ -61,7 +63,7 @@ function Expenses() {
       toForm={(r) => ({ ...r, expenseDate: day(r.expenseDate), vendorId: r.vendorId ?? '', projectId: r.projectId ?? '', bankAccountId: r.bankAccountId ?? '', paidById: r.paidById ?? '' })}
       fields={[
         { name: 'description', label: 'What was it for', required: true, full: true }, { name: 'categoryId', label: 'Category', type: 'select', options: opt(lookups.expenseCategories), required: true }, { name: 'expenseDate', label: 'Date', type: 'date', required: true },
-        { name: 'amount', label: 'Amount before GST (₹)', type: 'number', required: true }, { name: 'taxAmount', label: 'GST paid (₹)', type: 'number' }, { name: 'vendorId', label: 'Vendor', type: 'select', options: opt(lookups.vendors) },
+        { name: 'amount', label: noGst ? 'Amount (₹)' : 'Amount before GST (₹)', type: 'number', required: true }, ...(noGst ? [] : [{ name: 'taxAmount', label: 'GST paid (₹)', type: 'number' } as Field]), { name: 'vendorId', label: 'Vendor', type: 'select', options: opt(lookups.vendors) },
         { name: 'projectId', label: 'Project', type: 'select', options: opt(projects), help: 'Optional. Links the cost to a project.' }, { name: 'paymentMethod', label: 'Paid by', type: 'select', options: options(lookups.enums.PaymentMethod) }, { name: 'bankAccountId', label: 'From account', type: 'select', options: opt(lookups.bankAccounts) },
         { name: 'paidById', label: 'Paid by person', type: 'select', options: userOptions(lookups) }, { name: 'isReimbursable', label: 'Reimburse', type: 'checkbox', placeholder: 'The person paid from their own pocket' },
       ]}
@@ -70,7 +72,7 @@ function Expenses() {
         { header: 'Expense', cell: (r) => <Two top={r.description} bottom={<><span className="num">{r.expenseNumber}</span>{r.vendor ? `, ${r.vendor.name}` : ''}{r.project ? `, ${r.project.name}` : ''}</>} />, text: (r) => r.description },
         { header: 'Number', exportOnly: true, cell: () => null, text: (r) => r.expenseNumber }, { header: 'Vendor', exportOnly: true, cell: () => null, text: (r) => r.vendor?.name },
         { header: 'Category', cell: (r) => r.category.name, text: (r) => r.category.name }, { header: 'Date', cell: (r) => <span className="whitespace-nowrap text-muted">{fmtDate(r.expenseDate)}</span>, text: (r) => day(r.expenseDate) },
-        { header: 'Amount', right: true, cell: (r) => inr(r.amount), text: (r) => r.amount }, { header: 'GST', right: true, cell: (r) => inr(r.taxAmount), text: (r) => r.taxAmount },
+        { header: 'Amount', right: true, cell: (r) => inr(r.amount), text: (r) => r.amount }, ...(noGst ? [] : [{ header: 'GST', right: true, cell: (r: any) => inr(r.taxAmount), text: (r: any) => r.taxAmount }]),
         { header: 'Status', cell: (r) => <Status value={r.status} label={r.status === 'SUBMITTED' ? 'Waiting' : undefined} />, text: (r) => human(r.status) },
       ]} />
   )

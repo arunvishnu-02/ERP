@@ -64,14 +64,14 @@ export interface LineIn {
   taxRate?: number | null
 }
 const r2 = (n: number) => Math.round((n + Number.EPSILON) * 100) / 100
-/** GST for a document: CGST + SGST inside the state, IGST across states, zero for export. */
-export function computeDoc(lines: LineIn[], o: { interState: boolean; exportSale: boolean }) {
+/** GST for a document: CGST + SGST inside the state, IGST across states, zero for export or when the company is not GST registered. */
+export function computeDoc(lines: LineIn[], o: { interState: boolean; exportSale: boolean; noGst?: boolean }) {
   const t = { subtotal: 0, discountTotal: 0, taxableAmount: 0, cgstAmount: 0, sgstAmount: 0, igstAmount: 0, totalAmount: 0 }
   const items = lines.map((l, position) => {
     const gross = r2(Number(l.quantity) * Number(l.unitPrice))
     const discount = r2((gross * Number(l.discountPercent ?? 0)) / 100)
     const taxableAmount = r2(gross - discount)
-    const taxRate = Number(l.taxRate ?? 18)
+    const taxRate = o.noGst ? 0 : Number(l.taxRate ?? 18)
     const tax = o.exportSale ? 0 : r2((taxableAmount * taxRate) / 100)
     const igstAmount = o.interState ? tax : 0
     const cgstAmount = o.interState ? 0 : r2(tax / 2)
@@ -90,7 +90,8 @@ export function computeDoc(lines: LineIn[], o: { interState: boolean; exportSale
 }
 
 export async function taxContext(tx: Tx, organizationId: string, p: { customerId?: string | null; leadId?: string | null }) {
-  const org = await tx.organization.findUniqueOrThrow({ where: { id: organizationId }, select: { stateCode: true } })
+  const org = await tx.organization.findUniqueOrThrow({ where: { id: organizationId }, select: { stateCode: true, settings: true } })
+  const noGst = gstOff(org.settings)
   let code = org.stateCode
   let exportSale = false
   if (p.customerId) {
@@ -104,8 +105,10 @@ export async function taxContext(tx: Tx, organizationId: string, p: { customerId
     code = stateCode(l.state) ?? org.stateCode
     exportSale = code === EXPORT_CODE
   }
-  return { placeOfSupply: code, interState: !exportSale && !!code && !!org.stateCode && code !== org.stateCode, exportSale }
+  return { placeOfSupply: code, interState: !noGst && !exportSale && !!code && !!org.stateCode && code !== org.stateCode, exportSale, noGst }
 }
+/** True when the company has said it is not registered for GST: documents then carry no GST at all. */
+export const gstOff = (settings: unknown) => (settings as any)?.gstRegistered === false
 
 export async function audit(tx: Tx, req: Pick<Request, 'user' | 'ip' | 'headers'>, action: string, module: string | null, entityType: string, entityId?: string | null, before?: unknown, after?: unknown) {
   const json = (v: unknown) => (v === undefined || v === null ? undefined : JSON.parse(JSON.stringify(plain(v))))

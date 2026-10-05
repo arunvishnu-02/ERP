@@ -53,13 +53,13 @@ export function waLink(phone: string | null | undefined, text: string) {
 export interface Line { serviceId?: string | null; milestoneId?: string | null; description: string; sacCode?: string | null; quantity: number | string; unit?: string | null; unitPrice: number | string; discountPercent?: number | string | null; taxRate?: number | string | null }
 const r2 = (n: number) => Math.round((n + Number.EPSILON) * 100) / 100
 /** The same GST arithmetic the server uses, for the live total while a document is being edited. */
-export function computeDoc(lines: Line[], o: { interState: boolean; exportSale: boolean }) {
+export function computeDoc(lines: Line[], o: { interState: boolean; exportSale: boolean; noGst?: boolean }) {
   const t = { subtotal: 0, discount: 0, taxable: 0, cgst: 0, sgst: 0, igst: 0, total: 0 }
   for (const l of lines) {
     const gross = r2(Number(l.quantity || 0) * Number(l.unitPrice || 0))
     const discount = r2((gross * Number(l.discountPercent || 0)) / 100)
     const taxable = r2(gross - discount)
-    const tax = o.exportSale ? 0 : r2((taxable * Number(l.taxRate ?? 18)) / 100)
+    const tax = o.exportSale || o.noGst ? 0 : r2((taxable * Number(l.taxRate ?? 18)) / 100)
     const cgst = o.interState ? 0 : r2(tax / 2)
     t.subtotal += gross; t.discount += discount; t.taxable += taxable
     t.cgst += cgst; t.sgst += o.interState ? 0 : r2(tax - cgst); t.igst += o.interState ? tax : 0
@@ -86,3 +86,6 @@ export function amountInWords(n: number) {
   if (r) parts.push(three(r))
   return `Rupees ${parts.join(' ') || 'Zero'}${paise ? ` and ${two(paise)} Paise` : ''} only`
 }
+
+/** True when the company has switched GST off in Settings: no GST columns, rates or totals anywhere. */
+export const gstOff = (org: any) => org?.settings?.gstRegistered === false
