@@ -118,6 +118,16 @@ test('leads: own-record scope, follow-ups, rotation, website form, import, notes
   assert.equal((await ok('GET', '/follow-ups', S.sales)).items.length, 1)
   await deny('PATCH', `/leads/${l1.id}`, S.sales, { stageId: S.lk.leadStages.find((s: any) => s.isWon).id }, 400)
 
+  // opening the address in a browser, and a plain HTML form post
+  assert.equal((await ok('GET', `/public/leads?key=${S.lk.organization.settings.leadFormKey}`)).ok, true)
+  await deny('GET', '/public/leads?key=wrong-key-wrong-key-wrong', undefined, undefined, 404)
+  const formRes = await handleApi(new Request(`http://app.test/api/v1/public/leads?key=${S.lk.organization.settings.leadFormKey}`, { method: 'POST', headers: { 'content-type': 'application/x-www-form-urlencoded' }, body: 'your-name=Form+Person&your-email=form%40example.com&mobile=919000000003' }))
+  assert.equal(formRes.status, 200)
+  assert.match(await formRes.text(), /Thank you/)
+  const formLead = (await ok('GET', '/leads?q=Form Person', S.admin)).items[0]
+  assert.equal(formLead.email, 'form@example.com')
+  assert.equal(formLead.phone, '919000000003')
+  await ok('DELETE', `/leads/${formLead.id}`, S.admin) // keep later counts unchanged
   // rotation + website form
   const auto = await ok('GET', '/automations', S.admin)
   await ok('PUT', '/automations/rotation', S.admin, { assigneeIds: [S.ids.sales, S.ids.sales2] })

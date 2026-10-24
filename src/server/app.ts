@@ -124,6 +124,12 @@ export async function handleApi(request: globalThis.Request): Promise<globalThis
         const text = await request.text()
         if (text.length > MAX_JSON) throw new HttpError(413, 'The request is too large')
         try { req.body = text ? JSON.parse(text) : {} } catch { throw new HttpError(400, 'The request could not be read') }
+      } else if (req.path.startsWith('/public/') && /x-www-form-urlencoded|multipart\/form-data/.test(headers['content-type'] ?? '')) {
+        // Plain HTML forms on a website post form data instead of JSON.
+        const form = await request.formData().catch(() => { throw new HttpError(400, 'The request could not be read') })
+        const body: Record<string, string> = {}
+        form.forEach((v, k) => { if (typeof v === 'string') body[k] = v })
+        req.body = body
       }
     }
     await ready()
