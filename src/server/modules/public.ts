@@ -61,13 +61,46 @@ publicRouter.get('/invoices/:token', async (req, res) => {
 publicRouter.options('/leads', (_req, res) => {
   res.set({ 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'POST', 'Access-Control-Allow-Headers': 'Content-Type' }).status(204).end()
 })
+// The key lives in the organization's settings JSON. There are only a handful of organizations, so compare in code.
+async function formOrg(k: unknown) {
+  const key = token(k)
+  const org = (await prisma.organization.findMany()).find((o) => (o.settings as any)?.leadFormKey === key)
+  if (!org) throw notFound('Form')
+  return org
+}
+
+/** Opening the address in a browser: say whether the key works and how to use it. */
+publicRouter.get('/leads', async (req, res) => {
+  await formOrg(req.query.key)
+  res.json({ ok: true, message: 'This form address works. Your website form must send enquiries to it with method POST. Opening it in a browser does not add a lead.' })
+})
+
+const isHtmlForm = (req: any) => /x-www-form-urlencoded|multipart\/form-data/.test(req.headers['content-type'] ?? '')
+const pick = (b: any, ...keys: string[]) => { for (const k of keys) { const v = b?.[k]; if (typeof v === 'string' && v.trim()) return v.trim() } return undefined }
+const thanksPage = (title: string, text: string) => `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${title}</title></head><body style="margin:0;font-family:Segoe UI,Helvetica,Arial,sans-serif;background:#f3f4f8;display:flex;min-height:100vh;align-items:center;justify-content:center"><div style="background:#fff;border-radius:14px;padding:32px 28px;max-width:420px;text-align:center;border:1px solid #e5e7eb"><h1 style="margin:0 0 10px;font-size:22px;color:#08043a">${title}</h1><p style="margin:0 0 18px;color:#4b5563;line-height:1.6">${text}</p><a href="javascript:history.back()" style="color:#02a6dc">Go back</a></div></body></html>`
+
 publicRouter.post('/leads', async (req, res) => {
   res.set('Access-Control-Allow-Origin', '*')
-  const key = token(req.query.key)
-  // The key lives in the organization's settings JSON. There are only a handful of organizations, so compare in code.
-  const org = key ? (await prisma.organization.findMany()).find((o) => (o.settings as any)?.leadFormKey === key) : undefined
-  if (!org) throw notFound('Form')
-  const d = parse(shape({ name: 's', company: 's?', email: 's?', phone: 's?', city: 's?', state: 's?', message: 's?' }), req.body)
+  const htmlForm = isHtmlForm(req)
+  const org = await formOrg(req.query.key)
+  const b = req.body as any
+  // Accept the field names website builders commonly use, not only ours.
+  const first = pick(b, 'firstName', 'first_name', 'fname')
+  const last = pick(b, 'lastName', 'last_name', 'lname')
+  const raw = {
+    name: pick(b, 'name', 'fullName', 'full_name', 'your-name', 'Name') ?? ([first, last].filter(Boolean).join(' ') || undefined),
+    company: pick(b, 'company', 'companyName', 'company_name', 'organization', 'business'),
+    email: pick(b, 'email', 'your-email', 'Email', 'mail'),
+    phone: pick(b, 'phone', 'mobile', 'phoneNumber', 'phone_number', 'tel', 'your-phone', 'Phone', 'whatsapp'),
+    city: pick(b, 'city', 'City'),
+    state: pick(b, 'state', 'State'),
+    message: pick(b, 'message', 'your-message', 'Message', 'requirement', 'comments', 'details', 'subject'),
+  }
+  if (!raw.name && htmlForm) {
+    res.status(400).set('Content-Type', 'text/html; charset=utf-8').send(thanksPage('Please add your name', 'Your name is needed to send the enquiry. Please go back and fill it in.'))
+    return
+  }
+  const d = parse(shape({ name: 's', company: 's?', email: 's?', phone: 's?', city: 's?', state: 's?', message: 's?' }), raw)
   const [firstName, ...rest] = d.name.split(' ')
   await prisma.$transaction(async (tx) => {
     const source = await tx.leadSource.findFirst({ where: { organizationId: org.id, name: 'Website form' } })
@@ -80,5 +113,12 @@ publicRouter.post('/leads', async (req, res) => {
       for (const a of admins) await notify(tx, org.id, a.id, 'lead.unassigned', `New website lead without an owner: ${d.name}`, '/leads')
     }
   })
+  if (htmlForm) {
+    // A plain HTML form leaves the visitor on this response, so send them back or show a thank-you page.
+    const back = pick(b, 'redirect', '_redirect', '_next')
+    if (back && /^https?:\/\//.test(back)) { res.status(303).set('Location', back).end(); return }
+    res.status(200).set('Content-Type', 'text/html; charset=utf-8').send(thanksPage('Thank you', 'We got your enquiry and will contact you soon.'))
+    return
+  }
   res.status(201).json({ ok: true })
 })

@@ -348,6 +348,7 @@ document.getElementById('enquiry').addEventListener('submit', async (e) => {
         <p className="mb-3 text-sm text-muted">Any form on your website can post to this address. Each enquiry becomes a lead with the source Website form, and is assigned by lead rotation if that is on.</p>
         <div className="flex items-center gap-2"><code className="num min-w-0 flex-1 truncate rounded-lg border border-line bg-surface-2 px-3 py-2 text-[13px]">{url}</code><Button onClick={() => copy(url, 'Address')}><Copy size={15} />Copy</Button></div>
         <p className="mt-3 text-[13px] text-muted">Fields it accepts: name (required), phone, email, company, city, state and message.</p>
+        <p className="mt-2 text-[13px] text-muted">A plain website form also works: set its action to this address and its method to POST. Opening the address in a browser only checks that it works; it does not add a lead.</p>
       </Panel>
       <Panel title="Example form to paste into a web page" action={<Button size="sm" onClick={() => copy(snippet, 'Code')}><Copy size={14} />Copy code</Button>}>
         <pre className="overflow-x-auto rounded-lg border border-line bg-surface-2 p-3 text-[12.5px] leading-relaxed"><code>{snippet}</code></pre>
