@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import { ApiError } from '@/lib/api'
-import { Button, cn, Dialog, Field as FieldWrap, Input, Select, Textarea } from './ui'
+import { Button, cn, Dialog, Field as FieldWrap, Input, PasswordInput, Select, Textarea } from './ui'
 
 export interface Opt { value: string; label: string }
 export interface Field {
@@ -51,6 +51,7 @@ export function FieldInput({ f, value, onChange }: { f: Field; value: any; onCha
     )
   }
   if (f.type === 'file') return <input type="file" required={f.required} onChange={(e) => onChange(e.target.files?.[0] ?? null)} className="text-sm file:mr-3 file:rounded-md file:border file:border-line file:bg-surface file:px-3 file:py-1.5 file:text-sm" />
+  if (f.type === 'password') return <PasswordInput autoComplete="new-password" value={value ?? ''} onChange={(e) => onChange(e.target.value)} placeholder={f.placeholder} required={f.required} />
   return <Input type={f.type ?? 'text'} step={f.type === 'number' ? 'any' : undefined} value={value ?? ''} onChange={(e) => onChange(e.target.value)} placeholder={f.placeholder} required={f.required} />
 }
 

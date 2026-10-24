@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { EntryFrame } from '@/components/entry'
-import { Button, Field, Input } from '@/components/ui'
+import { Button, Field, Input, PasswordInput } from '@/components/ui'
 import { api, ApiError } from '@/lib/api'
 
 const GOOGLE_LOGIN: Record<string, string> = {
@@ -43,7 +43,7 @@ export default function LoginPage() {
     <EntryFrame title="Sign in" intro="Use your work email and password.">
       <form onSubmit={submit} className="space-y-4">
         <Field label="Work email"><Input type="email" placeholder="name@ciphermutex.com" className="h-11" autoComplete="username" value={email} onChange={(e) => setEmail(e.target.value)} required autoFocus /></Field>
-        <Field label="Password"><Input type="password" className="h-11" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} required /></Field>
+        <Field label="Password"><PasswordInput className="h-11" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} required /></Field>
         {error && <p role="alert" className="rounded-lg bg-bad-soft px-3 py-2 text-sm text-bad">{error}</p>}
         <Button type="submit" variant="primary" loading={busy} className="h-11 w-full">Sign in</Button>
         {google && (

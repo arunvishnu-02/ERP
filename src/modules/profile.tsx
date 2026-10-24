@@ -63,9 +63,9 @@ export default function Profile() {
       {e && <MyPayslips />}
       <Card className="p-4 lg:col-span-2 lg:max-w-xl">
         <h3 className="mb-3 font-display text-[15px] font-semibold">Change password</h3>
-        <InlineForm key={pwKey} submitLabel="Change password" initial={{ current: '', next: '' }}
-          fields={[{ name: 'current', label: 'Current password', type: 'password', required: true }, { name: 'next', label: 'New password, at least 8 characters', type: 'password', required: true }]}
-          onSubmit={async (v) => { await api('/auth/change-password', { body: v }); toast.success('Password changed. Other devices are signed out.'); setPwKey((k) => k + 1) }} />
+        <InlineForm key={pwKey} submitLabel="Change password" initial={{ current: '', next: '', again: '' }}
+          fields={[{ name: 'current', label: 'Current password', type: 'password', required: true }, { name: 'next', label: 'New password, at least 8 characters', type: 'password', required: true }, { name: 'again', label: 'Type the new password again', type: 'password', required: true }]}
+          onSubmit={async (v) => { if (v.next !== v.again) throw new Error('The two new passwords do not match'); await api('/auth/change-password', { body: { current: v.current, next: v.next } }); toast.success('Password changed. Other devices are signed out.'); setPwKey((k) => k + 1) }} />
       </Card>
       <FormDialog open={leave} onClose={() => setLeave(false)} title="Ask for leave" submitLabel="Send request" initial={{ startDate: todayStr(), endDate: todayStr() }}
         fields={[{ name: 'leaveTypeId', label: 'Leave type', type: 'select', options: data.leaveTypes.map((t: any) => ({ value: t.id, label: t.name })), required: true, full: true }, { name: 'startDate', label: 'From', type: 'date', required: true }, { name: 'endDate', label: 'To', type: 'date', required: true }, { name: 'reason', label: 'Reason', type: 'textarea' }]}
