@@ -2,6 +2,7 @@ import crypto from 'node:crypto'
 import { authenticate, endOtherSessions, endSession, hashPassword, sha, startSession, verifyPassword } from '../core/auth'
 import { bad, conflict, HttpError, parse, shape } from '../core/http'
 import { rateLimit, Router } from '../core/router'
+import { codeEmailHtml } from '../core/email-html'
 import { sendMail } from '../core/mail'
 import { bootstrap } from '../core/seed'
 import { STATES } from '../core/util'
@@ -80,6 +81,11 @@ authRouter.post('/forgot', codeLimiter, async (req, res) => {
       to: user.email, logText: 'Password code sent. The code itself is not kept.',
       subject: `${code} is your ${user.organization.name} password code`,
       text: `Hello ${user.firstName},\n\nUse this code to choose a new password: ${code}\n\nIt works for ${CODE_MINUTES} minutes. If you did not ask for it, ignore this email and your password stays the same.\n\n${user.organization.name}`,
+      html: await codeEmailHtml(user.organizationId, {
+        heading: 'Reset your password', firstName: user.firstName, code, minutes: CODE_MINUTES,
+        intro: 'We got a request to reset your password. Enter this code on the reset page to choose a new one.',
+        note: 'If you did not ask for this, you can ignore this email. Your password stays the same.',
+      }),
     })
   }
   res.json({ ok: true, minutes: CODE_MINUTES })

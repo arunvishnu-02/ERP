@@ -21,7 +21,7 @@ async function viaResend(cfg: { fromName: string; fromEmail: string; apiKey: str
   const r = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { Authorization: `Bearer ${cfg.apiKey}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ from: `${cfg.fromName} <${cfg.fromEmail}>`, to: [m.to], subject: m.subject, text: m.text }),
+    body: JSON.stringify({ from: `${cfg.fromName} <${cfg.fromEmail}>`, to: [m.to], subject: m.subject, text: m.text, ...(m.html ? { html: m.html } : {}) }),
     signal: AbortSignal.timeout(15_000),
   })
   if (!r.ok) {
@@ -34,6 +34,8 @@ export interface MailInput {
   to: string
   subject: string
   text: string
+  /** An HTML version, shown by email apps that support it. The plain text stays as the fallback. */
+  html?: string
   sentById?: string | null
   leadId?: string | null
   customerId?: string | null
@@ -54,7 +56,7 @@ export async function sendMail(organizationId: string, m: MailInput) {
       else {
         const c = cfg as NonNullable<Awaited<ReturnType<typeof smtpConfig>>>
         const t = nodemailer.createTransport({ host: c.host, port: c.port, secure: c.secure, auth: c.user ? { user: c.user, pass: c.pass } : undefined })
-        await t.sendMail({ from: `"${c.fromName}" <${c.fromEmail}>`, to: m.to, subject: m.subject, text: m.text })
+        await t.sendMail({ from: `"${c.fromName}" <${c.fromEmail}>`, to: m.to, subject: m.subject, text: m.text, ...(m.html ? { html: m.html } : {}) })
       }
       error = null
     } catch (e: any) {
