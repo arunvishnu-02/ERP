@@ -2,7 +2,7 @@
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { EntryFrame } from '@/components/entry'
-import { Button, Field, Input, Select } from '@/components/ui'
+import { Button, Field, Input, PasswordInput, Select } from '@/components/ui'
 import { api, ApiError } from '@/lib/api'
 
 export default function SetupPage() {
@@ -39,7 +39,7 @@ export default function SetupPage() {
         <Field label="Your first name" error={errors.firstName}><Input {...bind('firstName')} required /></Field>
         <Field label="Last name" error={errors.lastName}><Input {...bind('lastName')} /></Field>
         <Field label="Your email" error={errors.email} className="sm:col-span-2"><Input type="email" autoComplete="username" {...bind('email')} required /></Field>
-        <Field label="Password, at least 8 characters" error={errors.password} className="sm:col-span-2"><Input type="password" autoComplete="new-password" minLength={8} {...bind('password')} required /></Field>
+        <Field label="Password, at least 8 characters" error={errors.password} className="sm:col-span-2"><PasswordInput autoComplete="new-password" minLength={8} {...bind('password')} required /></Field>
         {error && <p role="alert" className="rounded-lg bg-bad-soft px-3 py-2 text-sm text-bad sm:col-span-2">{error}</p>}
         <Button type="submit" variant="primary" loading={busy} className="sm:col-span-2">Create company and sign in</Button>
       </form>

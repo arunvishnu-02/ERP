@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { EntryFrame } from '@/components/entry'
-import { Button, Field, Input } from '@/components/ui'
+import { Button, Field, Input, PasswordInput } from '@/components/ui'
 import { api } from '@/lib/api'
 
 /** Two steps: ask for a code by email, then type the code and a new password. */
@@ -44,8 +44,8 @@ export default function ForgotPage() {
     <EntryFrame title="Enter the code" intro={`If ${email} has an account, a 6-digit code is on its way. It works for 15 minutes.`}>
       <form onSubmit={save} className="space-y-4">
         <Field label="Code from the email"><Input inputMode="numeric" autoComplete="one-time-code" maxLength={6} className="num tracking-[0.4em]" value={code} onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))} required autoFocus /></Field>
-        <Field label="New password, at least 8 characters"><Input type="password" autoComplete="new-password" minLength={8} value={password} onChange={(e) => setPassword(e.target.value)} required /></Field>
-        <Field label="Type it again"><Input type="password" autoComplete="new-password" minLength={8} value={again} onChange={(e) => setAgain(e.target.value)} required /></Field>
+        <Field label="New password, at least 8 characters"><PasswordInput autoComplete="new-password" minLength={8} value={password} onChange={(e) => setPassword(e.target.value)} required /></Field>
+        <Field label="Type it again"><PasswordInput autoComplete="new-password" minLength={8} value={again} onChange={(e) => setAgain(e.target.value)} required /></Field>
         {alert}
         <Button type="submit" variant="primary" loading={busy} className="w-full">Save new password</Button>
         <p className="text-sm text-muted">No email? Check spam, or <button type="button" className="text-accent hover:underline" disabled={busy} onClick={() => sendCode()}>send a new code</button>.</p>

@@ -174,8 +174,8 @@ function Shell({ children }: { children: React.ReactNode }) {
       <FormDialog
         open={me.mustChangePassword} onClose={() => {}} title="Choose your own password" submitLabel="Save password" size="sm"
         intro={<p className="text-sm text-muted">Your account was created with a temporary password. Set a new one to continue.</p>}
-        fields={[{ name: 'current', label: 'Temporary password', type: 'password', required: true, full: true }, { name: 'next', label: 'New password, at least 8 characters', type: 'password', required: true, full: true }]}
-        onSubmit={async (v) => { await api('/auth/change-password', { body: v }); await reloadMe(); toast.success('Password saved') }}
+        fields={[{ name: 'current', label: 'Temporary password', type: 'password', required: true, full: true }, { name: 'next', label: 'New password, at least 8 characters', type: 'password', required: true, full: true }, { name: 'again', label: 'Type the new password again', type: 'password', required: true, full: true }]}
+        onSubmit={async (v) => { if (v.next !== v.again) throw new Error('The two new passwords do not match'); await api('/auth/change-password', { body: { current: v.current, next: v.next } }); await reloadMe(); toast.success('Password saved') }}
       />
     </div>
   )

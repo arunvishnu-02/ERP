@@ -1,7 +1,8 @@
 'use client'
 import * as D from '@radix-ui/react-dialog'
 import { clsx, type ClassValue } from 'clsx'
-import { Loader2, X } from 'lucide-react'
+import { Eye, EyeOff, Loader2, X } from 'lucide-react'
+import { useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 import { human, initials, toneOf, type Tone } from '@/lib/format'
 
@@ -28,6 +29,19 @@ export function Button({ variant = 'secondary', size = 'md', loading, className,
 
 const CONTROL = 'w-full rounded-lg border border-line bg-surface px-3 text-sm text-ink placeholder:text-muted/60 focus:outline-2 focus:-outline-offset-1 focus:outline-accent disabled:opacity-60'
 export const Input = ({ className, ...p }: React.InputHTMLAttributes<HTMLInputElement>) => <input className={cn(CONTROL, 'h-9', className)} {...p} />
+/** A password box with an eye button to show or hide what was typed. */
+export function PasswordInput({ className, ...p }: Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'>) {
+  const [show, setShow] = useState(false)
+  return (
+    <span className="relative block">
+      <input type={show ? 'text' : 'password'} className={cn(CONTROL, 'h-9 pr-10', className)} {...p} />
+      <button type="button" onClick={() => setShow((s) => !s)} aria-label={show ? 'Hide password' : 'Show password'} title={show ? 'Hide password' : 'Show password'}
+        className="absolute inset-y-0 right-0 flex w-10 items-center justify-center text-muted hover:text-ink">
+        {show ? <EyeOff size={17} /> : <Eye size={17} />}
+      </button>
+    </span>
+  )
+}
 export const Textarea = ({ className, ...p }: React.TextareaHTMLAttributes<HTMLTextAreaElement>) => <textarea rows={3} className={cn(CONTROL, 'py-2', className)} {...p} />
 export const Select = ({ className, children, ...p }: React.SelectHTMLAttributes<HTMLSelectElement>) => (
   <select className={cn(CONTROL, 'h-9 pr-8', className)} {...p}>{children}</select>
