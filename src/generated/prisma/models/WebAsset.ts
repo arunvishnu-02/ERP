@@ -347,7 +347,6 @@ export type WebAssetOrderByWithRelationInput = {
   organization?: Prisma.OrganizationOrderByWithRelationInput
   customer?: Prisma.CustomerOrderByWithRelationInput
   website?: Prisma.WebsiteOrderByWithRelationInput
-  _relevance?: Prisma.WebAssetOrderByRelevanceInput
 }
 
 export type WebAssetWhereUniqueInput = Prisma.AtLeast<{
@@ -579,12 +578,6 @@ export type WebAssetListRelationFilter = {
 
 export type WebAssetOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type WebAssetOrderByRelevanceInput = {
-  fields: Prisma.WebAssetOrderByRelevanceFieldEnum | Prisma.WebAssetOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type WebAssetCountOrderByAggregateInput = {
@@ -1284,7 +1277,53 @@ export type WebAssetSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   website?: boolean | Prisma.WebAsset$websiteArgs<ExtArgs>
 }, ExtArgs["result"]["webAsset"]>
 
+export type WebAssetSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  customerId?: boolean
+  websiteId?: boolean
+  type?: boolean
+  name?: boolean
+  provider?: boolean
+  ownedBy?: boolean
+  purchaseDate?: boolean
+  expiryDate?: boolean
+  renewalCost?: boolean
+  billingAmount?: boolean
+  autoRenew?: boolean
+  status?: boolean
+  reminderDaysBefore?: boolean
+  lastReminderAt?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
+  website?: boolean | Prisma.WebAsset$websiteArgs<ExtArgs>
+}, ExtArgs["result"]["webAsset"]>
 
+export type WebAssetSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  customerId?: boolean
+  websiteId?: boolean
+  type?: boolean
+  name?: boolean
+  provider?: boolean
+  ownedBy?: boolean
+  purchaseDate?: boolean
+  expiryDate?: boolean
+  renewalCost?: boolean
+  billingAmount?: boolean
+  autoRenew?: boolean
+  status?: boolean
+  reminderDaysBefore?: boolean
+  lastReminderAt?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
+  website?: boolean | Prisma.WebAsset$websiteArgs<ExtArgs>
+}, ExtArgs["result"]["webAsset"]>
 
 export type WebAssetSelectScalar = {
   id?: boolean
@@ -1309,6 +1348,16 @@ export type WebAssetSelectScalar = {
 
 export type WebAssetOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "customerId" | "websiteId" | "type" | "name" | "provider" | "ownedBy" | "purchaseDate" | "expiryDate" | "renewalCost" | "billingAmount" | "autoRenew" | "status" | "reminderDaysBefore" | "lastReminderAt" | "createdAt" | "updatedAt", ExtArgs["result"]["webAsset"]>
 export type WebAssetInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
+  website?: boolean | Prisma.WebAsset$websiteArgs<ExtArgs>
+}
+export type WebAssetIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
+  website?: boolean | Prisma.WebAsset$websiteArgs<ExtArgs>
+}
+export type WebAssetIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
   website?: boolean | Prisma.WebAsset$websiteArgs<ExtArgs>
@@ -1458,6 +1507,30 @@ export interface WebAssetDelegate<ExtArgs extends runtime.Types.Extensions.Inter
   createMany<T extends WebAssetCreateManyArgs>(args?: Prisma.SelectSubset<T, WebAssetCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many WebAssets and returns the data saved in the database.
+   * @param {WebAssetCreateManyAndReturnArgs} args - Arguments to create many WebAssets.
+   * @example
+   * // Create many WebAssets
+   * const webAsset = await prisma.webAsset.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many WebAssets and only return the `id`
+   * const webAssetWithIdOnly = await prisma.webAsset.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends WebAssetCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, WebAssetCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WebAssetPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a WebAsset.
    * @param {WebAssetDeleteArgs} args - Arguments to delete one WebAsset.
    * @example
@@ -1520,6 +1593,36 @@ export interface WebAssetDelegate<ExtArgs extends runtime.Types.Extensions.Inter
    * 
    */
   updateMany<T extends WebAssetUpdateManyArgs>(args: Prisma.SelectSubset<T, WebAssetUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more WebAssets and returns the data updated in the database.
+   * @param {WebAssetUpdateManyAndReturnArgs} args - Arguments to update many WebAssets.
+   * @example
+   * // Update many WebAssets
+   * const webAsset = await prisma.webAsset.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more WebAssets and only return the `id`
+   * const webAssetWithIdOnly = await prisma.webAsset.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends WebAssetUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, WebAssetUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WebAssetPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one WebAsset.
@@ -1968,6 +2071,29 @@ export type WebAssetCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
+ * WebAsset createManyAndReturn
+ */
+export type WebAssetCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the WebAsset
+   */
+  select?: Prisma.WebAssetSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the WebAsset
+   */
+  omit?: Prisma.WebAssetOmit<ExtArgs> | null
+  /**
+   * The data used to create many WebAssets.
+   */
+  data: Prisma.WebAssetCreateManyInput | Prisma.WebAssetCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WebAssetIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * WebAsset update
  */
 export type WebAssetUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2009,6 +2135,36 @@ export type WebAssetUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Limit how many WebAssets to update.
    */
   limit?: number
+}
+
+/**
+ * WebAsset updateManyAndReturn
+ */
+export type WebAssetUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the WebAsset
+   */
+  select?: Prisma.WebAssetSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the WebAsset
+   */
+  omit?: Prisma.WebAssetOmit<ExtArgs> | null
+  /**
+   * The data used to update WebAssets.
+   */
+  data: Prisma.XOR<Prisma.WebAssetUpdateManyMutationInput, Prisma.WebAssetUncheckedUpdateManyInput>
+  /**
+   * Filter which WebAssets to update
+   */
+  where?: Prisma.WebAssetWhereInput
+  /**
+   * Limit how many WebAssets to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WebAssetIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

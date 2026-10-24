@@ -205,7 +205,6 @@ export type MeetingAttendeeOrderByWithRelationInput = {
   meeting?: Prisma.MeetingOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
   contact?: Prisma.ContactOrderByWithRelationInput
-  _relevance?: Prisma.MeetingAttendeeOrderByRelevanceInput
 }
 
 export type MeetingAttendeeWhereUniqueInput = Prisma.AtLeast<{
@@ -315,12 +314,6 @@ export type MeetingAttendeeListRelationFilter = {
 
 export type MeetingAttendeeOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type MeetingAttendeeOrderByRelevanceInput = {
-  fields: Prisma.MeetingAttendeeOrderByRelevanceFieldEnum | Prisma.MeetingAttendeeOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type MeetingAttendeeCountOrderByAggregateInput = {
@@ -724,7 +717,29 @@ export type MeetingAttendeeSelect<ExtArgs extends runtime.Types.Extensions.Inter
   contact?: boolean | Prisma.MeetingAttendee$contactArgs<ExtArgs>
 }, ExtArgs["result"]["meetingAttendee"]>
 
+export type MeetingAttendeeSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  meetingId?: boolean
+  userId?: boolean
+  contactId?: boolean
+  externalName?: boolean
+  externalEmail?: boolean
+  meeting?: boolean | Prisma.MeetingDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.MeetingAttendee$userArgs<ExtArgs>
+  contact?: boolean | Prisma.MeetingAttendee$contactArgs<ExtArgs>
+}, ExtArgs["result"]["meetingAttendee"]>
 
+export type MeetingAttendeeSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  meetingId?: boolean
+  userId?: boolean
+  contactId?: boolean
+  externalName?: boolean
+  externalEmail?: boolean
+  meeting?: boolean | Prisma.MeetingDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.MeetingAttendee$userArgs<ExtArgs>
+  contact?: boolean | Prisma.MeetingAttendee$contactArgs<ExtArgs>
+}, ExtArgs["result"]["meetingAttendee"]>
 
 export type MeetingAttendeeSelectScalar = {
   id?: boolean
@@ -737,6 +752,16 @@ export type MeetingAttendeeSelectScalar = {
 
 export type MeetingAttendeeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "meetingId" | "userId" | "contactId" | "externalName" | "externalEmail", ExtArgs["result"]["meetingAttendee"]>
 export type MeetingAttendeeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  meeting?: boolean | Prisma.MeetingDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.MeetingAttendee$userArgs<ExtArgs>
+  contact?: boolean | Prisma.MeetingAttendee$contactArgs<ExtArgs>
+}
+export type MeetingAttendeeIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  meeting?: boolean | Prisma.MeetingDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.MeetingAttendee$userArgs<ExtArgs>
+  contact?: boolean | Prisma.MeetingAttendee$contactArgs<ExtArgs>
+}
+export type MeetingAttendeeIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   meeting?: boolean | Prisma.MeetingDefaultArgs<ExtArgs>
   user?: boolean | Prisma.MeetingAttendee$userArgs<ExtArgs>
   contact?: boolean | Prisma.MeetingAttendee$contactArgs<ExtArgs>
@@ -874,6 +899,30 @@ export interface MeetingAttendeeDelegate<ExtArgs extends runtime.Types.Extension
   createMany<T extends MeetingAttendeeCreateManyArgs>(args?: Prisma.SelectSubset<T, MeetingAttendeeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many MeetingAttendees and returns the data saved in the database.
+   * @param {MeetingAttendeeCreateManyAndReturnArgs} args - Arguments to create many MeetingAttendees.
+   * @example
+   * // Create many MeetingAttendees
+   * const meetingAttendee = await prisma.meetingAttendee.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many MeetingAttendees and only return the `id`
+   * const meetingAttendeeWithIdOnly = await prisma.meetingAttendee.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends MeetingAttendeeCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, MeetingAttendeeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MeetingAttendeePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a MeetingAttendee.
    * @param {MeetingAttendeeDeleteArgs} args - Arguments to delete one MeetingAttendee.
    * @example
@@ -936,6 +985,36 @@ export interface MeetingAttendeeDelegate<ExtArgs extends runtime.Types.Extension
    * 
    */
   updateMany<T extends MeetingAttendeeUpdateManyArgs>(args: Prisma.SelectSubset<T, MeetingAttendeeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more MeetingAttendees and returns the data updated in the database.
+   * @param {MeetingAttendeeUpdateManyAndReturnArgs} args - Arguments to update many MeetingAttendees.
+   * @example
+   * // Update many MeetingAttendees
+   * const meetingAttendee = await prisma.meetingAttendee.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more MeetingAttendees and only return the `id`
+   * const meetingAttendeeWithIdOnly = await prisma.meetingAttendee.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends MeetingAttendeeUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, MeetingAttendeeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MeetingAttendeePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one MeetingAttendee.
@@ -1372,6 +1451,29 @@ export type MeetingAttendeeCreateManyArgs<ExtArgs extends runtime.Types.Extensio
 }
 
 /**
+ * MeetingAttendee createManyAndReturn
+ */
+export type MeetingAttendeeCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MeetingAttendee
+   */
+  select?: Prisma.MeetingAttendeeSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the MeetingAttendee
+   */
+  omit?: Prisma.MeetingAttendeeOmit<ExtArgs> | null
+  /**
+   * The data used to create many MeetingAttendees.
+   */
+  data: Prisma.MeetingAttendeeCreateManyInput | Prisma.MeetingAttendeeCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MeetingAttendeeIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * MeetingAttendee update
  */
 export type MeetingAttendeeUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1413,6 +1515,36 @@ export type MeetingAttendeeUpdateManyArgs<ExtArgs extends runtime.Types.Extensio
    * Limit how many MeetingAttendees to update.
    */
   limit?: number
+}
+
+/**
+ * MeetingAttendee updateManyAndReturn
+ */
+export type MeetingAttendeeUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MeetingAttendee
+   */
+  select?: Prisma.MeetingAttendeeSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the MeetingAttendee
+   */
+  omit?: Prisma.MeetingAttendeeOmit<ExtArgs> | null
+  /**
+   * The data used to update MeetingAttendees.
+   */
+  data: Prisma.XOR<Prisma.MeetingAttendeeUpdateManyMutationInput, Prisma.MeetingAttendeeUncheckedUpdateManyInput>
+  /**
+   * Filter which MeetingAttendees to update
+   */
+  where?: Prisma.MeetingAttendeeWhereInput
+  /**
+   * Limit how many MeetingAttendees to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MeetingAttendeeIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

@@ -275,15 +275,27 @@ function Lists() {
 function Email() {
   const { can, me } = useAuth()
   const { data, reload } = useApi<{ config: any; isActive: boolean; hasPassword: boolean }>('/settings/integrations/smtp')
+  const { data: rs, reload: reloadResend } = useApi<{ config: any; isActive: boolean; hasKey: boolean }>('/settings/integrations/resend')
   const [to, setTo] = useState(me.email)
   const [testing, setTesting] = useState(false)
-  if (!data) return <Loading />
+  if (!data || !rs) return <Loading />
   const c = data.config
+  const r = rs.config
+  const resendOn = rs.isActive && rs.hasKey
   const edit = can('SETTINGS', 'EDIT')
   return (
     <div className="max-w-3xl space-y-4">
-      <Panel title="Outgoing email (SMTP)" action={<Badge tone={data.isActive && c.host ? 'good' : 'mute'}>{data.isActive && c.host ? 'Set up' : 'Not set up'}</Badge>}>
-        <p className="mb-4 text-[13px] text-muted">Quotations, invoices and payment reminders are emailed through this mailbox. With a Hostinger mailbox: host smtp.hostinger.com, port 465, secure connection on, and the mailbox address and password. Until this is set up, emails are recorded as failed and nothing is sent.</p>
+      <Panel title="Resend" action={<Badge tone={resendOn ? 'good' : 'mute'}>{resendOn ? 'Sending emails' : 'Off'}</Badge>}>
+        <p className="mb-4 text-[13px] text-muted">Resend sends email for you with an API key, so you do not need a mailbox password, and emails land in the inbox more often. Make a free account at <a className="text-accent hover:underline" href="https://resend.com" target="_blank" rel="noreferrer">resend.com</a>, add your domain (like ciphermutex.com) under Domains and add the DNS records it shows, then create an API key with Sending access and paste it here. When Resend is on, it is used instead of the mailbox below.</p>
+        {edit ? (
+          <InlineForm key={JSON.stringify(rs)} submitLabel="Save Resend settings"
+            initial={{ apiKey: '', fromName: r.fromName ?? c.fromName ?? '', fromEmail: r.fromEmail ?? c.fromEmail ?? '', isActive: rs.isActive || !rs.hasKey }}
+            fields={[{ name: 'apiKey', label: rs.hasKey ? 'API key (leave empty to keep)' : 'API key', type: 'password', required: !rs.hasKey, placeholder: 're_...' }, { name: 'fromName', label: 'Sender name', required: true, placeholder: 'Cipher Mutex' }, { name: 'fromEmail', label: 'Sender email', type: 'email', required: true, placeholder: 'info@ciphermutex.com', help: 'Must be on the domain you added in Resend.' }, { name: 'isActive', label: 'Sending', type: 'checkbox', placeholder: 'Send emails through Resend' }]}
+            onSubmit={async (v) => { await api('/settings/integrations/resend', { method: 'PUT', body: v }); toast.success('Resend settings saved'); reloadResend() }} />
+        ) : <p className="text-sm text-muted">You can view settings but not change them.</p>}
+      </Panel>
+      <Panel title="Your mailbox (SMTP)" action={<Badge tone={data.isActive && c.host ? (resendOn ? 'mute' : 'good') : 'mute'}>{data.isActive && c.host ? (resendOn ? 'Resend is used instead' : 'Sending emails') : 'Not set up'}</Badge>}>
+        <p className="mb-4 text-[13px] text-muted">Quotations, invoices and payment reminders are emailed through this mailbox. With a Hostinger mailbox: host smtp.hostinger.com, port 465, secure connection on, and the mailbox address and password. Until Resend or this mailbox is set up, emails are recorded as failed and nothing is sent.</p>
         {edit ? (
           <InlineForm key={JSON.stringify(c)} submitLabel="Save email settings"
             initial={{ host: c.host ?? '', port: c.port ?? 465, secure: c.secure ?? true, user: c.user ?? '', password: '', fromName: c.fromName ?? '', fromEmail: c.fromEmail ?? '', isActive: data.isActive || !c.host }}
@@ -336,6 +348,7 @@ document.getElementById('enquiry').addEventListener('submit', async (e) => {
         <p className="mb-3 text-sm text-muted">Any form on your website can post to this address. Each enquiry becomes a lead with the source Website form, and is assigned by lead rotation if that is on.</p>
         <div className="flex items-center gap-2"><code className="num min-w-0 flex-1 truncate rounded-lg border border-line bg-surface-2 px-3 py-2 text-[13px]">{url}</code><Button onClick={() => copy(url, 'Address')}><Copy size={15} />Copy</Button></div>
         <p className="mt-3 text-[13px] text-muted">Fields it accepts: name (required), phone, email, company, city, state and message.</p>
+        <p className="mt-2 text-[13px] text-muted">A plain website form also works: set its action to this address and its method to POST. Opening the address in a browser only checks that it works; it does not add a lead.</p>
       </Panel>
       <Panel title="Example form to paste into a web page" action={<Button size="sm" onClick={() => copy(snippet, 'Code')}><Copy size={14} />Copy code</Button>}>
         <pre className="overflow-x-auto rounded-lg border border-line bg-surface-2 p-3 text-[12.5px] leading-relaxed"><code>{snippet}</code></pre>

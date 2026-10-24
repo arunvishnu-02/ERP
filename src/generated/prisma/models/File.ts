@@ -293,7 +293,6 @@ export type FileOrderByWithRelationInput = {
   organization?: Prisma.OrganizationOrderByWithRelationInput
   attachments?: Prisma.AttachmentOrderByRelationAggregateInput
   documentVersions?: Prisma.DocumentVersionOrderByRelationAggregateInput
-  _relevance?: Prisma.FileOrderByRelevanceInput
 }
 
 export type FileWhereUniqueInput = Prisma.AtLeast<{
@@ -476,12 +475,6 @@ export type FileListRelationFilter = {
 
 export type FileOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type FileOrderByRelevanceInput = {
-  fields: Prisma.FileOrderByRelevanceFieldEnum | Prisma.FileOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type FileBucketKeyCompoundUniqueInput = {
@@ -980,7 +973,37 @@ export type FileSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   _count?: boolean | Prisma.FileCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["file"]>
 
+export type FileSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  bucket?: boolean
+  key?: boolean
+  fileName?: boolean
+  mimeType?: boolean
+  sizeBytes?: boolean
+  checksum?: boolean
+  uploadedById?: boolean
+  driveFileId?: boolean
+  driveUrl?: boolean
+  createdAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["file"]>
 
+export type FileSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  bucket?: boolean
+  key?: boolean
+  fileName?: boolean
+  mimeType?: boolean
+  sizeBytes?: boolean
+  checksum?: boolean
+  uploadedById?: boolean
+  driveFileId?: boolean
+  driveUrl?: boolean
+  createdAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["file"]>
 
 export type FileSelectScalar = {
   id?: boolean
@@ -1003,6 +1026,12 @@ export type FileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   attachments?: boolean | Prisma.File$attachmentsArgs<ExtArgs>
   documentVersions?: boolean | Prisma.File$documentVersionsArgs<ExtArgs>
   _count?: boolean | Prisma.FileCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type FileIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}
+export type FileIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
 }
 
 export type $FilePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1143,6 +1172,30 @@ export interface FileDelegate<ExtArgs extends runtime.Types.Extensions.InternalA
   createMany<T extends FileCreateManyArgs>(args?: Prisma.SelectSubset<T, FileCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many Files and returns the data saved in the database.
+   * @param {FileCreateManyAndReturnArgs} args - Arguments to create many Files.
+   * @example
+   * // Create many Files
+   * const file = await prisma.file.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many Files and only return the `id`
+   * const fileWithIdOnly = await prisma.file.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends FileCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, FileCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FilePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a File.
    * @param {FileDeleteArgs} args - Arguments to delete one File.
    * @example
@@ -1205,6 +1258,36 @@ export interface FileDelegate<ExtArgs extends runtime.Types.Extensions.InternalA
    * 
    */
   updateMany<T extends FileUpdateManyArgs>(args: Prisma.SelectSubset<T, FileUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more Files and returns the data updated in the database.
+   * @param {FileUpdateManyAndReturnArgs} args - Arguments to update many Files.
+   * @example
+   * // Update many Files
+   * const file = await prisma.file.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more Files and only return the `id`
+   * const fileWithIdOnly = await prisma.file.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends FileUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, FileUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FilePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one File.
@@ -1647,6 +1730,29 @@ export type FileCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
+ * File createManyAndReturn
+ */
+export type FileCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the File
+   */
+  select?: Prisma.FileSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the File
+   */
+  omit?: Prisma.FileOmit<ExtArgs> | null
+  /**
+   * The data used to create many Files.
+   */
+  data: Prisma.FileCreateManyInput | Prisma.FileCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FileIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * File update
  */
 export type FileUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1688,6 +1794,36 @@ export type FileUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Limit how many Files to update.
    */
   limit?: number
+}
+
+/**
+ * File updateManyAndReturn
+ */
+export type FileUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the File
+   */
+  select?: Prisma.FileSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the File
+   */
+  omit?: Prisma.FileOmit<ExtArgs> | null
+  /**
+   * The data used to update Files.
+   */
+  data: Prisma.XOR<Prisma.FileUpdateManyMutationInput, Prisma.FileUncheckedUpdateManyInput>
+  /**
+   * Filter which Files to update
+   */
+  where?: Prisma.FileWhereInput
+  /**
+   * Limit how many Files to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FileIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

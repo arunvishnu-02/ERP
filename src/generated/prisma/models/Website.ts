@@ -317,7 +317,6 @@ export type WebsiteOrderByWithRelationInput = {
   webAssets?: Prisma.WebAssetOrderByRelationAggregateInput
   credentials?: Prisma.CredentialOrderByRelationAggregateInput
   tickets?: Prisma.TicketOrderByRelationAggregateInput
-  _relevance?: Prisma.WebsiteOrderByRelevanceInput
 }
 
 export type WebsiteWhereUniqueInput = Prisma.AtLeast<{
@@ -524,12 +523,6 @@ export type WebsiteListRelationFilter = {
 
 export type WebsiteOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type WebsiteOrderByRelevanceInput = {
-  fields: Prisma.WebsiteOrderByRelevanceFieldEnum | Prisma.WebsiteOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type WebsiteCountOrderByAggregateInput = {
@@ -1545,7 +1538,45 @@ export type WebsiteSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   _count?: boolean | Prisma.WebsiteCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["website"]>
 
+export type WebsiteSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  customerId?: boolean
+  projectId?: boolean
+  name?: boolean
+  url?: boolean
+  platform?: boolean
+  status?: boolean
+  monitoringEnabled?: boolean
+  lastCheckedAt?: boolean
+  lastStatusCode?: boolean
+  notes?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
+  project?: boolean | Prisma.Website$projectArgs<ExtArgs>
+}, ExtArgs["result"]["website"]>
 
+export type WebsiteSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  customerId?: boolean
+  projectId?: boolean
+  name?: boolean
+  url?: boolean
+  platform?: boolean
+  status?: boolean
+  monitoringEnabled?: boolean
+  lastCheckedAt?: boolean
+  lastStatusCode?: boolean
+  notes?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
+  project?: boolean | Prisma.Website$projectArgs<ExtArgs>
+}, ExtArgs["result"]["website"]>
 
 export type WebsiteSelectScalar = {
   id?: boolean
@@ -1573,6 +1604,16 @@ export type WebsiteInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   credentials?: boolean | Prisma.Website$credentialsArgs<ExtArgs>
   tickets?: boolean | Prisma.Website$ticketsArgs<ExtArgs>
   _count?: boolean | Prisma.WebsiteCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type WebsiteIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
+  project?: boolean | Prisma.Website$projectArgs<ExtArgs>
+}
+export type WebsiteIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
+  project?: boolean | Prisma.Website$projectArgs<ExtArgs>
 }
 
 export type $WebsitePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1718,6 +1759,30 @@ export interface WebsiteDelegate<ExtArgs extends runtime.Types.Extensions.Intern
   createMany<T extends WebsiteCreateManyArgs>(args?: Prisma.SelectSubset<T, WebsiteCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many Websites and returns the data saved in the database.
+   * @param {WebsiteCreateManyAndReturnArgs} args - Arguments to create many Websites.
+   * @example
+   * // Create many Websites
+   * const website = await prisma.website.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many Websites and only return the `id`
+   * const websiteWithIdOnly = await prisma.website.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends WebsiteCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, WebsiteCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WebsitePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a Website.
    * @param {WebsiteDeleteArgs} args - Arguments to delete one Website.
    * @example
@@ -1780,6 +1845,36 @@ export interface WebsiteDelegate<ExtArgs extends runtime.Types.Extensions.Intern
    * 
    */
   updateMany<T extends WebsiteUpdateManyArgs>(args: Prisma.SelectSubset<T, WebsiteUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more Websites and returns the data updated in the database.
+   * @param {WebsiteUpdateManyAndReturnArgs} args - Arguments to update many Websites.
+   * @example
+   * // Update many Websites
+   * const website = await prisma.website.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more Websites and only return the `id`
+   * const websiteWithIdOnly = await prisma.website.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends WebsiteUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, WebsiteUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WebsitePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one Website.
@@ -2227,6 +2322,29 @@ export type WebsiteCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
+ * Website createManyAndReturn
+ */
+export type WebsiteCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Website
+   */
+  select?: Prisma.WebsiteSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Website
+   */
+  omit?: Prisma.WebsiteOmit<ExtArgs> | null
+  /**
+   * The data used to create many Websites.
+   */
+  data: Prisma.WebsiteCreateManyInput | Prisma.WebsiteCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WebsiteIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * Website update
  */
 export type WebsiteUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2268,6 +2386,36 @@ export type WebsiteUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Limit how many Websites to update.
    */
   limit?: number
+}
+
+/**
+ * Website updateManyAndReturn
+ */
+export type WebsiteUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Website
+   */
+  select?: Prisma.WebsiteSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Website
+   */
+  omit?: Prisma.WebsiteOmit<ExtArgs> | null
+  /**
+   * The data used to update Websites.
+   */
+  data: Prisma.XOR<Prisma.WebsiteUpdateManyMutationInput, Prisma.WebsiteUncheckedUpdateManyInput>
+  /**
+   * Filter which Websites to update
+   */
+  where?: Prisma.WebsiteWhereInput
+  /**
+   * Limit how many Websites to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.WebsiteIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

@@ -263,7 +263,6 @@ export type RecurringInvoiceItemOrderByWithRelationInput = {
   taxRate?: Prisma.SortOrder
   recurringInvoice?: Prisma.RecurringInvoiceOrderByWithRelationInput
   service?: Prisma.ServiceOrderByWithRelationInput
-  _relevance?: Prisma.RecurringInvoiceItemOrderByRelevanceInput
 }
 
 export type RecurringInvoiceItemWhereUniqueInput = Prisma.AtLeast<{
@@ -395,12 +394,6 @@ export type RecurringInvoiceItemListRelationFilter = {
 
 export type RecurringInvoiceItemOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type RecurringInvoiceItemOrderByRelevanceInput = {
-  fields: Prisma.RecurringInvoiceItemOrderByRelevanceFieldEnum | Prisma.RecurringInvoiceItemOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type RecurringInvoiceItemCountOrderByAggregateInput = {
@@ -733,7 +726,31 @@ export type RecurringInvoiceItemSelect<ExtArgs extends runtime.Types.Extensions.
   service?: boolean | Prisma.RecurringInvoiceItem$serviceArgs<ExtArgs>
 }, ExtArgs["result"]["recurringInvoiceItem"]>
 
+export type RecurringInvoiceItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  recurringInvoiceId?: boolean
+  serviceId?: boolean
+  description?: boolean
+  sacCode?: boolean
+  quantity?: boolean
+  unitPrice?: boolean
+  taxRate?: boolean
+  recurringInvoice?: boolean | Prisma.RecurringInvoiceDefaultArgs<ExtArgs>
+  service?: boolean | Prisma.RecurringInvoiceItem$serviceArgs<ExtArgs>
+}, ExtArgs["result"]["recurringInvoiceItem"]>
 
+export type RecurringInvoiceItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  recurringInvoiceId?: boolean
+  serviceId?: boolean
+  description?: boolean
+  sacCode?: boolean
+  quantity?: boolean
+  unitPrice?: boolean
+  taxRate?: boolean
+  recurringInvoice?: boolean | Prisma.RecurringInvoiceDefaultArgs<ExtArgs>
+  service?: boolean | Prisma.RecurringInvoiceItem$serviceArgs<ExtArgs>
+}, ExtArgs["result"]["recurringInvoiceItem"]>
 
 export type RecurringInvoiceItemSelectScalar = {
   id?: boolean
@@ -748,6 +765,14 @@ export type RecurringInvoiceItemSelectScalar = {
 
 export type RecurringInvoiceItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "recurringInvoiceId" | "serviceId" | "description" | "sacCode" | "quantity" | "unitPrice" | "taxRate", ExtArgs["result"]["recurringInvoiceItem"]>
 export type RecurringInvoiceItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  recurringInvoice?: boolean | Prisma.RecurringInvoiceDefaultArgs<ExtArgs>
+  service?: boolean | Prisma.RecurringInvoiceItem$serviceArgs<ExtArgs>
+}
+export type RecurringInvoiceItemIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  recurringInvoice?: boolean | Prisma.RecurringInvoiceDefaultArgs<ExtArgs>
+  service?: boolean | Prisma.RecurringInvoiceItem$serviceArgs<ExtArgs>
+}
+export type RecurringInvoiceItemIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   recurringInvoice?: boolean | Prisma.RecurringInvoiceDefaultArgs<ExtArgs>
   service?: boolean | Prisma.RecurringInvoiceItem$serviceArgs<ExtArgs>
 }
@@ -885,6 +910,30 @@ export interface RecurringInvoiceItemDelegate<ExtArgs extends runtime.Types.Exte
   createMany<T extends RecurringInvoiceItemCreateManyArgs>(args?: Prisma.SelectSubset<T, RecurringInvoiceItemCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many RecurringInvoiceItems and returns the data saved in the database.
+   * @param {RecurringInvoiceItemCreateManyAndReturnArgs} args - Arguments to create many RecurringInvoiceItems.
+   * @example
+   * // Create many RecurringInvoiceItems
+   * const recurringInvoiceItem = await prisma.recurringInvoiceItem.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many RecurringInvoiceItems and only return the `id`
+   * const recurringInvoiceItemWithIdOnly = await prisma.recurringInvoiceItem.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends RecurringInvoiceItemCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, RecurringInvoiceItemCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RecurringInvoiceItemPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a RecurringInvoiceItem.
    * @param {RecurringInvoiceItemDeleteArgs} args - Arguments to delete one RecurringInvoiceItem.
    * @example
@@ -947,6 +996,36 @@ export interface RecurringInvoiceItemDelegate<ExtArgs extends runtime.Types.Exte
    * 
    */
   updateMany<T extends RecurringInvoiceItemUpdateManyArgs>(args: Prisma.SelectSubset<T, RecurringInvoiceItemUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more RecurringInvoiceItems and returns the data updated in the database.
+   * @param {RecurringInvoiceItemUpdateManyAndReturnArgs} args - Arguments to update many RecurringInvoiceItems.
+   * @example
+   * // Update many RecurringInvoiceItems
+   * const recurringInvoiceItem = await prisma.recurringInvoiceItem.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more RecurringInvoiceItems and only return the `id`
+   * const recurringInvoiceItemWithIdOnly = await prisma.recurringInvoiceItem.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends RecurringInvoiceItemUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, RecurringInvoiceItemUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RecurringInvoiceItemPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one RecurringInvoiceItem.
@@ -1384,6 +1463,29 @@ export type RecurringInvoiceItemCreateManyArgs<ExtArgs extends runtime.Types.Ext
 }
 
 /**
+ * RecurringInvoiceItem createManyAndReturn
+ */
+export type RecurringInvoiceItemCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RecurringInvoiceItem
+   */
+  select?: Prisma.RecurringInvoiceItemSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the RecurringInvoiceItem
+   */
+  omit?: Prisma.RecurringInvoiceItemOmit<ExtArgs> | null
+  /**
+   * The data used to create many RecurringInvoiceItems.
+   */
+  data: Prisma.RecurringInvoiceItemCreateManyInput | Prisma.RecurringInvoiceItemCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RecurringInvoiceItemIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * RecurringInvoiceItem update
  */
 export type RecurringInvoiceItemUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1425,6 +1527,36 @@ export type RecurringInvoiceItemUpdateManyArgs<ExtArgs extends runtime.Types.Ext
    * Limit how many RecurringInvoiceItems to update.
    */
   limit?: number
+}
+
+/**
+ * RecurringInvoiceItem updateManyAndReturn
+ */
+export type RecurringInvoiceItemUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the RecurringInvoiceItem
+   */
+  select?: Prisma.RecurringInvoiceItemSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the RecurringInvoiceItem
+   */
+  omit?: Prisma.RecurringInvoiceItemOmit<ExtArgs> | null
+  /**
+   * The data used to update RecurringInvoiceItems.
+   */
+  data: Prisma.XOR<Prisma.RecurringInvoiceItemUpdateManyMutationInput, Prisma.RecurringInvoiceItemUncheckedUpdateManyInput>
+  /**
+   * Filter which RecurringInvoiceItems to update
+   */
+  where?: Prisma.RecurringInvoiceItemWhereInput
+  /**
+   * Limit how many RecurringInvoiceItems to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RecurringInvoiceItemIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

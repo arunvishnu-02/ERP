@@ -185,7 +185,6 @@ export type LeadSourceOrderByWithRelationInput = {
   isActive?: Prisma.SortOrder
   organization?: Prisma.OrganizationOrderByWithRelationInput
   leads?: Prisma.LeadOrderByRelationAggregateInput
-  _relevance?: Prisma.LeadSourceOrderByRelevanceInput
 }
 
 export type LeadSourceWhereUniqueInput = Prisma.AtLeast<{
@@ -281,12 +280,6 @@ export type LeadSourceListRelationFilter = {
 
 export type LeadSourceOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type LeadSourceOrderByRelevanceInput = {
-  fields: Prisma.LeadSourceOrderByRelevanceFieldEnum | Prisma.LeadSourceOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type LeadSourceOrganizationIdNameCompoundUniqueInput = {
@@ -539,7 +532,21 @@ export type LeadSourceSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   _count?: boolean | Prisma.LeadSourceCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["leadSource"]>
 
+export type LeadSourceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  name?: boolean
+  isActive?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["leadSource"]>
 
+export type LeadSourceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  name?: boolean
+  isActive?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["leadSource"]>
 
 export type LeadSourceSelectScalar = {
   id?: boolean
@@ -553,6 +560,12 @@ export type LeadSourceInclude<ExtArgs extends runtime.Types.Extensions.InternalA
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   leads?: boolean | Prisma.LeadSource$leadsArgs<ExtArgs>
   _count?: boolean | Prisma.LeadSourceCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type LeadSourceIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}
+export type LeadSourceIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
 }
 
 export type $LeadSourcePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -684,6 +697,30 @@ export interface LeadSourceDelegate<ExtArgs extends runtime.Types.Extensions.Int
   createMany<T extends LeadSourceCreateManyArgs>(args?: Prisma.SelectSubset<T, LeadSourceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many LeadSources and returns the data saved in the database.
+   * @param {LeadSourceCreateManyAndReturnArgs} args - Arguments to create many LeadSources.
+   * @example
+   * // Create many LeadSources
+   * const leadSource = await prisma.leadSource.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many LeadSources and only return the `id`
+   * const leadSourceWithIdOnly = await prisma.leadSource.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends LeadSourceCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, LeadSourceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LeadSourcePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a LeadSource.
    * @param {LeadSourceDeleteArgs} args - Arguments to delete one LeadSource.
    * @example
@@ -746,6 +783,36 @@ export interface LeadSourceDelegate<ExtArgs extends runtime.Types.Extensions.Int
    * 
    */
   updateMany<T extends LeadSourceUpdateManyArgs>(args: Prisma.SelectSubset<T, LeadSourceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more LeadSources and returns the data updated in the database.
+   * @param {LeadSourceUpdateManyAndReturnArgs} args - Arguments to update many LeadSources.
+   * @example
+   * // Update many LeadSources
+   * const leadSource = await prisma.leadSource.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more LeadSources and only return the `id`
+   * const leadSourceWithIdOnly = await prisma.leadSource.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends LeadSourceUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, LeadSourceUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LeadSourcePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one LeadSource.
@@ -1179,6 +1246,29 @@ export type LeadSourceCreateManyArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
+ * LeadSource createManyAndReturn
+ */
+export type LeadSourceCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LeadSource
+   */
+  select?: Prisma.LeadSourceSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the LeadSource
+   */
+  omit?: Prisma.LeadSourceOmit<ExtArgs> | null
+  /**
+   * The data used to create many LeadSources.
+   */
+  data: Prisma.LeadSourceCreateManyInput | Prisma.LeadSourceCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LeadSourceIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * LeadSource update
  */
 export type LeadSourceUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1220,6 +1310,36 @@ export type LeadSourceUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Limit how many LeadSources to update.
    */
   limit?: number
+}
+
+/**
+ * LeadSource updateManyAndReturn
+ */
+export type LeadSourceUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LeadSource
+   */
+  select?: Prisma.LeadSourceSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the LeadSource
+   */
+  omit?: Prisma.LeadSourceOmit<ExtArgs> | null
+  /**
+   * The data used to update LeadSources.
+   */
+  data: Prisma.XOR<Prisma.LeadSourceUpdateManyMutationInput, Prisma.LeadSourceUncheckedUpdateManyInput>
+  /**
+   * Filter which LeadSources to update
+   */
+  where?: Prisma.LeadSourceWhereInput
+  /**
+   * Limit how many LeadSources to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LeadSourceIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

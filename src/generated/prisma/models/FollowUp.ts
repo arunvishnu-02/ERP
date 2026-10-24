@@ -308,7 +308,6 @@ export type FollowUpOrderByWithRelationInput = {
   deal?: Prisma.DealOrderByWithRelationInput
   customer?: Prisma.CustomerOrderByWithRelationInput
   assignedTo?: Prisma.UserOrderByWithRelationInput
-  _relevance?: Prisma.FollowUpOrderByRelevanceInput
 }
 
 export type FollowUpWhereUniqueInput = Prisma.AtLeast<{
@@ -528,12 +527,6 @@ export type FollowUpListRelationFilter = {
 
 export type FollowUpOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type FollowUpOrderByRelevanceInput = {
-  fields: Prisma.FollowUpOrderByRelevanceFieldEnum | Prisma.FollowUpOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type FollowUpCountOrderByAggregateInput = {
@@ -1564,7 +1557,55 @@ export type FollowUpSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   assignedTo?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["followUp"]>
 
+export type FollowUpSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  leadId?: boolean
+  dealId?: boolean
+  customerId?: boolean
+  type?: boolean
+  subject?: boolean
+  dueAt?: boolean
+  completedAt?: boolean
+  outcome?: boolean
+  status?: boolean
+  assignedToId?: boolean
+  reminderSentAt?: boolean
+  createdById?: boolean
+  updatedById?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  lead?: boolean | Prisma.FollowUp$leadArgs<ExtArgs>
+  deal?: boolean | Prisma.FollowUp$dealArgs<ExtArgs>
+  customer?: boolean | Prisma.FollowUp$customerArgs<ExtArgs>
+  assignedTo?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["followUp"]>
 
+export type FollowUpSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  leadId?: boolean
+  dealId?: boolean
+  customerId?: boolean
+  type?: boolean
+  subject?: boolean
+  dueAt?: boolean
+  completedAt?: boolean
+  outcome?: boolean
+  status?: boolean
+  assignedToId?: boolean
+  reminderSentAt?: boolean
+  createdById?: boolean
+  updatedById?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  lead?: boolean | Prisma.FollowUp$leadArgs<ExtArgs>
+  deal?: boolean | Prisma.FollowUp$dealArgs<ExtArgs>
+  customer?: boolean | Prisma.FollowUp$customerArgs<ExtArgs>
+  assignedTo?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["followUp"]>
 
 export type FollowUpSelectScalar = {
   id?: boolean
@@ -1588,6 +1629,20 @@ export type FollowUpSelectScalar = {
 
 export type FollowUpOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "leadId" | "dealId" | "customerId" | "type" | "subject" | "dueAt" | "completedAt" | "outcome" | "status" | "assignedToId" | "reminderSentAt" | "createdById" | "updatedById" | "createdAt" | "updatedAt", ExtArgs["result"]["followUp"]>
 export type FollowUpInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  lead?: boolean | Prisma.FollowUp$leadArgs<ExtArgs>
+  deal?: boolean | Prisma.FollowUp$dealArgs<ExtArgs>
+  customer?: boolean | Prisma.FollowUp$customerArgs<ExtArgs>
+  assignedTo?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type FollowUpIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  lead?: boolean | Prisma.FollowUp$leadArgs<ExtArgs>
+  deal?: boolean | Prisma.FollowUp$dealArgs<ExtArgs>
+  customer?: boolean | Prisma.FollowUp$customerArgs<ExtArgs>
+  assignedTo?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type FollowUpIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   lead?: boolean | Prisma.FollowUp$leadArgs<ExtArgs>
   deal?: boolean | Prisma.FollowUp$dealArgs<ExtArgs>
@@ -1740,6 +1795,30 @@ export interface FollowUpDelegate<ExtArgs extends runtime.Types.Extensions.Inter
   createMany<T extends FollowUpCreateManyArgs>(args?: Prisma.SelectSubset<T, FollowUpCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many FollowUps and returns the data saved in the database.
+   * @param {FollowUpCreateManyAndReturnArgs} args - Arguments to create many FollowUps.
+   * @example
+   * // Create many FollowUps
+   * const followUp = await prisma.followUp.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many FollowUps and only return the `id`
+   * const followUpWithIdOnly = await prisma.followUp.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends FollowUpCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, FollowUpCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FollowUpPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a FollowUp.
    * @param {FollowUpDeleteArgs} args - Arguments to delete one FollowUp.
    * @example
@@ -1802,6 +1881,36 @@ export interface FollowUpDelegate<ExtArgs extends runtime.Types.Extensions.Inter
    * 
    */
   updateMany<T extends FollowUpUpdateManyArgs>(args: Prisma.SelectSubset<T, FollowUpUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more FollowUps and returns the data updated in the database.
+   * @param {FollowUpUpdateManyAndReturnArgs} args - Arguments to update many FollowUps.
+   * @example
+   * // Update many FollowUps
+   * const followUp = await prisma.followUp.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more FollowUps and only return the `id`
+   * const followUpWithIdOnly = await prisma.followUp.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends FollowUpUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, FollowUpUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FollowUpPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one FollowUp.
@@ -2251,6 +2360,29 @@ export type FollowUpCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
+ * FollowUp createManyAndReturn
+ */
+export type FollowUpCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FollowUp
+   */
+  select?: Prisma.FollowUpSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the FollowUp
+   */
+  omit?: Prisma.FollowUpOmit<ExtArgs> | null
+  /**
+   * The data used to create many FollowUps.
+   */
+  data: Prisma.FollowUpCreateManyInput | Prisma.FollowUpCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FollowUpIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * FollowUp update
  */
 export type FollowUpUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2292,6 +2424,36 @@ export type FollowUpUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Limit how many FollowUps to update.
    */
   limit?: number
+}
+
+/**
+ * FollowUp updateManyAndReturn
+ */
+export type FollowUpUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FollowUp
+   */
+  select?: Prisma.FollowUpSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the FollowUp
+   */
+  omit?: Prisma.FollowUpOmit<ExtArgs> | null
+  /**
+   * The data used to update FollowUps.
+   */
+  data: Prisma.XOR<Prisma.FollowUpUpdateManyMutationInput, Prisma.FollowUpUncheckedUpdateManyInput>
+  /**
+   * Filter which FollowUps to update
+   */
+  where?: Prisma.FollowUpWhereInput
+  /**
+   * Limit how many FollowUps to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FollowUpIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

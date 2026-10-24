@@ -3,7 +3,7 @@
 CRM and ERP for a digital marketing, website development and IT services company.
 One path for every deal: Lead, Follow-up, Quotation, Approval, Project, Invoice, Payment, Completion.
 
-It is one Next.js application with a MySQL database. It runs on Hostinger Node.js Web App Hosting.
+It is one Next.js application with a PostgreSQL database (Supabase). It runs on Hostinger Node.js Web App Hosting.
 To put it online, read [DEPLOY.md](DEPLOY.md).
 
 ## Technology
@@ -12,7 +12,7 @@ To put it online, read [DEPLOY.md](DEPLOY.md).
 |---|---|
 | Frontend | Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS 4, shadcn/ui-style components on Radix, Lucide icons |
 | Backend | Next.js route handlers on Node.js, REST API under `/api/v1`, TypeScript |
-| Database | MySQL or MariaDB, Prisma ORM 7 |
+| Database | PostgreSQL (Supabase), Prisma ORM 7 |
 | Login and security | Session cookie (httpOnly), role-based access control, Zod validation, scrypt password hashing |
 | Tools | npm, Git, GitHub |
 
@@ -53,7 +53,7 @@ tests/api.test.ts            end-to-end API tests
 
 ## Run it on your own computer
 
-You need Node.js 20 or newer and a MySQL or MariaDB server (for example from MAMP, XAMPP or Homebrew).
+You need Node.js 20 or newer and a PostgreSQL server (for example from Postgres.app or Homebrew), or a Supabase project.
 
 1. Create an empty database:
 

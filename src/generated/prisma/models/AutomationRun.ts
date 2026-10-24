@@ -235,7 +235,6 @@ export type AutomationRunOrderByWithRelationInput = {
   log?: Prisma.SortOrderInput | Prisma.SortOrder
   organization?: Prisma.OrganizationOrderByWithRelationInput
   rule?: Prisma.AutomationRuleOrderByWithRelationInput
-  _relevance?: Prisma.AutomationRunOrderByRelevanceInput
 }
 
 export type AutomationRunWhereUniqueInput = Prisma.AtLeast<{
@@ -385,12 +384,6 @@ export type AutomationRunListRelationFilter = {
 
 export type AutomationRunOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type AutomationRunOrderByRelevanceInput = {
-  fields: Prisma.AutomationRunOrderByRelevanceFieldEnum | Prisma.AutomationRunOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type AutomationRunCountOrderByAggregateInput = {
@@ -747,7 +740,35 @@ export type AutomationRunSelect<ExtArgs extends runtime.Types.Extensions.Interna
   rule?: boolean | Prisma.AutomationRuleDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["automationRun"]>
 
+export type AutomationRunSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  ruleId?: boolean
+  entityType?: boolean
+  entityId?: boolean
+  status?: boolean
+  startedAt?: boolean
+  finishedAt?: boolean
+  error?: boolean
+  log?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  rule?: boolean | Prisma.AutomationRuleDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["automationRun"]>
 
+export type AutomationRunSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  ruleId?: boolean
+  entityType?: boolean
+  entityId?: boolean
+  status?: boolean
+  startedAt?: boolean
+  finishedAt?: boolean
+  error?: boolean
+  log?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  rule?: boolean | Prisma.AutomationRuleDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["automationRun"]>
 
 export type AutomationRunSelectScalar = {
   id?: boolean
@@ -764,6 +785,14 @@ export type AutomationRunSelectScalar = {
 
 export type AutomationRunOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "ruleId" | "entityType" | "entityId" | "status" | "startedAt" | "finishedAt" | "error" | "log", ExtArgs["result"]["automationRun"]>
 export type AutomationRunInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  rule?: boolean | Prisma.AutomationRuleDefaultArgs<ExtArgs>
+}
+export type AutomationRunIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  rule?: boolean | Prisma.AutomationRuleDefaultArgs<ExtArgs>
+}
+export type AutomationRunIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   rule?: boolean | Prisma.AutomationRuleDefaultArgs<ExtArgs>
 }
@@ -903,6 +932,30 @@ export interface AutomationRunDelegate<ExtArgs extends runtime.Types.Extensions.
   createMany<T extends AutomationRunCreateManyArgs>(args?: Prisma.SelectSubset<T, AutomationRunCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many AutomationRuns and returns the data saved in the database.
+   * @param {AutomationRunCreateManyAndReturnArgs} args - Arguments to create many AutomationRuns.
+   * @example
+   * // Create many AutomationRuns
+   * const automationRun = await prisma.automationRun.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many AutomationRuns and only return the `id`
+   * const automationRunWithIdOnly = await prisma.automationRun.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends AutomationRunCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, AutomationRunCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AutomationRunPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a AutomationRun.
    * @param {AutomationRunDeleteArgs} args - Arguments to delete one AutomationRun.
    * @example
@@ -965,6 +1018,36 @@ export interface AutomationRunDelegate<ExtArgs extends runtime.Types.Extensions.
    * 
    */
   updateMany<T extends AutomationRunUpdateManyArgs>(args: Prisma.SelectSubset<T, AutomationRunUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more AutomationRuns and returns the data updated in the database.
+   * @param {AutomationRunUpdateManyAndReturnArgs} args - Arguments to update many AutomationRuns.
+   * @example
+   * // Update many AutomationRuns
+   * const automationRun = await prisma.automationRun.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more AutomationRuns and only return the `id`
+   * const automationRunWithIdOnly = await prisma.automationRun.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends AutomationRunUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, AutomationRunUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AutomationRunPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one AutomationRun.
@@ -1404,6 +1487,29 @@ export type AutomationRunCreateManyArgs<ExtArgs extends runtime.Types.Extensions
 }
 
 /**
+ * AutomationRun createManyAndReturn
+ */
+export type AutomationRunCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AutomationRun
+   */
+  select?: Prisma.AutomationRunSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the AutomationRun
+   */
+  omit?: Prisma.AutomationRunOmit<ExtArgs> | null
+  /**
+   * The data used to create many AutomationRuns.
+   */
+  data: Prisma.AutomationRunCreateManyInput | Prisma.AutomationRunCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AutomationRunIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * AutomationRun update
  */
 export type AutomationRunUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1445,6 +1551,36 @@ export type AutomationRunUpdateManyArgs<ExtArgs extends runtime.Types.Extensions
    * Limit how many AutomationRuns to update.
    */
   limit?: number
+}
+
+/**
+ * AutomationRun updateManyAndReturn
+ */
+export type AutomationRunUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AutomationRun
+   */
+  select?: Prisma.AutomationRunSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the AutomationRun
+   */
+  omit?: Prisma.AutomationRunOmit<ExtArgs> | null
+  /**
+   * The data used to update AutomationRuns.
+   */
+  data: Prisma.XOR<Prisma.AutomationRunUpdateManyMutationInput, Prisma.AutomationRunUncheckedUpdateManyInput>
+  /**
+   * Filter which AutomationRuns to update
+   */
+  where?: Prisma.AutomationRunWhereInput
+  /**
+   * Limit how many AutomationRuns to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AutomationRunIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

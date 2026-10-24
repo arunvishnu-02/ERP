@@ -10,7 +10,7 @@ import { useAuth } from '@/lib/auth'
 import { fmtDateTime } from '@/lib/format'
 
 type Google = { clientId: string; hasSecret: boolean; allowedDomain: string; signIn: boolean; folderName: string; connected: boolean; connectedEmail: string | null; connectedAt: string | null; folderUrl: string | null; redirectUri: string; linkedUsers: number }
-type Data = { google: Google; smtp: { active: boolean; fromEmail: string | null } }
+type Data = { google: Google; smtp: { active: boolean; fromEmail: string | null }; resend?: { active: boolean; fromEmail: string | null } }
 
 /** What the ?google= value on the way back from Google means. */
 export const GOOGLE_RESULT: Record<string, [ok: boolean, text: string]> = {
@@ -55,7 +55,9 @@ export default function Integrations({ goEmail }: { goEmail: () => void }) {
   const g = data.google
   const mayEdit = can('SETTINGS', 'EDIT')
   const ready = !!g.clientId && g.hasSecret
-  const connected = (data.smtp.active ? 1 : 0) + (g.connected || g.signIn ? 1 : 0)
+  const resend = data.resend ?? { active: false, fromEmail: null }
+  const email = resend.active ? resend : data.smtp
+  const connected = (resend.active || data.smtp.active ? 1 : 0) + (g.connected || g.signIn ? 1 : 0)
   async function connect() {
     setBusy(true)
     try { const r = await api<{ url: string }>('/settings/integrations/google/connect', { method: 'POST' }); window.location.assign(r.url) } catch (e) { toast.error((e as Error).message); setBusy(false) }
@@ -82,9 +84,9 @@ export default function Integrations({ goEmail }: { goEmail: () => void }) {
             </div>
           )}
         </AppCard>
-        <AppCard mark="@" name="Email (SMTP)" status={data.smtp.active ? <Badge tone="good">Connected</Badge> : <Badge tone="warn">Not connected</Badge>}
-          actions={<Button onClick={goEmail}>{data.smtp.active ? 'Settings' : 'Set up'}</Button>}>
-          {data.smtp.active ? <p>Emails go out from {data.smtp.fromEmail}.</p> : <p>Send quotations, invoices and reminders from your own mailbox, like info@ciphermutex.com.</p>}
+        <AppCard mark="@" name="Email" status={email.active ? <Badge tone="good">{resend.active ? 'Connected with Resend' : 'Connected with your mailbox'}</Badge> : <Badge tone="warn">Not connected</Badge>}
+          actions={<Button onClick={goEmail}>{email.active ? 'Settings' : 'Set up'}</Button>}>
+          {email.active ? <p>Emails go out from {email.fromEmail}{resend.active ? ' through Resend' : ''}.</p> : <p>Send quotations, invoices and reminders through Resend or your own mailbox, like info@ciphermutex.com.</p>}
         </AppCard>
         {LATER.map(([mark, name, text]) => (
           <AppCard key={name} mark={mark} name={name} status={<Badge>Coming later</Badge>}><p>{text}</p></AppCard>

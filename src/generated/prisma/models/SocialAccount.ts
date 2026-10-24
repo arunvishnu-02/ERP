@@ -203,7 +203,6 @@ export type SocialAccountOrderByWithRelationInput = {
   profileUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   organization?: Prisma.OrganizationOrderByWithRelationInput
   customer?: Prisma.CustomerOrderByWithRelationInput
-  _relevance?: Prisma.SocialAccountOrderByRelevanceInput
 }
 
 export type SocialAccountWhereUniqueInput = Prisma.AtLeast<{
@@ -314,12 +313,6 @@ export type SocialAccountListRelationFilter = {
 
 export type SocialAccountOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type SocialAccountOrderByRelevanceInput = {
-  fields: Prisma.SocialAccountOrderByRelevanceFieldEnum | Prisma.SocialAccountOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type SocialAccountCustomerIdPlatformHandleCompoundUniqueInput = {
@@ -616,7 +609,27 @@ export type SocialAccountSelect<ExtArgs extends runtime.Types.Extensions.Interna
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["socialAccount"]>
 
+export type SocialAccountSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  customerId?: boolean
+  platform?: boolean
+  handle?: boolean
+  profileUrl?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["socialAccount"]>
 
+export type SocialAccountSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  customerId?: boolean
+  platform?: boolean
+  handle?: boolean
+  profileUrl?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["socialAccount"]>
 
 export type SocialAccountSelectScalar = {
   id?: boolean
@@ -629,6 +642,14 @@ export type SocialAccountSelectScalar = {
 
 export type SocialAccountOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "customerId" | "platform" | "handle" | "profileUrl", ExtArgs["result"]["socialAccount"]>
 export type SocialAccountInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
+}
+export type SocialAccountIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
+}
+export type SocialAccountIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   customer?: boolean | Prisma.CustomerDefaultArgs<ExtArgs>
 }
@@ -764,6 +785,30 @@ export interface SocialAccountDelegate<ExtArgs extends runtime.Types.Extensions.
   createMany<T extends SocialAccountCreateManyArgs>(args?: Prisma.SelectSubset<T, SocialAccountCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many SocialAccounts and returns the data saved in the database.
+   * @param {SocialAccountCreateManyAndReturnArgs} args - Arguments to create many SocialAccounts.
+   * @example
+   * // Create many SocialAccounts
+   * const socialAccount = await prisma.socialAccount.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many SocialAccounts and only return the `id`
+   * const socialAccountWithIdOnly = await prisma.socialAccount.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends SocialAccountCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, SocialAccountCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SocialAccountPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a SocialAccount.
    * @param {SocialAccountDeleteArgs} args - Arguments to delete one SocialAccount.
    * @example
@@ -826,6 +871,36 @@ export interface SocialAccountDelegate<ExtArgs extends runtime.Types.Extensions.
    * 
    */
   updateMany<T extends SocialAccountUpdateManyArgs>(args: Prisma.SelectSubset<T, SocialAccountUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more SocialAccounts and returns the data updated in the database.
+   * @param {SocialAccountUpdateManyAndReturnArgs} args - Arguments to update many SocialAccounts.
+   * @example
+   * // Update many SocialAccounts
+   * const socialAccount = await prisma.socialAccount.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more SocialAccounts and only return the `id`
+   * const socialAccountWithIdOnly = await prisma.socialAccount.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends SocialAccountUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, SocialAccountUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SocialAccountPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one SocialAccount.
@@ -1261,6 +1336,29 @@ export type SocialAccountCreateManyArgs<ExtArgs extends runtime.Types.Extensions
 }
 
 /**
+ * SocialAccount createManyAndReturn
+ */
+export type SocialAccountCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SocialAccount
+   */
+  select?: Prisma.SocialAccountSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the SocialAccount
+   */
+  omit?: Prisma.SocialAccountOmit<ExtArgs> | null
+  /**
+   * The data used to create many SocialAccounts.
+   */
+  data: Prisma.SocialAccountCreateManyInput | Prisma.SocialAccountCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SocialAccountIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * SocialAccount update
  */
 export type SocialAccountUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1302,6 +1400,36 @@ export type SocialAccountUpdateManyArgs<ExtArgs extends runtime.Types.Extensions
    * Limit how many SocialAccounts to update.
    */
   limit?: number
+}
+
+/**
+ * SocialAccount updateManyAndReturn
+ */
+export type SocialAccountUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SocialAccount
+   */
+  select?: Prisma.SocialAccountSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the SocialAccount
+   */
+  omit?: Prisma.SocialAccountOmit<ExtArgs> | null
+  /**
+   * The data used to update SocialAccounts.
+   */
+  data: Prisma.XOR<Prisma.SocialAccountUpdateManyMutationInput, Prisma.SocialAccountUncheckedUpdateManyInput>
+  /**
+   * Filter which SocialAccounts to update
+   */
+  where?: Prisma.SocialAccountWhereInput
+  /**
+   * Limit how many SocialAccounts to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SocialAccountIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

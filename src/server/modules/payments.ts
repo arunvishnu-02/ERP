@@ -37,7 +37,7 @@ paymentsRouter.get('/pending', authorize(M, 'VIEW'), async (req, res) => {
 paymentsRouter.get('/', authorize(M, 'VIEW'), async (req, res) => {
   const where: any = { organizationId: req.user.organizationId, AND: [await scoped(req, M)] }
   const q = String(req.query.q ?? '').trim()
-  if (q) where.AND.push({ OR: [{ receiptNumber: { contains: q } }, { referenceNumber: { contains: q } }, { customer: { name: { contains: q } } }] })
+  if (q) where.AND.push({ OR: [{ receiptNumber: { contains: q, mode: 'insensitive' } }, { referenceNumber: { contains: q, mode: 'insensitive' } }, { customer: { name: { contains: q, mode: 'insensitive' } } }] })
   if (typeof req.query.customerId === 'string' && req.query.customerId) where.customerId = req.query.customerId
   const all = req.query.all === '1'
   if (all && !req.user.perms[M]?.EXPORT) throw forbidden('You do not have permission to export this list')

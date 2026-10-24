@@ -2,6 +2,7 @@ import { Router, type Request, type Response } from '../core/router'
 import { authorize, can, fullName, hashPassword } from '../core/auth'
 import { crud } from '../core/crud'
 import { bad, conflict, forbidden, notFound, parse, shape } from '../core/http'
+import { docEmailHtml } from '../core/email-html'
 import { sendMail } from '../core/mail'
 import { LETTER, LETTER_OF } from '../core/seed'
 import { audit, encrypt, nextNumber, stateName, STATES, today } from '../core/util'
@@ -219,15 +220,44 @@ settingsRouter.put('/integrations/smtp', authorize(S, 'EDIT'), async (req, res) 
   res.status(204).end()
 })
 
+// ── Email (Resend) ──
+settingsRouter.get('/integrations/resend', authorize(S, 'VIEW'), async (req, res) => {
+  const s = await prisma.integrationSetting.findUnique({ where: { organizationId_provider: { organizationId: req.user.organizationId, provider: 'RESEND' } } })
+  res.json({ config: s?.config ?? {}, isActive: s?.isActive ?? false, hasKey: !!s?.secretCiphertext })
+})
+
+settingsRouter.put('/integrations/resend', authorize(S, 'EDIT'), async (req, res) => {
+  const d = parse(shape({ apiKey: 's?', fromName: 's', fromEmail: 's', isActive: 'b?' }), req.body)
+  const organizationId = req.user.organizationId
+  const key = d.apiKey?.trim()
+  if (key && !/^re_[\w-]{8,}$/.test(key)) throw bad('A Resend API key starts with re_')
+  const fromEmail = d.fromEmail.trim().toLowerCase()
+  if (!/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(fromEmail)) throw bad('Write the sender email like info@ciphermutex.com')
+  const fromName = d.fromName.trim().replace(/[<>"]/g, '')
+  if (!fromName) throw bad('Give a sender name')
+  const old = await prisma.integrationSetting.findUnique({ where: { organizationId_provider: { organizationId, provider: 'RESEND' } } })
+  if (!key && !old?.secretCiphertext) throw bad('Paste the Resend API key')
+  const config = { fromName, fromEmail }
+  const secret = key ? encrypt(key) : {}
+  await prisma.integrationSetting.upsert({
+    where: { organizationId_provider: { organizationId, provider: 'RESEND' } },
+    create: { organizationId, provider: 'RESEND', config, isActive: d.isActive ?? true, ...secret },
+    update: { config, isActive: d.isActive ?? true, ...secret },
+  })
+  await audit(prisma as unknown as Tx, req, 'UPDATE', S, 'IntegrationSetting', null, null, { resend: { ...config, isActive: d.isActive ?? true } })
+  res.status(204).end()
+})
+
 settingsRouter.post('/integrations/smtp/test', authorize(S, 'EDIT'), async (req, res) => {
   const d = parse(shape({ to: 's' }), req.body)
-  res.json(await sendMail(req.user.organizationId, { to: d.to, subject: 'Test email from CX CRM ERP', text: 'Email is set up correctly.', sentById: req.user.id }))
+  const html = await docEmailHtml(req.user.organizationId, { kind: 'Test email', heading: 'Email is set up correctly', body: 'This test came from your CX CRM ERP. Invoices, quotations, reminders and sign-in codes will look like this.', automatic: true })
+  res.json(await sendMail(req.user.organizationId, { to: d.to, subject: 'Test email from CX CRM ERP', text: 'Email is set up correctly.', html, sentById: req.user.id }))
 })
 
 settingsRouter.get('/audit-logs', authorize(S, 'VIEW'), async (req, res) => {
   const q = String(req.query.q ?? '').trim()
   const where: any = { organizationId: req.user.organizationId }
-  if (q) where.OR = [{ entityType: { contains: q } }, { user: { firstName: { contains: q } } }]
+  if (q) where.OR = [{ entityType: { contains: q, mode: 'insensitive' } }, { user: { firstName: { contains: q, mode: 'insensitive' } } }]
   if (typeof req.query.module === 'string' && req.query.module) where.module = req.query.module
   const take = Math.min(Number(req.query.limit) || 50, 200)
   const [items, total] = await Promise.all([

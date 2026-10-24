@@ -2,6 +2,7 @@ import { db, prisma } from '../db'
 import { env } from '../env'
 import { fullName } from './auth'
 import { runRecurring } from './docs'
+import { docEmailHtml } from '../core/email-html'
 import { sendMail, template } from './mail'
 import { remindInvoice } from './reminders'
 import { addDays, dateOnly, daysBetween, hourNow, notify, render, today, todayStr, usersWith, ymd } from './util'
@@ -74,7 +75,9 @@ export async function runDaily(organizationId: string) {
       if (to && left >= 0) {
         const tpl = await template(organizationId, 'EMAIL', 'renewal_due')
         const vars = { contact: contact ? fullName(contact) : a.customer.name, asset: what, expiry: ymd(a.expiryDate), company: a.organization.name }
-        await sendMail(organizationId, { to, subject: render(tpl?.subject ?? '{{asset}} expires on {{expiry}}', vars), text: render(tpl?.body ?? '{{asset}} expires on {{expiry}}', vars), customerId: a.customer.id, entityType: 'WEB_ASSET', entityId: a.id })
+        const text = render(tpl?.body ?? '{{asset}} expires on {{expiry}}', vars)
+        const html = await docEmailHtml(organizationId, { kind: 'Renewal reminder', heading: `${what} is due for renewal`, body: text, facts: [['Service', what], ['Expires on', vars.expiry]], automatic: true })
+        await sendMail(organizationId, { to, subject: render(tpl?.subject ?? '{{asset}} expires on {{expiry}}', vars), text, html, customerId: a.customer.id, entityType: 'WEB_ASSET', entityId: a.id })
       }
       await prisma.webAsset.update({ where: { id: a.id }, data: { lastReminderAt: new Date(), status: left < 0 ? 'EXPIRED' : 'DUE_SOON' } })
       summary.renewals++

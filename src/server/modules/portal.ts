@@ -4,6 +4,7 @@ import crypto from 'node:crypto'
 import { Router, rateLimit, type NextFunction, type Request, type Response } from '../core/router'
 import { sha } from '../core/auth'
 import { bad, HttpError, notFound, parse, shape } from '../core/http'
+import { codeEmailHtml } from '../core/email-html'
 import { sendMail } from '../core/mail'
 import { activity, nextNumber, notify, usersWith } from '../core/util'
 import { prisma } from '../db'
@@ -47,6 +48,12 @@ portalRouter.post('/auth/code', limiter, async (req, res) => {
       to: c.email, customerId: c.customerId, logText: 'Client portal sign-in code sent. The code itself is not kept.',
       subject: `${code} is your ${c.organization.name} sign-in code`,
       text: `Hello ${c.firstName},\n\nUse this code to sign in to the ${c.organization.name} client portal: ${code}\n\nIt works for ${CODE_MINUTES} minutes. If you did not ask for it, you can ignore this email.\n\n${env.appUrl}/portal\n${c.organization.name}`,
+      html: await codeEmailHtml(c.organizationId, {
+        heading: 'Your sign-in code', firstName: c.firstName, code, minutes: CODE_MINUTES,
+        intro: `Use this code to sign in to the ${c.organization.name} client portal.`,
+        note: 'If you did not ask for this code, you can ignore this email.',
+        button: { label: 'Open the client portal', url: `${env.appUrl}/portal` },
+      }),
     })
   }
   res.json({ ok: true, minutes: CODE_MINUTES })

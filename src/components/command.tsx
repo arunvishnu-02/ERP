@@ -25,6 +25,10 @@ export const NEW_ITEMS: { key: string; label: string; module: string; href: stri
   { key: 'E', label: 'Expense', module: 'FINANCE', href: '/finance?tab=expenses&new=expense', icon: WalletCards },
 ]
 
+/** Opens search everywhere from anywhere, such as the "Search or jump to" box in the menu. */
+const OPEN_SEARCH = 'cx:open-search'
+export const openSearch = () => window.dispatchEvent(new Event(OPEN_SEARCH))
+
 const typing = (e: KeyboardEvent) => {
   const t = e.target as HTMLElement | null
   return !!t && (t.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(t.tagName))
@@ -44,8 +48,10 @@ export function SearchEverywhere({ pages }: { pages: { path: string; label: stri
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); setOpen(true) }
       else if (e.key === '/' && !typing(e)) { e.preventDefault(); setOpen(true) }
     }
+    const show = () => setOpen(true)
     window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
+    window.addEventListener(OPEN_SEARCH, show)
+    return () => { window.removeEventListener('keydown', onKey); window.removeEventListener(OPEN_SEARCH, show) }
   }, [])
   useEffect(() => {
     const term = q.trim()
@@ -74,10 +80,10 @@ export function SearchEverywhere({ pages }: { pages: { path: string; label: stri
   let i = -1
   return (
     <>
-      <button type="button" onClick={() => setOpen(true)} className="hidden h-9 w-72 items-center gap-2 rounded-lg border border-line bg-surface px-3 text-[13px] text-muted hover:border-accent/50 md:flex xl:w-80">
-        <Search size={15} /><span className="flex-1 text-left">Search leads, customers, invoices</span><kbd className="rounded border border-line px-1.5 text-[11px]">Ctrl K</kbd>
+      <button type="button" onClick={() => setOpen(true)} className="glass hidden h-[38px] w-72 items-center gap-2 rounded-xl pr-2 pl-3 text-[13px] md:flex xl:w-[340px]">
+        <Search size={16} className="opacity-80" /><span className="flex-1 text-left text-white/60">Search leads, customers, invoices</span><kbd className="rounded-md border border-white/70 bg-white/10 px-1.5 text-[11px] font-semibold text-white/60">/</kbd>
       </button>
-      <button type="button" onClick={() => setOpen(true)} aria-label="Search" className="grid h-9 w-9 place-items-center rounded-lg text-muted hover:bg-surface-2 md:hidden"><Search size={18} /></button>
+      <button type="button" onClick={() => setOpen(true)} aria-label="Search" className="glass grid h-[38px] w-[38px] place-items-center rounded-xl md:hidden"><Search size={18} /></button>
       <D.Root open={open} onOpenChange={(v) => { setOpen(v); if (!v) setQ('') }}>
         <D.Portal>
           <D.Overlay className="fixed inset-0 z-50 bg-black/45" />
@@ -143,7 +149,7 @@ export function NewMenu() {
   if (!items.length) return null
   return (
     <Menu.Root open={open} onOpenChange={setOpen}>
-      <Menu.Trigger className="inline-flex h-9 items-center gap-1.5 rounded-lg bg-accent px-3 text-sm font-medium text-accent-ink hover:opacity-90"><Plus size={16} /><span className="hidden sm:inline">New</span></Menu.Trigger>
+      <Menu.Trigger className="btn-bright inline-flex h-9 items-center gap-2 rounded-xl px-3.5 text-sm font-medium"><Plus size={16} /><span className="hidden sm:inline">New</span></Menu.Trigger>
       <Menu.Portal>
         <Menu.Content align="end" sideOffset={6} className="z-50 w-64 rounded-xl border border-line bg-surface p-1 text-sm shadow-xl">
           <div className="px-3 pt-2 pb-1 text-xs text-muted">What do you want to add?</div>

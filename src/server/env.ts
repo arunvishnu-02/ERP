@@ -19,7 +19,7 @@ export const rememberOrigin = (origin: string) => { seenOrigin ??= origin }
  * so `next build` works without a database or secrets.
  */
 export const env = {
-  /** mysql://user:password@host:3306/database */
+  /** postgresql://user:password@host:5432/database */
   get databaseUrl() { return need('DATABASE_URL') },
   /** 64 hex characters. Encrypts stored website passwords and the mailbox password. */
   get encryptionKey() {
@@ -37,24 +37,19 @@ export const env = {
 }
 
 /**
- * Connection settings for the MariaDB/MySQL driver. They come from DATABASE_URL, or, when that is not set,
- * from DB_HOST, DB_PORT, DB_USER, DB_PASSWORD and DB_NAME (handy when the password has characters that are awkward in an address).
+ * The database address. It comes from DATABASE_URL, or, when that is not set, from DB_HOST, DB_PORT,
+ * DB_USER, DB_PASSWORD and DB_NAME (handy when the password has characters that are awkward in an address).
  */
-export function dbConfig() {
+export function dbUrl() {
   if (!process.env.DATABASE_URL && process.env.DB_USER && process.env.DB_NAME) {
-    return { host: process.env.DB_HOST || 'localhost', port: Number(process.env.DB_PORT || 3306), user: process.env.DB_USER, password: process.env.DB_PASSWORD ?? '', database: process.env.DB_NAME }
+    const host = process.env.DB_HOST || 'localhost'
+    const port = process.env.DB_PORT || '5432'
+    const auth = `${encodeURIComponent(process.env.DB_USER)}:${encodeURIComponent(process.env.DB_PASSWORD ?? '')}`
+    return `postgresql://${auth}@${host}:${port}/${encodeURIComponent(process.env.DB_NAME)}`
   }
   const address = env.databaseUrl
   let u: URL
-  try { u = new URL(address) } catch { throw new ConfigError('DATABASE_URL is not a valid address. It should look like mysql://user:password@host:3306/database') }
-  if (u.protocol !== 'mysql:' && u.protocol !== 'mariadb:') throw new ConfigError('DATABASE_URL must start with mysql://')
-  const socketPath = u.searchParams.get('socket') ?? undefined
-  return {
-    host: u.hostname || 'localhost',
-    port: Number(u.port || 3306),
-    user: decodeURIComponent(u.username),
-    password: decodeURIComponent(u.password),
-    database: decodeURIComponent(u.pathname.replace(/^\//, '')),
-    ...(socketPath ? { socketPath } : {}),
-  }
+  try { u = new URL(address) } catch { throw new ConfigError('DATABASE_URL is not a valid address. It should look like postgresql://user:password@host:5432/database') }
+  if (u.protocol !== 'postgresql:' && u.protocol !== 'postgres:') throw new ConfigError('DATABASE_URL must start with postgresql://')
+  return address
 }

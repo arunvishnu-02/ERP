@@ -4,7 +4,7 @@
 
 /* Cipher Mutex navy and cyan. One accent, cool neutrals, status colours kept for status only. */
 :root {
-  --bg: #f4f6f9;
+  --bg: #f3f5fa;
   --surface: #ffffff;
   --surface-2: #eef1f6;
   --ink: #0e0b33;
@@ -142,3 +142,40 @@ button:not(:disabled),
   .print-bare { max-width: none !important; padding: 0 !important; margin: 0 !important; }
   .paper, .paper * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 }
+
+/* New design (Figma "Desktop+"): deep indigo rail and a gradient band behind the page title. */
+.app-rail {
+  background:
+    radial-gradient(220px 220px at 40px 0px, rgba(2, 166, 220, 0.28), transparent 70%),
+    radial-gradient(240px 240px at 30px 820px, rgba(75, 59, 255, 0.28), transparent 70%),
+    linear-gradient(180deg, #140e6b 0%, #08043a 55%, #05022a 100%);
+}
+.app-hero {
+  background:
+    radial-gradient(45% 160% at 88% 35%, rgba(10, 111, 168, 0.9), transparent 70%),
+    radial-gradient(40% 140% at 25% -10%, rgba(32, 22, 140, 0.85), transparent 75%),
+    linear-gradient(180deg, #120c62 0%, #08043a 70%, #05022a 100%);
+  border-bottom-left-radius: 22px;
+  border-bottom-right-radius: 22px;
+}
+.btn-primary {
+  background: linear-gradient(180deg, #1d1866 0%, #08043a 100%);
+  color: #fff;
+  box-shadow: 0 6px 14px rgba(8, 5, 59, 0.25);
+}
+.btn-primary:hover { background: linear-gradient(180deg, #282184 0%, #0e0950 100%); }
+.dark .btn-primary { background: linear-gradient(180deg, #2d63d8 0%, #1d3fa8 100%); box-shadow: none; }
+.btn-bright {
+  background: linear-gradient(90deg, #02a6dc 0%, #3b6bff 100%);
+  color: #fff;
+  box-shadow: 0 6px 8px rgba(8, 5, 59, 0.3);
+}
+.btn-bright:hover { filter: brightness(1.08); }
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #fff;
+}
+.glass:hover { background: rgba(255, 255, 255, 0.16); }
+.card-shadow { box-shadow: 0 8px 28px rgba(8, 5, 59, 0.07); }
+.dark .card-shadow { box-shadow: none; }

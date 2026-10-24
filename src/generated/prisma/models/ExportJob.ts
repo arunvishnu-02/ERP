@@ -244,7 +244,6 @@ export type ExportJobOrderByWithRelationInput = {
   completedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   organization?: Prisma.OrganizationOrderByWithRelationInput
   requestedBy?: Prisma.UserOrderByWithRelationInput
-  _relevance?: Prisma.ExportJobOrderByRelevanceInput
 }
 
 export type ExportJobWhereUniqueInput = Prisma.AtLeast<{
@@ -404,12 +403,6 @@ export type ExportJobListRelationFilter = {
 
 export type ExportJobOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type ExportJobOrderByRelevanceInput = {
-  fields: Prisma.ExportJobOrderByRelevanceFieldEnum | Prisma.ExportJobOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type ExportJobCountOrderByAggregateInput = {
@@ -787,7 +780,37 @@ export type ExportJobSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   requestedBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["exportJob"]>
 
+export type ExportJobSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  module?: boolean
+  format?: boolean
+  filters?: boolean
+  status?: boolean
+  fileId?: boolean
+  error?: boolean
+  requestedById?: boolean
+  createdAt?: boolean
+  completedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  requestedBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["exportJob"]>
 
+export type ExportJobSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  module?: boolean
+  format?: boolean
+  filters?: boolean
+  status?: boolean
+  fileId?: boolean
+  error?: boolean
+  requestedById?: boolean
+  createdAt?: boolean
+  completedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  requestedBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["exportJob"]>
 
 export type ExportJobSelectScalar = {
   id?: boolean
@@ -805,6 +828,14 @@ export type ExportJobSelectScalar = {
 
 export type ExportJobOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "module" | "format" | "filters" | "status" | "fileId" | "error" | "requestedById" | "createdAt" | "completedAt", ExtArgs["result"]["exportJob"]>
 export type ExportJobInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  requestedBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type ExportJobIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  requestedBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type ExportJobIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   requestedBy?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -945,6 +976,30 @@ export interface ExportJobDelegate<ExtArgs extends runtime.Types.Extensions.Inte
   createMany<T extends ExportJobCreateManyArgs>(args?: Prisma.SelectSubset<T, ExportJobCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many ExportJobs and returns the data saved in the database.
+   * @param {ExportJobCreateManyAndReturnArgs} args - Arguments to create many ExportJobs.
+   * @example
+   * // Create many ExportJobs
+   * const exportJob = await prisma.exportJob.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many ExportJobs and only return the `id`
+   * const exportJobWithIdOnly = await prisma.exportJob.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends ExportJobCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, ExportJobCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExportJobPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a ExportJob.
    * @param {ExportJobDeleteArgs} args - Arguments to delete one ExportJob.
    * @example
@@ -1007,6 +1062,36 @@ export interface ExportJobDelegate<ExtArgs extends runtime.Types.Extensions.Inte
    * 
    */
   updateMany<T extends ExportJobUpdateManyArgs>(args: Prisma.SelectSubset<T, ExportJobUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more ExportJobs and returns the data updated in the database.
+   * @param {ExportJobUpdateManyAndReturnArgs} args - Arguments to update many ExportJobs.
+   * @example
+   * // Update many ExportJobs
+   * const exportJob = await prisma.exportJob.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more ExportJobs and only return the `id`
+   * const exportJobWithIdOnly = await prisma.exportJob.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends ExportJobUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, ExportJobUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExportJobPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one ExportJob.
@@ -1447,6 +1532,29 @@ export type ExportJobCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 /**
+ * ExportJob createManyAndReturn
+ */
+export type ExportJobCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ExportJob
+   */
+  select?: Prisma.ExportJobSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the ExportJob
+   */
+  omit?: Prisma.ExportJobOmit<ExtArgs> | null
+  /**
+   * The data used to create many ExportJobs.
+   */
+  data: Prisma.ExportJobCreateManyInput | Prisma.ExportJobCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ExportJobIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * ExportJob update
  */
 export type ExportJobUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1488,6 +1596,36 @@ export type ExportJobUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Limit how many ExportJobs to update.
    */
   limit?: number
+}
+
+/**
+ * ExportJob updateManyAndReturn
+ */
+export type ExportJobUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ExportJob
+   */
+  select?: Prisma.ExportJobSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the ExportJob
+   */
+  omit?: Prisma.ExportJobOmit<ExtArgs> | null
+  /**
+   * The data used to update ExportJobs.
+   */
+  data: Prisma.XOR<Prisma.ExportJobUpdateManyMutationInput, Prisma.ExportJobUncheckedUpdateManyInput>
+  /**
+   * Filter which ExportJobs to update
+   */
+  where?: Prisma.ExportJobWhereInput
+  /**
+   * Limit how many ExportJobs to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ExportJobIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

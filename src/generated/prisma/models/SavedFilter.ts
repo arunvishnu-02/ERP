@@ -208,7 +208,6 @@ export type SavedFilterOrderByWithRelationInput = {
   isDefault?: Prisma.SortOrder
   organization?: Prisma.OrganizationOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
-  _relevance?: Prisma.SavedFilterOrderByRelevanceInput
 }
 
 export type SavedFilterWhereUniqueInput = Prisma.AtLeast<{
@@ -328,12 +327,6 @@ export type SavedFilterListRelationFilter = {
 
 export type SavedFilterOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type SavedFilterOrderByRelevanceInput = {
-  fields: Prisma.SavedFilterOrderByRelevanceFieldEnum | Prisma.SavedFilterOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type SavedFilterCountOrderByAggregateInput = {
@@ -635,7 +628,29 @@ export type SavedFilterSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["savedFilter"]>
 
+export type SavedFilterSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  userId?: boolean
+  module?: boolean
+  name?: boolean
+  filters?: boolean
+  isDefault?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["savedFilter"]>
 
+export type SavedFilterSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  userId?: boolean
+  module?: boolean
+  name?: boolean
+  filters?: boolean
+  isDefault?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["savedFilter"]>
 
 export type SavedFilterSelectScalar = {
   id?: boolean
@@ -649,6 +664,14 @@ export type SavedFilterSelectScalar = {
 
 export type SavedFilterOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "userId" | "module" | "name" | "filters" | "isDefault", ExtArgs["result"]["savedFilter"]>
 export type SavedFilterInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type SavedFilterIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type SavedFilterIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -785,6 +808,30 @@ export interface SavedFilterDelegate<ExtArgs extends runtime.Types.Extensions.In
   createMany<T extends SavedFilterCreateManyArgs>(args?: Prisma.SelectSubset<T, SavedFilterCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many SavedFilters and returns the data saved in the database.
+   * @param {SavedFilterCreateManyAndReturnArgs} args - Arguments to create many SavedFilters.
+   * @example
+   * // Create many SavedFilters
+   * const savedFilter = await prisma.savedFilter.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many SavedFilters and only return the `id`
+   * const savedFilterWithIdOnly = await prisma.savedFilter.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends SavedFilterCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, SavedFilterCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SavedFilterPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a SavedFilter.
    * @param {SavedFilterDeleteArgs} args - Arguments to delete one SavedFilter.
    * @example
@@ -847,6 +894,36 @@ export interface SavedFilterDelegate<ExtArgs extends runtime.Types.Extensions.In
    * 
    */
   updateMany<T extends SavedFilterUpdateManyArgs>(args: Prisma.SelectSubset<T, SavedFilterUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more SavedFilters and returns the data updated in the database.
+   * @param {SavedFilterUpdateManyAndReturnArgs} args - Arguments to update many SavedFilters.
+   * @example
+   * // Update many SavedFilters
+   * const savedFilter = await prisma.savedFilter.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more SavedFilters and only return the `id`
+   * const savedFilterWithIdOnly = await prisma.savedFilter.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends SavedFilterUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, SavedFilterUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SavedFilterPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one SavedFilter.
@@ -1283,6 +1360,29 @@ export type SavedFilterCreateManyArgs<ExtArgs extends runtime.Types.Extensions.I
 }
 
 /**
+ * SavedFilter createManyAndReturn
+ */
+export type SavedFilterCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SavedFilter
+   */
+  select?: Prisma.SavedFilterSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the SavedFilter
+   */
+  omit?: Prisma.SavedFilterOmit<ExtArgs> | null
+  /**
+   * The data used to create many SavedFilters.
+   */
+  data: Prisma.SavedFilterCreateManyInput | Prisma.SavedFilterCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SavedFilterIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * SavedFilter update
  */
 export type SavedFilterUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1324,6 +1424,36 @@ export type SavedFilterUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Limit how many SavedFilters to update.
    */
   limit?: number
+}
+
+/**
+ * SavedFilter updateManyAndReturn
+ */
+export type SavedFilterUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SavedFilter
+   */
+  select?: Prisma.SavedFilterSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the SavedFilter
+   */
+  omit?: Prisma.SavedFilterOmit<ExtArgs> | null
+  /**
+   * The data used to update SavedFilters.
+   */
+  data: Prisma.XOR<Prisma.SavedFilterUpdateManyMutationInput, Prisma.SavedFilterUncheckedUpdateManyInput>
+  /**
+   * Filter which SavedFilters to update
+   */
+  where?: Prisma.SavedFilterWhereInput
+  /**
+   * Limit how many SavedFilters to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SavedFilterIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

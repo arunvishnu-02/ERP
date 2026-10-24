@@ -1,10 +1,10 @@
-import { PrismaMariaDb } from '@prisma/adapter-mariadb'
+import { PrismaPg } from '@prisma/adapter-pg'
 import { Prisma, PrismaClient } from '../generated/prisma/client'
-import { dbConfig, env } from './env'
+import { dbUrl, env } from './env'
 
 // One client per server process. Kept on globalThis so hot reloads in development do not open new pools.
 const store = globalThis as unknown as { __cxPrisma?: PrismaClient }
-const client = () => (store.__cxPrisma ??= new PrismaClient({ adapter: new PrismaMariaDb({ ...dbConfig(), connectionLimit: env.poolSize }) }))
+const client = () => (store.__cxPrisma ??= new PrismaClient({ adapter: new PrismaPg({ connectionString: dbUrl(), max: env.poolSize }) }))
 
 /** The Prisma client. It connects on first use, so importing this file never needs the database. */
 export const prisma = new Proxy({} as PrismaClient, {

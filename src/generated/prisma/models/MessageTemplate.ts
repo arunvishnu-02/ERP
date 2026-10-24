@@ -262,7 +262,6 @@ export type MessageTemplateOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   organization?: Prisma.OrganizationOrderByWithRelationInput
   messages?: Prisma.MessageOrderByRelationAggregateInput
-  _relevance?: Prisma.MessageTemplateOrderByRelevanceInput
 }
 
 export type MessageTemplateWhereUniqueInput = Prisma.AtLeast<{
@@ -448,12 +447,6 @@ export type MessageTemplateListRelationFilter = {
 
 export type MessageTemplateOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type MessageTemplateOrderByRelevanceInput = {
-  fields: Prisma.MessageTemplateOrderByRelevanceFieldEnum | Prisma.MessageTemplateOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type MessageTemplateOrganizationIdChannelKeyCompoundUniqueInput = {
@@ -840,7 +833,39 @@ export type MessageTemplateSelect<ExtArgs extends runtime.Types.Extensions.Inter
   _count?: boolean | Prisma.MessageTemplateCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["messageTemplate"]>
 
+export type MessageTemplateSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  channel?: boolean
+  key?: boolean
+  name?: boolean
+  subject?: boolean
+  body?: boolean
+  variables?: boolean
+  whatsappTemplateName?: boolean
+  whatsappLanguage?: boolean
+  isActive?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["messageTemplate"]>
 
+export type MessageTemplateSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  channel?: boolean
+  key?: boolean
+  name?: boolean
+  subject?: boolean
+  body?: boolean
+  variables?: boolean
+  whatsappTemplateName?: boolean
+  whatsappLanguage?: boolean
+  isActive?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["messageTemplate"]>
 
 export type MessageTemplateSelectScalar = {
   id?: boolean
@@ -863,6 +888,12 @@ export type MessageTemplateInclude<ExtArgs extends runtime.Types.Extensions.Inte
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   messages?: boolean | Prisma.MessageTemplate$messagesArgs<ExtArgs>
   _count?: boolean | Prisma.MessageTemplateCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type MessageTemplateIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}
+export type MessageTemplateIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
 }
 
 export type $MessageTemplatePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1003,6 +1034,30 @@ export interface MessageTemplateDelegate<ExtArgs extends runtime.Types.Extension
   createMany<T extends MessageTemplateCreateManyArgs>(args?: Prisma.SelectSubset<T, MessageTemplateCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many MessageTemplates and returns the data saved in the database.
+   * @param {MessageTemplateCreateManyAndReturnArgs} args - Arguments to create many MessageTemplates.
+   * @example
+   * // Create many MessageTemplates
+   * const messageTemplate = await prisma.messageTemplate.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many MessageTemplates and only return the `id`
+   * const messageTemplateWithIdOnly = await prisma.messageTemplate.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends MessageTemplateCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, MessageTemplateCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MessageTemplatePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a MessageTemplate.
    * @param {MessageTemplateDeleteArgs} args - Arguments to delete one MessageTemplate.
    * @example
@@ -1065,6 +1120,36 @@ export interface MessageTemplateDelegate<ExtArgs extends runtime.Types.Extension
    * 
    */
   updateMany<T extends MessageTemplateUpdateManyArgs>(args: Prisma.SelectSubset<T, MessageTemplateUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more MessageTemplates and returns the data updated in the database.
+   * @param {MessageTemplateUpdateManyAndReturnArgs} args - Arguments to update many MessageTemplates.
+   * @example
+   * // Update many MessageTemplates
+   * const messageTemplate = await prisma.messageTemplate.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more MessageTemplates and only return the `id`
+   * const messageTemplateWithIdOnly = await prisma.messageTemplate.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends MessageTemplateUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, MessageTemplateUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MessageTemplatePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one MessageTemplate.
@@ -1507,6 +1592,29 @@ export type MessageTemplateCreateManyArgs<ExtArgs extends runtime.Types.Extensio
 }
 
 /**
+ * MessageTemplate createManyAndReturn
+ */
+export type MessageTemplateCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MessageTemplate
+   */
+  select?: Prisma.MessageTemplateSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the MessageTemplate
+   */
+  omit?: Prisma.MessageTemplateOmit<ExtArgs> | null
+  /**
+   * The data used to create many MessageTemplates.
+   */
+  data: Prisma.MessageTemplateCreateManyInput | Prisma.MessageTemplateCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MessageTemplateIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * MessageTemplate update
  */
 export type MessageTemplateUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1548,6 +1656,36 @@ export type MessageTemplateUpdateManyArgs<ExtArgs extends runtime.Types.Extensio
    * Limit how many MessageTemplates to update.
    */
   limit?: number
+}
+
+/**
+ * MessageTemplate updateManyAndReturn
+ */
+export type MessageTemplateUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MessageTemplate
+   */
+  select?: Prisma.MessageTemplateSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the MessageTemplate
+   */
+  omit?: Prisma.MessageTemplateOmit<ExtArgs> | null
+  /**
+   * The data used to update MessageTemplates.
+   */
+  data: Prisma.XOR<Prisma.MessageTemplateUpdateManyMutationInput, Prisma.MessageTemplateUncheckedUpdateManyInput>
+  /**
+   * Filter which MessageTemplates to update
+   */
+  where?: Prisma.MessageTemplateWhereInput
+  /**
+   * Limit how many MessageTemplates to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MessageTemplateIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

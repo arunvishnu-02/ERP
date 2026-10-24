@@ -312,7 +312,6 @@ export type PayrollRunOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   organization?: Prisma.OrganizationOrderByWithRelationInput
   payslips?: Prisma.PayslipOrderByRelationAggregateInput
-  _relevance?: Prisma.PayrollRunOrderByRelevanceInput
 }
 
 export type PayrollRunWhereUniqueInput = Prisma.AtLeast<{
@@ -500,12 +499,6 @@ export type PayrollRunListRelationFilter = {
 
 export type PayrollRunOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type PayrollRunOrderByRelevanceInput = {
-  fields: Prisma.PayrollRunOrderByRelevanceFieldEnum | Prisma.PayrollRunOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type PayrollRunOrganizationIdMonthCompoundUniqueInput = {
@@ -909,7 +902,39 @@ export type PayrollRunSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   _count?: boolean | Prisma.PayrollRunCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["payrollRun"]>
 
+export type PayrollRunSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  month?: boolean
+  status?: boolean
+  workingDays?: boolean
+  totalGross?: boolean
+  totalDeductions?: boolean
+  totalNet?: boolean
+  createdById?: boolean
+  finalisedAt?: boolean
+  paidOn?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["payrollRun"]>
 
+export type PayrollRunSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  month?: boolean
+  status?: boolean
+  workingDays?: boolean
+  totalGross?: boolean
+  totalDeductions?: boolean
+  totalNet?: boolean
+  createdById?: boolean
+  finalisedAt?: boolean
+  paidOn?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["payrollRun"]>
 
 export type PayrollRunSelectScalar = {
   id?: boolean
@@ -932,6 +957,12 @@ export type PayrollRunInclude<ExtArgs extends runtime.Types.Extensions.InternalA
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   payslips?: boolean | Prisma.PayrollRun$payslipsArgs<ExtArgs>
   _count?: boolean | Prisma.PayrollRunCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type PayrollRunIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}
+export type PayrollRunIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
 }
 
 export type $PayrollRunPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1072,6 +1103,30 @@ export interface PayrollRunDelegate<ExtArgs extends runtime.Types.Extensions.Int
   createMany<T extends PayrollRunCreateManyArgs>(args?: Prisma.SelectSubset<T, PayrollRunCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many PayrollRuns and returns the data saved in the database.
+   * @param {PayrollRunCreateManyAndReturnArgs} args - Arguments to create many PayrollRuns.
+   * @example
+   * // Create many PayrollRuns
+   * const payrollRun = await prisma.payrollRun.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many PayrollRuns and only return the `id`
+   * const payrollRunWithIdOnly = await prisma.payrollRun.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends PayrollRunCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, PayrollRunCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PayrollRunPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a PayrollRun.
    * @param {PayrollRunDeleteArgs} args - Arguments to delete one PayrollRun.
    * @example
@@ -1134,6 +1189,36 @@ export interface PayrollRunDelegate<ExtArgs extends runtime.Types.Extensions.Int
    * 
    */
   updateMany<T extends PayrollRunUpdateManyArgs>(args: Prisma.SelectSubset<T, PayrollRunUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more PayrollRuns and returns the data updated in the database.
+   * @param {PayrollRunUpdateManyAndReturnArgs} args - Arguments to update many PayrollRuns.
+   * @example
+   * // Update many PayrollRuns
+   * const payrollRun = await prisma.payrollRun.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more PayrollRuns and only return the `id`
+   * const payrollRunWithIdOnly = await prisma.payrollRun.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends PayrollRunUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, PayrollRunUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PayrollRunPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one PayrollRun.
@@ -1576,6 +1661,29 @@ export type PayrollRunCreateManyArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
+ * PayrollRun createManyAndReturn
+ */
+export type PayrollRunCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PayrollRun
+   */
+  select?: Prisma.PayrollRunSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the PayrollRun
+   */
+  omit?: Prisma.PayrollRunOmit<ExtArgs> | null
+  /**
+   * The data used to create many PayrollRuns.
+   */
+  data: Prisma.PayrollRunCreateManyInput | Prisma.PayrollRunCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PayrollRunIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * PayrollRun update
  */
 export type PayrollRunUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1617,6 +1725,36 @@ export type PayrollRunUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Limit how many PayrollRuns to update.
    */
   limit?: number
+}
+
+/**
+ * PayrollRun updateManyAndReturn
+ */
+export type PayrollRunUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PayrollRun
+   */
+  select?: Prisma.PayrollRunSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the PayrollRun
+   */
+  omit?: Prisma.PayrollRunOmit<ExtArgs> | null
+  /**
+   * The data used to update PayrollRuns.
+   */
+  data: Prisma.XOR<Prisma.PayrollRunUpdateManyMutationInput, Prisma.PayrollRunUncheckedUpdateManyInput>
+  /**
+   * Filter which PayrollRuns to update
+   */
+  where?: Prisma.PayrollRunWhereInput
+  /**
+   * Limit how many PayrollRuns to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PayrollRunIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

@@ -230,7 +230,6 @@ export type NoteOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   organization?: Prisma.OrganizationOrderByWithRelationInput
   author?: Prisma.UserOrderByWithRelationInput
-  _relevance?: Prisma.NoteOrderByRelevanceInput
 }
 
 export type NoteWhereUniqueInput = Prisma.AtLeast<{
@@ -370,12 +369,6 @@ export type NoteListRelationFilter = {
 
 export type NoteOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type NoteOrderByRelevanceInput = {
-  fields: Prisma.NoteOrderByRelevanceFieldEnum | Prisma.NoteOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type NoteCountOrderByAggregateInput = {
@@ -713,7 +706,33 @@ export type NoteSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["note"]>
 
+export type NoteSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  entityType?: boolean
+  entityId?: boolean
+  body?: boolean
+  isPinned?: boolean
+  authorId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["note"]>
 
+export type NoteSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  entityType?: boolean
+  entityId?: boolean
+  body?: boolean
+  isPinned?: boolean
+  authorId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["note"]>
 
 export type NoteSelectScalar = {
   id?: boolean
@@ -729,6 +748,14 @@ export type NoteSelectScalar = {
 
 export type NoteOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "entityType" | "entityId" | "body" | "isPinned" | "authorId" | "createdAt" | "updatedAt", ExtArgs["result"]["note"]>
 export type NoteInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type NoteIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type NoteIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   author?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -867,6 +894,30 @@ export interface NoteDelegate<ExtArgs extends runtime.Types.Extensions.InternalA
   createMany<T extends NoteCreateManyArgs>(args?: Prisma.SelectSubset<T, NoteCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many Notes and returns the data saved in the database.
+   * @param {NoteCreateManyAndReturnArgs} args - Arguments to create many Notes.
+   * @example
+   * // Create many Notes
+   * const note = await prisma.note.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many Notes and only return the `id`
+   * const noteWithIdOnly = await prisma.note.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends NoteCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, NoteCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a Note.
    * @param {NoteDeleteArgs} args - Arguments to delete one Note.
    * @example
@@ -929,6 +980,36 @@ export interface NoteDelegate<ExtArgs extends runtime.Types.Extensions.InternalA
    * 
    */
   updateMany<T extends NoteUpdateManyArgs>(args: Prisma.SelectSubset<T, NoteUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more Notes and returns the data updated in the database.
+   * @param {NoteUpdateManyAndReturnArgs} args - Arguments to update many Notes.
+   * @example
+   * // Update many Notes
+   * const note = await prisma.note.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more Notes and only return the `id`
+   * const noteWithIdOnly = await prisma.note.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends NoteUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, NoteUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one Note.
@@ -1367,6 +1448,29 @@ export type NoteCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
+ * Note createManyAndReturn
+ */
+export type NoteCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Note
+   */
+  select?: Prisma.NoteSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Note
+   */
+  omit?: Prisma.NoteOmit<ExtArgs> | null
+  /**
+   * The data used to create many Notes.
+   */
+  data: Prisma.NoteCreateManyInput | Prisma.NoteCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NoteIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * Note update
  */
 export type NoteUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1408,6 +1512,36 @@ export type NoteUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Limit how many Notes to update.
    */
   limit?: number
+}
+
+/**
+ * Note updateManyAndReturn
+ */
+export type NoteUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Note
+   */
+  select?: Prisma.NoteSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Note
+   */
+  omit?: Prisma.NoteOmit<ExtArgs> | null
+  /**
+   * The data used to update Notes.
+   */
+  data: Prisma.XOR<Prisma.NoteUpdateManyMutationInput, Prisma.NoteUncheckedUpdateManyInput>
+  /**
+   * Filter which Notes to update
+   */
+  where?: Prisma.NoteWhereInput
+  /**
+   * Limit how many Notes to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.NoteIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

@@ -235,7 +235,6 @@ export type AutomationActionOrderByWithRelationInput = {
   config?: Prisma.SortOrder
   delayMinutes?: Prisma.SortOrder
   rule?: Prisma.AutomationRuleOrderByWithRelationInput
-  _relevance?: Prisma.AutomationActionOrderByRelevanceInput
 }
 
 export type AutomationActionWhereUniqueInput = Prisma.AtLeast<{
@@ -347,12 +346,6 @@ export type AutomationActionListRelationFilter = {
 
 export type AutomationActionOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type AutomationActionOrderByRelevanceInput = {
-  fields: Prisma.AutomationActionOrderByRelevanceFieldEnum | Prisma.AutomationActionOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type AutomationActionCountOrderByAggregateInput = {
@@ -534,7 +527,25 @@ export type AutomationActionSelect<ExtArgs extends runtime.Types.Extensions.Inte
   rule?: boolean | Prisma.AutomationRuleDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["automationAction"]>
 
+export type AutomationActionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  ruleId?: boolean
+  position?: boolean
+  type?: boolean
+  config?: boolean
+  delayMinutes?: boolean
+  rule?: boolean | Prisma.AutomationRuleDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["automationAction"]>
 
+export type AutomationActionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  ruleId?: boolean
+  position?: boolean
+  type?: boolean
+  config?: boolean
+  delayMinutes?: boolean
+  rule?: boolean | Prisma.AutomationRuleDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["automationAction"]>
 
 export type AutomationActionSelectScalar = {
   id?: boolean
@@ -547,6 +558,12 @@ export type AutomationActionSelectScalar = {
 
 export type AutomationActionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "ruleId" | "position" | "type" | "config" | "delayMinutes", ExtArgs["result"]["automationAction"]>
 export type AutomationActionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  rule?: boolean | Prisma.AutomationRuleDefaultArgs<ExtArgs>
+}
+export type AutomationActionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  rule?: boolean | Prisma.AutomationRuleDefaultArgs<ExtArgs>
+}
+export type AutomationActionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   rule?: boolean | Prisma.AutomationRuleDefaultArgs<ExtArgs>
 }
 
@@ -680,6 +697,30 @@ export interface AutomationActionDelegate<ExtArgs extends runtime.Types.Extensio
   createMany<T extends AutomationActionCreateManyArgs>(args?: Prisma.SelectSubset<T, AutomationActionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many AutomationActions and returns the data saved in the database.
+   * @param {AutomationActionCreateManyAndReturnArgs} args - Arguments to create many AutomationActions.
+   * @example
+   * // Create many AutomationActions
+   * const automationAction = await prisma.automationAction.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many AutomationActions and only return the `id`
+   * const automationActionWithIdOnly = await prisma.automationAction.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends AutomationActionCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, AutomationActionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AutomationActionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a AutomationAction.
    * @param {AutomationActionDeleteArgs} args - Arguments to delete one AutomationAction.
    * @example
@@ -742,6 +783,36 @@ export interface AutomationActionDelegate<ExtArgs extends runtime.Types.Extensio
    * 
    */
   updateMany<T extends AutomationActionUpdateManyArgs>(args: Prisma.SelectSubset<T, AutomationActionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more AutomationActions and returns the data updated in the database.
+   * @param {AutomationActionUpdateManyAndReturnArgs} args - Arguments to update many AutomationActions.
+   * @example
+   * // Update many AutomationActions
+   * const automationAction = await prisma.automationAction.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more AutomationActions and only return the `id`
+   * const automationActionWithIdOnly = await prisma.automationAction.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends AutomationActionUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, AutomationActionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AutomationActionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one AutomationAction.
@@ -1176,6 +1247,29 @@ export type AutomationActionCreateManyArgs<ExtArgs extends runtime.Types.Extensi
 }
 
 /**
+ * AutomationAction createManyAndReturn
+ */
+export type AutomationActionCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AutomationAction
+   */
+  select?: Prisma.AutomationActionSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the AutomationAction
+   */
+  omit?: Prisma.AutomationActionOmit<ExtArgs> | null
+  /**
+   * The data used to create many AutomationActions.
+   */
+  data: Prisma.AutomationActionCreateManyInput | Prisma.AutomationActionCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AutomationActionIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * AutomationAction update
  */
 export type AutomationActionUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1217,6 +1311,36 @@ export type AutomationActionUpdateManyArgs<ExtArgs extends runtime.Types.Extensi
    * Limit how many AutomationActions to update.
    */
   limit?: number
+}
+
+/**
+ * AutomationAction updateManyAndReturn
+ */
+export type AutomationActionUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AutomationAction
+   */
+  select?: Prisma.AutomationActionSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the AutomationAction
+   */
+  omit?: Prisma.AutomationActionOmit<ExtArgs> | null
+  /**
+   * The data used to update AutomationActions.
+   */
+  data: Prisma.XOR<Prisma.AutomationActionUpdateManyMutationInput, Prisma.AutomationActionUncheckedUpdateManyInput>
+  /**
+   * Filter which AutomationActions to update
+   */
+  where?: Prisma.AutomationActionWhereInput
+  /**
+   * Limit how many AutomationActions to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AutomationActionIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

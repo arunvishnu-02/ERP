@@ -292,7 +292,6 @@ export type MeetingOrderByWithRelationInput = {
   customer?: Prisma.CustomerOrderByWithRelationInput
   organizer?: Prisma.UserOrderByWithRelationInput
   attendees?: Prisma.MeetingAttendeeOrderByRelationAggregateInput
-  _relevance?: Prisma.MeetingOrderByRelevanceInput
 }
 
 export type MeetingWhereUniqueInput = Prisma.AtLeast<{
@@ -497,12 +496,6 @@ export type MeetingListRelationFilter = {
 
 export type MeetingOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type MeetingOrderByRelevanceInput = {
-  fields: Prisma.MeetingOrderByRelevanceFieldEnum | Prisma.MeetingOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type MeetingCountOrderByAggregateInput = {
@@ -1613,7 +1606,51 @@ export type MeetingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   _count?: boolean | Prisma.MeetingCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["meeting"]>
 
+export type MeetingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  title?: boolean
+  leadId?: boolean
+  dealId?: boolean
+  customerId?: boolean
+  startsAt?: boolean
+  endsAt?: boolean
+  location?: boolean
+  meetingUrl?: boolean
+  agenda?: boolean
+  outcome?: boolean
+  organizerId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  lead?: boolean | Prisma.Meeting$leadArgs<ExtArgs>
+  deal?: boolean | Prisma.Meeting$dealArgs<ExtArgs>
+  customer?: boolean | Prisma.Meeting$customerArgs<ExtArgs>
+  organizer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["meeting"]>
 
+export type MeetingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  title?: boolean
+  leadId?: boolean
+  dealId?: boolean
+  customerId?: boolean
+  startsAt?: boolean
+  endsAt?: boolean
+  location?: boolean
+  meetingUrl?: boolean
+  agenda?: boolean
+  outcome?: boolean
+  organizerId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  lead?: boolean | Prisma.Meeting$leadArgs<ExtArgs>
+  deal?: boolean | Prisma.Meeting$dealArgs<ExtArgs>
+  customer?: boolean | Prisma.Meeting$customerArgs<ExtArgs>
+  organizer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["meeting"]>
 
 export type MeetingSelectScalar = {
   id?: boolean
@@ -1642,6 +1679,20 @@ export type MeetingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   organizer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   attendees?: boolean | Prisma.Meeting$attendeesArgs<ExtArgs>
   _count?: boolean | Prisma.MeetingCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type MeetingIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  lead?: boolean | Prisma.Meeting$leadArgs<ExtArgs>
+  deal?: boolean | Prisma.Meeting$dealArgs<ExtArgs>
+  customer?: boolean | Prisma.Meeting$customerArgs<ExtArgs>
+  organizer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type MeetingIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  lead?: boolean | Prisma.Meeting$leadArgs<ExtArgs>
+  deal?: boolean | Prisma.Meeting$dealArgs<ExtArgs>
+  customer?: boolean | Prisma.Meeting$customerArgs<ExtArgs>
+  organizer?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
 export type $MeetingPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1788,6 +1839,30 @@ export interface MeetingDelegate<ExtArgs extends runtime.Types.Extensions.Intern
   createMany<T extends MeetingCreateManyArgs>(args?: Prisma.SelectSubset<T, MeetingCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many Meetings and returns the data saved in the database.
+   * @param {MeetingCreateManyAndReturnArgs} args - Arguments to create many Meetings.
+   * @example
+   * // Create many Meetings
+   * const meeting = await prisma.meeting.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many Meetings and only return the `id`
+   * const meetingWithIdOnly = await prisma.meeting.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends MeetingCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, MeetingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MeetingPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a Meeting.
    * @param {MeetingDeleteArgs} args - Arguments to delete one Meeting.
    * @example
@@ -1850,6 +1925,36 @@ export interface MeetingDelegate<ExtArgs extends runtime.Types.Extensions.Intern
    * 
    */
   updateMany<T extends MeetingUpdateManyArgs>(args: Prisma.SelectSubset<T, MeetingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more Meetings and returns the data updated in the database.
+   * @param {MeetingUpdateManyAndReturnArgs} args - Arguments to update many Meetings.
+   * @example
+   * // Update many Meetings
+   * const meeting = await prisma.meeting.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more Meetings and only return the `id`
+   * const meetingWithIdOnly = await prisma.meeting.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends MeetingUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, MeetingUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MeetingPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one Meeting.
@@ -2298,6 +2403,29 @@ export type MeetingCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
+ * Meeting createManyAndReturn
+ */
+export type MeetingCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Meeting
+   */
+  select?: Prisma.MeetingSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Meeting
+   */
+  omit?: Prisma.MeetingOmit<ExtArgs> | null
+  /**
+   * The data used to create many Meetings.
+   */
+  data: Prisma.MeetingCreateManyInput | Prisma.MeetingCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MeetingIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * Meeting update
  */
 export type MeetingUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2339,6 +2467,36 @@ export type MeetingUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Limit how many Meetings to update.
    */
   limit?: number
+}
+
+/**
+ * Meeting updateManyAndReturn
+ */
+export type MeetingUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Meeting
+   */
+  select?: Prisma.MeetingSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Meeting
+   */
+  omit?: Prisma.MeetingOmit<ExtArgs> | null
+  /**
+   * The data used to update Meetings.
+   */
+  data: Prisma.XOR<Prisma.MeetingUpdateManyMutationInput, Prisma.MeetingUncheckedUpdateManyInput>
+  /**
+   * Filter which Meetings to update
+   */
+  where?: Prisma.MeetingWhereInput
+  /**
+   * Limit how many Meetings to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MeetingIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

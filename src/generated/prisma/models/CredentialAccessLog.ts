@@ -203,7 +203,6 @@ export type CredentialAccessLogOrderByWithRelationInput = {
   accessedAt?: Prisma.SortOrder
   credential?: Prisma.CredentialOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
-  _relevance?: Prisma.CredentialAccessLogOrderByRelevanceInput
 }
 
 export type CredentialAccessLogWhereUniqueInput = Prisma.AtLeast<{
@@ -313,12 +312,6 @@ export type CredentialAccessLogListRelationFilter = {
 
 export type CredentialAccessLogOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type CredentialAccessLogOrderByRelevanceInput = {
-  fields: Prisma.CredentialAccessLogOrderByRelevanceFieldEnum | Prisma.CredentialAccessLogOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type CredentialAccessLogCountOrderByAggregateInput = {
@@ -609,7 +602,27 @@ export type CredentialAccessLogSelect<ExtArgs extends runtime.Types.Extensions.I
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["credentialAccessLog"]>
 
+export type CredentialAccessLogSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  credentialId?: boolean
+  userId?: boolean
+  action?: boolean
+  ipAddress?: boolean
+  accessedAt?: boolean
+  credential?: boolean | Prisma.CredentialDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["credentialAccessLog"]>
 
+export type CredentialAccessLogSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  credentialId?: boolean
+  userId?: boolean
+  action?: boolean
+  ipAddress?: boolean
+  accessedAt?: boolean
+  credential?: boolean | Prisma.CredentialDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["credentialAccessLog"]>
 
 export type CredentialAccessLogSelectScalar = {
   id?: boolean
@@ -622,6 +635,14 @@ export type CredentialAccessLogSelectScalar = {
 
 export type CredentialAccessLogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "credentialId" | "userId" | "action" | "ipAddress" | "accessedAt", ExtArgs["result"]["credentialAccessLog"]>
 export type CredentialAccessLogInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  credential?: boolean | Prisma.CredentialDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type CredentialAccessLogIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  credential?: boolean | Prisma.CredentialDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type CredentialAccessLogIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   credential?: boolean | Prisma.CredentialDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -757,6 +778,30 @@ export interface CredentialAccessLogDelegate<ExtArgs extends runtime.Types.Exten
   createMany<T extends CredentialAccessLogCreateManyArgs>(args?: Prisma.SelectSubset<T, CredentialAccessLogCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many CredentialAccessLogs and returns the data saved in the database.
+   * @param {CredentialAccessLogCreateManyAndReturnArgs} args - Arguments to create many CredentialAccessLogs.
+   * @example
+   * // Create many CredentialAccessLogs
+   * const credentialAccessLog = await prisma.credentialAccessLog.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many CredentialAccessLogs and only return the `id`
+   * const credentialAccessLogWithIdOnly = await prisma.credentialAccessLog.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends CredentialAccessLogCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, CredentialAccessLogCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CredentialAccessLogPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a CredentialAccessLog.
    * @param {CredentialAccessLogDeleteArgs} args - Arguments to delete one CredentialAccessLog.
    * @example
@@ -819,6 +864,36 @@ export interface CredentialAccessLogDelegate<ExtArgs extends runtime.Types.Exten
    * 
    */
   updateMany<T extends CredentialAccessLogUpdateManyArgs>(args: Prisma.SelectSubset<T, CredentialAccessLogUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more CredentialAccessLogs and returns the data updated in the database.
+   * @param {CredentialAccessLogUpdateManyAndReturnArgs} args - Arguments to update many CredentialAccessLogs.
+   * @example
+   * // Update many CredentialAccessLogs
+   * const credentialAccessLog = await prisma.credentialAccessLog.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more CredentialAccessLogs and only return the `id`
+   * const credentialAccessLogWithIdOnly = await prisma.credentialAccessLog.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends CredentialAccessLogUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, CredentialAccessLogUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CredentialAccessLogPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one CredentialAccessLog.
@@ -1254,6 +1329,29 @@ export type CredentialAccessLogCreateManyArgs<ExtArgs extends runtime.Types.Exte
 }
 
 /**
+ * CredentialAccessLog createManyAndReturn
+ */
+export type CredentialAccessLogCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CredentialAccessLog
+   */
+  select?: Prisma.CredentialAccessLogSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the CredentialAccessLog
+   */
+  omit?: Prisma.CredentialAccessLogOmit<ExtArgs> | null
+  /**
+   * The data used to create many CredentialAccessLogs.
+   */
+  data: Prisma.CredentialAccessLogCreateManyInput | Prisma.CredentialAccessLogCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CredentialAccessLogIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * CredentialAccessLog update
  */
 export type CredentialAccessLogUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1295,6 +1393,36 @@ export type CredentialAccessLogUpdateManyArgs<ExtArgs extends runtime.Types.Exte
    * Limit how many CredentialAccessLogs to update.
    */
   limit?: number
+}
+
+/**
+ * CredentialAccessLog updateManyAndReturn
+ */
+export type CredentialAccessLogUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CredentialAccessLog
+   */
+  select?: Prisma.CredentialAccessLogSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the CredentialAccessLog
+   */
+  omit?: Prisma.CredentialAccessLogOmit<ExtArgs> | null
+  /**
+   * The data used to update CredentialAccessLogs.
+   */
+  data: Prisma.XOR<Prisma.CredentialAccessLogUpdateManyMutationInput, Prisma.CredentialAccessLogUncheckedUpdateManyInput>
+  /**
+   * Filter which CredentialAccessLogs to update
+   */
+  where?: Prisma.CredentialAccessLogWhereInput
+  /**
+   * Limit how many CredentialAccessLogs to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CredentialAccessLogIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

@@ -289,7 +289,6 @@ export type AdSpendOrderByWithRelationInput = {
   conversions?: Prisma.SortOrderInput | Prisma.SortOrder
   organization?: Prisma.OrganizationOrderByWithRelationInput
   campaign?: Prisma.CampaignOrderByWithRelationInput
-  _relevance?: Prisma.AdSpendOrderByRelevanceInput
 }
 
 export type AdSpendWhereUniqueInput = Prisma.AtLeast<{
@@ -442,12 +441,6 @@ export type AdSpendListRelationFilter = {
 
 export type AdSpendOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type AdSpendOrderByRelevanceInput = {
-  fields: Prisma.AdSpendOrderByRelevanceFieldEnum | Prisma.AdSpendOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type AdSpendCampaignIdPlatformSpendDateCompoundUniqueInput = {
@@ -824,7 +817,35 @@ export type AdSpendSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   campaign?: boolean | Prisma.CampaignDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["adSpend"]>
 
+export type AdSpendSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  campaignId?: boolean
+  platform?: boolean
+  spendDate?: boolean
+  amount?: boolean
+  impressions?: boolean
+  clicks?: boolean
+  leads?: boolean
+  conversions?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  campaign?: boolean | Prisma.CampaignDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["adSpend"]>
 
+export type AdSpendSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  campaignId?: boolean
+  platform?: boolean
+  spendDate?: boolean
+  amount?: boolean
+  impressions?: boolean
+  clicks?: boolean
+  leads?: boolean
+  conversions?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  campaign?: boolean | Prisma.CampaignDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["adSpend"]>
 
 export type AdSpendSelectScalar = {
   id?: boolean
@@ -841,6 +862,14 @@ export type AdSpendSelectScalar = {
 
 export type AdSpendOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "campaignId" | "platform" | "spendDate" | "amount" | "impressions" | "clicks" | "leads" | "conversions", ExtArgs["result"]["adSpend"]>
 export type AdSpendInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  campaign?: boolean | Prisma.CampaignDefaultArgs<ExtArgs>
+}
+export type AdSpendIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  campaign?: boolean | Prisma.CampaignDefaultArgs<ExtArgs>
+}
+export type AdSpendIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   campaign?: boolean | Prisma.CampaignDefaultArgs<ExtArgs>
 }
@@ -980,6 +1009,30 @@ export interface AdSpendDelegate<ExtArgs extends runtime.Types.Extensions.Intern
   createMany<T extends AdSpendCreateManyArgs>(args?: Prisma.SelectSubset<T, AdSpendCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many AdSpends and returns the data saved in the database.
+   * @param {AdSpendCreateManyAndReturnArgs} args - Arguments to create many AdSpends.
+   * @example
+   * // Create many AdSpends
+   * const adSpend = await prisma.adSpend.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many AdSpends and only return the `id`
+   * const adSpendWithIdOnly = await prisma.adSpend.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends AdSpendCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, AdSpendCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AdSpendPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a AdSpend.
    * @param {AdSpendDeleteArgs} args - Arguments to delete one AdSpend.
    * @example
@@ -1042,6 +1095,36 @@ export interface AdSpendDelegate<ExtArgs extends runtime.Types.Extensions.Intern
    * 
    */
   updateMany<T extends AdSpendUpdateManyArgs>(args: Prisma.SelectSubset<T, AdSpendUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more AdSpends and returns the data updated in the database.
+   * @param {AdSpendUpdateManyAndReturnArgs} args - Arguments to update many AdSpends.
+   * @example
+   * // Update many AdSpends
+   * const adSpend = await prisma.adSpend.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more AdSpends and only return the `id`
+   * const adSpendWithIdOnly = await prisma.adSpend.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends AdSpendUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, AdSpendUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AdSpendPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one AdSpend.
@@ -1481,6 +1564,29 @@ export type AdSpendCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
+ * AdSpend createManyAndReturn
+ */
+export type AdSpendCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AdSpend
+   */
+  select?: Prisma.AdSpendSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the AdSpend
+   */
+  omit?: Prisma.AdSpendOmit<ExtArgs> | null
+  /**
+   * The data used to create many AdSpends.
+   */
+  data: Prisma.AdSpendCreateManyInput | Prisma.AdSpendCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AdSpendIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * AdSpend update
  */
 export type AdSpendUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1522,6 +1628,36 @@ export type AdSpendUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Limit how many AdSpends to update.
    */
   limit?: number
+}
+
+/**
+ * AdSpend updateManyAndReturn
+ */
+export type AdSpendUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AdSpend
+   */
+  select?: Prisma.AdSpendSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the AdSpend
+   */
+  omit?: Prisma.AdSpendOmit<ExtArgs> | null
+  /**
+   * The data used to update AdSpends.
+   */
+  data: Prisma.XOR<Prisma.AdSpendUpdateManyMutationInput, Prisma.AdSpendUncheckedUpdateManyInput>
+  /**
+   * Filter which AdSpends to update
+   */
+  where?: Prisma.AdSpendWhereInput
+  /**
+   * Limit how many AdSpends to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AdSpendIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

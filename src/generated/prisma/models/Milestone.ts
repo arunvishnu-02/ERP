@@ -279,7 +279,6 @@ export type MilestoneOrderByWithRelationInput = {
   project?: Prisma.ProjectOrderByWithRelationInput
   invoiceItems?: Prisma.InvoiceItemOrderByRelationAggregateInput
   tasks?: Prisma.TaskOrderByRelationAggregateInput
-  _relevance?: Prisma.MilestoneOrderByRelevanceInput
 }
 
 export type MilestoneWhereUniqueInput = Prisma.AtLeast<{
@@ -446,12 +445,6 @@ export type MilestoneListRelationFilter = {
 
 export type MilestoneOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type MilestoneOrderByRelevanceInput = {
-  fields: Prisma.MilestoneOrderByRelevanceFieldEnum | Prisma.MilestoneOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type MilestoneCountOrderByAggregateInput = {
@@ -904,7 +897,33 @@ export type MilestoneSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   _count?: boolean | Prisma.MilestoneCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["milestone"]>
 
+export type MilestoneSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  projectId?: boolean
+  name?: boolean
+  description?: boolean
+  position?: boolean
+  dueDate?: boolean
+  completedAt?: boolean
+  status?: boolean
+  isBillable?: boolean
+  amount?: boolean
+  project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["milestone"]>
 
+export type MilestoneSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  projectId?: boolean
+  name?: boolean
+  description?: boolean
+  position?: boolean
+  dueDate?: boolean
+  completedAt?: boolean
+  status?: boolean
+  isBillable?: boolean
+  amount?: boolean
+  project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["milestone"]>
 
 export type MilestoneSelectScalar = {
   id?: boolean
@@ -925,6 +944,12 @@ export type MilestoneInclude<ExtArgs extends runtime.Types.Extensions.InternalAr
   invoiceItems?: boolean | Prisma.Milestone$invoiceItemsArgs<ExtArgs>
   tasks?: boolean | Prisma.Milestone$tasksArgs<ExtArgs>
   _count?: boolean | Prisma.MilestoneCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type MilestoneIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
+}
+export type MilestoneIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
 }
 
 export type $MilestonePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1063,6 +1088,30 @@ export interface MilestoneDelegate<ExtArgs extends runtime.Types.Extensions.Inte
   createMany<T extends MilestoneCreateManyArgs>(args?: Prisma.SelectSubset<T, MilestoneCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many Milestones and returns the data saved in the database.
+   * @param {MilestoneCreateManyAndReturnArgs} args - Arguments to create many Milestones.
+   * @example
+   * // Create many Milestones
+   * const milestone = await prisma.milestone.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many Milestones and only return the `id`
+   * const milestoneWithIdOnly = await prisma.milestone.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends MilestoneCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, MilestoneCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MilestonePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a Milestone.
    * @param {MilestoneDeleteArgs} args - Arguments to delete one Milestone.
    * @example
@@ -1125,6 +1174,36 @@ export interface MilestoneDelegate<ExtArgs extends runtime.Types.Extensions.Inte
    * 
    */
   updateMany<T extends MilestoneUpdateManyArgs>(args: Prisma.SelectSubset<T, MilestoneUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more Milestones and returns the data updated in the database.
+   * @param {MilestoneUpdateManyAndReturnArgs} args - Arguments to update many Milestones.
+   * @example
+   * // Update many Milestones
+   * const milestone = await prisma.milestone.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more Milestones and only return the `id`
+   * const milestoneWithIdOnly = await prisma.milestone.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends MilestoneUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, MilestoneUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MilestonePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one Milestone.
@@ -1565,6 +1644,29 @@ export type MilestoneCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 /**
+ * Milestone createManyAndReturn
+ */
+export type MilestoneCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Milestone
+   */
+  select?: Prisma.MilestoneSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Milestone
+   */
+  omit?: Prisma.MilestoneOmit<ExtArgs> | null
+  /**
+   * The data used to create many Milestones.
+   */
+  data: Prisma.MilestoneCreateManyInput | Prisma.MilestoneCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MilestoneIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * Milestone update
  */
 export type MilestoneUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1606,6 +1708,36 @@ export type MilestoneUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Limit how many Milestones to update.
    */
   limit?: number
+}
+
+/**
+ * Milestone updateManyAndReturn
+ */
+export type MilestoneUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Milestone
+   */
+  select?: Prisma.MilestoneSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Milestone
+   */
+  omit?: Prisma.MilestoneOmit<ExtArgs> | null
+  /**
+   * The data used to update Milestones.
+   */
+  data: Prisma.XOR<Prisma.MilestoneUpdateManyMutationInput, Prisma.MilestoneUncheckedUpdateManyInput>
+  /**
+   * Filter which Milestones to update
+   */
+  where?: Prisma.MilestoneWhereInput
+  /**
+   * Limit how many Milestones to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MilestoneIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

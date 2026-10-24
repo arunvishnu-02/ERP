@@ -826,7 +826,8 @@ export const IntegrationProvider = {
   SMS_GATEWAY: 'SMS_GATEWAY',
   PAYMENT_GATEWAY: 'PAYMENT_GATEWAY',
   OBJECT_STORAGE: 'OBJECT_STORAGE',
-  GOOGLE: 'GOOGLE'
+  GOOGLE: 'GOOGLE',
+  RESEND: 'RESEND'
 } as const
 
 export type IntegrationProvider = (typeof IntegrationProvider)[keyof typeof IntegrationProvider]

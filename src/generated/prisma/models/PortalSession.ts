@@ -202,7 +202,6 @@ export type PortalSessionOrderByWithRelationInput = {
   lastUsedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   contact?: Prisma.ContactOrderByWithRelationInput
-  _relevance?: Prisma.PortalSessionOrderByRelevanceInput
 }
 
 export type PortalSessionWhereUniqueInput = Prisma.AtLeast<{
@@ -302,12 +301,6 @@ export type PortalSessionUncheckedUpdateManyInput = {
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   lastUsedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type PortalSessionOrderByRelevanceInput = {
-  fields: Prisma.PortalSessionOrderByRelevanceFieldEnum | Prisma.PortalSessionOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type PortalSessionCountOrderByAggregateInput = {
@@ -487,7 +480,25 @@ export type PortalSessionSelect<ExtArgs extends runtime.Types.Extensions.Interna
   contact?: boolean | Prisma.ContactDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["portalSession"]>
 
+export type PortalSessionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  contactId?: boolean
+  tokenHash?: boolean
+  expiresAt?: boolean
+  lastUsedAt?: boolean
+  createdAt?: boolean
+  contact?: boolean | Prisma.ContactDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["portalSession"]>
 
+export type PortalSessionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  contactId?: boolean
+  tokenHash?: boolean
+  expiresAt?: boolean
+  lastUsedAt?: boolean
+  createdAt?: boolean
+  contact?: boolean | Prisma.ContactDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["portalSession"]>
 
 export type PortalSessionSelectScalar = {
   id?: boolean
@@ -500,6 +511,12 @@ export type PortalSessionSelectScalar = {
 
 export type PortalSessionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "contactId" | "tokenHash" | "expiresAt" | "lastUsedAt" | "createdAt", ExtArgs["result"]["portalSession"]>
 export type PortalSessionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  contact?: boolean | Prisma.ContactDefaultArgs<ExtArgs>
+}
+export type PortalSessionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  contact?: boolean | Prisma.ContactDefaultArgs<ExtArgs>
+}
+export type PortalSessionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   contact?: boolean | Prisma.ContactDefaultArgs<ExtArgs>
 }
 
@@ -633,6 +650,30 @@ export interface PortalSessionDelegate<ExtArgs extends runtime.Types.Extensions.
   createMany<T extends PortalSessionCreateManyArgs>(args?: Prisma.SelectSubset<T, PortalSessionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many PortalSessions and returns the data saved in the database.
+   * @param {PortalSessionCreateManyAndReturnArgs} args - Arguments to create many PortalSessions.
+   * @example
+   * // Create many PortalSessions
+   * const portalSession = await prisma.portalSession.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many PortalSessions and only return the `id`
+   * const portalSessionWithIdOnly = await prisma.portalSession.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends PortalSessionCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, PortalSessionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PortalSessionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a PortalSession.
    * @param {PortalSessionDeleteArgs} args - Arguments to delete one PortalSession.
    * @example
@@ -695,6 +736,36 @@ export interface PortalSessionDelegate<ExtArgs extends runtime.Types.Extensions.
    * 
    */
   updateMany<T extends PortalSessionUpdateManyArgs>(args: Prisma.SelectSubset<T, PortalSessionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more PortalSessions and returns the data updated in the database.
+   * @param {PortalSessionUpdateManyAndReturnArgs} args - Arguments to update many PortalSessions.
+   * @example
+   * // Update many PortalSessions
+   * const portalSession = await prisma.portalSession.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more PortalSessions and only return the `id`
+   * const portalSessionWithIdOnly = await prisma.portalSession.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends PortalSessionUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, PortalSessionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PortalSessionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one PortalSession.
@@ -1129,6 +1200,29 @@ export type PortalSessionCreateManyArgs<ExtArgs extends runtime.Types.Extensions
 }
 
 /**
+ * PortalSession createManyAndReturn
+ */
+export type PortalSessionCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PortalSession
+   */
+  select?: Prisma.PortalSessionSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the PortalSession
+   */
+  omit?: Prisma.PortalSessionOmit<ExtArgs> | null
+  /**
+   * The data used to create many PortalSessions.
+   */
+  data: Prisma.PortalSessionCreateManyInput | Prisma.PortalSessionCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PortalSessionIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * PortalSession update
  */
 export type PortalSessionUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1170,6 +1264,36 @@ export type PortalSessionUpdateManyArgs<ExtArgs extends runtime.Types.Extensions
    * Limit how many PortalSessions to update.
    */
   limit?: number
+}
+
+/**
+ * PortalSession updateManyAndReturn
+ */
+export type PortalSessionUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PortalSession
+   */
+  select?: Prisma.PortalSessionSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the PortalSession
+   */
+  omit?: Prisma.PortalSessionOmit<ExtArgs> | null
+  /**
+   * The data used to update PortalSessions.
+   */
+  data: Prisma.XOR<Prisma.PortalSessionUpdateManyMutationInput, Prisma.PortalSessionUncheckedUpdateManyInput>
+  /**
+   * Filter which PortalSessions to update
+   */
+  where?: Prisma.PortalSessionWhereInput
+  /**
+   * Limit how many PortalSessions to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PortalSessionIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

@@ -255,7 +255,6 @@ export type PaymentReminderOrderByWithRelationInput = {
   status?: Prisma.SortOrder
   organization?: Prisma.OrganizationOrderByWithRelationInput
   invoice?: Prisma.InvoiceOrderByWithRelationInput
-  _relevance?: Prisma.PaymentReminderOrderByRelevanceInput
 }
 
 export type PaymentReminderWhereUniqueInput = Prisma.AtLeast<{
@@ -387,12 +386,6 @@ export type PaymentReminderListRelationFilter = {
 
 export type PaymentReminderOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type PaymentReminderOrderByRelevanceInput = {
-  fields: Prisma.PaymentReminderOrderByRelevanceFieldEnum | Prisma.PaymentReminderOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type PaymentReminderCountOrderByAggregateInput = {
@@ -729,7 +722,31 @@ export type PaymentReminderSelect<ExtArgs extends runtime.Types.Extensions.Inter
   invoice?: boolean | Prisma.InvoiceDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["paymentReminder"]>
 
+export type PaymentReminderSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  invoiceId?: boolean
+  channel?: boolean
+  level?: boolean
+  scheduledAt?: boolean
+  sentAt?: boolean
+  status?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  invoice?: boolean | Prisma.InvoiceDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["paymentReminder"]>
 
+export type PaymentReminderSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  invoiceId?: boolean
+  channel?: boolean
+  level?: boolean
+  scheduledAt?: boolean
+  sentAt?: boolean
+  status?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  invoice?: boolean | Prisma.InvoiceDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["paymentReminder"]>
 
 export type PaymentReminderSelectScalar = {
   id?: boolean
@@ -744,6 +761,14 @@ export type PaymentReminderSelectScalar = {
 
 export type PaymentReminderOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "invoiceId" | "channel" | "level" | "scheduledAt" | "sentAt" | "status", ExtArgs["result"]["paymentReminder"]>
 export type PaymentReminderInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  invoice?: boolean | Prisma.InvoiceDefaultArgs<ExtArgs>
+}
+export type PaymentReminderIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  invoice?: boolean | Prisma.InvoiceDefaultArgs<ExtArgs>
+}
+export type PaymentReminderIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   invoice?: boolean | Prisma.InvoiceDefaultArgs<ExtArgs>
 }
@@ -881,6 +906,30 @@ export interface PaymentReminderDelegate<ExtArgs extends runtime.Types.Extension
   createMany<T extends PaymentReminderCreateManyArgs>(args?: Prisma.SelectSubset<T, PaymentReminderCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many PaymentReminders and returns the data saved in the database.
+   * @param {PaymentReminderCreateManyAndReturnArgs} args - Arguments to create many PaymentReminders.
+   * @example
+   * // Create many PaymentReminders
+   * const paymentReminder = await prisma.paymentReminder.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many PaymentReminders and only return the `id`
+   * const paymentReminderWithIdOnly = await prisma.paymentReminder.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends PaymentReminderCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, PaymentReminderCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentReminderPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a PaymentReminder.
    * @param {PaymentReminderDeleteArgs} args - Arguments to delete one PaymentReminder.
    * @example
@@ -943,6 +992,36 @@ export interface PaymentReminderDelegate<ExtArgs extends runtime.Types.Extension
    * 
    */
   updateMany<T extends PaymentReminderUpdateManyArgs>(args: Prisma.SelectSubset<T, PaymentReminderUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more PaymentReminders and returns the data updated in the database.
+   * @param {PaymentReminderUpdateManyAndReturnArgs} args - Arguments to update many PaymentReminders.
+   * @example
+   * // Update many PaymentReminders
+   * const paymentReminder = await prisma.paymentReminder.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more PaymentReminders and only return the `id`
+   * const paymentReminderWithIdOnly = await prisma.paymentReminder.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends PaymentReminderUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, PaymentReminderUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PaymentReminderPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one PaymentReminder.
@@ -1380,6 +1459,29 @@ export type PaymentReminderCreateManyArgs<ExtArgs extends runtime.Types.Extensio
 }
 
 /**
+ * PaymentReminder createManyAndReturn
+ */
+export type PaymentReminderCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PaymentReminder
+   */
+  select?: Prisma.PaymentReminderSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the PaymentReminder
+   */
+  omit?: Prisma.PaymentReminderOmit<ExtArgs> | null
+  /**
+   * The data used to create many PaymentReminders.
+   */
+  data: Prisma.PaymentReminderCreateManyInput | Prisma.PaymentReminderCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PaymentReminderIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * PaymentReminder update
  */
 export type PaymentReminderUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1421,6 +1523,36 @@ export type PaymentReminderUpdateManyArgs<ExtArgs extends runtime.Types.Extensio
    * Limit how many PaymentReminders to update.
    */
   limit?: number
+}
+
+/**
+ * PaymentReminder updateManyAndReturn
+ */
+export type PaymentReminderUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PaymentReminder
+   */
+  select?: Prisma.PaymentReminderSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the PaymentReminder
+   */
+  omit?: Prisma.PaymentReminderOmit<ExtArgs> | null
+  /**
+   * The data used to update PaymentReminders.
+   */
+  data: Prisma.XOR<Prisma.PaymentReminderUpdateManyMutationInput, Prisma.PaymentReminderUncheckedUpdateManyInput>
+  /**
+   * Filter which PaymentReminders to update
+   */
+  where?: Prisma.PaymentReminderWhereInput
+  /**
+   * Limit how many PaymentReminders to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PaymentReminderIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

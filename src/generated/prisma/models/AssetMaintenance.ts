@@ -253,7 +253,6 @@ export type AssetMaintenanceOrderByWithRelationInput = {
   performedAt?: Prisma.SortOrder
   nextDueAt?: Prisma.SortOrderInput | Prisma.SortOrder
   asset?: Prisma.AssetOrderByWithRelationInput
-  _relevance?: Prisma.AssetMaintenanceOrderByRelevanceInput
 }
 
 export type AssetMaintenanceWhereUniqueInput = Prisma.AtLeast<{
@@ -385,12 +384,6 @@ export type AssetMaintenanceListRelationFilter = {
 
 export type AssetMaintenanceOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type AssetMaintenanceOrderByRelevanceInput = {
-  fields: Prisma.AssetMaintenanceOrderByRelevanceFieldEnum | Prisma.AssetMaintenanceOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type AssetMaintenanceCountOrderByAggregateInput = {
@@ -590,7 +583,29 @@ export type AssetMaintenanceSelect<ExtArgs extends runtime.Types.Extensions.Inte
   asset?: boolean | Prisma.AssetDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["assetMaintenance"]>
 
+export type AssetMaintenanceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  assetId?: boolean
+  type?: boolean
+  description?: boolean
+  vendorName?: boolean
+  cost?: boolean
+  performedAt?: boolean
+  nextDueAt?: boolean
+  asset?: boolean | Prisma.AssetDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["assetMaintenance"]>
 
+export type AssetMaintenanceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  assetId?: boolean
+  type?: boolean
+  description?: boolean
+  vendorName?: boolean
+  cost?: boolean
+  performedAt?: boolean
+  nextDueAt?: boolean
+  asset?: boolean | Prisma.AssetDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["assetMaintenance"]>
 
 export type AssetMaintenanceSelectScalar = {
   id?: boolean
@@ -605,6 +620,12 @@ export type AssetMaintenanceSelectScalar = {
 
 export type AssetMaintenanceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "assetId" | "type" | "description" | "vendorName" | "cost" | "performedAt" | "nextDueAt", ExtArgs["result"]["assetMaintenance"]>
 export type AssetMaintenanceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  asset?: boolean | Prisma.AssetDefaultArgs<ExtArgs>
+}
+export type AssetMaintenanceIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  asset?: boolean | Prisma.AssetDefaultArgs<ExtArgs>
+}
+export type AssetMaintenanceIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   asset?: boolean | Prisma.AssetDefaultArgs<ExtArgs>
 }
 
@@ -740,6 +761,30 @@ export interface AssetMaintenanceDelegate<ExtArgs extends runtime.Types.Extensio
   createMany<T extends AssetMaintenanceCreateManyArgs>(args?: Prisma.SelectSubset<T, AssetMaintenanceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many AssetMaintenances and returns the data saved in the database.
+   * @param {AssetMaintenanceCreateManyAndReturnArgs} args - Arguments to create many AssetMaintenances.
+   * @example
+   * // Create many AssetMaintenances
+   * const assetMaintenance = await prisma.assetMaintenance.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many AssetMaintenances and only return the `id`
+   * const assetMaintenanceWithIdOnly = await prisma.assetMaintenance.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends AssetMaintenanceCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, AssetMaintenanceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssetMaintenancePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a AssetMaintenance.
    * @param {AssetMaintenanceDeleteArgs} args - Arguments to delete one AssetMaintenance.
    * @example
@@ -802,6 +847,36 @@ export interface AssetMaintenanceDelegate<ExtArgs extends runtime.Types.Extensio
    * 
    */
   updateMany<T extends AssetMaintenanceUpdateManyArgs>(args: Prisma.SelectSubset<T, AssetMaintenanceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more AssetMaintenances and returns the data updated in the database.
+   * @param {AssetMaintenanceUpdateManyAndReturnArgs} args - Arguments to update many AssetMaintenances.
+   * @example
+   * // Update many AssetMaintenances
+   * const assetMaintenance = await prisma.assetMaintenance.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more AssetMaintenances and only return the `id`
+   * const assetMaintenanceWithIdOnly = await prisma.assetMaintenance.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends AssetMaintenanceUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, AssetMaintenanceUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssetMaintenancePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one AssetMaintenance.
@@ -1238,6 +1313,29 @@ export type AssetMaintenanceCreateManyArgs<ExtArgs extends runtime.Types.Extensi
 }
 
 /**
+ * AssetMaintenance createManyAndReturn
+ */
+export type AssetMaintenanceCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AssetMaintenance
+   */
+  select?: Prisma.AssetMaintenanceSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the AssetMaintenance
+   */
+  omit?: Prisma.AssetMaintenanceOmit<ExtArgs> | null
+  /**
+   * The data used to create many AssetMaintenances.
+   */
+  data: Prisma.AssetMaintenanceCreateManyInput | Prisma.AssetMaintenanceCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssetMaintenanceIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * AssetMaintenance update
  */
 export type AssetMaintenanceUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1279,6 +1377,36 @@ export type AssetMaintenanceUpdateManyArgs<ExtArgs extends runtime.Types.Extensi
    * Limit how many AssetMaintenances to update.
    */
   limit?: number
+}
+
+/**
+ * AssetMaintenance updateManyAndReturn
+ */
+export type AssetMaintenanceUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AssetMaintenance
+   */
+  select?: Prisma.AssetMaintenanceSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the AssetMaintenance
+   */
+  omit?: Prisma.AssetMaintenanceOmit<ExtArgs> | null
+  /**
+   * The data used to update AssetMaintenances.
+   */
+  data: Prisma.XOR<Prisma.AssetMaintenanceUpdateManyMutationInput, Prisma.AssetMaintenanceUncheckedUpdateManyInput>
+  /**
+   * Filter which AssetMaintenances to update
+   */
+  where?: Prisma.AssetMaintenanceWhereInput
+  /**
+   * Limit how many AssetMaintenances to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssetMaintenanceIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

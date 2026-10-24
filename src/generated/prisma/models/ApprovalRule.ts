@@ -274,7 +274,6 @@ export type ApprovalRuleOrderByWithRelationInput = {
   organization?: Prisma.OrganizationOrderByWithRelationInput
   approverRole?: Prisma.RoleOrderByWithRelationInput
   approverUser?: Prisma.UserOrderByWithRelationInput
-  _relevance?: Prisma.ApprovalRuleOrderByRelevanceInput
 }
 
 export type ApprovalRuleWhereUniqueInput = Prisma.AtLeast<{
@@ -416,12 +415,6 @@ export type ApprovalRuleListRelationFilter = {
 
 export type ApprovalRuleOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type ApprovalRuleOrderByRelevanceInput = {
-  fields: Prisma.ApprovalRuleOrderByRelevanceFieldEnum | Prisma.ApprovalRuleOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type ApprovalRuleCountOrderByAggregateInput = {
@@ -906,7 +899,35 @@ export type ApprovalRuleSelect<ExtArgs extends runtime.Types.Extensions.Internal
   approverUser?: boolean | Prisma.ApprovalRule$approverUserArgs<ExtArgs>
 }, ExtArgs["result"]["approvalRule"]>
 
+export type ApprovalRuleSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  entityType?: boolean
+  stepNumber?: boolean
+  minAmount?: boolean
+  maxAmount?: boolean
+  approverRoleId?: boolean
+  approverUserId?: boolean
+  isActive?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  approverRole?: boolean | Prisma.ApprovalRule$approverRoleArgs<ExtArgs>
+  approverUser?: boolean | Prisma.ApprovalRule$approverUserArgs<ExtArgs>
+}, ExtArgs["result"]["approvalRule"]>
 
+export type ApprovalRuleSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  entityType?: boolean
+  stepNumber?: boolean
+  minAmount?: boolean
+  maxAmount?: boolean
+  approverRoleId?: boolean
+  approverUserId?: boolean
+  isActive?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  approverRole?: boolean | Prisma.ApprovalRule$approverRoleArgs<ExtArgs>
+  approverUser?: boolean | Prisma.ApprovalRule$approverUserArgs<ExtArgs>
+}, ExtArgs["result"]["approvalRule"]>
 
 export type ApprovalRuleSelectScalar = {
   id?: boolean
@@ -922,6 +943,16 @@ export type ApprovalRuleSelectScalar = {
 
 export type ApprovalRuleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "entityType" | "stepNumber" | "minAmount" | "maxAmount" | "approverRoleId" | "approverUserId" | "isActive", ExtArgs["result"]["approvalRule"]>
 export type ApprovalRuleInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  approverRole?: boolean | Prisma.ApprovalRule$approverRoleArgs<ExtArgs>
+  approverUser?: boolean | Prisma.ApprovalRule$approverUserArgs<ExtArgs>
+}
+export type ApprovalRuleIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  approverRole?: boolean | Prisma.ApprovalRule$approverRoleArgs<ExtArgs>
+  approverUser?: boolean | Prisma.ApprovalRule$approverUserArgs<ExtArgs>
+}
+export type ApprovalRuleIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   approverRole?: boolean | Prisma.ApprovalRule$approverRoleArgs<ExtArgs>
   approverUser?: boolean | Prisma.ApprovalRule$approverUserArgs<ExtArgs>
@@ -1062,6 +1093,30 @@ export interface ApprovalRuleDelegate<ExtArgs extends runtime.Types.Extensions.I
   createMany<T extends ApprovalRuleCreateManyArgs>(args?: Prisma.SelectSubset<T, ApprovalRuleCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many ApprovalRules and returns the data saved in the database.
+   * @param {ApprovalRuleCreateManyAndReturnArgs} args - Arguments to create many ApprovalRules.
+   * @example
+   * // Create many ApprovalRules
+   * const approvalRule = await prisma.approvalRule.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many ApprovalRules and only return the `id`
+   * const approvalRuleWithIdOnly = await prisma.approvalRule.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends ApprovalRuleCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, ApprovalRuleCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ApprovalRulePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a ApprovalRule.
    * @param {ApprovalRuleDeleteArgs} args - Arguments to delete one ApprovalRule.
    * @example
@@ -1124,6 +1179,36 @@ export interface ApprovalRuleDelegate<ExtArgs extends runtime.Types.Extensions.I
    * 
    */
   updateMany<T extends ApprovalRuleUpdateManyArgs>(args: Prisma.SelectSubset<T, ApprovalRuleUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more ApprovalRules and returns the data updated in the database.
+   * @param {ApprovalRuleUpdateManyAndReturnArgs} args - Arguments to update many ApprovalRules.
+   * @example
+   * // Update many ApprovalRules
+   * const approvalRule = await prisma.approvalRule.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more ApprovalRules and only return the `id`
+   * const approvalRuleWithIdOnly = await prisma.approvalRule.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends ApprovalRuleUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, ApprovalRuleUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ApprovalRulePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one ApprovalRule.
@@ -1563,6 +1648,29 @@ export type ApprovalRuleCreateManyArgs<ExtArgs extends runtime.Types.Extensions.
 }
 
 /**
+ * ApprovalRule createManyAndReturn
+ */
+export type ApprovalRuleCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ApprovalRule
+   */
+  select?: Prisma.ApprovalRuleSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the ApprovalRule
+   */
+  omit?: Prisma.ApprovalRuleOmit<ExtArgs> | null
+  /**
+   * The data used to create many ApprovalRules.
+   */
+  data: Prisma.ApprovalRuleCreateManyInput | Prisma.ApprovalRuleCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ApprovalRuleIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * ApprovalRule update
  */
 export type ApprovalRuleUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1604,6 +1712,36 @@ export type ApprovalRuleUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.
    * Limit how many ApprovalRules to update.
    */
   limit?: number
+}
+
+/**
+ * ApprovalRule updateManyAndReturn
+ */
+export type ApprovalRuleUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ApprovalRule
+   */
+  select?: Prisma.ApprovalRuleSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the ApprovalRule
+   */
+  omit?: Prisma.ApprovalRuleOmit<ExtArgs> | null
+  /**
+   * The data used to update ApprovalRules.
+   */
+  data: Prisma.XOR<Prisma.ApprovalRuleUpdateManyMutationInput, Prisma.ApprovalRuleUncheckedUpdateManyInput>
+  /**
+   * Filter which ApprovalRules to update
+   */
+  where?: Prisma.ApprovalRuleWhereInput
+  /**
+   * Limit how many ApprovalRules to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ApprovalRuleIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

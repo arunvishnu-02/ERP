@@ -425,7 +425,6 @@ export type TaskOrderByWithRelationInput = {
   assignee?: Prisma.UserOrderByWithRelationInput
   reporter?: Prisma.UserOrderByWithRelationInput
   timeEntries?: Prisma.TimeEntryOrderByRelationAggregateInput
-  _relevance?: Prisma.TaskOrderByRelevanceInput
 }
 
 export type TaskWhereUniqueInput = Prisma.AtLeast<{
@@ -733,12 +732,6 @@ export type TaskOrderByRelationAggregateInput = {
 export type TaskNullableScalarRelationFilter = {
   is?: Prisma.TaskWhereInput | null
   isNot?: Prisma.TaskWhereInput | null
-}
-
-export type TaskOrderByRelevanceInput = {
-  fields: Prisma.TaskOrderByRelevanceFieldEnum | Prisma.TaskOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type TaskOrganizationIdTaskNumberCompoundUniqueInput = {
@@ -3336,7 +3329,77 @@ export type TaskSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   _count?: boolean | Prisma.TaskCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["task"]>
 
+export type TaskSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  taskNumber?: boolean
+  title?: boolean
+  description?: boolean
+  projectId?: boolean
+  milestoneId?: boolean
+  parentTaskId?: boolean
+  ticketId?: boolean
+  campaignId?: boolean
+  contentItemId?: boolean
+  status?: boolean
+  priority?: boolean
+  startDate?: boolean
+  dueDate?: boolean
+  completedAt?: boolean
+  estimatedMinutes?: boolean
+  loggedMinutes?: boolean
+  boardPosition?: boolean
+  assigneeId?: boolean
+  reporterId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  deletedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  project?: boolean | Prisma.Task$projectArgs<ExtArgs>
+  milestone?: boolean | Prisma.Task$milestoneArgs<ExtArgs>
+  parentTask?: boolean | Prisma.Task$parentTaskArgs<ExtArgs>
+  ticket?: boolean | Prisma.Task$ticketArgs<ExtArgs>
+  campaign?: boolean | Prisma.Task$campaignArgs<ExtArgs>
+  contentItem?: boolean | Prisma.Task$contentItemArgs<ExtArgs>
+  assignee?: boolean | Prisma.Task$assigneeArgs<ExtArgs>
+  reporter?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["task"]>
 
+export type TaskSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  taskNumber?: boolean
+  title?: boolean
+  description?: boolean
+  projectId?: boolean
+  milestoneId?: boolean
+  parentTaskId?: boolean
+  ticketId?: boolean
+  campaignId?: boolean
+  contentItemId?: boolean
+  status?: boolean
+  priority?: boolean
+  startDate?: boolean
+  dueDate?: boolean
+  completedAt?: boolean
+  estimatedMinutes?: boolean
+  loggedMinutes?: boolean
+  boardPosition?: boolean
+  assigneeId?: boolean
+  reporterId?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  deletedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  project?: boolean | Prisma.Task$projectArgs<ExtArgs>
+  milestone?: boolean | Prisma.Task$milestoneArgs<ExtArgs>
+  parentTask?: boolean | Prisma.Task$parentTaskArgs<ExtArgs>
+  ticket?: boolean | Prisma.Task$ticketArgs<ExtArgs>
+  campaign?: boolean | Prisma.Task$campaignArgs<ExtArgs>
+  contentItem?: boolean | Prisma.Task$contentItemArgs<ExtArgs>
+  assignee?: boolean | Prisma.Task$assigneeArgs<ExtArgs>
+  reporter?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["task"]>
 
 export type TaskSelectScalar = {
   id?: boolean
@@ -3379,6 +3442,28 @@ export type TaskInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   reporter?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   timeEntries?: boolean | Prisma.Task$timeEntriesArgs<ExtArgs>
   _count?: boolean | Prisma.TaskCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type TaskIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  project?: boolean | Prisma.Task$projectArgs<ExtArgs>
+  milestone?: boolean | Prisma.Task$milestoneArgs<ExtArgs>
+  parentTask?: boolean | Prisma.Task$parentTaskArgs<ExtArgs>
+  ticket?: boolean | Prisma.Task$ticketArgs<ExtArgs>
+  campaign?: boolean | Prisma.Task$campaignArgs<ExtArgs>
+  contentItem?: boolean | Prisma.Task$contentItemArgs<ExtArgs>
+  assignee?: boolean | Prisma.Task$assigneeArgs<ExtArgs>
+  reporter?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type TaskIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  project?: boolean | Prisma.Task$projectArgs<ExtArgs>
+  milestone?: boolean | Prisma.Task$milestoneArgs<ExtArgs>
+  parentTask?: boolean | Prisma.Task$parentTaskArgs<ExtArgs>
+  ticket?: boolean | Prisma.Task$ticketArgs<ExtArgs>
+  campaign?: boolean | Prisma.Task$campaignArgs<ExtArgs>
+  contentItem?: boolean | Prisma.Task$contentItemArgs<ExtArgs>
+  assignee?: boolean | Prisma.Task$assigneeArgs<ExtArgs>
+  reporter?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
 export type $TaskPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -3539,6 +3624,30 @@ export interface TaskDelegate<ExtArgs extends runtime.Types.Extensions.InternalA
   createMany<T extends TaskCreateManyArgs>(args?: Prisma.SelectSubset<T, TaskCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many Tasks and returns the data saved in the database.
+   * @param {TaskCreateManyAndReturnArgs} args - Arguments to create many Tasks.
+   * @example
+   * // Create many Tasks
+   * const task = await prisma.task.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many Tasks and only return the `id`
+   * const taskWithIdOnly = await prisma.task.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends TaskCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, TaskCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a Task.
    * @param {TaskDeleteArgs} args - Arguments to delete one Task.
    * @example
@@ -3601,6 +3710,36 @@ export interface TaskDelegate<ExtArgs extends runtime.Types.Extensions.InternalA
    * 
    */
   updateMany<T extends TaskUpdateManyArgs>(args: Prisma.SelectSubset<T, TaskUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more Tasks and returns the data updated in the database.
+   * @param {TaskUpdateManyAndReturnArgs} args - Arguments to update many Tasks.
+   * @example
+   * // Update many Tasks
+   * const task = await prisma.task.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more Tasks and only return the `id`
+   * const taskWithIdOnly = await prisma.task.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends TaskUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, TaskUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one Task.
@@ -4063,6 +4202,29 @@ export type TaskCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
+ * Task createManyAndReturn
+ */
+export type TaskCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Task
+   */
+  select?: Prisma.TaskSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Task
+   */
+  omit?: Prisma.TaskOmit<ExtArgs> | null
+  /**
+   * The data used to create many Tasks.
+   */
+  data: Prisma.TaskCreateManyInput | Prisma.TaskCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TaskIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * Task update
  */
 export type TaskUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -4104,6 +4266,36 @@ export type TaskUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Limit how many Tasks to update.
    */
   limit?: number
+}
+
+/**
+ * Task updateManyAndReturn
+ */
+export type TaskUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Task
+   */
+  select?: Prisma.TaskSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Task
+   */
+  omit?: Prisma.TaskOmit<ExtArgs> | null
+  /**
+   * The data used to update Tasks.
+   */
+  data: Prisma.XOR<Prisma.TaskUpdateManyMutationInput, Prisma.TaskUncheckedUpdateManyInput>
+  /**
+   * Filter which Tasks to update
+   */
+  where?: Prisma.TaskWhereInput
+  /**
+   * Limit how many Tasks to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TaskIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

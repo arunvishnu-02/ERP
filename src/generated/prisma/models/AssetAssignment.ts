@@ -221,7 +221,6 @@ export type AssetAssignmentOrderByWithRelationInput = {
   assignedById?: Prisma.SortOrderInput | Prisma.SortOrder
   asset?: Prisma.AssetOrderByWithRelationInput
   employee?: Prisma.EmployeeOrderByWithRelationInput
-  _relevance?: Prisma.AssetAssignmentOrderByRelevanceInput
 }
 
 export type AssetAssignmentWhereUniqueInput = Prisma.AtLeast<{
@@ -351,12 +350,6 @@ export type AssetAssignmentListRelationFilter = {
 
 export type AssetAssignmentOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type AssetAssignmentOrderByRelevanceInput = {
-  fields: Prisma.AssetAssignmentOrderByRelevanceFieldEnum | Prisma.AssetAssignmentOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type AssetAssignmentCountOrderByAggregateInput = {
@@ -677,7 +670,31 @@ export type AssetAssignmentSelect<ExtArgs extends runtime.Types.Extensions.Inter
   employee?: boolean | Prisma.EmployeeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["assetAssignment"]>
 
+export type AssetAssignmentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  assetId?: boolean
+  employeeId?: boolean
+  assignedAt?: boolean
+  returnedAt?: boolean
+  conditionOnAssign?: boolean
+  conditionOnReturn?: boolean
+  assignedById?: boolean
+  asset?: boolean | Prisma.AssetDefaultArgs<ExtArgs>
+  employee?: boolean | Prisma.EmployeeDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["assetAssignment"]>
 
+export type AssetAssignmentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  assetId?: boolean
+  employeeId?: boolean
+  assignedAt?: boolean
+  returnedAt?: boolean
+  conditionOnAssign?: boolean
+  conditionOnReturn?: boolean
+  assignedById?: boolean
+  asset?: boolean | Prisma.AssetDefaultArgs<ExtArgs>
+  employee?: boolean | Prisma.EmployeeDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["assetAssignment"]>
 
 export type AssetAssignmentSelectScalar = {
   id?: boolean
@@ -692,6 +709,14 @@ export type AssetAssignmentSelectScalar = {
 
 export type AssetAssignmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "assetId" | "employeeId" | "assignedAt" | "returnedAt" | "conditionOnAssign" | "conditionOnReturn" | "assignedById", ExtArgs["result"]["assetAssignment"]>
 export type AssetAssignmentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  asset?: boolean | Prisma.AssetDefaultArgs<ExtArgs>
+  employee?: boolean | Prisma.EmployeeDefaultArgs<ExtArgs>
+}
+export type AssetAssignmentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  asset?: boolean | Prisma.AssetDefaultArgs<ExtArgs>
+  employee?: boolean | Prisma.EmployeeDefaultArgs<ExtArgs>
+}
+export type AssetAssignmentIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   asset?: boolean | Prisma.AssetDefaultArgs<ExtArgs>
   employee?: boolean | Prisma.EmployeeDefaultArgs<ExtArgs>
 }
@@ -829,6 +854,30 @@ export interface AssetAssignmentDelegate<ExtArgs extends runtime.Types.Extension
   createMany<T extends AssetAssignmentCreateManyArgs>(args?: Prisma.SelectSubset<T, AssetAssignmentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many AssetAssignments and returns the data saved in the database.
+   * @param {AssetAssignmentCreateManyAndReturnArgs} args - Arguments to create many AssetAssignments.
+   * @example
+   * // Create many AssetAssignments
+   * const assetAssignment = await prisma.assetAssignment.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many AssetAssignments and only return the `id`
+   * const assetAssignmentWithIdOnly = await prisma.assetAssignment.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends AssetAssignmentCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, AssetAssignmentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssetAssignmentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a AssetAssignment.
    * @param {AssetAssignmentDeleteArgs} args - Arguments to delete one AssetAssignment.
    * @example
@@ -891,6 +940,36 @@ export interface AssetAssignmentDelegate<ExtArgs extends runtime.Types.Extension
    * 
    */
   updateMany<T extends AssetAssignmentUpdateManyArgs>(args: Prisma.SelectSubset<T, AssetAssignmentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more AssetAssignments and returns the data updated in the database.
+   * @param {AssetAssignmentUpdateManyAndReturnArgs} args - Arguments to update many AssetAssignments.
+   * @example
+   * // Update many AssetAssignments
+   * const assetAssignment = await prisma.assetAssignment.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more AssetAssignments and only return the `id`
+   * const assetAssignmentWithIdOnly = await prisma.assetAssignment.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends AssetAssignmentUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, AssetAssignmentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssetAssignmentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one AssetAssignment.
@@ -1328,6 +1407,29 @@ export type AssetAssignmentCreateManyArgs<ExtArgs extends runtime.Types.Extensio
 }
 
 /**
+ * AssetAssignment createManyAndReturn
+ */
+export type AssetAssignmentCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AssetAssignment
+   */
+  select?: Prisma.AssetAssignmentSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the AssetAssignment
+   */
+  omit?: Prisma.AssetAssignmentOmit<ExtArgs> | null
+  /**
+   * The data used to create many AssetAssignments.
+   */
+  data: Prisma.AssetAssignmentCreateManyInput | Prisma.AssetAssignmentCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssetAssignmentIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * AssetAssignment update
  */
 export type AssetAssignmentUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1369,6 +1471,36 @@ export type AssetAssignmentUpdateManyArgs<ExtArgs extends runtime.Types.Extensio
    * Limit how many AssetAssignments to update.
    */
   limit?: number
+}
+
+/**
+ * AssetAssignment updateManyAndReturn
+ */
+export type AssetAssignmentUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AssetAssignment
+   */
+  select?: Prisma.AssetAssignmentSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the AssetAssignment
+   */
+  omit?: Prisma.AssetAssignmentOmit<ExtArgs> | null
+  /**
+   * The data used to update AssetAssignments.
+   */
+  data: Prisma.XOR<Prisma.AssetAssignmentUpdateManyMutationInput, Prisma.AssetAssignmentUncheckedUpdateManyInput>
+  /**
+   * Filter which AssetAssignments to update
+   */
+  where?: Prisma.AssetAssignmentWhereInput
+  /**
+   * Limit how many AssetAssignments to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssetAssignmentIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

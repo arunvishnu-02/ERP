@@ -232,7 +232,6 @@ export type ServicePackageItemOrderByWithRelationInput = {
   unitPrice?: Prisma.SortOrderInput | Prisma.SortOrder
   package?: Prisma.ServicePackageOrderByWithRelationInput
   service?: Prisma.ServiceOrderByWithRelationInput
-  _relevance?: Prisma.ServicePackageItemOrderByRelevanceInput
 }
 
 export type ServicePackageItemWhereUniqueInput = Prisma.AtLeast<{
@@ -334,12 +333,6 @@ export type ServicePackageItemListRelationFilter = {
 
 export type ServicePackageItemOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type ServicePackageItemOrderByRelevanceInput = {
-  fields: Prisma.ServicePackageItemOrderByRelevanceFieldEnum | Prisma.ServicePackageItemOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type ServicePackageItemCountOrderByAggregateInput = {
@@ -619,7 +612,25 @@ export type ServicePackageItemSelect<ExtArgs extends runtime.Types.Extensions.In
   service?: boolean | Prisma.ServiceDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["servicePackageItem"]>
 
+export type ServicePackageItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  packageId?: boolean
+  serviceId?: boolean
+  quantity?: boolean
+  unitPrice?: boolean
+  package?: boolean | Prisma.ServicePackageDefaultArgs<ExtArgs>
+  service?: boolean | Prisma.ServiceDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["servicePackageItem"]>
 
+export type ServicePackageItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  packageId?: boolean
+  serviceId?: boolean
+  quantity?: boolean
+  unitPrice?: boolean
+  package?: boolean | Prisma.ServicePackageDefaultArgs<ExtArgs>
+  service?: boolean | Prisma.ServiceDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["servicePackageItem"]>
 
 export type ServicePackageItemSelectScalar = {
   id?: boolean
@@ -631,6 +642,14 @@ export type ServicePackageItemSelectScalar = {
 
 export type ServicePackageItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "packageId" | "serviceId" | "quantity" | "unitPrice", ExtArgs["result"]["servicePackageItem"]>
 export type ServicePackageItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  package?: boolean | Prisma.ServicePackageDefaultArgs<ExtArgs>
+  service?: boolean | Prisma.ServiceDefaultArgs<ExtArgs>
+}
+export type ServicePackageItemIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  package?: boolean | Prisma.ServicePackageDefaultArgs<ExtArgs>
+  service?: boolean | Prisma.ServiceDefaultArgs<ExtArgs>
+}
+export type ServicePackageItemIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   package?: boolean | Prisma.ServicePackageDefaultArgs<ExtArgs>
   service?: boolean | Prisma.ServiceDefaultArgs<ExtArgs>
 }
@@ -765,6 +784,30 @@ export interface ServicePackageItemDelegate<ExtArgs extends runtime.Types.Extens
   createMany<T extends ServicePackageItemCreateManyArgs>(args?: Prisma.SelectSubset<T, ServicePackageItemCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many ServicePackageItems and returns the data saved in the database.
+   * @param {ServicePackageItemCreateManyAndReturnArgs} args - Arguments to create many ServicePackageItems.
+   * @example
+   * // Create many ServicePackageItems
+   * const servicePackageItem = await prisma.servicePackageItem.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many ServicePackageItems and only return the `id`
+   * const servicePackageItemWithIdOnly = await prisma.servicePackageItem.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends ServicePackageItemCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, ServicePackageItemCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ServicePackageItemPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a ServicePackageItem.
    * @param {ServicePackageItemDeleteArgs} args - Arguments to delete one ServicePackageItem.
    * @example
@@ -827,6 +870,36 @@ export interface ServicePackageItemDelegate<ExtArgs extends runtime.Types.Extens
    * 
    */
   updateMany<T extends ServicePackageItemUpdateManyArgs>(args: Prisma.SelectSubset<T, ServicePackageItemUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more ServicePackageItems and returns the data updated in the database.
+   * @param {ServicePackageItemUpdateManyAndReturnArgs} args - Arguments to update many ServicePackageItems.
+   * @example
+   * // Update many ServicePackageItems
+   * const servicePackageItem = await prisma.servicePackageItem.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more ServicePackageItems and only return the `id`
+   * const servicePackageItemWithIdOnly = await prisma.servicePackageItem.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends ServicePackageItemUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, ServicePackageItemUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ServicePackageItemPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one ServicePackageItem.
@@ -1261,6 +1334,29 @@ export type ServicePackageItemCreateManyArgs<ExtArgs extends runtime.Types.Exten
 }
 
 /**
+ * ServicePackageItem createManyAndReturn
+ */
+export type ServicePackageItemCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ServicePackageItem
+   */
+  select?: Prisma.ServicePackageItemSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the ServicePackageItem
+   */
+  omit?: Prisma.ServicePackageItemOmit<ExtArgs> | null
+  /**
+   * The data used to create many ServicePackageItems.
+   */
+  data: Prisma.ServicePackageItemCreateManyInput | Prisma.ServicePackageItemCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ServicePackageItemIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * ServicePackageItem update
  */
 export type ServicePackageItemUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1302,6 +1398,36 @@ export type ServicePackageItemUpdateManyArgs<ExtArgs extends runtime.Types.Exten
    * Limit how many ServicePackageItems to update.
    */
   limit?: number
+}
+
+/**
+ * ServicePackageItem updateManyAndReturn
+ */
+export type ServicePackageItemUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ServicePackageItem
+   */
+  select?: Prisma.ServicePackageItemSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the ServicePackageItem
+   */
+  omit?: Prisma.ServicePackageItemOmit<ExtArgs> | null
+  /**
+   * The data used to update ServicePackageItems.
+   */
+  data: Prisma.XOR<Prisma.ServicePackageItemUpdateManyMutationInput, Prisma.ServicePackageItemUncheckedUpdateManyInput>
+  /**
+   * Filter which ServicePackageItems to update
+   */
+  where?: Prisma.ServicePackageItemWhereInput
+  /**
+   * Limit how many ServicePackageItems to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ServicePackageItemIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

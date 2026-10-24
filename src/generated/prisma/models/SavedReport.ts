@@ -245,7 +245,6 @@ export type SavedReportOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   organization?: Prisma.OrganizationOrderByWithRelationInput
   owner?: Prisma.UserOrderByWithRelationInput
-  _relevance?: Prisma.SavedReportOrderByRelevanceInput
 }
 
 export type SavedReportWhereUniqueInput = Prisma.AtLeast<{
@@ -415,12 +414,6 @@ export type SavedReportListRelationFilter = {
 
 export type SavedReportOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type SavedReportOrderByRelevanceInput = {
-  fields: Prisma.SavedReportOrderByRelevanceFieldEnum | Prisma.SavedReportOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type SavedReportCountOrderByAggregateInput = {
@@ -807,7 +800,39 @@ export type SavedReportSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["savedReport"]>
 
+export type SavedReportSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  name?: boolean
+  type?: boolean
+  filters?: boolean
+  columns?: boolean
+  ownerId?: boolean
+  isShared?: boolean
+  scheduleCron?: boolean
+  recipients?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["savedReport"]>
 
+export type SavedReportSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  name?: boolean
+  type?: boolean
+  filters?: boolean
+  columns?: boolean
+  ownerId?: boolean
+  isShared?: boolean
+  scheduleCron?: boolean
+  recipients?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["savedReport"]>
 
 export type SavedReportSelectScalar = {
   id?: boolean
@@ -826,6 +851,14 @@ export type SavedReportSelectScalar = {
 
 export type SavedReportOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "name" | "type" | "filters" | "columns" | "ownerId" | "isShared" | "scheduleCron" | "recipients" | "createdAt" | "updatedAt", ExtArgs["result"]["savedReport"]>
 export type SavedReportInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type SavedReportIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type SavedReportIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -967,6 +1000,30 @@ export interface SavedReportDelegate<ExtArgs extends runtime.Types.Extensions.In
   createMany<T extends SavedReportCreateManyArgs>(args?: Prisma.SelectSubset<T, SavedReportCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many SavedReports and returns the data saved in the database.
+   * @param {SavedReportCreateManyAndReturnArgs} args - Arguments to create many SavedReports.
+   * @example
+   * // Create many SavedReports
+   * const savedReport = await prisma.savedReport.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many SavedReports and only return the `id`
+   * const savedReportWithIdOnly = await prisma.savedReport.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends SavedReportCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, SavedReportCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SavedReportPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a SavedReport.
    * @param {SavedReportDeleteArgs} args - Arguments to delete one SavedReport.
    * @example
@@ -1029,6 +1086,36 @@ export interface SavedReportDelegate<ExtArgs extends runtime.Types.Extensions.In
    * 
    */
   updateMany<T extends SavedReportUpdateManyArgs>(args: Prisma.SelectSubset<T, SavedReportUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more SavedReports and returns the data updated in the database.
+   * @param {SavedReportUpdateManyAndReturnArgs} args - Arguments to update many SavedReports.
+   * @example
+   * // Update many SavedReports
+   * const savedReport = await prisma.savedReport.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more SavedReports and only return the `id`
+   * const savedReportWithIdOnly = await prisma.savedReport.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends SavedReportUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, SavedReportUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SavedReportPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one SavedReport.
@@ -1470,6 +1557,29 @@ export type SavedReportCreateManyArgs<ExtArgs extends runtime.Types.Extensions.I
 }
 
 /**
+ * SavedReport createManyAndReturn
+ */
+export type SavedReportCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SavedReport
+   */
+  select?: Prisma.SavedReportSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the SavedReport
+   */
+  omit?: Prisma.SavedReportOmit<ExtArgs> | null
+  /**
+   * The data used to create many SavedReports.
+   */
+  data: Prisma.SavedReportCreateManyInput | Prisma.SavedReportCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SavedReportIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * SavedReport update
  */
 export type SavedReportUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1511,6 +1621,36 @@ export type SavedReportUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * Limit how many SavedReports to update.
    */
   limit?: number
+}
+
+/**
+ * SavedReport updateManyAndReturn
+ */
+export type SavedReportUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SavedReport
+   */
+  select?: Prisma.SavedReportSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the SavedReport
+   */
+  omit?: Prisma.SavedReportOmit<ExtArgs> | null
+  /**
+   * The data used to update SavedReports.
+   */
+  data: Prisma.XOR<Prisma.SavedReportUpdateManyMutationInput, Prisma.SavedReportUncheckedUpdateManyInput>
+  /**
+   * Filter which SavedReports to update
+   */
+  where?: Prisma.SavedReportWhereInput
+  /**
+   * Limit how many SavedReports to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SavedReportIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

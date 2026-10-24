@@ -331,7 +331,6 @@ export type AssetOrderByWithRelationInput = {
   branch?: Prisma.BranchOrderByWithRelationInput
   assignments?: Prisma.AssetAssignmentOrderByRelationAggregateInput
   maintenanceRecords?: Prisma.AssetMaintenanceOrderByRelationAggregateInput
-  _relevance?: Prisma.AssetOrderByRelevanceInput
 }
 
 export type AssetWhereUniqueInput = Prisma.AtLeast<{
@@ -554,12 +553,6 @@ export type AssetListRelationFilter = {
 
 export type AssetOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type AssetOrderByRelevanceInput = {
-  fields: Prisma.AssetOrderByRelevanceFieldEnum | Prisma.AssetOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type AssetOrganizationIdAssetTagCompoundUniqueInput = {
@@ -1319,7 +1312,47 @@ export type AssetSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   _count?: boolean | Prisma.AssetCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["asset"]>
 
+export type AssetSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  branchId?: boolean
+  assetTag?: boolean
+  name?: boolean
+  category?: boolean
+  serialNumber?: boolean
+  vendorName?: boolean
+  purchaseDate?: boolean
+  purchaseCost?: boolean
+  warrantyExpiresAt?: boolean
+  status?: boolean
+  condition?: boolean
+  notes?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  branch?: boolean | Prisma.Asset$branchArgs<ExtArgs>
+}, ExtArgs["result"]["asset"]>
 
+export type AssetSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  branchId?: boolean
+  assetTag?: boolean
+  name?: boolean
+  category?: boolean
+  serialNumber?: boolean
+  vendorName?: boolean
+  purchaseDate?: boolean
+  purchaseCost?: boolean
+  warrantyExpiresAt?: boolean
+  status?: boolean
+  condition?: boolean
+  notes?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  branch?: boolean | Prisma.Asset$branchArgs<ExtArgs>
+}, ExtArgs["result"]["asset"]>
 
 export type AssetSelectScalar = {
   id?: boolean
@@ -1347,6 +1380,14 @@ export type AssetInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   assignments?: boolean | Prisma.Asset$assignmentsArgs<ExtArgs>
   maintenanceRecords?: boolean | Prisma.Asset$maintenanceRecordsArgs<ExtArgs>
   _count?: boolean | Prisma.AssetCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type AssetIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  branch?: boolean | Prisma.Asset$branchArgs<ExtArgs>
+}
+export type AssetIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  branch?: boolean | Prisma.Asset$branchArgs<ExtArgs>
 }
 
 export type $AssetPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1492,6 +1533,30 @@ export interface AssetDelegate<ExtArgs extends runtime.Types.Extensions.Internal
   createMany<T extends AssetCreateManyArgs>(args?: Prisma.SelectSubset<T, AssetCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many Assets and returns the data saved in the database.
+   * @param {AssetCreateManyAndReturnArgs} args - Arguments to create many Assets.
+   * @example
+   * // Create many Assets
+   * const asset = await prisma.asset.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many Assets and only return the `id`
+   * const assetWithIdOnly = await prisma.asset.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends AssetCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, AssetCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssetPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a Asset.
    * @param {AssetDeleteArgs} args - Arguments to delete one Asset.
    * @example
@@ -1554,6 +1619,36 @@ export interface AssetDelegate<ExtArgs extends runtime.Types.Extensions.Internal
    * 
    */
   updateMany<T extends AssetUpdateManyArgs>(args: Prisma.SelectSubset<T, AssetUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more Assets and returns the data updated in the database.
+   * @param {AssetUpdateManyAndReturnArgs} args - Arguments to update many Assets.
+   * @example
+   * // Update many Assets
+   * const asset = await prisma.asset.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more Assets and only return the `id`
+   * const assetWithIdOnly = await prisma.asset.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends AssetUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, AssetUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AssetPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one Asset.
@@ -2001,6 +2096,29 @@ export type AssetCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
+ * Asset createManyAndReturn
+ */
+export type AssetCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Asset
+   */
+  select?: Prisma.AssetSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Asset
+   */
+  omit?: Prisma.AssetOmit<ExtArgs> | null
+  /**
+   * The data used to create many Assets.
+   */
+  data: Prisma.AssetCreateManyInput | Prisma.AssetCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssetIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * Asset update
  */
 export type AssetUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2042,6 +2160,36 @@ export type AssetUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Limit how many Assets to update.
    */
   limit?: number
+}
+
+/**
+ * Asset updateManyAndReturn
+ */
+export type AssetUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Asset
+   */
+  select?: Prisma.AssetSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Asset
+   */
+  omit?: Prisma.AssetOmit<ExtArgs> | null
+  /**
+   * The data used to update Assets.
+   */
+  data: Prisma.XOR<Prisma.AssetUpdateManyMutationInput, Prisma.AssetUncheckedUpdateManyInput>
+  /**
+   * Filter which Assets to update
+   */
+  where?: Prisma.AssetWhereInput
+  /**
+   * Limit how many Assets to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AssetIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

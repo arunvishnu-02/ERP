@@ -286,7 +286,6 @@ export type TimeEntryOrderByWithRelationInput = {
   task?: Prisma.TaskOrderByWithRelationInput
   project?: Prisma.ProjectOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
-  _relevance?: Prisma.TimeEntryOrderByRelevanceInput
 }
 
 export type TimeEntryWhereUniqueInput = Prisma.AtLeast<{
@@ -448,12 +447,6 @@ export type TimeEntryListRelationFilter = {
 
 export type TimeEntryOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type TimeEntryOrderByRelevanceInput = {
-  fields: Prisma.TimeEntryOrderByRelevanceFieldEnum | Prisma.TimeEntryOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type TimeEntryCountOrderByAggregateInput = {
@@ -1127,7 +1120,41 @@ export type TimeEntrySelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["timeEntry"]>
 
+export type TimeEntrySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  taskId?: boolean
+  projectId?: boolean
+  userId?: boolean
+  startedAt?: boolean
+  endedAt?: boolean
+  minutes?: boolean
+  isBillable?: boolean
+  description?: boolean
+  createdAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  task?: boolean | Prisma.TimeEntry$taskArgs<ExtArgs>
+  project?: boolean | Prisma.TimeEntry$projectArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["timeEntry"]>
 
+export type TimeEntrySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  taskId?: boolean
+  projectId?: boolean
+  userId?: boolean
+  startedAt?: boolean
+  endedAt?: boolean
+  minutes?: boolean
+  isBillable?: boolean
+  description?: boolean
+  createdAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  task?: boolean | Prisma.TimeEntry$taskArgs<ExtArgs>
+  project?: boolean | Prisma.TimeEntry$projectArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["timeEntry"]>
 
 export type TimeEntrySelectScalar = {
   id?: boolean
@@ -1145,6 +1172,18 @@ export type TimeEntrySelectScalar = {
 
 export type TimeEntryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "taskId" | "projectId" | "userId" | "startedAt" | "endedAt" | "minutes" | "isBillable" | "description" | "createdAt", ExtArgs["result"]["timeEntry"]>
 export type TimeEntryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  task?: boolean | Prisma.TimeEntry$taskArgs<ExtArgs>
+  project?: boolean | Prisma.TimeEntry$projectArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type TimeEntryIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  task?: boolean | Prisma.TimeEntry$taskArgs<ExtArgs>
+  project?: boolean | Prisma.TimeEntry$projectArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type TimeEntryIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   task?: boolean | Prisma.TimeEntry$taskArgs<ExtArgs>
   project?: boolean | Prisma.TimeEntry$projectArgs<ExtArgs>
@@ -1289,6 +1328,30 @@ export interface TimeEntryDelegate<ExtArgs extends runtime.Types.Extensions.Inte
   createMany<T extends TimeEntryCreateManyArgs>(args?: Prisma.SelectSubset<T, TimeEntryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many TimeEntries and returns the data saved in the database.
+   * @param {TimeEntryCreateManyAndReturnArgs} args - Arguments to create many TimeEntries.
+   * @example
+   * // Create many TimeEntries
+   * const timeEntry = await prisma.timeEntry.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many TimeEntries and only return the `id`
+   * const timeEntryWithIdOnly = await prisma.timeEntry.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends TimeEntryCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, TimeEntryCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TimeEntryPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a TimeEntry.
    * @param {TimeEntryDeleteArgs} args - Arguments to delete one TimeEntry.
    * @example
@@ -1351,6 +1414,36 @@ export interface TimeEntryDelegate<ExtArgs extends runtime.Types.Extensions.Inte
    * 
    */
   updateMany<T extends TimeEntryUpdateManyArgs>(args: Prisma.SelectSubset<T, TimeEntryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more TimeEntries and returns the data updated in the database.
+   * @param {TimeEntryUpdateManyAndReturnArgs} args - Arguments to update many TimeEntries.
+   * @example
+   * // Update many TimeEntries
+   * const timeEntry = await prisma.timeEntry.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more TimeEntries and only return the `id`
+   * const timeEntryWithIdOnly = await prisma.timeEntry.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends TimeEntryUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, TimeEntryUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TimeEntryPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one TimeEntry.
@@ -1793,6 +1886,29 @@ export type TimeEntryCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 /**
+ * TimeEntry createManyAndReturn
+ */
+export type TimeEntryCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TimeEntry
+   */
+  select?: Prisma.TimeEntrySelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the TimeEntry
+   */
+  omit?: Prisma.TimeEntryOmit<ExtArgs> | null
+  /**
+   * The data used to create many TimeEntries.
+   */
+  data: Prisma.TimeEntryCreateManyInput | Prisma.TimeEntryCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TimeEntryIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * TimeEntry update
  */
 export type TimeEntryUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1834,6 +1950,36 @@ export type TimeEntryUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Limit how many TimeEntries to update.
    */
   limit?: number
+}
+
+/**
+ * TimeEntry updateManyAndReturn
+ */
+export type TimeEntryUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the TimeEntry
+   */
+  select?: Prisma.TimeEntrySelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the TimeEntry
+   */
+  omit?: Prisma.TimeEntryOmit<ExtArgs> | null
+  /**
+   * The data used to update TimeEntries.
+   */
+  data: Prisma.XOR<Prisma.TimeEntryUpdateManyMutationInput, Prisma.TimeEntryUncheckedUpdateManyInput>
+  /**
+   * Filter which TimeEntries to update
+   */
+  where?: Prisma.TimeEntryWhereInput
+  /**
+   * Limit how many TimeEntries to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.TimeEntryIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

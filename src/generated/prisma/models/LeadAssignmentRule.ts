@@ -258,7 +258,6 @@ export type LeadAssignmentRuleOrderByWithRelationInput = {
   priority?: Prisma.SortOrder
   isActive?: Prisma.SortOrder
   organization?: Prisma.OrganizationOrderByWithRelationInput
-  _relevance?: Prisma.LeadAssignmentRuleOrderByRelevanceInput
 }
 
 export type LeadAssignmentRuleWhereUniqueInput = Prisma.AtLeast<{
@@ -400,12 +399,6 @@ export type LeadAssignmentRuleListRelationFilter = {
 
 export type LeadAssignmentRuleOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type LeadAssignmentRuleOrderByRelevanceInput = {
-  fields: Prisma.LeadAssignmentRuleOrderByRelevanceFieldEnum | Prisma.LeadAssignmentRuleOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type LeadAssignmentRuleCountOrderByAggregateInput = {
@@ -618,7 +611,31 @@ export type LeadAssignmentRuleSelect<ExtArgs extends runtime.Types.Extensions.In
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["leadAssignmentRule"]>
 
+export type LeadAssignmentRuleSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  name?: boolean
+  strategy?: boolean
+  conditions?: boolean
+  assigneeIds?: boolean
+  lastAssignedIndex?: boolean
+  priority?: boolean
+  isActive?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["leadAssignmentRule"]>
 
+export type LeadAssignmentRuleSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  name?: boolean
+  strategy?: boolean
+  conditions?: boolean
+  assigneeIds?: boolean
+  lastAssignedIndex?: boolean
+  priority?: boolean
+  isActive?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["leadAssignmentRule"]>
 
 export type LeadAssignmentRuleSelectScalar = {
   id?: boolean
@@ -634,6 +651,12 @@ export type LeadAssignmentRuleSelectScalar = {
 
 export type LeadAssignmentRuleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "name" | "strategy" | "conditions" | "assigneeIds" | "lastAssignedIndex" | "priority" | "isActive", ExtArgs["result"]["leadAssignmentRule"]>
 export type LeadAssignmentRuleInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}
+export type LeadAssignmentRuleIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+}
+export type LeadAssignmentRuleIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
 }
 
@@ -770,6 +793,30 @@ export interface LeadAssignmentRuleDelegate<ExtArgs extends runtime.Types.Extens
   createMany<T extends LeadAssignmentRuleCreateManyArgs>(args?: Prisma.SelectSubset<T, LeadAssignmentRuleCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many LeadAssignmentRules and returns the data saved in the database.
+   * @param {LeadAssignmentRuleCreateManyAndReturnArgs} args - Arguments to create many LeadAssignmentRules.
+   * @example
+   * // Create many LeadAssignmentRules
+   * const leadAssignmentRule = await prisma.leadAssignmentRule.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many LeadAssignmentRules and only return the `id`
+   * const leadAssignmentRuleWithIdOnly = await prisma.leadAssignmentRule.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends LeadAssignmentRuleCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, LeadAssignmentRuleCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LeadAssignmentRulePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a LeadAssignmentRule.
    * @param {LeadAssignmentRuleDeleteArgs} args - Arguments to delete one LeadAssignmentRule.
    * @example
@@ -832,6 +879,36 @@ export interface LeadAssignmentRuleDelegate<ExtArgs extends runtime.Types.Extens
    * 
    */
   updateMany<T extends LeadAssignmentRuleUpdateManyArgs>(args: Prisma.SelectSubset<T, LeadAssignmentRuleUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more LeadAssignmentRules and returns the data updated in the database.
+   * @param {LeadAssignmentRuleUpdateManyAndReturnArgs} args - Arguments to update many LeadAssignmentRules.
+   * @example
+   * // Update many LeadAssignmentRules
+   * const leadAssignmentRule = await prisma.leadAssignmentRule.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more LeadAssignmentRules and only return the `id`
+   * const leadAssignmentRuleWithIdOnly = await prisma.leadAssignmentRule.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends LeadAssignmentRuleUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, LeadAssignmentRuleUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LeadAssignmentRulePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one LeadAssignmentRule.
@@ -1269,6 +1346,29 @@ export type LeadAssignmentRuleCreateManyArgs<ExtArgs extends runtime.Types.Exten
 }
 
 /**
+ * LeadAssignmentRule createManyAndReturn
+ */
+export type LeadAssignmentRuleCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LeadAssignmentRule
+   */
+  select?: Prisma.LeadAssignmentRuleSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the LeadAssignmentRule
+   */
+  omit?: Prisma.LeadAssignmentRuleOmit<ExtArgs> | null
+  /**
+   * The data used to create many LeadAssignmentRules.
+   */
+  data: Prisma.LeadAssignmentRuleCreateManyInput | Prisma.LeadAssignmentRuleCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LeadAssignmentRuleIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * LeadAssignmentRule update
  */
 export type LeadAssignmentRuleUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1310,6 +1410,36 @@ export type LeadAssignmentRuleUpdateManyArgs<ExtArgs extends runtime.Types.Exten
    * Limit how many LeadAssignmentRules to update.
    */
   limit?: number
+}
+
+/**
+ * LeadAssignmentRule updateManyAndReturn
+ */
+export type LeadAssignmentRuleUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LeadAssignmentRule
+   */
+  select?: Prisma.LeadAssignmentRuleSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the LeadAssignmentRule
+   */
+  omit?: Prisma.LeadAssignmentRuleOmit<ExtArgs> | null
+  /**
+   * The data used to update LeadAssignmentRules.
+   */
+  data: Prisma.XOR<Prisma.LeadAssignmentRuleUpdateManyMutationInput, Prisma.LeadAssignmentRuleUncheckedUpdateManyInput>
+  /**
+   * Filter which LeadAssignmentRules to update
+   */
+  where?: Prisma.LeadAssignmentRuleWhereInput
+  /**
+   * Limit how many LeadAssignmentRules to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LeadAssignmentRuleIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

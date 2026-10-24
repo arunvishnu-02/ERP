@@ -359,7 +359,6 @@ export type PayslipOrderByWithRelationInput = {
   organization?: Prisma.OrganizationOrderByWithRelationInput
   run?: Prisma.PayrollRunOrderByWithRelationInput
   employee?: Prisma.EmployeeOrderByWithRelationInput
-  _relevance?: Prisma.PayslipOrderByRelevanceInput
 }
 
 export type PayslipWhereUniqueInput = Prisma.AtLeast<{
@@ -592,12 +591,6 @@ export type PayslipListRelationFilter = {
 
 export type PayslipOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type PayslipOrderByRelevanceInput = {
-  fields: Prisma.PayslipOrderByRelevanceFieldEnum | Prisma.PayslipOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type PayslipRunIdEmployeeIdCompoundUniqueInput = {
@@ -1296,7 +1289,53 @@ export type PayslipSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   employee?: boolean | Prisma.EmployeeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["payslip"]>
 
+export type PayslipSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  runId?: boolean
+  employeeId?: boolean
+  month?: boolean
+  monthlySalary?: boolean
+  workingDays?: boolean
+  paidDays?: boolean
+  lopDays?: boolean
+  earnings?: boolean
+  extraEarnings?: boolean
+  deductions?: boolean
+  gross?: boolean
+  totalDeductions?: boolean
+  netPay?: boolean
+  notes?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  run?: boolean | Prisma.PayrollRunDefaultArgs<ExtArgs>
+  employee?: boolean | Prisma.EmployeeDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["payslip"]>
 
+export type PayslipSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  runId?: boolean
+  employeeId?: boolean
+  month?: boolean
+  monthlySalary?: boolean
+  workingDays?: boolean
+  paidDays?: boolean
+  lopDays?: boolean
+  earnings?: boolean
+  extraEarnings?: boolean
+  deductions?: boolean
+  gross?: boolean
+  totalDeductions?: boolean
+  netPay?: boolean
+  notes?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  run?: boolean | Prisma.PayrollRunDefaultArgs<ExtArgs>
+  employee?: boolean | Prisma.EmployeeDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["payslip"]>
 
 export type PayslipSelectScalar = {
   id?: boolean
@@ -1321,6 +1360,16 @@ export type PayslipSelectScalar = {
 
 export type PayslipOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "runId" | "employeeId" | "month" | "monthlySalary" | "workingDays" | "paidDays" | "lopDays" | "earnings" | "extraEarnings" | "deductions" | "gross" | "totalDeductions" | "netPay" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["payslip"]>
 export type PayslipInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  run?: boolean | Prisma.PayrollRunDefaultArgs<ExtArgs>
+  employee?: boolean | Prisma.EmployeeDefaultArgs<ExtArgs>
+}
+export type PayslipIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  run?: boolean | Prisma.PayrollRunDefaultArgs<ExtArgs>
+  employee?: boolean | Prisma.EmployeeDefaultArgs<ExtArgs>
+}
+export type PayslipIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   run?: boolean | Prisma.PayrollRunDefaultArgs<ExtArgs>
   employee?: boolean | Prisma.EmployeeDefaultArgs<ExtArgs>
@@ -1470,6 +1519,30 @@ export interface PayslipDelegate<ExtArgs extends runtime.Types.Extensions.Intern
   createMany<T extends PayslipCreateManyArgs>(args?: Prisma.SelectSubset<T, PayslipCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many Payslips and returns the data saved in the database.
+   * @param {PayslipCreateManyAndReturnArgs} args - Arguments to create many Payslips.
+   * @example
+   * // Create many Payslips
+   * const payslip = await prisma.payslip.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many Payslips and only return the `id`
+   * const payslipWithIdOnly = await prisma.payslip.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends PayslipCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, PayslipCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PayslipPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a Payslip.
    * @param {PayslipDeleteArgs} args - Arguments to delete one Payslip.
    * @example
@@ -1532,6 +1605,36 @@ export interface PayslipDelegate<ExtArgs extends runtime.Types.Extensions.Intern
    * 
    */
   updateMany<T extends PayslipUpdateManyArgs>(args: Prisma.SelectSubset<T, PayslipUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more Payslips and returns the data updated in the database.
+   * @param {PayslipUpdateManyAndReturnArgs} args - Arguments to update many Payslips.
+   * @example
+   * // Update many Payslips
+   * const payslip = await prisma.payslip.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more Payslips and only return the `id`
+   * const payslipWithIdOnly = await prisma.payslip.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends PayslipUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, PayslipUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PayslipPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one Payslip.
@@ -1980,6 +2083,29 @@ export type PayslipCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
+ * Payslip createManyAndReturn
+ */
+export type PayslipCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Payslip
+   */
+  select?: Prisma.PayslipSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Payslip
+   */
+  omit?: Prisma.PayslipOmit<ExtArgs> | null
+  /**
+   * The data used to create many Payslips.
+   */
+  data: Prisma.PayslipCreateManyInput | Prisma.PayslipCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PayslipIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * Payslip update
  */
 export type PayslipUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2021,6 +2147,36 @@ export type PayslipUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Limit how many Payslips to update.
    */
   limit?: number
+}
+
+/**
+ * Payslip updateManyAndReturn
+ */
+export type PayslipUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Payslip
+   */
+  select?: Prisma.PayslipSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Payslip
+   */
+  omit?: Prisma.PayslipOmit<ExtArgs> | null
+  /**
+   * The data used to update Payslips.
+   */
+  data: Prisma.XOR<Prisma.PayslipUpdateManyMutationInput, Prisma.PayslipUncheckedUpdateManyInput>
+  /**
+   * Filter which Payslips to update
+   */
+  where?: Prisma.PayslipWhereInput
+  /**
+   * Limit how many Payslips to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PayslipIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

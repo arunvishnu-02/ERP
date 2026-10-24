@@ -278,7 +278,6 @@ export type CreditNoteItemOrderByWithRelationInput = {
   taxableAmount?: Prisma.SortOrder
   lineTotal?: Prisma.SortOrder
   creditNote?: Prisma.CreditNoteOrderByWithRelationInput
-  _relevance?: Prisma.CreditNoteItemOrderByRelevanceInput
 }
 
 export type CreditNoteItemWhereUniqueInput = Prisma.AtLeast<{
@@ -420,12 +419,6 @@ export type CreditNoteItemListRelationFilter = {
 
 export type CreditNoteItemOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type CreditNoteItemOrderByRelevanceInput = {
-  fields: Prisma.CreditNoteItemOrderByRelevanceFieldEnum | Prisma.CreditNoteItemOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type CreditNoteItemCountOrderByAggregateInput = {
@@ -644,7 +637,31 @@ export type CreditNoteItemSelect<ExtArgs extends runtime.Types.Extensions.Intern
   creditNote?: boolean | Prisma.CreditNoteDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["creditNoteItem"]>
 
+export type CreditNoteItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  creditNoteId?: boolean
+  description?: boolean
+  sacCode?: boolean
+  quantity?: boolean
+  unitPrice?: boolean
+  taxRate?: boolean
+  taxableAmount?: boolean
+  lineTotal?: boolean
+  creditNote?: boolean | Prisma.CreditNoteDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["creditNoteItem"]>
 
+export type CreditNoteItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  creditNoteId?: boolean
+  description?: boolean
+  sacCode?: boolean
+  quantity?: boolean
+  unitPrice?: boolean
+  taxRate?: boolean
+  taxableAmount?: boolean
+  lineTotal?: boolean
+  creditNote?: boolean | Prisma.CreditNoteDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["creditNoteItem"]>
 
 export type CreditNoteItemSelectScalar = {
   id?: boolean
@@ -660,6 +677,12 @@ export type CreditNoteItemSelectScalar = {
 
 export type CreditNoteItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "creditNoteId" | "description" | "sacCode" | "quantity" | "unitPrice" | "taxRate" | "taxableAmount" | "lineTotal", ExtArgs["result"]["creditNoteItem"]>
 export type CreditNoteItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  creditNote?: boolean | Prisma.CreditNoteDefaultArgs<ExtArgs>
+}
+export type CreditNoteItemIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  creditNote?: boolean | Prisma.CreditNoteDefaultArgs<ExtArgs>
+}
+export type CreditNoteItemIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   creditNote?: boolean | Prisma.CreditNoteDefaultArgs<ExtArgs>
 }
 
@@ -796,6 +819,30 @@ export interface CreditNoteItemDelegate<ExtArgs extends runtime.Types.Extensions
   createMany<T extends CreditNoteItemCreateManyArgs>(args?: Prisma.SelectSubset<T, CreditNoteItemCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many CreditNoteItems and returns the data saved in the database.
+   * @param {CreditNoteItemCreateManyAndReturnArgs} args - Arguments to create many CreditNoteItems.
+   * @example
+   * // Create many CreditNoteItems
+   * const creditNoteItem = await prisma.creditNoteItem.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many CreditNoteItems and only return the `id`
+   * const creditNoteItemWithIdOnly = await prisma.creditNoteItem.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends CreditNoteItemCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, CreditNoteItemCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CreditNoteItemPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a CreditNoteItem.
    * @param {CreditNoteItemDeleteArgs} args - Arguments to delete one CreditNoteItem.
    * @example
@@ -858,6 +905,36 @@ export interface CreditNoteItemDelegate<ExtArgs extends runtime.Types.Extensions
    * 
    */
   updateMany<T extends CreditNoteItemUpdateManyArgs>(args: Prisma.SelectSubset<T, CreditNoteItemUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more CreditNoteItems and returns the data updated in the database.
+   * @param {CreditNoteItemUpdateManyAndReturnArgs} args - Arguments to update many CreditNoteItems.
+   * @example
+   * // Update many CreditNoteItems
+   * const creditNoteItem = await prisma.creditNoteItem.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more CreditNoteItems and only return the `id`
+   * const creditNoteItemWithIdOnly = await prisma.creditNoteItem.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends CreditNoteItemUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, CreditNoteItemUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CreditNoteItemPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one CreditNoteItem.
@@ -1295,6 +1372,29 @@ export type CreditNoteItemCreateManyArgs<ExtArgs extends runtime.Types.Extension
 }
 
 /**
+ * CreditNoteItem createManyAndReturn
+ */
+export type CreditNoteItemCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CreditNoteItem
+   */
+  select?: Prisma.CreditNoteItemSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the CreditNoteItem
+   */
+  omit?: Prisma.CreditNoteItemOmit<ExtArgs> | null
+  /**
+   * The data used to create many CreditNoteItems.
+   */
+  data: Prisma.CreditNoteItemCreateManyInput | Prisma.CreditNoteItemCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CreditNoteItemIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * CreditNoteItem update
  */
 export type CreditNoteItemUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1336,6 +1436,36 @@ export type CreditNoteItemUpdateManyArgs<ExtArgs extends runtime.Types.Extension
    * Limit how many CreditNoteItems to update.
    */
   limit?: number
+}
+
+/**
+ * CreditNoteItem updateManyAndReturn
+ */
+export type CreditNoteItemUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CreditNoteItem
+   */
+  select?: Prisma.CreditNoteItemSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the CreditNoteItem
+   */
+  omit?: Prisma.CreditNoteItemOmit<ExtArgs> | null
+  /**
+   * The data used to update CreditNoteItems.
+   */
+  data: Prisma.XOR<Prisma.CreditNoteItemUpdateManyMutationInput, Prisma.CreditNoteItemUncheckedUpdateManyInput>
+  /**
+   * Filter which CreditNoteItems to update
+   */
+  where?: Prisma.CreditNoteItemWhereInput
+  /**
+   * Limit how many CreditNoteItems to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CreditNoteItemIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

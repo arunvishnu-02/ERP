@@ -380,7 +380,6 @@ export type CandidateOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   job?: Prisma.JobOpeningOrderByWithRelationInput
-  _relevance?: Prisma.CandidateOrderByRelevanceInput
 }
 
 export type CandidateWhereUniqueInput = Prisma.AtLeast<{
@@ -652,12 +651,6 @@ export type CandidateListRelationFilter = {
 
 export type CandidateOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type CandidateOrderByRelevanceInput = {
-  fields: Prisma.CandidateOrderByRelevanceFieldEnum | Prisma.CandidateOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type CandidateCountOrderByAggregateInput = {
@@ -1015,7 +1008,57 @@ export type CandidateSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   job?: boolean | Prisma.JobOpeningDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["candidate"]>
 
+export type CandidateSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  jobId?: boolean
+  firstName?: boolean
+  lastName?: boolean
+  email?: boolean
+  phone?: boolean
+  source?: boolean
+  experience?: boolean
+  link?: boolean
+  stage?: boolean
+  interviewAt?: boolean
+  monthlySalary?: boolean
+  joiningDate?: boolean
+  offerSentAt?: boolean
+  offerAccepted?: boolean
+  notes?: boolean
+  rejectionReason?: boolean
+  employeeId?: boolean
+  createdById?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  job?: boolean | Prisma.JobOpeningDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["candidate"]>
 
+export type CandidateSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  jobId?: boolean
+  firstName?: boolean
+  lastName?: boolean
+  email?: boolean
+  phone?: boolean
+  source?: boolean
+  experience?: boolean
+  link?: boolean
+  stage?: boolean
+  interviewAt?: boolean
+  monthlySalary?: boolean
+  joiningDate?: boolean
+  offerSentAt?: boolean
+  offerAccepted?: boolean
+  notes?: boolean
+  rejectionReason?: boolean
+  employeeId?: boolean
+  createdById?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  job?: boolean | Prisma.JobOpeningDefaultArgs<ExtArgs>
+}, ExtArgs["result"]["candidate"]>
 
 export type CandidateSelectScalar = {
   id?: boolean
@@ -1044,6 +1087,12 @@ export type CandidateSelectScalar = {
 
 export type CandidateOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "jobId" | "firstName" | "lastName" | "email" | "phone" | "source" | "experience" | "link" | "stage" | "interviewAt" | "monthlySalary" | "joiningDate" | "offerSentAt" | "offerAccepted" | "notes" | "rejectionReason" | "employeeId" | "createdById" | "createdAt" | "updatedAt", ExtArgs["result"]["candidate"]>
 export type CandidateInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  job?: boolean | Prisma.JobOpeningDefaultArgs<ExtArgs>
+}
+export type CandidateIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  job?: boolean | Prisma.JobOpeningDefaultArgs<ExtArgs>
+}
+export type CandidateIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   job?: boolean | Prisma.JobOpeningDefaultArgs<ExtArgs>
 }
 
@@ -1193,6 +1242,30 @@ export interface CandidateDelegate<ExtArgs extends runtime.Types.Extensions.Inte
   createMany<T extends CandidateCreateManyArgs>(args?: Prisma.SelectSubset<T, CandidateCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many Candidates and returns the data saved in the database.
+   * @param {CandidateCreateManyAndReturnArgs} args - Arguments to create many Candidates.
+   * @example
+   * // Create many Candidates
+   * const candidate = await prisma.candidate.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many Candidates and only return the `id`
+   * const candidateWithIdOnly = await prisma.candidate.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends CandidateCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, CandidateCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CandidatePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a Candidate.
    * @param {CandidateDeleteArgs} args - Arguments to delete one Candidate.
    * @example
@@ -1255,6 +1328,36 @@ export interface CandidateDelegate<ExtArgs extends runtime.Types.Extensions.Inte
    * 
    */
   updateMany<T extends CandidateUpdateManyArgs>(args: Prisma.SelectSubset<T, CandidateUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more Candidates and returns the data updated in the database.
+   * @param {CandidateUpdateManyAndReturnArgs} args - Arguments to update many Candidates.
+   * @example
+   * // Update many Candidates
+   * const candidate = await prisma.candidate.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more Candidates and only return the `id`
+   * const candidateWithIdOnly = await prisma.candidate.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends CandidateUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, CandidateUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CandidatePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one Candidate.
@@ -1705,6 +1808,29 @@ export type CandidateCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 /**
+ * Candidate createManyAndReturn
+ */
+export type CandidateCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Candidate
+   */
+  select?: Prisma.CandidateSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Candidate
+   */
+  omit?: Prisma.CandidateOmit<ExtArgs> | null
+  /**
+   * The data used to create many Candidates.
+   */
+  data: Prisma.CandidateCreateManyInput | Prisma.CandidateCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CandidateIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * Candidate update
  */
 export type CandidateUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1746,6 +1872,36 @@ export type CandidateUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Limit how many Candidates to update.
    */
   limit?: number
+}
+
+/**
+ * Candidate updateManyAndReturn
+ */
+export type CandidateUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Candidate
+   */
+  select?: Prisma.CandidateSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Candidate
+   */
+  omit?: Prisma.CandidateOmit<ExtArgs> | null
+  /**
+   * The data used to update Candidates.
+   */
+  data: Prisma.XOR<Prisma.CandidateUpdateManyMutationInput, Prisma.CandidateUncheckedUpdateManyInput>
+  /**
+   * Filter which Candidates to update
+   */
+  where?: Prisma.CandidateWhereInput
+  /**
+   * Limit how many Candidates to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CandidateIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**

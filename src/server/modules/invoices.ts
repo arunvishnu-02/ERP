@@ -4,6 +4,7 @@ import { authorize, fullName } from '../core/auth'
 import { findScoped, paging } from '../core/crud'
 import { createInvoice, issueInvoice, recalcInvoice, runRecurring } from '../core/docs'
 import { bad, conflict, forbidden, notFound, parse, shape } from '../core/http'
+import { docEmailHtml } from '../core/email-html'
 import { sendMail, template } from '../core/mail'
 import { remindInvoice } from '../core/reminders'
 import { activity, audit, computeDoc, inr, nextNumber, render, scoped, taxContext, today, ymd } from '../core/util'
@@ -35,7 +36,7 @@ invoicesRouter.get('/', authorize(M, 'VIEW'), async (req, res) => {
   else if (typeof s === 'string' && s) where.status = { in: s.split(',') }
   for (const f of ['customerId', 'projectId'] as const) if (typeof req.query[f] === 'string' && req.query[f]) where[f] = req.query[f]
   const q = String(req.query.q ?? '').trim()
-  if (q) where.AND.push({ OR: [{ invoiceNumber: { contains: q } }, { customer: { name: { contains: q } } }] })
+  if (q) where.AND.push({ OR: [{ invoiceNumber: { contains: q, mode: 'insensitive' } }, { customer: { name: { contains: q, mode: 'insensitive' } } }] })
   const all = req.query.all === '1'
   if (all && !req.user.perms[M]?.EXPORT) throw forbidden('You do not have permission to export this list')
   const [items, total] = await Promise.all([prisma.invoice.findMany({ where, include: listInclude, orderBy: { createdAt: 'desc' }, ...(all ? { take: 5000, skip: 0 } : paging(req)) }), prisma.invoice.count({ where })])
@@ -107,7 +108,9 @@ invoicesRouter.post('/:id/send', authorize(M, 'EDIT'), async (req, res) => {
     const to = d.to ?? contact?.email ?? inv.customer.email
     if (!to) throw bad('There is no email address for this customer')
     const t = await template(inv.organizationId, 'EMAIL', 'invoice_sent')
-    email = await sendMail(inv.organizationId, { to, subject: render(t?.subject ?? 'Invoice {{number}}', vars), text: render(t?.body ?? '{{link}}', vars), sentById: req.user.id, customerId: inv.customerId, entityType: 'INVOICE', entityId: inv.id })
+    const text = render(t?.body ?? '{{link}}', vars)
+    const html = await docEmailHtml(inv.organizationId, { kind: 'Invoice', heading: `Invoice ${vars.number}`, body: text, facts: [['Amount', vars.amount], ['Due date', vars.due_date]], button: { label: 'View invoice', url: link } })
+    email = await sendMail(inv.organizationId, { to, subject: render(t?.subject ?? 'Invoice {{number}}', vars), text, html, sentById: req.user.id, customerId: inv.customerId, entityType: 'INVOICE', entityId: inv.id })
   }
   const message = render((await template(inv.organizationId, 'WHATSAPP', 'invoice_share'))?.body ?? 'Invoice {{number}}: {{link}}', vars)
   if (d.channel === 'WHATSAPP') {

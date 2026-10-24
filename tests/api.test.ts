@@ -1,11 +1,11 @@
-// End-to-end API tests on a real MySQL/MariaDB database. Run with: npm test
+// End-to-end API tests on a real PostgreSQL database. Run with: npm test
 // The database named in TEST_DATABASE_URL is emptied first, so never point it at real data.
 import assert from 'node:assert/strict'
 import fs from 'node:fs'
 import { after, before, test } from 'node:test'
-import mariadb from 'mariadb'
+import { Client } from 'pg'
 
-const url = process.env.TEST_DATABASE_URL ?? 'mysql://cx:cx@127.0.0.1:3306/cx_test'
+const url = process.env.TEST_DATABASE_URL ?? 'postgresql://cx:cx@127.0.0.1:5432/cx_test'
 const uploads = `/tmp/cx-test-uploads-${process.pid}`
 let handleApi: (r: Request) => Promise<Response>
 const S: any = { ids: {} }
@@ -14,10 +14,10 @@ const plusDays = (n: number) => new Date(Date.parse(`${today}T00:00:00Z`) + n * 
 
 before(async () => {
   Object.assign(process.env, { DATABASE_URL: url, ENCRYPTION_KEY: 'ab'.repeat(32), UPLOAD_DIR: uploads, RUN_JOBS: 'false', APP_URL: 'http://app.test' })
-  const u = new URL(url)
-  const conn = await mariadb.createConnection({ host: u.hostname, port: Number(u.port || 3306), user: u.username, password: u.password, database: u.pathname.slice(1) })
-  await conn.query('SET FOREIGN_KEY_CHECKS = 0')
-  for (const t of await conn.query('SELECT table_name AS name FROM information_schema.tables WHERE table_schema = DATABASE()')) await conn.query(`DROP TABLE \`${t.name}\``)
+  const conn = new Client({ connectionString: url })
+  await conn.connect()
+  await conn.query('DROP SCHEMA IF EXISTS public CASCADE')
+  await conn.query('CREATE SCHEMA public')
   await conn.end()
   handleApi = (await import('../src/server/app')).handleApi
 })
@@ -118,6 +118,16 @@ test('leads: own-record scope, follow-ups, rotation, website form, import, notes
   assert.equal((await ok('GET', '/follow-ups', S.sales)).items.length, 1)
   await deny('PATCH', `/leads/${l1.id}`, S.sales, { stageId: S.lk.leadStages.find((s: any) => s.isWon).id }, 400)
 
+  // opening the address in a browser, and a plain HTML form post
+  assert.equal((await ok('GET', `/public/leads?key=${S.lk.organization.settings.leadFormKey}`)).ok, true)
+  await deny('GET', '/public/leads?key=wrong-key-wrong-key-wrong', undefined, undefined, 404)
+  const formRes = await handleApi(new Request(`http://app.test/api/v1/public/leads?key=${S.lk.organization.settings.leadFormKey}`, { method: 'POST', headers: { 'content-type': 'application/x-www-form-urlencoded' }, body: 'your-name=Form+Person&your-email=form%40example.com&mobile=919000000003' }))
+  assert.equal(formRes.status, 200)
+  assert.match(await formRes.text(), /Thank you/)
+  const formLead = (await ok('GET', '/leads?q=Form Person', S.admin)).items[0]
+  assert.equal(formLead.email, 'form@example.com')
+  assert.equal(formLead.phone, '919000000003')
+  await ok('DELETE', `/leads/${formLead.id}`, S.admin) // keep later counts unchanged
   // rotation + website form
   const auto = await ok('GET', '/automations', S.admin)
   await ok('PUT', '/automations/rotation', S.admin, { assigneeIds: [S.ids.sales, S.ids.sales2] })
@@ -863,6 +873,50 @@ test('google: sign in with Google, connect Drive and Sheets, save a file, send a
     assert.equal((await ok('GET', '/lookups', S.sales)).google.drive, false)
     await deny('POST', '/google/sheets', S.admin, { title: 'Leads', module: 'LEADS', rows: [['Name']] }, 409)
     assert.equal((await ok('GET', '/auth/status')).google, true)
+  } finally {
+    globalThis.fetch = realFetch
+  }
+})
+
+test('email: Resend is used instead of the mailbox when it is on, and the key stays hidden', async () => {
+  const { prisma } = await import('../src/server/db')
+  const realFetch = globalThis.fetch
+  const sent: { auth: string; body: any }[] = []
+  let fail = false
+  globalThis.fetch = (async (input: any, init: any = {}) => {
+    if (String(input) !== 'https://api.resend.com/emails') throw new Error(`unexpected fetch ${input}`)
+    sent.push({ auth: init.headers.Authorization, body: JSON.parse(init.body) })
+    return fail ? new Response(JSON.stringify({ message: 'The ciphermutex.com domain is not verified' }), { status: 403 }) : new Response(JSON.stringify({ id: 'em_1' }), { status: 200 })
+  }) as typeof fetch
+  try {
+    await deny('PUT', '/settings/integrations/resend', S.admin, { fromName: 'Cipher Mutex', fromEmail: 'info@ciphermutex.com' }, 400)
+    await deny('PUT', '/settings/integrations/resend', S.admin, { apiKey: 'sk_wrong', fromName: 'Cipher Mutex', fromEmail: 'info@ciphermutex.com' }, 400)
+    await deny('PUT', '/settings/integrations/resend', S.sales, { apiKey: 're_1234567890', fromName: 'Cipher Mutex', fromEmail: 'info@ciphermutex.com' })
+    await ok('PUT', '/settings/integrations/resend', S.admin, { apiKey: 're_1234567890', fromName: 'Cipher Mutex', fromEmail: 'Info@CipherMutex.com', isActive: true })
+    const got = await ok('GET', '/settings/integrations/resend', S.admin)
+    assert.deepEqual([got.hasKey, got.isActive, got.config.fromEmail], [true, true, 'info@ciphermutex.com'])
+    assert.ok(!JSON.stringify(got).includes('re_1234567890'))
+    assert.deepEqual((await ok('GET', '/settings/integrations', S.admin)).resend, { active: true, fromEmail: 'info@ciphermutex.com' })
+
+    const r = await ok('POST', '/settings/integrations/smtp/test', S.admin, { to: 'arun@example.com' })
+    assert.equal(r.sent, true)
+    assert.equal(sent.length, 1)
+    assert.equal(sent[0]!.auth, 'Bearer re_1234567890')
+    assert.deepEqual([sent[0]!.body.from, sent[0]!.body.to, sent[0]!.body.subject], ['Cipher Mutex <info@ciphermutex.com>', ['arun@example.com'], 'Test email from CX CRM ERP'])
+
+    fail = true
+    const bad = await ok('POST', '/settings/integrations/smtp/test', S.admin, { to: 'arun@example.com' })
+    assert.equal(bad.sent, false)
+    assert.match(bad.error, /not verified/)
+    const logged = await prisma.message.findFirst({ where: { toAddress: 'arun@example.com', status: 'FAILED' }, orderBy: { createdAt: 'desc' } })
+    assert.equal(logged?.fromAddress, 'info@ciphermutex.com')
+
+    // turning Resend off goes back to the mailbox; the saved key is kept
+    await ok('PUT', '/settings/integrations/resend', S.admin, { fromName: 'Cipher Mutex', fromEmail: 'info@ciphermutex.com', isActive: false })
+    assert.equal((await ok('GET', '/settings/integrations/resend', S.admin)).hasKey, true)
+    const before = sent.length
+    await ok('POST', '/settings/integrations/smtp/test', S.admin, { to: 'arun@example.com' })
+    assert.equal(sent.length, before)
   } finally {
     globalThis.fetch = realFetch
   }

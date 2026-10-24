@@ -203,7 +203,6 @@ export type HolidayOrderByWithRelationInput = {
   isOptional?: Prisma.SortOrder
   organization?: Prisma.OrganizationOrderByWithRelationInput
   branch?: Prisma.BranchOrderByWithRelationInput
-  _relevance?: Prisma.HolidayOrderByRelevanceInput
 }
 
 export type HolidayWhereUniqueInput = Prisma.AtLeast<{
@@ -313,12 +312,6 @@ export type HolidayListRelationFilter = {
 
 export type HolidayOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type HolidayOrderByRelevanceInput = {
-  fields: Prisma.HolidayOrderByRelevanceFieldEnum | Prisma.HolidayOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type HolidayCountOrderByAggregateInput = {
@@ -605,7 +598,27 @@ export type HolidaySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   branch?: boolean | Prisma.Holiday$branchArgs<ExtArgs>
 }, ExtArgs["result"]["holiday"]>
 
+export type HolidaySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  branchId?: boolean
+  name?: boolean
+  date?: boolean
+  isOptional?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  branch?: boolean | Prisma.Holiday$branchArgs<ExtArgs>
+}, ExtArgs["result"]["holiday"]>
 
+export type HolidaySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  organizationId?: boolean
+  branchId?: boolean
+  name?: boolean
+  date?: boolean
+  isOptional?: boolean
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  branch?: boolean | Prisma.Holiday$branchArgs<ExtArgs>
+}, ExtArgs["result"]["holiday"]>
 
 export type HolidaySelectScalar = {
   id?: boolean
@@ -618,6 +631,14 @@ export type HolidaySelectScalar = {
 
 export type HolidayOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "branchId" | "name" | "date" | "isOptional", ExtArgs["result"]["holiday"]>
 export type HolidayInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  branch?: boolean | Prisma.Holiday$branchArgs<ExtArgs>
+}
+export type HolidayIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
+  branch?: boolean | Prisma.Holiday$branchArgs<ExtArgs>
+}
+export type HolidayIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   branch?: boolean | Prisma.Holiday$branchArgs<ExtArgs>
 }
@@ -753,6 +774,30 @@ export interface HolidayDelegate<ExtArgs extends runtime.Types.Extensions.Intern
   createMany<T extends HolidayCreateManyArgs>(args?: Prisma.SelectSubset<T, HolidayCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many Holidays and returns the data saved in the database.
+   * @param {HolidayCreateManyAndReturnArgs} args - Arguments to create many Holidays.
+   * @example
+   * // Create many Holidays
+   * const holiday = await prisma.holiday.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many Holidays and only return the `id`
+   * const holidayWithIdOnly = await prisma.holiday.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends HolidayCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, HolidayCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HolidayPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a Holiday.
    * @param {HolidayDeleteArgs} args - Arguments to delete one Holiday.
    * @example
@@ -815,6 +860,36 @@ export interface HolidayDelegate<ExtArgs extends runtime.Types.Extensions.Intern
    * 
    */
   updateMany<T extends HolidayUpdateManyArgs>(args: Prisma.SelectSubset<T, HolidayUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more Holidays and returns the data updated in the database.
+   * @param {HolidayUpdateManyAndReturnArgs} args - Arguments to update many Holidays.
+   * @example
+   * // Update many Holidays
+   * const holiday = await prisma.holiday.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more Holidays and only return the `id`
+   * const holidayWithIdOnly = await prisma.holiday.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends HolidayUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, HolidayUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HolidayPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one Holiday.
@@ -1250,6 +1325,29 @@ export type HolidayCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
+ * Holiday createManyAndReturn
+ */
+export type HolidayCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Holiday
+   */
+  select?: Prisma.HolidaySelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Holiday
+   */
+  omit?: Prisma.HolidayOmit<ExtArgs> | null
+  /**
+   * The data used to create many Holidays.
+   */
+  data: Prisma.HolidayCreateManyInput | Prisma.HolidayCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.HolidayIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * Holiday update
  */
 export type HolidayUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1291,6 +1389,36 @@ export type HolidayUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Limit how many Holidays to update.
    */
   limit?: number
+}
+
+/**
+ * Holiday updateManyAndReturn
+ */
+export type HolidayUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Holiday
+   */
+  select?: Prisma.HolidaySelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Holiday
+   */
+  omit?: Prisma.HolidayOmit<ExtArgs> | null
+  /**
+   * The data used to update Holidays.
+   */
+  data: Prisma.XOR<Prisma.HolidayUpdateManyMutationInput, Prisma.HolidayUncheckedUpdateManyInput>
+  /**
+   * Filter which Holidays to update
+   */
+  where?: Prisma.HolidayWhereInput
+  /**
+   * Limit how many Holidays to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.HolidayIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
