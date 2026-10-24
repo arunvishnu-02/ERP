@@ -2,6 +2,7 @@ import { prisma } from '../db'
 import { env } from '../env'
 import { fullName } from './auth'
 import { newToken } from './docs'
+import { docEmailHtml } from '../core/email-html'
 import { sendMail, template } from './mail'
 import { inr, render, ymd } from './util'
 
@@ -15,7 +16,9 @@ export async function remindInvoice(invoiceId: string, level: number, sentById: 
   if (to) {
     const t = await template(inv.organizationId, 'EMAIL', 'payment_reminder')
     const vars = { contact: contact ? fullName(contact) : inv.customer.name, number: inv.invoiceNumber, amount: inr(Number(inv.balanceDue)), due_date: ymd(inv.dueDate), link: `${env.appUrl}/i/${inv.publicToken}`, company: inv.organization.name }
-    result = await sendMail(inv.organizationId, { to, subject: render(t?.subject ?? 'Payment reminder: {{number}}', vars), text: render(t?.body ?? 'Invoice {{number}} is overdue. {{link}}', vars), sentById, customerId: inv.customerId, entityType: 'INVOICE', entityId: inv.id })
+    const text = render(t?.body ?? 'Invoice {{number}} is overdue. {{link}}', vars)
+    const html = await docEmailHtml(inv.organizationId, { kind: 'Payment reminder', heading: `Payment due for invoice ${vars.number}`, body: text, facts: [['Balance due', vars.amount], ['Due date', vars.due_date]], button: { label: 'View invoice', url: vars.link }, automatic: !sentById })
+    result = await sendMail(inv.organizationId, { to, subject: render(t?.subject ?? 'Payment reminder: {{number}}', vars), text, html, sentById, customerId: inv.customerId, entityType: 'INVOICE', entityId: inv.id })
   }
   await prisma.paymentReminder.create({ data: { organizationId: inv.organizationId, invoiceId: inv.id, channel: 'EMAIL', level, scheduledAt: new Date(), sentAt: result.sent ? new Date() : null, status: result.sent ? 'SENT' : 'FAILED' } })
   return result

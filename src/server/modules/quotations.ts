@@ -4,6 +4,7 @@ import { authorize, fullName, type Action } from '../core/auth'
 import { crud, findScoped, paging } from '../core/crud'
 import { newToken } from '../core/docs'
 import { bad, conflict, forbidden, parse, shape } from '../core/http'
+import { docEmailHtml } from '../core/email-html'
 import { sendMail, template } from '../core/mail'
 import { activity, addDays, audit, computeDoc, inr, nextNumber, notify, render, scoped, taxContext, today, U, usersWith } from '../core/util'
 import { prisma, type Tx } from '../db'
@@ -183,7 +184,9 @@ quotationsRouter.post('/:id/send', authorize(M, 'EDIT'), async (req, res) => {
     const to = d.to ?? p.email
     if (!to) throw bad('There is no email address for this customer')
     const t = await template(q.organizationId, 'EMAIL', 'quotation_sent')
-    email = await sendMail(q.organizationId, { to, subject: render(t?.subject ?? 'Quotation {{number}}', vars), text: render(t?.body ?? '{{link}}', vars), sentById: req.user.id, leadId: q.leadId, customerId: q.customerId, entityType: 'QUOTATION', entityId: q.id })
+    const text = render(t?.body ?? '{{link}}', vars)
+    const html = await docEmailHtml(q.organizationId, { kind: 'Quotation', heading: `Quotation ${vars.number}`, body: text, facts: [['Amount', vars.amount]], button: { label: 'View quotation', url: link } })
+    email = await sendMail(q.organizationId, { to, subject: render(t?.subject ?? 'Quotation {{number}}', vars), text, html, sentById: req.user.id, leadId: q.leadId, customerId: q.customerId, entityType: 'QUOTATION', entityId: q.id })
   }
   const wa = await template(q.organizationId, 'WHATSAPP', 'quotation_share')
   const message = render(wa?.body ?? 'Quotation {{number}}: {{link}}', vars)

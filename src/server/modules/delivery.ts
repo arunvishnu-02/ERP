@@ -4,6 +4,7 @@ import { authorize, fullName } from '../core/auth'
 import { crud, findScoped } from '../core/crud'
 import { createInvoice } from '../core/docs'
 import { bad, notFound, parse, shape, stripNulls } from '../core/http'
+import { docEmailHtml } from '../core/email-html'
 import { sendMail } from '../core/mail'
 import { activity, audit, daysBetween, decrypt, encrypt, notify, SCOPES, today, U } from '../core/util'
 import { prisma } from '../db'
@@ -182,6 +183,10 @@ ticketsRouter.post('/:id/reply', authorize('TICKETS', 'EDIT'), async (req, res) 
     mail = await sendMail(t.organizationId, {
       to, subject: `Re: ${t.subject} [${t.ticketNumber}]`, sentById: req.user.id, customerId: t.customerId, entityType: 'TICKET', entityId: t.id,
       text: `Dear ${name},\n\n${d.body}\n\nRegards,\n${me ? fullName(me) : ''}\n${org?.name ?? ''}\n\nTicket ${t.ticketNumber}. Reply to this email if you need more help.`,
+      html: await docEmailHtml(t.organizationId, {
+        kind: `Support ticket ${t.ticketNumber}`, heading: t.subject,
+        body: `Dear ${name},\n\n${d.body}\n\nRegards,\n${me ? fullName(me) : ''}\n${org?.name ?? ''}\n\nReply to this email if you need more help.`,
+      }),
     })
   }
   res.status(201).json({ comment, mail })
