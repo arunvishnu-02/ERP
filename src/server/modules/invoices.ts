@@ -109,7 +109,7 @@ invoicesRouter.post('/:id/send', authorize(M, 'EDIT'), async (req, res) => {
     if (!to) throw bad('There is no email address for this customer')
     const t = await template(inv.organizationId, 'EMAIL', 'invoice_sent')
     const text = render(t?.body ?? '{{link}}', vars)
-    const html = await docEmailHtml(inv.organizationId, { kind: 'Invoice', heading: `Invoice ${vars.number}`, body: text, facts: [['Amount', vars.amount], ['Due date', vars.due_date]], button: { label: 'View and pay invoice', url: link } })
+    const html = await docEmailHtml(inv.organizationId, { kind: 'Invoice', heading: `Invoice ${vars.number}`, body: text, facts: [['Amount', vars.amount], ['Due date', vars.due_date]], button: { label: 'View invoice', url: link } })
     email = await sendMail(inv.organizationId, { to, subject: render(t?.subject ?? 'Invoice {{number}}', vars), text, html, sentById: req.user.id, customerId: inv.customerId, entityType: 'INVOICE', entityId: inv.id })
   }
   const message = render((await template(inv.organizationId, 'WHATSAPP', 'invoice_share'))?.body ?? 'Invoice {{number}}: {{link}}', vars)
