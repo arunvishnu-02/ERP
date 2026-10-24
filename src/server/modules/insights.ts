@@ -4,6 +4,7 @@ import { authorize, can, fullName, scopeIds } from '../core/auth'
 import { crud, paging } from '../core/crud'
 import { runDaily } from '../core/jobs'
 import { notFound, parse, shape } from '../core/http'
+import { docEmailHtml } from '../core/email-html'
 import { sendMail } from '../core/mail'
 import { addDays, audit, scoped, today, U, ymd } from '../core/util'
 import { prisma } from '../db'
@@ -234,7 +235,8 @@ communicationRouter.get('/messages', authorize(C, 'VIEW'), async (req, res) => {
 })
 communicationRouter.post('/email', authorize(C, 'CREATE'), async (req, res) => {
   const d = parse(shape({ to: 's', subject: 's', body: 's', leadId: 'id?', customerId: 'id?' }), req.body)
-  res.json(await sendMail(req.user.organizationId, { to: d.to, subject: d.subject, text: d.body, sentById: req.user.id, leadId: d.leadId, customerId: d.customerId }))
+  const html = await docEmailHtml(req.user.organizationId, { kind: 'Message', heading: d.subject, body: d.body })
+  res.json(await sendMail(req.user.organizationId, { to: d.to, subject: d.subject, text: d.body, html, sentById: req.user.id, leadId: d.leadId, customerId: d.customerId }))
 })
 /** WhatsApp opens on the user's own phone or WhatsApp Web; this records that a message was started. */
 communicationRouter.post('/whatsapp', authorize(C, 'CREATE'), async (req, res) => {
