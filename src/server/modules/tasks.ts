@@ -24,9 +24,26 @@ async function checkWho(req: any, d: { assigneeId?: string | null; projectId?: s
   if (d.projectId) {
     const ps = can(req.user, 'PROJECTS', 'VIEW')
     const pids = ps ? await scopeIds(req.user, ps) : []
-    const ok = ps && (await prisma.project.findFirst({ where: { id: d.projectId, organizationId: req.user.organizationId, deletedAt: null, ...(pids ? SCOPES.PROJECTS(pids) : {}) }, select: { id: true } }))
+    const ok = ps && (await prisma.project.findFirst({ where: { id: d.projectId, organizationId: req.user.organizationId, deletedAt: null, ...(pids ? SCOPES.PROJECTS(pids, ps) : {}) }, select: { id: true } }))
     if (!ok) throw forbidden('You can only add tasks to projects of your team')
   }
+}
+/**
+ * The person a task goes to must be active. On a project with a department, they must be in one of the project's
+ * departments or already be on the project. Only Admin can go outside that.
+ */
+async function checkAssignee(req: any, assigneeId: string | null | undefined, projectId: string | null | undefined) {
+  if (!assigneeId) return
+  const org = req.user.organizationId
+  const a = await prisma.user.findFirst({ where: { id: assigneeId, organizationId: org, deletedAt: null }, select: { id: true, firstName: true, lastName: true, status: true, departmentId: true } })
+  if (!a) throw notFound('Assignee')
+  if (a.status !== 'ACTIVE') throw bad(`${[a.firstName, a.lastName].filter(Boolean).join(' ')} is not active`)
+  if (!projectId || req.user.admin) return
+  const p = await prisma.project.findFirst({ where: { id: projectId, organizationId: org }, select: { departmentId: true, teamLeadId: true, managerId: true, extraDepartments: { select: { departmentId: true } }, members: { where: { userId: assigneeId }, select: { userId: true } } } })
+  if (!p?.departmentId) return
+  const depts = [p.departmentId, ...p.extraDepartments.map((x) => x.departmentId)]
+  const onProject = p.members.length > 0 || p.teamLeadId === assigneeId || p.managerId === assigneeId
+  if (!onProject && !(a.departmentId && depts.includes(a.departmentId))) throw forbidden('You can only give this task to people in the project\'s department')
 }
 const find = (req: any) => findScoped(req, 'task', M, 'EDIT', { soft: true, label: 'Task' })
 
@@ -132,6 +149,7 @@ tasksRouter.use('/', crud({
     d.reporterId = req.user.id
     d.assigneeId ??= req.user.id
     await checkWho(req, d, 'CREATE')
+    await checkAssignee(req, d.assigneeId, d.projectId)
     if (d.status === 'DONE') d.completedAt = new Date()
   },
   afterCreate: async (row, req, tx) => {
@@ -139,6 +157,7 @@ tasksRouter.use('/', crud({
   },
   beforeUpdate: async (d, before, req, tx) => {
     await checkWho(req, { assigneeId: d.assigneeId !== before.assigneeId ? d.assigneeId : undefined, projectId: d.projectId !== before.projectId ? d.projectId : undefined }, 'EDIT')
+    if ((d.assigneeId !== undefined && d.assigneeId !== before.assigneeId) || (d.projectId !== undefined && d.projectId !== before.projectId)) await checkAssignee(req, d.assigneeId !== undefined ? d.assigneeId : before.assigneeId, d.projectId !== undefined ? d.projectId : before.projectId)
     if (d.status && d.status !== before.status) d.completedAt = d.status === 'DONE' ? new Date() : null
     if (d.assigneeId && d.assigneeId !== before.assigneeId && d.assigneeId !== req.user.id) await notify(tx, before.organizationId, d.assigneeId, 'task.assigned', `Task assigned to you: ${before.title}`, '/tasks')
   },

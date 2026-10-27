@@ -457,6 +457,7 @@ export const ModelName = {
   PaymentAllocation: 'PaymentAllocation',
   PaymentReminder: 'PaymentReminder',
   Project: 'Project',
+  ProjectDepartment: 'ProjectDepartment',
   ProjectMember: 'ProjectMember',
   Milestone: 'Milestone',
   Task: 'Task',
@@ -523,7 +524,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "organization" | "branch" | "department" | "team" | "teamMember" | "user" | "role" | "userRole" | "permission" | "rolePermission" | "session" | "portalSession" | "portalCode" | "passwordResetToken" | "loginCode" | "calendarEvent" | "apiKey" | "auditLog" | "file" | "attachment" | "note" | "comment" | "activity" | "tag" | "tagAssignment" | "numberSequence" | "leadSource" | "leadStage" | "lead" | "followUp" | "customer" | "contact" | "pipeline" | "pipelineStage" | "deal" | "meeting" | "meetingAttendee" | "callLog" | "service" | "servicePackage" | "servicePackageItem" | "priceRule" | "taxRate" | "quotation" | "quotationItem" | "approvalRule" | "approvalRequest" | "approvalStep" | "invoiceTemplate" | "invoice" | "invoiceItem" | "creditNote" | "creditNoteItem" | "recurringInvoice" | "recurringInvoiceItem" | "bankAccount" | "payment" | "paymentAllocation" | "paymentReminder" | "project" | "projectMember" | "milestone" | "task" | "timeEntry" | "socialAccount" | "campaign" | "contentItem" | "adSpend" | "campaignReport" | "website" | "webAsset" | "credential" | "credentialAccessLog" | "ticket" | "documentFolder" | "document" | "documentVersion" | "employee" | "attendance" | "leaveType" | "leaveBalance" | "leaveRequest" | "holiday" | "payrollRun" | "payslip" | "performanceReview" | "asset" | "assetAssignment" | "assetMaintenance" | "expenseCategory" | "vendor" | "expense" | "ledgerEntry" | "savedReport" | "exportJob" | "importJob" | "dashboardWidget" | "savedFilter" | "automationRule" | "automationAction" | "automationRun" | "leadAssignmentRule" | "messageTemplate" | "message" | "notification" | "notificationPreference" | "integrationSetting" | "webhookEvent" | "outboxEvent" | "jobOpening" | "candidate"
+    modelProps: "organization" | "branch" | "department" | "team" | "teamMember" | "user" | "role" | "userRole" | "permission" | "rolePermission" | "session" | "portalSession" | "portalCode" | "passwordResetToken" | "loginCode" | "calendarEvent" | "apiKey" | "auditLog" | "file" | "attachment" | "note" | "comment" | "activity" | "tag" | "tagAssignment" | "numberSequence" | "leadSource" | "leadStage" | "lead" | "followUp" | "customer" | "contact" | "pipeline" | "pipelineStage" | "deal" | "meeting" | "meetingAttendee" | "callLog" | "service" | "servicePackage" | "servicePackageItem" | "priceRule" | "taxRate" | "quotation" | "quotationItem" | "approvalRule" | "approvalRequest" | "approvalStep" | "invoiceTemplate" | "invoice" | "invoiceItem" | "creditNote" | "creditNoteItem" | "recurringInvoice" | "recurringInvoiceItem" | "bankAccount" | "payment" | "paymentAllocation" | "paymentReminder" | "project" | "projectDepartment" | "projectMember" | "milestone" | "task" | "timeEntry" | "socialAccount" | "campaign" | "contentItem" | "adSpend" | "campaignReport" | "website" | "webAsset" | "credential" | "credentialAccessLog" | "ticket" | "documentFolder" | "document" | "documentVersion" | "employee" | "attendance" | "leaveType" | "leaveBalance" | "leaveRequest" | "holiday" | "payrollRun" | "payslip" | "performanceReview" | "asset" | "assetAssignment" | "assetMaintenance" | "expenseCategory" | "vendor" | "expense" | "ledgerEntry" | "savedReport" | "exportJob" | "importJob" | "dashboardWidget" | "savedFilter" | "automationRule" | "automationAction" | "automationRun" | "leadAssignmentRule" | "messageTemplate" | "message" | "notification" | "notificationPreference" | "integrationSetting" | "webhookEvent" | "outboxEvent" | "jobOpening" | "candidate"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -4964,6 +4965,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.ProjectCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.ProjectCountAggregateOutputType> | number
+        }
+      }
+    }
+    ProjectDepartment: {
+      payload: Prisma.$ProjectDepartmentPayload<ExtArgs>
+      fields: Prisma.ProjectDepartmentFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ProjectDepartmentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectDepartmentPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ProjectDepartmentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectDepartmentPayload>
+        }
+        findFirst: {
+          args: Prisma.ProjectDepartmentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectDepartmentPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ProjectDepartmentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectDepartmentPayload>
+        }
+        findMany: {
+          args: Prisma.ProjectDepartmentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectDepartmentPayload>[]
+        }
+        create: {
+          args: Prisma.ProjectDepartmentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectDepartmentPayload>
+        }
+        createMany: {
+          args: Prisma.ProjectDepartmentCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ProjectDepartmentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectDepartmentPayload>[]
+        }
+        delete: {
+          args: Prisma.ProjectDepartmentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectDepartmentPayload>
+        }
+        update: {
+          args: Prisma.ProjectDepartmentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectDepartmentPayload>
+        }
+        deleteMany: {
+          args: Prisma.ProjectDepartmentDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ProjectDepartmentUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ProjectDepartmentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectDepartmentPayload>[]
+        }
+        upsert: {
+          args: Prisma.ProjectDepartmentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProjectDepartmentPayload>
+        }
+        aggregate: {
+          args: Prisma.ProjectDepartmentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateProjectDepartment>
+        }
+        groupBy: {
+          args: Prisma.ProjectDepartmentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProjectDepartmentGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ProjectDepartmentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProjectDepartmentCountAggregateOutputType> | number
         }
       }
     }
@@ -9855,6 +9930,9 @@ export const ProjectScalarFieldEnum = {
   progressPercent: 'progressPercent',
   managerId: 'managerId',
   teamId: 'teamId',
+  departmentId: 'departmentId',
+  teamLeadId: 'teamLeadId',
+  crossDepartment: 'crossDepartment',
   createdById: 'createdById',
   updatedById: 'updatedById',
   createdAt: 'createdAt',
@@ -9863,6 +9941,14 @@ export const ProjectScalarFieldEnum = {
 } as const
 
 export type ProjectScalarFieldEnum = (typeof ProjectScalarFieldEnum)[keyof typeof ProjectScalarFieldEnum]
+
+
+export const ProjectDepartmentScalarFieldEnum = {
+  projectId: 'projectId',
+  departmentId: 'departmentId'
+} as const
+
+export type ProjectDepartmentScalarFieldEnum = (typeof ProjectDepartmentScalarFieldEnum)[keyof typeof ProjectDepartmentScalarFieldEnum]
 
 
 export const ProjectMemberScalarFieldEnum = {
@@ -12149,6 +12235,7 @@ export type GlobalOmitConfig = {
   paymentAllocation?: Prisma.PaymentAllocationOmit
   paymentReminder?: Prisma.PaymentReminderOmit
   project?: Prisma.ProjectOmit
+  projectDepartment?: Prisma.ProjectDepartmentOmit
   projectMember?: Prisma.ProjectMemberOmit
   milestone?: Prisma.MilestoneOmit
   task?: Prisma.TaskOmit

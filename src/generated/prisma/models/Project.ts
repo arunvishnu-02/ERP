@@ -56,6 +56,9 @@ export type ProjectMinAggregateOutputType = {
   progressPercent: number | null
   managerId: string | null
   teamId: string | null
+  departmentId: string | null
+  teamLeadId: string | null
+  crossDepartment: boolean | null
   createdById: string | null
   updatedById: string | null
   createdAt: Date | null
@@ -83,6 +86,9 @@ export type ProjectMaxAggregateOutputType = {
   progressPercent: number | null
   managerId: string | null
   teamId: string | null
+  departmentId: string | null
+  teamLeadId: string | null
+  crossDepartment: boolean | null
   createdById: string | null
   updatedById: string | null
   createdAt: Date | null
@@ -110,6 +116,9 @@ export type ProjectCountAggregateOutputType = {
   progressPercent: number
   managerId: number
   teamId: number
+  departmentId: number
+  teamLeadId: number
+  crossDepartment: number
   createdById: number
   updatedById: number
   createdAt: number
@@ -149,6 +158,9 @@ export type ProjectMinAggregateInputType = {
   progressPercent?: true
   managerId?: true
   teamId?: true
+  departmentId?: true
+  teamLeadId?: true
+  crossDepartment?: true
   createdById?: true
   updatedById?: true
   createdAt?: true
@@ -176,6 +188,9 @@ export type ProjectMaxAggregateInputType = {
   progressPercent?: true
   managerId?: true
   teamId?: true
+  departmentId?: true
+  teamLeadId?: true
+  crossDepartment?: true
   createdById?: true
   updatedById?: true
   createdAt?: true
@@ -203,6 +218,9 @@ export type ProjectCountAggregateInputType = {
   progressPercent?: true
   managerId?: true
   teamId?: true
+  departmentId?: true
+  teamLeadId?: true
+  crossDepartment?: true
   createdById?: true
   updatedById?: true
   createdAt?: true
@@ -317,6 +335,9 @@ export type ProjectGroupByOutputType = {
   progressPercent: number
   managerId: string
   teamId: string | null
+  departmentId: string | null
+  teamLeadId: string | null
+  crossDepartment: boolean
   createdById: string | null
   updatedById: string | null
   createdAt: Date
@@ -367,6 +388,9 @@ export type ProjectWhereInput = {
   progressPercent?: Prisma.IntFilter<"Project"> | number
   managerId?: Prisma.StringFilter<"Project"> | string
   teamId?: Prisma.StringNullableFilter<"Project"> | string | null
+  departmentId?: Prisma.StringNullableFilter<"Project"> | string | null
+  teamLeadId?: Prisma.StringNullableFilter<"Project"> | string | null
+  crossDepartment?: Prisma.BoolFilter<"Project"> | boolean
   createdById?: Prisma.StringNullableFilter<"Project"> | string | null
   updatedById?: Prisma.StringNullableFilter<"Project"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Project"> | Date | string
@@ -379,6 +403,8 @@ export type ProjectWhereInput = {
   deal?: Prisma.XOR<Prisma.DealNullableScalarRelationFilter, Prisma.DealWhereInput> | null
   manager?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   team?: Prisma.XOR<Prisma.TeamNullableScalarRelationFilter, Prisma.TeamWhereInput> | null
+  department?: Prisma.XOR<Prisma.DepartmentNullableScalarRelationFilter, Prisma.DepartmentWhereInput> | null
+  teamLead?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   invoices?: Prisma.InvoiceListRelationFilter
   recurringInvoices?: Prisma.RecurringInvoiceListRelationFilter
   members?: Prisma.ProjectMemberListRelationFilter
@@ -390,6 +416,7 @@ export type ProjectWhereInput = {
   tickets?: Prisma.TicketListRelationFilter
   documents?: Prisma.DocumentListRelationFilter
   expenses?: Prisma.ExpenseListRelationFilter
+  extraDepartments?: Prisma.ProjectDepartmentListRelationFilter
 }
 
 export type ProjectOrderByWithRelationInput = {
@@ -412,6 +439,9 @@ export type ProjectOrderByWithRelationInput = {
   progressPercent?: Prisma.SortOrder
   managerId?: Prisma.SortOrder
   teamId?: Prisma.SortOrderInput | Prisma.SortOrder
+  departmentId?: Prisma.SortOrderInput | Prisma.SortOrder
+  teamLeadId?: Prisma.SortOrderInput | Prisma.SortOrder
+  crossDepartment?: Prisma.SortOrder
   createdById?: Prisma.SortOrderInput | Prisma.SortOrder
   updatedById?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -424,6 +454,8 @@ export type ProjectOrderByWithRelationInput = {
   deal?: Prisma.DealOrderByWithRelationInput
   manager?: Prisma.UserOrderByWithRelationInput
   team?: Prisma.TeamOrderByWithRelationInput
+  department?: Prisma.DepartmentOrderByWithRelationInput
+  teamLead?: Prisma.UserOrderByWithRelationInput
   invoices?: Prisma.InvoiceOrderByRelationAggregateInput
   recurringInvoices?: Prisma.RecurringInvoiceOrderByRelationAggregateInput
   members?: Prisma.ProjectMemberOrderByRelationAggregateInput
@@ -435,6 +467,7 @@ export type ProjectOrderByWithRelationInput = {
   tickets?: Prisma.TicketOrderByRelationAggregateInput
   documents?: Prisma.DocumentOrderByRelationAggregateInput
   expenses?: Prisma.ExpenseOrderByRelationAggregateInput
+  extraDepartments?: Prisma.ProjectDepartmentOrderByRelationAggregateInput
 }
 
 export type ProjectWhereUniqueInput = Prisma.AtLeast<{
@@ -461,6 +494,9 @@ export type ProjectWhereUniqueInput = Prisma.AtLeast<{
   progressPercent?: Prisma.IntFilter<"Project"> | number
   managerId?: Prisma.StringFilter<"Project"> | string
   teamId?: Prisma.StringNullableFilter<"Project"> | string | null
+  departmentId?: Prisma.StringNullableFilter<"Project"> | string | null
+  teamLeadId?: Prisma.StringNullableFilter<"Project"> | string | null
+  crossDepartment?: Prisma.BoolFilter<"Project"> | boolean
   createdById?: Prisma.StringNullableFilter<"Project"> | string | null
   updatedById?: Prisma.StringNullableFilter<"Project"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Project"> | Date | string
@@ -473,6 +509,8 @@ export type ProjectWhereUniqueInput = Prisma.AtLeast<{
   deal?: Prisma.XOR<Prisma.DealNullableScalarRelationFilter, Prisma.DealWhereInput> | null
   manager?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   team?: Prisma.XOR<Prisma.TeamNullableScalarRelationFilter, Prisma.TeamWhereInput> | null
+  department?: Prisma.XOR<Prisma.DepartmentNullableScalarRelationFilter, Prisma.DepartmentWhereInput> | null
+  teamLead?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   invoices?: Prisma.InvoiceListRelationFilter
   recurringInvoices?: Prisma.RecurringInvoiceListRelationFilter
   members?: Prisma.ProjectMemberListRelationFilter
@@ -484,6 +522,7 @@ export type ProjectWhereUniqueInput = Prisma.AtLeast<{
   tickets?: Prisma.TicketListRelationFilter
   documents?: Prisma.DocumentListRelationFilter
   expenses?: Prisma.ExpenseListRelationFilter
+  extraDepartments?: Prisma.ProjectDepartmentListRelationFilter
 }, "id" | "organizationId_projectNumber">
 
 export type ProjectOrderByWithAggregationInput = {
@@ -506,6 +545,9 @@ export type ProjectOrderByWithAggregationInput = {
   progressPercent?: Prisma.SortOrder
   managerId?: Prisma.SortOrder
   teamId?: Prisma.SortOrderInput | Prisma.SortOrder
+  departmentId?: Prisma.SortOrderInput | Prisma.SortOrder
+  teamLeadId?: Prisma.SortOrderInput | Prisma.SortOrder
+  crossDepartment?: Prisma.SortOrder
   createdById?: Prisma.SortOrderInput | Prisma.SortOrder
   updatedById?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -541,6 +583,9 @@ export type ProjectScalarWhereWithAggregatesInput = {
   progressPercent?: Prisma.IntWithAggregatesFilter<"Project"> | number
   managerId?: Prisma.StringWithAggregatesFilter<"Project"> | string
   teamId?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
+  departmentId?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
+  teamLeadId?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
+  crossDepartment?: Prisma.BoolWithAggregatesFilter<"Project"> | boolean
   createdById?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
   updatedById?: Prisma.StringNullableWithAggregatesFilter<"Project"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Project"> | Date | string
@@ -561,6 +606,7 @@ export type ProjectCreateInput = {
   completedAt?: Date | string | null
   budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: number
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -573,6 +619,8 @@ export type ProjectCreateInput = {
   deal?: Prisma.DealCreateNestedOneWithoutProjectsInput
   manager: Prisma.UserCreateNestedOneWithoutManagedProjectsInput
   team?: Prisma.TeamCreateNestedOneWithoutProjectsInput
+  department?: Prisma.DepartmentCreateNestedOneWithoutProjectsInput
+  teamLead?: Prisma.UserCreateNestedOneWithoutLedProjectsInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutProjectInput
   recurringInvoices?: Prisma.RecurringInvoiceCreateNestedManyWithoutProjectInput
   members?: Prisma.ProjectMemberCreateNestedManyWithoutProjectInput
@@ -584,6 +632,7 @@ export type ProjectCreateInput = {
   tickets?: Prisma.TicketCreateNestedManyWithoutProjectInput
   documents?: Prisma.DocumentCreateNestedManyWithoutProjectInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateInput = {
@@ -606,6 +655,9 @@ export type ProjectUncheckedCreateInput = {
   progressPercent?: number
   managerId: string
   teamId?: string | null
+  departmentId?: string | null
+  teamLeadId?: string | null
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -622,6 +674,7 @@ export type ProjectUncheckedCreateInput = {
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutProjectInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutProjectInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUpdateInput = {
@@ -637,6 +690,7 @@ export type ProjectUpdateInput = {
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -649,6 +703,8 @@ export type ProjectUpdateInput = {
   deal?: Prisma.DealUpdateOneWithoutProjectsNestedInput
   manager?: Prisma.UserUpdateOneRequiredWithoutManagedProjectsNestedInput
   team?: Prisma.TeamUpdateOneWithoutProjectsNestedInput
+  department?: Prisma.DepartmentUpdateOneWithoutProjectsNestedInput
+  teamLead?: Prisma.UserUpdateOneWithoutLedProjectsNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutProjectNestedInput
   recurringInvoices?: Prisma.RecurringInvoiceUpdateManyWithoutProjectNestedInput
   members?: Prisma.ProjectMemberUpdateManyWithoutProjectNestedInput
@@ -660,6 +716,7 @@ export type ProjectUpdateInput = {
   tickets?: Prisma.TicketUpdateManyWithoutProjectNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutProjectNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateInput = {
@@ -682,6 +739,9 @@ export type ProjectUncheckedUpdateInput = {
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
   managerId?: Prisma.StringFieldUpdateOperationsInput | string
   teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  teamLeadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -698,6 +758,7 @@ export type ProjectUncheckedUpdateInput = {
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutProjectNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutProjectNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateManyInput = {
@@ -720,6 +781,9 @@ export type ProjectCreateManyInput = {
   progressPercent?: number
   managerId: string
   teamId?: string | null
+  departmentId?: string | null
+  teamLeadId?: string | null
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -740,6 +804,7 @@ export type ProjectUpdateManyMutationInput = {
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -767,6 +832,9 @@ export type ProjectUncheckedUpdateManyInput = {
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
   managerId?: Prisma.StringFieldUpdateOperationsInput | string
   teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  teamLeadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -814,6 +882,9 @@ export type ProjectCountOrderByAggregateInput = {
   progressPercent?: Prisma.SortOrder
   managerId?: Prisma.SortOrder
   teamId?: Prisma.SortOrder
+  departmentId?: Prisma.SortOrder
+  teamLeadId?: Prisma.SortOrder
+  crossDepartment?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
   updatedById?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -846,6 +917,9 @@ export type ProjectMaxOrderByAggregateInput = {
   progressPercent?: Prisma.SortOrder
   managerId?: Prisma.SortOrder
   teamId?: Prisma.SortOrder
+  departmentId?: Prisma.SortOrder
+  teamLeadId?: Prisma.SortOrder
+  crossDepartment?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
   updatedById?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -873,6 +947,9 @@ export type ProjectMinOrderByAggregateInput = {
   progressPercent?: Prisma.SortOrder
   managerId?: Prisma.SortOrder
   teamId?: Prisma.SortOrder
+  departmentId?: Prisma.SortOrder
+  teamLeadId?: Prisma.SortOrder
+  crossDepartment?: Prisma.SortOrder
   createdById?: Prisma.SortOrder
   updatedById?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -974,6 +1051,48 @@ export type ProjectUncheckedUpdateManyWithoutBranchNestedInput = {
   deleteMany?: Prisma.ProjectScalarWhereInput | Prisma.ProjectScalarWhereInput[]
 }
 
+export type ProjectCreateNestedManyWithoutDepartmentInput = {
+  create?: Prisma.XOR<Prisma.ProjectCreateWithoutDepartmentInput, Prisma.ProjectUncheckedCreateWithoutDepartmentInput> | Prisma.ProjectCreateWithoutDepartmentInput[] | Prisma.ProjectUncheckedCreateWithoutDepartmentInput[]
+  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutDepartmentInput | Prisma.ProjectCreateOrConnectWithoutDepartmentInput[]
+  createMany?: Prisma.ProjectCreateManyDepartmentInputEnvelope
+  connect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+}
+
+export type ProjectUncheckedCreateNestedManyWithoutDepartmentInput = {
+  create?: Prisma.XOR<Prisma.ProjectCreateWithoutDepartmentInput, Prisma.ProjectUncheckedCreateWithoutDepartmentInput> | Prisma.ProjectCreateWithoutDepartmentInput[] | Prisma.ProjectUncheckedCreateWithoutDepartmentInput[]
+  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutDepartmentInput | Prisma.ProjectCreateOrConnectWithoutDepartmentInput[]
+  createMany?: Prisma.ProjectCreateManyDepartmentInputEnvelope
+  connect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+}
+
+export type ProjectUpdateManyWithoutDepartmentNestedInput = {
+  create?: Prisma.XOR<Prisma.ProjectCreateWithoutDepartmentInput, Prisma.ProjectUncheckedCreateWithoutDepartmentInput> | Prisma.ProjectCreateWithoutDepartmentInput[] | Prisma.ProjectUncheckedCreateWithoutDepartmentInput[]
+  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutDepartmentInput | Prisma.ProjectCreateOrConnectWithoutDepartmentInput[]
+  upsert?: Prisma.ProjectUpsertWithWhereUniqueWithoutDepartmentInput | Prisma.ProjectUpsertWithWhereUniqueWithoutDepartmentInput[]
+  createMany?: Prisma.ProjectCreateManyDepartmentInputEnvelope
+  set?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+  disconnect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+  delete?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+  connect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+  update?: Prisma.ProjectUpdateWithWhereUniqueWithoutDepartmentInput | Prisma.ProjectUpdateWithWhereUniqueWithoutDepartmentInput[]
+  updateMany?: Prisma.ProjectUpdateManyWithWhereWithoutDepartmentInput | Prisma.ProjectUpdateManyWithWhereWithoutDepartmentInput[]
+  deleteMany?: Prisma.ProjectScalarWhereInput | Prisma.ProjectScalarWhereInput[]
+}
+
+export type ProjectUncheckedUpdateManyWithoutDepartmentNestedInput = {
+  create?: Prisma.XOR<Prisma.ProjectCreateWithoutDepartmentInput, Prisma.ProjectUncheckedCreateWithoutDepartmentInput> | Prisma.ProjectCreateWithoutDepartmentInput[] | Prisma.ProjectUncheckedCreateWithoutDepartmentInput[]
+  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutDepartmentInput | Prisma.ProjectCreateOrConnectWithoutDepartmentInput[]
+  upsert?: Prisma.ProjectUpsertWithWhereUniqueWithoutDepartmentInput | Prisma.ProjectUpsertWithWhereUniqueWithoutDepartmentInput[]
+  createMany?: Prisma.ProjectCreateManyDepartmentInputEnvelope
+  set?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+  disconnect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+  delete?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+  connect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+  update?: Prisma.ProjectUpdateWithWhereUniqueWithoutDepartmentInput | Prisma.ProjectUpdateWithWhereUniqueWithoutDepartmentInput[]
+  updateMany?: Prisma.ProjectUpdateManyWithWhereWithoutDepartmentInput | Prisma.ProjectUpdateManyWithWhereWithoutDepartmentInput[]
+  deleteMany?: Prisma.ProjectScalarWhereInput | Prisma.ProjectScalarWhereInput[]
+}
+
 export type ProjectCreateNestedManyWithoutTeamInput = {
   create?: Prisma.XOR<Prisma.ProjectCreateWithoutTeamInput, Prisma.ProjectUncheckedCreateWithoutTeamInput> | Prisma.ProjectCreateWithoutTeamInput[] | Prisma.ProjectUncheckedCreateWithoutTeamInput[]
   connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutTeamInput | Prisma.ProjectCreateOrConnectWithoutTeamInput[]
@@ -1023,10 +1142,24 @@ export type ProjectCreateNestedManyWithoutManagerInput = {
   connect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
 }
 
+export type ProjectCreateNestedManyWithoutTeamLeadInput = {
+  create?: Prisma.XOR<Prisma.ProjectCreateWithoutTeamLeadInput, Prisma.ProjectUncheckedCreateWithoutTeamLeadInput> | Prisma.ProjectCreateWithoutTeamLeadInput[] | Prisma.ProjectUncheckedCreateWithoutTeamLeadInput[]
+  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutTeamLeadInput | Prisma.ProjectCreateOrConnectWithoutTeamLeadInput[]
+  createMany?: Prisma.ProjectCreateManyTeamLeadInputEnvelope
+  connect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+}
+
 export type ProjectUncheckedCreateNestedManyWithoutManagerInput = {
   create?: Prisma.XOR<Prisma.ProjectCreateWithoutManagerInput, Prisma.ProjectUncheckedCreateWithoutManagerInput> | Prisma.ProjectCreateWithoutManagerInput[] | Prisma.ProjectUncheckedCreateWithoutManagerInput[]
   connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutManagerInput | Prisma.ProjectCreateOrConnectWithoutManagerInput[]
   createMany?: Prisma.ProjectCreateManyManagerInputEnvelope
+  connect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+}
+
+export type ProjectUncheckedCreateNestedManyWithoutTeamLeadInput = {
+  create?: Prisma.XOR<Prisma.ProjectCreateWithoutTeamLeadInput, Prisma.ProjectUncheckedCreateWithoutTeamLeadInput> | Prisma.ProjectCreateWithoutTeamLeadInput[] | Prisma.ProjectUncheckedCreateWithoutTeamLeadInput[]
+  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutTeamLeadInput | Prisma.ProjectCreateOrConnectWithoutTeamLeadInput[]
+  createMany?: Prisma.ProjectCreateManyTeamLeadInputEnvelope
   connect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
 }
 
@@ -1044,6 +1177,20 @@ export type ProjectUpdateManyWithoutManagerNestedInput = {
   deleteMany?: Prisma.ProjectScalarWhereInput | Prisma.ProjectScalarWhereInput[]
 }
 
+export type ProjectUpdateManyWithoutTeamLeadNestedInput = {
+  create?: Prisma.XOR<Prisma.ProjectCreateWithoutTeamLeadInput, Prisma.ProjectUncheckedCreateWithoutTeamLeadInput> | Prisma.ProjectCreateWithoutTeamLeadInput[] | Prisma.ProjectUncheckedCreateWithoutTeamLeadInput[]
+  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutTeamLeadInput | Prisma.ProjectCreateOrConnectWithoutTeamLeadInput[]
+  upsert?: Prisma.ProjectUpsertWithWhereUniqueWithoutTeamLeadInput | Prisma.ProjectUpsertWithWhereUniqueWithoutTeamLeadInput[]
+  createMany?: Prisma.ProjectCreateManyTeamLeadInputEnvelope
+  set?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+  disconnect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+  delete?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+  connect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+  update?: Prisma.ProjectUpdateWithWhereUniqueWithoutTeamLeadInput | Prisma.ProjectUpdateWithWhereUniqueWithoutTeamLeadInput[]
+  updateMany?: Prisma.ProjectUpdateManyWithWhereWithoutTeamLeadInput | Prisma.ProjectUpdateManyWithWhereWithoutTeamLeadInput[]
+  deleteMany?: Prisma.ProjectScalarWhereInput | Prisma.ProjectScalarWhereInput[]
+}
+
 export type ProjectUncheckedUpdateManyWithoutManagerNestedInput = {
   create?: Prisma.XOR<Prisma.ProjectCreateWithoutManagerInput, Prisma.ProjectUncheckedCreateWithoutManagerInput> | Prisma.ProjectCreateWithoutManagerInput[] | Prisma.ProjectUncheckedCreateWithoutManagerInput[]
   connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutManagerInput | Prisma.ProjectCreateOrConnectWithoutManagerInput[]
@@ -1055,6 +1202,20 @@ export type ProjectUncheckedUpdateManyWithoutManagerNestedInput = {
   connect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
   update?: Prisma.ProjectUpdateWithWhereUniqueWithoutManagerInput | Prisma.ProjectUpdateWithWhereUniqueWithoutManagerInput[]
   updateMany?: Prisma.ProjectUpdateManyWithWhereWithoutManagerInput | Prisma.ProjectUpdateManyWithWhereWithoutManagerInput[]
+  deleteMany?: Prisma.ProjectScalarWhereInput | Prisma.ProjectScalarWhereInput[]
+}
+
+export type ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput = {
+  create?: Prisma.XOR<Prisma.ProjectCreateWithoutTeamLeadInput, Prisma.ProjectUncheckedCreateWithoutTeamLeadInput> | Prisma.ProjectCreateWithoutTeamLeadInput[] | Prisma.ProjectUncheckedCreateWithoutTeamLeadInput[]
+  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutTeamLeadInput | Prisma.ProjectCreateOrConnectWithoutTeamLeadInput[]
+  upsert?: Prisma.ProjectUpsertWithWhereUniqueWithoutTeamLeadInput | Prisma.ProjectUpsertWithWhereUniqueWithoutTeamLeadInput[]
+  createMany?: Prisma.ProjectCreateManyTeamLeadInputEnvelope
+  set?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+  disconnect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+  delete?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+  connect?: Prisma.ProjectWhereUniqueInput | Prisma.ProjectWhereUniqueInput[]
+  update?: Prisma.ProjectUpdateWithWhereUniqueWithoutTeamLeadInput | Prisma.ProjectUpdateWithWhereUniqueWithoutTeamLeadInput[]
+  updateMany?: Prisma.ProjectUpdateManyWithWhereWithoutTeamLeadInput | Prisma.ProjectUpdateManyWithWhereWithoutTeamLeadInput[]
   deleteMany?: Prisma.ProjectScalarWhereInput | Prisma.ProjectScalarWhereInput[]
 }
 
@@ -1224,6 +1385,20 @@ export type EnumPriorityFieldUpdateOperationsInput = {
   set?: $Enums.Priority
 }
 
+export type ProjectCreateNestedOneWithoutExtraDepartmentsInput = {
+  create?: Prisma.XOR<Prisma.ProjectCreateWithoutExtraDepartmentsInput, Prisma.ProjectUncheckedCreateWithoutExtraDepartmentsInput>
+  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutExtraDepartmentsInput
+  connect?: Prisma.ProjectWhereUniqueInput
+}
+
+export type ProjectUpdateOneRequiredWithoutExtraDepartmentsNestedInput = {
+  create?: Prisma.XOR<Prisma.ProjectCreateWithoutExtraDepartmentsInput, Prisma.ProjectUncheckedCreateWithoutExtraDepartmentsInput>
+  connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutExtraDepartmentsInput
+  upsert?: Prisma.ProjectUpsertWithoutExtraDepartmentsInput
+  connect?: Prisma.ProjectWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ProjectUpdateToOneWithWhereWithoutExtraDepartmentsInput, Prisma.ProjectUpdateWithoutExtraDepartmentsInput>, Prisma.ProjectUncheckedUpdateWithoutExtraDepartmentsInput>
+}
+
 export type ProjectCreateNestedOneWithoutMembersInput = {
   create?: Prisma.XOR<Prisma.ProjectCreateWithoutMembersInput, Prisma.ProjectUncheckedCreateWithoutMembersInput>
   connectOrCreate?: Prisma.ProjectCreateOrConnectWithoutMembersInput
@@ -1377,6 +1552,7 @@ export type ProjectCreateWithoutOrganizationInput = {
   completedAt?: Date | string | null
   budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: number
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -1388,6 +1564,8 @@ export type ProjectCreateWithoutOrganizationInput = {
   deal?: Prisma.DealCreateNestedOneWithoutProjectsInput
   manager: Prisma.UserCreateNestedOneWithoutManagedProjectsInput
   team?: Prisma.TeamCreateNestedOneWithoutProjectsInput
+  department?: Prisma.DepartmentCreateNestedOneWithoutProjectsInput
+  teamLead?: Prisma.UserCreateNestedOneWithoutLedProjectsInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutProjectInput
   recurringInvoices?: Prisma.RecurringInvoiceCreateNestedManyWithoutProjectInput
   members?: Prisma.ProjectMemberCreateNestedManyWithoutProjectInput
@@ -1399,6 +1577,7 @@ export type ProjectCreateWithoutOrganizationInput = {
   tickets?: Prisma.TicketCreateNestedManyWithoutProjectInput
   documents?: Prisma.DocumentCreateNestedManyWithoutProjectInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutOrganizationInput = {
@@ -1420,6 +1599,9 @@ export type ProjectUncheckedCreateWithoutOrganizationInput = {
   progressPercent?: number
   managerId: string
   teamId?: string | null
+  departmentId?: string | null
+  teamLeadId?: string | null
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -1436,6 +1618,7 @@ export type ProjectUncheckedCreateWithoutOrganizationInput = {
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutProjectInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutProjectInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutOrganizationInput = {
@@ -1487,6 +1670,9 @@ export type ProjectScalarWhereInput = {
   progressPercent?: Prisma.IntFilter<"Project"> | number
   managerId?: Prisma.StringFilter<"Project"> | string
   teamId?: Prisma.StringNullableFilter<"Project"> | string | null
+  departmentId?: Prisma.StringNullableFilter<"Project"> | string | null
+  teamLeadId?: Prisma.StringNullableFilter<"Project"> | string | null
+  crossDepartment?: Prisma.BoolFilter<"Project"> | boolean
   createdById?: Prisma.StringNullableFilter<"Project"> | string | null
   updatedById?: Prisma.StringNullableFilter<"Project"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Project"> | Date | string
@@ -1507,6 +1693,7 @@ export type ProjectCreateWithoutBranchInput = {
   completedAt?: Date | string | null
   budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: number
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -1518,6 +1705,8 @@ export type ProjectCreateWithoutBranchInput = {
   deal?: Prisma.DealCreateNestedOneWithoutProjectsInput
   manager: Prisma.UserCreateNestedOneWithoutManagedProjectsInput
   team?: Prisma.TeamCreateNestedOneWithoutProjectsInput
+  department?: Prisma.DepartmentCreateNestedOneWithoutProjectsInput
+  teamLead?: Prisma.UserCreateNestedOneWithoutLedProjectsInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutProjectInput
   recurringInvoices?: Prisma.RecurringInvoiceCreateNestedManyWithoutProjectInput
   members?: Prisma.ProjectMemberCreateNestedManyWithoutProjectInput
@@ -1529,6 +1718,7 @@ export type ProjectCreateWithoutBranchInput = {
   tickets?: Prisma.TicketCreateNestedManyWithoutProjectInput
   documents?: Prisma.DocumentCreateNestedManyWithoutProjectInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutBranchInput = {
@@ -1550,6 +1740,9 @@ export type ProjectUncheckedCreateWithoutBranchInput = {
   progressPercent?: number
   managerId: string
   teamId?: string | null
+  departmentId?: string | null
+  teamLeadId?: string | null
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -1566,6 +1759,7 @@ export type ProjectUncheckedCreateWithoutBranchInput = {
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutProjectInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutProjectInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutBranchInput = {
@@ -1594,6 +1788,114 @@ export type ProjectUpdateManyWithWhereWithoutBranchInput = {
   data: Prisma.XOR<Prisma.ProjectUpdateManyMutationInput, Prisma.ProjectUncheckedUpdateManyWithoutBranchInput>
 }
 
+export type ProjectCreateWithoutDepartmentInput = {
+  id?: string
+  projectNumber: string
+  name: string
+  description?: string | null
+  category: $Enums.ServiceCategory
+  status?: $Enums.ProjectStatus
+  priority?: $Enums.Priority
+  startDate?: Date | string | null
+  dueDate?: Date | string | null
+  completedAt?: Date | string | null
+  budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  progressPercent?: number
+  crossDepartment?: boolean
+  createdById?: string | null
+  updatedById?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  organization: Prisma.OrganizationCreateNestedOneWithoutProjectsInput
+  branch?: Prisma.BranchCreateNestedOneWithoutProjectsInput
+  customer: Prisma.CustomerCreateNestedOneWithoutProjectsInput
+  quotation?: Prisma.QuotationCreateNestedOneWithoutProjectsInput
+  deal?: Prisma.DealCreateNestedOneWithoutProjectsInput
+  manager: Prisma.UserCreateNestedOneWithoutManagedProjectsInput
+  team?: Prisma.TeamCreateNestedOneWithoutProjectsInput
+  teamLead?: Prisma.UserCreateNestedOneWithoutLedProjectsInput
+  invoices?: Prisma.InvoiceCreateNestedManyWithoutProjectInput
+  recurringInvoices?: Prisma.RecurringInvoiceCreateNestedManyWithoutProjectInput
+  members?: Prisma.ProjectMemberCreateNestedManyWithoutProjectInput
+  milestones?: Prisma.MilestoneCreateNestedManyWithoutProjectInput
+  tasks?: Prisma.TaskCreateNestedManyWithoutProjectInput
+  timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutProjectInput
+  campaigns?: Prisma.CampaignCreateNestedManyWithoutProjectInput
+  websites?: Prisma.WebsiteCreateNestedManyWithoutProjectInput
+  tickets?: Prisma.TicketCreateNestedManyWithoutProjectInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutProjectInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentCreateNestedManyWithoutProjectInput
+}
+
+export type ProjectUncheckedCreateWithoutDepartmentInput = {
+  id?: string
+  organizationId: string
+  branchId?: string | null
+  projectNumber: string
+  name: string
+  description?: string | null
+  customerId: string
+  quotationId?: string | null
+  dealId?: string | null
+  category: $Enums.ServiceCategory
+  status?: $Enums.ProjectStatus
+  priority?: $Enums.Priority
+  startDate?: Date | string | null
+  dueDate?: Date | string | null
+  completedAt?: Date | string | null
+  budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  progressPercent?: number
+  managerId: string
+  teamId?: string | null
+  teamLeadId?: string | null
+  crossDepartment?: boolean
+  createdById?: string | null
+  updatedById?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutProjectInput
+  recurringInvoices?: Prisma.RecurringInvoiceUncheckedCreateNestedManyWithoutProjectInput
+  members?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
+  milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutProjectInput
+  tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutProjectInput
+  timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutProjectInput
+  campaigns?: Prisma.CampaignUncheckedCreateNestedManyWithoutProjectInput
+  websites?: Prisma.WebsiteUncheckedCreateNestedManyWithoutProjectInput
+  tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutProjectInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutProjectInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedCreateNestedManyWithoutProjectInput
+}
+
+export type ProjectCreateOrConnectWithoutDepartmentInput = {
+  where: Prisma.ProjectWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProjectCreateWithoutDepartmentInput, Prisma.ProjectUncheckedCreateWithoutDepartmentInput>
+}
+
+export type ProjectCreateManyDepartmentInputEnvelope = {
+  data: Prisma.ProjectCreateManyDepartmentInput | Prisma.ProjectCreateManyDepartmentInput[]
+  skipDuplicates?: boolean
+}
+
+export type ProjectUpsertWithWhereUniqueWithoutDepartmentInput = {
+  where: Prisma.ProjectWhereUniqueInput
+  update: Prisma.XOR<Prisma.ProjectUpdateWithoutDepartmentInput, Prisma.ProjectUncheckedUpdateWithoutDepartmentInput>
+  create: Prisma.XOR<Prisma.ProjectCreateWithoutDepartmentInput, Prisma.ProjectUncheckedCreateWithoutDepartmentInput>
+}
+
+export type ProjectUpdateWithWhereUniqueWithoutDepartmentInput = {
+  where: Prisma.ProjectWhereUniqueInput
+  data: Prisma.XOR<Prisma.ProjectUpdateWithoutDepartmentInput, Prisma.ProjectUncheckedUpdateWithoutDepartmentInput>
+}
+
+export type ProjectUpdateManyWithWhereWithoutDepartmentInput = {
+  where: Prisma.ProjectScalarWhereInput
+  data: Prisma.XOR<Prisma.ProjectUpdateManyMutationInput, Prisma.ProjectUncheckedUpdateManyWithoutDepartmentInput>
+}
+
 export type ProjectCreateWithoutTeamInput = {
   id?: string
   projectNumber: string
@@ -1607,6 +1909,7 @@ export type ProjectCreateWithoutTeamInput = {
   completedAt?: Date | string | null
   budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: number
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -1618,6 +1921,8 @@ export type ProjectCreateWithoutTeamInput = {
   quotation?: Prisma.QuotationCreateNestedOneWithoutProjectsInput
   deal?: Prisma.DealCreateNestedOneWithoutProjectsInput
   manager: Prisma.UserCreateNestedOneWithoutManagedProjectsInput
+  department?: Prisma.DepartmentCreateNestedOneWithoutProjectsInput
+  teamLead?: Prisma.UserCreateNestedOneWithoutLedProjectsInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutProjectInput
   recurringInvoices?: Prisma.RecurringInvoiceCreateNestedManyWithoutProjectInput
   members?: Prisma.ProjectMemberCreateNestedManyWithoutProjectInput
@@ -1629,6 +1934,7 @@ export type ProjectCreateWithoutTeamInput = {
   tickets?: Prisma.TicketCreateNestedManyWithoutProjectInput
   documents?: Prisma.DocumentCreateNestedManyWithoutProjectInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutTeamInput = {
@@ -1650,6 +1956,9 @@ export type ProjectUncheckedCreateWithoutTeamInput = {
   budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: number
   managerId: string
+  departmentId?: string | null
+  teamLeadId?: string | null
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -1666,6 +1975,7 @@ export type ProjectUncheckedCreateWithoutTeamInput = {
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutProjectInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutProjectInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutTeamInput = {
@@ -1707,6 +2017,7 @@ export type ProjectCreateWithoutManagerInput = {
   completedAt?: Date | string | null
   budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: number
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -1718,6 +2029,8 @@ export type ProjectCreateWithoutManagerInput = {
   quotation?: Prisma.QuotationCreateNestedOneWithoutProjectsInput
   deal?: Prisma.DealCreateNestedOneWithoutProjectsInput
   team?: Prisma.TeamCreateNestedOneWithoutProjectsInput
+  department?: Prisma.DepartmentCreateNestedOneWithoutProjectsInput
+  teamLead?: Prisma.UserCreateNestedOneWithoutLedProjectsInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutProjectInput
   recurringInvoices?: Prisma.RecurringInvoiceCreateNestedManyWithoutProjectInput
   members?: Prisma.ProjectMemberCreateNestedManyWithoutProjectInput
@@ -1729,6 +2042,7 @@ export type ProjectCreateWithoutManagerInput = {
   tickets?: Prisma.TicketCreateNestedManyWithoutProjectInput
   documents?: Prisma.DocumentCreateNestedManyWithoutProjectInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutManagerInput = {
@@ -1750,6 +2064,9 @@ export type ProjectUncheckedCreateWithoutManagerInput = {
   budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: number
   teamId?: string | null
+  departmentId?: string | null
+  teamLeadId?: string | null
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -1766,6 +2083,7 @@ export type ProjectUncheckedCreateWithoutManagerInput = {
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutProjectInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutProjectInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutManagerInput = {
@@ -1775,6 +2093,98 @@ export type ProjectCreateOrConnectWithoutManagerInput = {
 
 export type ProjectCreateManyManagerInputEnvelope = {
   data: Prisma.ProjectCreateManyManagerInput | Prisma.ProjectCreateManyManagerInput[]
+  skipDuplicates?: boolean
+}
+
+export type ProjectCreateWithoutTeamLeadInput = {
+  id?: string
+  projectNumber: string
+  name: string
+  description?: string | null
+  category: $Enums.ServiceCategory
+  status?: $Enums.ProjectStatus
+  priority?: $Enums.Priority
+  startDate?: Date | string | null
+  dueDate?: Date | string | null
+  completedAt?: Date | string | null
+  budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  progressPercent?: number
+  crossDepartment?: boolean
+  createdById?: string | null
+  updatedById?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  organization: Prisma.OrganizationCreateNestedOneWithoutProjectsInput
+  branch?: Prisma.BranchCreateNestedOneWithoutProjectsInput
+  customer: Prisma.CustomerCreateNestedOneWithoutProjectsInput
+  quotation?: Prisma.QuotationCreateNestedOneWithoutProjectsInput
+  deal?: Prisma.DealCreateNestedOneWithoutProjectsInput
+  manager: Prisma.UserCreateNestedOneWithoutManagedProjectsInput
+  team?: Prisma.TeamCreateNestedOneWithoutProjectsInput
+  department?: Prisma.DepartmentCreateNestedOneWithoutProjectsInput
+  invoices?: Prisma.InvoiceCreateNestedManyWithoutProjectInput
+  recurringInvoices?: Prisma.RecurringInvoiceCreateNestedManyWithoutProjectInput
+  members?: Prisma.ProjectMemberCreateNestedManyWithoutProjectInput
+  milestones?: Prisma.MilestoneCreateNestedManyWithoutProjectInput
+  tasks?: Prisma.TaskCreateNestedManyWithoutProjectInput
+  timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutProjectInput
+  campaigns?: Prisma.CampaignCreateNestedManyWithoutProjectInput
+  websites?: Prisma.WebsiteCreateNestedManyWithoutProjectInput
+  tickets?: Prisma.TicketCreateNestedManyWithoutProjectInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutProjectInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentCreateNestedManyWithoutProjectInput
+}
+
+export type ProjectUncheckedCreateWithoutTeamLeadInput = {
+  id?: string
+  organizationId: string
+  branchId?: string | null
+  projectNumber: string
+  name: string
+  description?: string | null
+  customerId: string
+  quotationId?: string | null
+  dealId?: string | null
+  category: $Enums.ServiceCategory
+  status?: $Enums.ProjectStatus
+  priority?: $Enums.Priority
+  startDate?: Date | string | null
+  dueDate?: Date | string | null
+  completedAt?: Date | string | null
+  budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  progressPercent?: number
+  managerId: string
+  teamId?: string | null
+  departmentId?: string | null
+  crossDepartment?: boolean
+  createdById?: string | null
+  updatedById?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutProjectInput
+  recurringInvoices?: Prisma.RecurringInvoiceUncheckedCreateNestedManyWithoutProjectInput
+  members?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
+  milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutProjectInput
+  tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutProjectInput
+  timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutProjectInput
+  campaigns?: Prisma.CampaignUncheckedCreateNestedManyWithoutProjectInput
+  websites?: Prisma.WebsiteUncheckedCreateNestedManyWithoutProjectInput
+  tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutProjectInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutProjectInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedCreateNestedManyWithoutProjectInput
+}
+
+export type ProjectCreateOrConnectWithoutTeamLeadInput = {
+  where: Prisma.ProjectWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProjectCreateWithoutTeamLeadInput, Prisma.ProjectUncheckedCreateWithoutTeamLeadInput>
+}
+
+export type ProjectCreateManyTeamLeadInputEnvelope = {
+  data: Prisma.ProjectCreateManyTeamLeadInput | Prisma.ProjectCreateManyTeamLeadInput[]
   skipDuplicates?: boolean
 }
 
@@ -1794,6 +2204,22 @@ export type ProjectUpdateManyWithWhereWithoutManagerInput = {
   data: Prisma.XOR<Prisma.ProjectUpdateManyMutationInput, Prisma.ProjectUncheckedUpdateManyWithoutManagerInput>
 }
 
+export type ProjectUpsertWithWhereUniqueWithoutTeamLeadInput = {
+  where: Prisma.ProjectWhereUniqueInput
+  update: Prisma.XOR<Prisma.ProjectUpdateWithoutTeamLeadInput, Prisma.ProjectUncheckedUpdateWithoutTeamLeadInput>
+  create: Prisma.XOR<Prisma.ProjectCreateWithoutTeamLeadInput, Prisma.ProjectUncheckedCreateWithoutTeamLeadInput>
+}
+
+export type ProjectUpdateWithWhereUniqueWithoutTeamLeadInput = {
+  where: Prisma.ProjectWhereUniqueInput
+  data: Prisma.XOR<Prisma.ProjectUpdateWithoutTeamLeadInput, Prisma.ProjectUncheckedUpdateWithoutTeamLeadInput>
+}
+
+export type ProjectUpdateManyWithWhereWithoutTeamLeadInput = {
+  where: Prisma.ProjectScalarWhereInput
+  data: Prisma.XOR<Prisma.ProjectUpdateManyMutationInput, Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadInput>
+}
+
 export type ProjectCreateWithoutCustomerInput = {
   id?: string
   projectNumber: string
@@ -1807,6 +2233,7 @@ export type ProjectCreateWithoutCustomerInput = {
   completedAt?: Date | string | null
   budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: number
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -1818,6 +2245,8 @@ export type ProjectCreateWithoutCustomerInput = {
   deal?: Prisma.DealCreateNestedOneWithoutProjectsInput
   manager: Prisma.UserCreateNestedOneWithoutManagedProjectsInput
   team?: Prisma.TeamCreateNestedOneWithoutProjectsInput
+  department?: Prisma.DepartmentCreateNestedOneWithoutProjectsInput
+  teamLead?: Prisma.UserCreateNestedOneWithoutLedProjectsInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutProjectInput
   recurringInvoices?: Prisma.RecurringInvoiceCreateNestedManyWithoutProjectInput
   members?: Prisma.ProjectMemberCreateNestedManyWithoutProjectInput
@@ -1829,6 +2258,7 @@ export type ProjectCreateWithoutCustomerInput = {
   tickets?: Prisma.TicketCreateNestedManyWithoutProjectInput
   documents?: Prisma.DocumentCreateNestedManyWithoutProjectInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutCustomerInput = {
@@ -1850,6 +2280,9 @@ export type ProjectUncheckedCreateWithoutCustomerInput = {
   progressPercent?: number
   managerId: string
   teamId?: string | null
+  departmentId?: string | null
+  teamLeadId?: string | null
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -1866,6 +2299,7 @@ export type ProjectUncheckedCreateWithoutCustomerInput = {
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutProjectInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutProjectInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutCustomerInput = {
@@ -1907,6 +2341,7 @@ export type ProjectCreateWithoutDealInput = {
   completedAt?: Date | string | null
   budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: number
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -1918,6 +2353,8 @@ export type ProjectCreateWithoutDealInput = {
   quotation?: Prisma.QuotationCreateNestedOneWithoutProjectsInput
   manager: Prisma.UserCreateNestedOneWithoutManagedProjectsInput
   team?: Prisma.TeamCreateNestedOneWithoutProjectsInput
+  department?: Prisma.DepartmentCreateNestedOneWithoutProjectsInput
+  teamLead?: Prisma.UserCreateNestedOneWithoutLedProjectsInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutProjectInput
   recurringInvoices?: Prisma.RecurringInvoiceCreateNestedManyWithoutProjectInput
   members?: Prisma.ProjectMemberCreateNestedManyWithoutProjectInput
@@ -1929,6 +2366,7 @@ export type ProjectCreateWithoutDealInput = {
   tickets?: Prisma.TicketCreateNestedManyWithoutProjectInput
   documents?: Prisma.DocumentCreateNestedManyWithoutProjectInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutDealInput = {
@@ -1950,6 +2388,9 @@ export type ProjectUncheckedCreateWithoutDealInput = {
   progressPercent?: number
   managerId: string
   teamId?: string | null
+  departmentId?: string | null
+  teamLeadId?: string | null
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -1966,6 +2407,7 @@ export type ProjectUncheckedCreateWithoutDealInput = {
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutProjectInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutProjectInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutDealInput = {
@@ -2007,6 +2449,7 @@ export type ProjectCreateWithoutQuotationInput = {
   completedAt?: Date | string | null
   budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: number
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -2018,6 +2461,8 @@ export type ProjectCreateWithoutQuotationInput = {
   deal?: Prisma.DealCreateNestedOneWithoutProjectsInput
   manager: Prisma.UserCreateNestedOneWithoutManagedProjectsInput
   team?: Prisma.TeamCreateNestedOneWithoutProjectsInput
+  department?: Prisma.DepartmentCreateNestedOneWithoutProjectsInput
+  teamLead?: Prisma.UserCreateNestedOneWithoutLedProjectsInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutProjectInput
   recurringInvoices?: Prisma.RecurringInvoiceCreateNestedManyWithoutProjectInput
   members?: Prisma.ProjectMemberCreateNestedManyWithoutProjectInput
@@ -2029,6 +2474,7 @@ export type ProjectCreateWithoutQuotationInput = {
   tickets?: Prisma.TicketCreateNestedManyWithoutProjectInput
   documents?: Prisma.DocumentCreateNestedManyWithoutProjectInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutQuotationInput = {
@@ -2050,6 +2496,9 @@ export type ProjectUncheckedCreateWithoutQuotationInput = {
   progressPercent?: number
   managerId: string
   teamId?: string | null
+  departmentId?: string | null
+  teamLeadId?: string | null
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -2066,6 +2515,7 @@ export type ProjectUncheckedCreateWithoutQuotationInput = {
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutProjectInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutProjectInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutQuotationInput = {
@@ -2107,6 +2557,7 @@ export type ProjectCreateWithoutInvoicesInput = {
   completedAt?: Date | string | null
   budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: number
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -2119,6 +2570,8 @@ export type ProjectCreateWithoutInvoicesInput = {
   deal?: Prisma.DealCreateNestedOneWithoutProjectsInput
   manager: Prisma.UserCreateNestedOneWithoutManagedProjectsInput
   team?: Prisma.TeamCreateNestedOneWithoutProjectsInput
+  department?: Prisma.DepartmentCreateNestedOneWithoutProjectsInput
+  teamLead?: Prisma.UserCreateNestedOneWithoutLedProjectsInput
   recurringInvoices?: Prisma.RecurringInvoiceCreateNestedManyWithoutProjectInput
   members?: Prisma.ProjectMemberCreateNestedManyWithoutProjectInput
   milestones?: Prisma.MilestoneCreateNestedManyWithoutProjectInput
@@ -2129,6 +2582,7 @@ export type ProjectCreateWithoutInvoicesInput = {
   tickets?: Prisma.TicketCreateNestedManyWithoutProjectInput
   documents?: Prisma.DocumentCreateNestedManyWithoutProjectInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutInvoicesInput = {
@@ -2151,6 +2605,9 @@ export type ProjectUncheckedCreateWithoutInvoicesInput = {
   progressPercent?: number
   managerId: string
   teamId?: string | null
+  departmentId?: string | null
+  teamLeadId?: string | null
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -2166,6 +2623,7 @@ export type ProjectUncheckedCreateWithoutInvoicesInput = {
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutProjectInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutProjectInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutInvoicesInput = {
@@ -2197,6 +2655,7 @@ export type ProjectUpdateWithoutInvoicesInput = {
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2209,6 +2668,8 @@ export type ProjectUpdateWithoutInvoicesInput = {
   deal?: Prisma.DealUpdateOneWithoutProjectsNestedInput
   manager?: Prisma.UserUpdateOneRequiredWithoutManagedProjectsNestedInput
   team?: Prisma.TeamUpdateOneWithoutProjectsNestedInput
+  department?: Prisma.DepartmentUpdateOneWithoutProjectsNestedInput
+  teamLead?: Prisma.UserUpdateOneWithoutLedProjectsNestedInput
   recurringInvoices?: Prisma.RecurringInvoiceUpdateManyWithoutProjectNestedInput
   members?: Prisma.ProjectMemberUpdateManyWithoutProjectNestedInput
   milestones?: Prisma.MilestoneUpdateManyWithoutProjectNestedInput
@@ -2219,6 +2680,7 @@ export type ProjectUpdateWithoutInvoicesInput = {
   tickets?: Prisma.TicketUpdateManyWithoutProjectNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutProjectNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutInvoicesInput = {
@@ -2241,6 +2703,9 @@ export type ProjectUncheckedUpdateWithoutInvoicesInput = {
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
   managerId?: Prisma.StringFieldUpdateOperationsInput | string
   teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  teamLeadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2256,6 +2721,7 @@ export type ProjectUncheckedUpdateWithoutInvoicesInput = {
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutProjectNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutProjectNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateWithoutRecurringInvoicesInput = {
@@ -2271,6 +2737,7 @@ export type ProjectCreateWithoutRecurringInvoicesInput = {
   completedAt?: Date | string | null
   budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: number
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -2283,6 +2750,8 @@ export type ProjectCreateWithoutRecurringInvoicesInput = {
   deal?: Prisma.DealCreateNestedOneWithoutProjectsInput
   manager: Prisma.UserCreateNestedOneWithoutManagedProjectsInput
   team?: Prisma.TeamCreateNestedOneWithoutProjectsInput
+  department?: Prisma.DepartmentCreateNestedOneWithoutProjectsInput
+  teamLead?: Prisma.UserCreateNestedOneWithoutLedProjectsInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutProjectInput
   members?: Prisma.ProjectMemberCreateNestedManyWithoutProjectInput
   milestones?: Prisma.MilestoneCreateNestedManyWithoutProjectInput
@@ -2293,6 +2762,7 @@ export type ProjectCreateWithoutRecurringInvoicesInput = {
   tickets?: Prisma.TicketCreateNestedManyWithoutProjectInput
   documents?: Prisma.DocumentCreateNestedManyWithoutProjectInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutRecurringInvoicesInput = {
@@ -2315,6 +2785,9 @@ export type ProjectUncheckedCreateWithoutRecurringInvoicesInput = {
   progressPercent?: number
   managerId: string
   teamId?: string | null
+  departmentId?: string | null
+  teamLeadId?: string | null
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -2330,6 +2803,7 @@ export type ProjectUncheckedCreateWithoutRecurringInvoicesInput = {
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutProjectInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutProjectInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutRecurringInvoicesInput = {
@@ -2361,6 +2835,7 @@ export type ProjectUpdateWithoutRecurringInvoicesInput = {
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2373,6 +2848,8 @@ export type ProjectUpdateWithoutRecurringInvoicesInput = {
   deal?: Prisma.DealUpdateOneWithoutProjectsNestedInput
   manager?: Prisma.UserUpdateOneRequiredWithoutManagedProjectsNestedInput
   team?: Prisma.TeamUpdateOneWithoutProjectsNestedInput
+  department?: Prisma.DepartmentUpdateOneWithoutProjectsNestedInput
+  teamLead?: Prisma.UserUpdateOneWithoutLedProjectsNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutProjectNestedInput
   members?: Prisma.ProjectMemberUpdateManyWithoutProjectNestedInput
   milestones?: Prisma.MilestoneUpdateManyWithoutProjectNestedInput
@@ -2383,6 +2860,7 @@ export type ProjectUpdateWithoutRecurringInvoicesInput = {
   tickets?: Prisma.TicketUpdateManyWithoutProjectNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutProjectNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutRecurringInvoicesInput = {
@@ -2405,12 +2883,196 @@ export type ProjectUncheckedUpdateWithoutRecurringInvoicesInput = {
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
   managerId?: Prisma.StringFieldUpdateOperationsInput | string
   teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  teamLeadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutProjectNestedInput
+  members?: Prisma.ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
+  milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutProjectNestedInput
+  tasks?: Prisma.TaskUncheckedUpdateManyWithoutProjectNestedInput
+  timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
+  campaigns?: Prisma.CampaignUncheckedUpdateManyWithoutProjectNestedInput
+  websites?: Prisma.WebsiteUncheckedUpdateManyWithoutProjectNestedInput
+  tickets?: Prisma.TicketUncheckedUpdateManyWithoutProjectNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutProjectNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedUpdateManyWithoutProjectNestedInput
+}
+
+export type ProjectCreateWithoutExtraDepartmentsInput = {
+  id?: string
+  projectNumber: string
+  name: string
+  description?: string | null
+  category: $Enums.ServiceCategory
+  status?: $Enums.ProjectStatus
+  priority?: $Enums.Priority
+  startDate?: Date | string | null
+  dueDate?: Date | string | null
+  completedAt?: Date | string | null
+  budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  progressPercent?: number
+  crossDepartment?: boolean
+  createdById?: string | null
+  updatedById?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  organization: Prisma.OrganizationCreateNestedOneWithoutProjectsInput
+  branch?: Prisma.BranchCreateNestedOneWithoutProjectsInput
+  customer: Prisma.CustomerCreateNestedOneWithoutProjectsInput
+  quotation?: Prisma.QuotationCreateNestedOneWithoutProjectsInput
+  deal?: Prisma.DealCreateNestedOneWithoutProjectsInput
+  manager: Prisma.UserCreateNestedOneWithoutManagedProjectsInput
+  team?: Prisma.TeamCreateNestedOneWithoutProjectsInput
+  department?: Prisma.DepartmentCreateNestedOneWithoutProjectsInput
+  teamLead?: Prisma.UserCreateNestedOneWithoutLedProjectsInput
+  invoices?: Prisma.InvoiceCreateNestedManyWithoutProjectInput
+  recurringInvoices?: Prisma.RecurringInvoiceCreateNestedManyWithoutProjectInput
+  members?: Prisma.ProjectMemberCreateNestedManyWithoutProjectInput
+  milestones?: Prisma.MilestoneCreateNestedManyWithoutProjectInput
+  tasks?: Prisma.TaskCreateNestedManyWithoutProjectInput
+  timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutProjectInput
+  campaigns?: Prisma.CampaignCreateNestedManyWithoutProjectInput
+  websites?: Prisma.WebsiteCreateNestedManyWithoutProjectInput
+  tickets?: Prisma.TicketCreateNestedManyWithoutProjectInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutProjectInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutProjectInput
+}
+
+export type ProjectUncheckedCreateWithoutExtraDepartmentsInput = {
+  id?: string
+  organizationId: string
+  branchId?: string | null
+  projectNumber: string
+  name: string
+  description?: string | null
+  customerId: string
+  quotationId?: string | null
+  dealId?: string | null
+  category: $Enums.ServiceCategory
+  status?: $Enums.ProjectStatus
+  priority?: $Enums.Priority
+  startDate?: Date | string | null
+  dueDate?: Date | string | null
+  completedAt?: Date | string | null
+  budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  progressPercent?: number
+  managerId: string
+  teamId?: string | null
+  departmentId?: string | null
+  teamLeadId?: string | null
+  crossDepartment?: boolean
+  createdById?: string | null
+  updatedById?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutProjectInput
+  recurringInvoices?: Prisma.RecurringInvoiceUncheckedCreateNestedManyWithoutProjectInput
+  members?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
+  milestones?: Prisma.MilestoneUncheckedCreateNestedManyWithoutProjectInput
+  tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutProjectInput
+  timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutProjectInput
+  campaigns?: Prisma.CampaignUncheckedCreateNestedManyWithoutProjectInput
+  websites?: Prisma.WebsiteUncheckedCreateNestedManyWithoutProjectInput
+  tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutProjectInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutProjectInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutProjectInput
+}
+
+export type ProjectCreateOrConnectWithoutExtraDepartmentsInput = {
+  where: Prisma.ProjectWhereUniqueInput
+  create: Prisma.XOR<Prisma.ProjectCreateWithoutExtraDepartmentsInput, Prisma.ProjectUncheckedCreateWithoutExtraDepartmentsInput>
+}
+
+export type ProjectUpsertWithoutExtraDepartmentsInput = {
+  update: Prisma.XOR<Prisma.ProjectUpdateWithoutExtraDepartmentsInput, Prisma.ProjectUncheckedUpdateWithoutExtraDepartmentsInput>
+  create: Prisma.XOR<Prisma.ProjectCreateWithoutExtraDepartmentsInput, Prisma.ProjectUncheckedCreateWithoutExtraDepartmentsInput>
+  where?: Prisma.ProjectWhereInput
+}
+
+export type ProjectUpdateToOneWithWhereWithoutExtraDepartmentsInput = {
+  where?: Prisma.ProjectWhereInput
+  data: Prisma.XOR<Prisma.ProjectUpdateWithoutExtraDepartmentsInput, Prisma.ProjectUncheckedUpdateWithoutExtraDepartmentsInput>
+}
+
+export type ProjectUpdateWithoutExtraDepartmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  projectNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.EnumServiceCategoryFieldUpdateOperationsInput | $Enums.ServiceCategory
+  status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  priority?: Prisma.EnumPriorityFieldUpdateOperationsInput | $Enums.Priority
+  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  organization?: Prisma.OrganizationUpdateOneRequiredWithoutProjectsNestedInput
+  branch?: Prisma.BranchUpdateOneWithoutProjectsNestedInput
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutProjectsNestedInput
+  quotation?: Prisma.QuotationUpdateOneWithoutProjectsNestedInput
+  deal?: Prisma.DealUpdateOneWithoutProjectsNestedInput
+  manager?: Prisma.UserUpdateOneRequiredWithoutManagedProjectsNestedInput
+  team?: Prisma.TeamUpdateOneWithoutProjectsNestedInput
+  department?: Prisma.DepartmentUpdateOneWithoutProjectsNestedInput
+  teamLead?: Prisma.UserUpdateOneWithoutLedProjectsNestedInput
+  invoices?: Prisma.InvoiceUpdateManyWithoutProjectNestedInput
+  recurringInvoices?: Prisma.RecurringInvoiceUpdateManyWithoutProjectNestedInput
+  members?: Prisma.ProjectMemberUpdateManyWithoutProjectNestedInput
+  milestones?: Prisma.MilestoneUpdateManyWithoutProjectNestedInput
+  tasks?: Prisma.TaskUpdateManyWithoutProjectNestedInput
+  timeEntries?: Prisma.TimeEntryUpdateManyWithoutProjectNestedInput
+  campaigns?: Prisma.CampaignUpdateManyWithoutProjectNestedInput
+  websites?: Prisma.WebsiteUpdateManyWithoutProjectNestedInput
+  tickets?: Prisma.TicketUpdateManyWithoutProjectNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutProjectNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutProjectNestedInput
+}
+
+export type ProjectUncheckedUpdateWithoutExtraDepartmentsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
+  branchId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
+  quotationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.EnumServiceCategoryFieldUpdateOperationsInput | $Enums.ServiceCategory
+  status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  priority?: Prisma.EnumPriorityFieldUpdateOperationsInput | $Enums.Priority
+  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
+  managerId?: Prisma.StringFieldUpdateOperationsInput | string
+  teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  teamLeadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutProjectNestedInput
+  recurringInvoices?: Prisma.RecurringInvoiceUncheckedUpdateManyWithoutProjectNestedInput
   members?: Prisma.ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
   milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutProjectNestedInput
   tasks?: Prisma.TaskUncheckedUpdateManyWithoutProjectNestedInput
@@ -2435,6 +3097,7 @@ export type ProjectCreateWithoutMembersInput = {
   completedAt?: Date | string | null
   budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: number
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -2447,6 +3110,8 @@ export type ProjectCreateWithoutMembersInput = {
   deal?: Prisma.DealCreateNestedOneWithoutProjectsInput
   manager: Prisma.UserCreateNestedOneWithoutManagedProjectsInput
   team?: Prisma.TeamCreateNestedOneWithoutProjectsInput
+  department?: Prisma.DepartmentCreateNestedOneWithoutProjectsInput
+  teamLead?: Prisma.UserCreateNestedOneWithoutLedProjectsInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutProjectInput
   recurringInvoices?: Prisma.RecurringInvoiceCreateNestedManyWithoutProjectInput
   milestones?: Prisma.MilestoneCreateNestedManyWithoutProjectInput
@@ -2457,6 +3122,7 @@ export type ProjectCreateWithoutMembersInput = {
   tickets?: Prisma.TicketCreateNestedManyWithoutProjectInput
   documents?: Prisma.DocumentCreateNestedManyWithoutProjectInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutMembersInput = {
@@ -2479,6 +3145,9 @@ export type ProjectUncheckedCreateWithoutMembersInput = {
   progressPercent?: number
   managerId: string
   teamId?: string | null
+  departmentId?: string | null
+  teamLeadId?: string | null
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -2494,6 +3163,7 @@ export type ProjectUncheckedCreateWithoutMembersInput = {
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutProjectInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutProjectInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutMembersInput = {
@@ -2525,6 +3195,7 @@ export type ProjectUpdateWithoutMembersInput = {
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2537,6 +3208,8 @@ export type ProjectUpdateWithoutMembersInput = {
   deal?: Prisma.DealUpdateOneWithoutProjectsNestedInput
   manager?: Prisma.UserUpdateOneRequiredWithoutManagedProjectsNestedInput
   team?: Prisma.TeamUpdateOneWithoutProjectsNestedInput
+  department?: Prisma.DepartmentUpdateOneWithoutProjectsNestedInput
+  teamLead?: Prisma.UserUpdateOneWithoutLedProjectsNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutProjectNestedInput
   recurringInvoices?: Prisma.RecurringInvoiceUpdateManyWithoutProjectNestedInput
   milestones?: Prisma.MilestoneUpdateManyWithoutProjectNestedInput
@@ -2547,6 +3220,7 @@ export type ProjectUpdateWithoutMembersInput = {
   tickets?: Prisma.TicketUpdateManyWithoutProjectNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutProjectNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutMembersInput = {
@@ -2569,6 +3243,9 @@ export type ProjectUncheckedUpdateWithoutMembersInput = {
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
   managerId?: Prisma.StringFieldUpdateOperationsInput | string
   teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  teamLeadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2584,6 +3261,7 @@ export type ProjectUncheckedUpdateWithoutMembersInput = {
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutProjectNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutProjectNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateWithoutMilestonesInput = {
@@ -2599,6 +3277,7 @@ export type ProjectCreateWithoutMilestonesInput = {
   completedAt?: Date | string | null
   budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: number
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -2611,6 +3290,8 @@ export type ProjectCreateWithoutMilestonesInput = {
   deal?: Prisma.DealCreateNestedOneWithoutProjectsInput
   manager: Prisma.UserCreateNestedOneWithoutManagedProjectsInput
   team?: Prisma.TeamCreateNestedOneWithoutProjectsInput
+  department?: Prisma.DepartmentCreateNestedOneWithoutProjectsInput
+  teamLead?: Prisma.UserCreateNestedOneWithoutLedProjectsInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutProjectInput
   recurringInvoices?: Prisma.RecurringInvoiceCreateNestedManyWithoutProjectInput
   members?: Prisma.ProjectMemberCreateNestedManyWithoutProjectInput
@@ -2621,6 +3302,7 @@ export type ProjectCreateWithoutMilestonesInput = {
   tickets?: Prisma.TicketCreateNestedManyWithoutProjectInput
   documents?: Prisma.DocumentCreateNestedManyWithoutProjectInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutMilestonesInput = {
@@ -2643,6 +3325,9 @@ export type ProjectUncheckedCreateWithoutMilestonesInput = {
   progressPercent?: number
   managerId: string
   teamId?: string | null
+  departmentId?: string | null
+  teamLeadId?: string | null
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -2658,6 +3343,7 @@ export type ProjectUncheckedCreateWithoutMilestonesInput = {
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutProjectInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutProjectInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutMilestonesInput = {
@@ -2689,6 +3375,7 @@ export type ProjectUpdateWithoutMilestonesInput = {
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2701,6 +3388,8 @@ export type ProjectUpdateWithoutMilestonesInput = {
   deal?: Prisma.DealUpdateOneWithoutProjectsNestedInput
   manager?: Prisma.UserUpdateOneRequiredWithoutManagedProjectsNestedInput
   team?: Prisma.TeamUpdateOneWithoutProjectsNestedInput
+  department?: Prisma.DepartmentUpdateOneWithoutProjectsNestedInput
+  teamLead?: Prisma.UserUpdateOneWithoutLedProjectsNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutProjectNestedInput
   recurringInvoices?: Prisma.RecurringInvoiceUpdateManyWithoutProjectNestedInput
   members?: Prisma.ProjectMemberUpdateManyWithoutProjectNestedInput
@@ -2711,6 +3400,7 @@ export type ProjectUpdateWithoutMilestonesInput = {
   tickets?: Prisma.TicketUpdateManyWithoutProjectNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutProjectNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutMilestonesInput = {
@@ -2733,6 +3423,9 @@ export type ProjectUncheckedUpdateWithoutMilestonesInput = {
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
   managerId?: Prisma.StringFieldUpdateOperationsInput | string
   teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  teamLeadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2748,6 +3441,7 @@ export type ProjectUncheckedUpdateWithoutMilestonesInput = {
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutProjectNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutProjectNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateWithoutTasksInput = {
@@ -2763,6 +3457,7 @@ export type ProjectCreateWithoutTasksInput = {
   completedAt?: Date | string | null
   budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: number
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -2775,6 +3470,8 @@ export type ProjectCreateWithoutTasksInput = {
   deal?: Prisma.DealCreateNestedOneWithoutProjectsInput
   manager: Prisma.UserCreateNestedOneWithoutManagedProjectsInput
   team?: Prisma.TeamCreateNestedOneWithoutProjectsInput
+  department?: Prisma.DepartmentCreateNestedOneWithoutProjectsInput
+  teamLead?: Prisma.UserCreateNestedOneWithoutLedProjectsInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutProjectInput
   recurringInvoices?: Prisma.RecurringInvoiceCreateNestedManyWithoutProjectInput
   members?: Prisma.ProjectMemberCreateNestedManyWithoutProjectInput
@@ -2785,6 +3482,7 @@ export type ProjectCreateWithoutTasksInput = {
   tickets?: Prisma.TicketCreateNestedManyWithoutProjectInput
   documents?: Prisma.DocumentCreateNestedManyWithoutProjectInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutTasksInput = {
@@ -2807,6 +3505,9 @@ export type ProjectUncheckedCreateWithoutTasksInput = {
   progressPercent?: number
   managerId: string
   teamId?: string | null
+  departmentId?: string | null
+  teamLeadId?: string | null
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -2822,6 +3523,7 @@ export type ProjectUncheckedCreateWithoutTasksInput = {
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutProjectInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutProjectInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutTasksInput = {
@@ -2853,6 +3555,7 @@ export type ProjectUpdateWithoutTasksInput = {
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2865,6 +3568,8 @@ export type ProjectUpdateWithoutTasksInput = {
   deal?: Prisma.DealUpdateOneWithoutProjectsNestedInput
   manager?: Prisma.UserUpdateOneRequiredWithoutManagedProjectsNestedInput
   team?: Prisma.TeamUpdateOneWithoutProjectsNestedInput
+  department?: Prisma.DepartmentUpdateOneWithoutProjectsNestedInput
+  teamLead?: Prisma.UserUpdateOneWithoutLedProjectsNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutProjectNestedInput
   recurringInvoices?: Prisma.RecurringInvoiceUpdateManyWithoutProjectNestedInput
   members?: Prisma.ProjectMemberUpdateManyWithoutProjectNestedInput
@@ -2875,6 +3580,7 @@ export type ProjectUpdateWithoutTasksInput = {
   tickets?: Prisma.TicketUpdateManyWithoutProjectNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutProjectNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutTasksInput = {
@@ -2897,6 +3603,9 @@ export type ProjectUncheckedUpdateWithoutTasksInput = {
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
   managerId?: Prisma.StringFieldUpdateOperationsInput | string
   teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  teamLeadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -2912,6 +3621,7 @@ export type ProjectUncheckedUpdateWithoutTasksInput = {
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutProjectNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutProjectNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateWithoutTimeEntriesInput = {
@@ -2927,6 +3637,7 @@ export type ProjectCreateWithoutTimeEntriesInput = {
   completedAt?: Date | string | null
   budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: number
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -2939,6 +3650,8 @@ export type ProjectCreateWithoutTimeEntriesInput = {
   deal?: Prisma.DealCreateNestedOneWithoutProjectsInput
   manager: Prisma.UserCreateNestedOneWithoutManagedProjectsInput
   team?: Prisma.TeamCreateNestedOneWithoutProjectsInput
+  department?: Prisma.DepartmentCreateNestedOneWithoutProjectsInput
+  teamLead?: Prisma.UserCreateNestedOneWithoutLedProjectsInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutProjectInput
   recurringInvoices?: Prisma.RecurringInvoiceCreateNestedManyWithoutProjectInput
   members?: Prisma.ProjectMemberCreateNestedManyWithoutProjectInput
@@ -2949,6 +3662,7 @@ export type ProjectCreateWithoutTimeEntriesInput = {
   tickets?: Prisma.TicketCreateNestedManyWithoutProjectInput
   documents?: Prisma.DocumentCreateNestedManyWithoutProjectInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutTimeEntriesInput = {
@@ -2971,6 +3685,9 @@ export type ProjectUncheckedCreateWithoutTimeEntriesInput = {
   progressPercent?: number
   managerId: string
   teamId?: string | null
+  departmentId?: string | null
+  teamLeadId?: string | null
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -2986,6 +3703,7 @@ export type ProjectUncheckedCreateWithoutTimeEntriesInput = {
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutProjectInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutProjectInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutTimeEntriesInput = {
@@ -3017,6 +3735,7 @@ export type ProjectUpdateWithoutTimeEntriesInput = {
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3029,6 +3748,8 @@ export type ProjectUpdateWithoutTimeEntriesInput = {
   deal?: Prisma.DealUpdateOneWithoutProjectsNestedInput
   manager?: Prisma.UserUpdateOneRequiredWithoutManagedProjectsNestedInput
   team?: Prisma.TeamUpdateOneWithoutProjectsNestedInput
+  department?: Prisma.DepartmentUpdateOneWithoutProjectsNestedInput
+  teamLead?: Prisma.UserUpdateOneWithoutLedProjectsNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutProjectNestedInput
   recurringInvoices?: Prisma.RecurringInvoiceUpdateManyWithoutProjectNestedInput
   members?: Prisma.ProjectMemberUpdateManyWithoutProjectNestedInput
@@ -3039,6 +3760,7 @@ export type ProjectUpdateWithoutTimeEntriesInput = {
   tickets?: Prisma.TicketUpdateManyWithoutProjectNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutProjectNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutTimeEntriesInput = {
@@ -3061,6 +3783,9 @@ export type ProjectUncheckedUpdateWithoutTimeEntriesInput = {
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
   managerId?: Prisma.StringFieldUpdateOperationsInput | string
   teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  teamLeadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3076,6 +3801,7 @@ export type ProjectUncheckedUpdateWithoutTimeEntriesInput = {
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutProjectNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutProjectNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateWithoutCampaignsInput = {
@@ -3091,6 +3817,7 @@ export type ProjectCreateWithoutCampaignsInput = {
   completedAt?: Date | string | null
   budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: number
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -3103,6 +3830,8 @@ export type ProjectCreateWithoutCampaignsInput = {
   deal?: Prisma.DealCreateNestedOneWithoutProjectsInput
   manager: Prisma.UserCreateNestedOneWithoutManagedProjectsInput
   team?: Prisma.TeamCreateNestedOneWithoutProjectsInput
+  department?: Prisma.DepartmentCreateNestedOneWithoutProjectsInput
+  teamLead?: Prisma.UserCreateNestedOneWithoutLedProjectsInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutProjectInput
   recurringInvoices?: Prisma.RecurringInvoiceCreateNestedManyWithoutProjectInput
   members?: Prisma.ProjectMemberCreateNestedManyWithoutProjectInput
@@ -3113,6 +3842,7 @@ export type ProjectCreateWithoutCampaignsInput = {
   tickets?: Prisma.TicketCreateNestedManyWithoutProjectInput
   documents?: Prisma.DocumentCreateNestedManyWithoutProjectInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutCampaignsInput = {
@@ -3135,6 +3865,9 @@ export type ProjectUncheckedCreateWithoutCampaignsInput = {
   progressPercent?: number
   managerId: string
   teamId?: string | null
+  departmentId?: string | null
+  teamLeadId?: string | null
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -3150,6 +3883,7 @@ export type ProjectUncheckedCreateWithoutCampaignsInput = {
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutProjectInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutProjectInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutCampaignsInput = {
@@ -3181,6 +3915,7 @@ export type ProjectUpdateWithoutCampaignsInput = {
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3193,6 +3928,8 @@ export type ProjectUpdateWithoutCampaignsInput = {
   deal?: Prisma.DealUpdateOneWithoutProjectsNestedInput
   manager?: Prisma.UserUpdateOneRequiredWithoutManagedProjectsNestedInput
   team?: Prisma.TeamUpdateOneWithoutProjectsNestedInput
+  department?: Prisma.DepartmentUpdateOneWithoutProjectsNestedInput
+  teamLead?: Prisma.UserUpdateOneWithoutLedProjectsNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutProjectNestedInput
   recurringInvoices?: Prisma.RecurringInvoiceUpdateManyWithoutProjectNestedInput
   members?: Prisma.ProjectMemberUpdateManyWithoutProjectNestedInput
@@ -3203,6 +3940,7 @@ export type ProjectUpdateWithoutCampaignsInput = {
   tickets?: Prisma.TicketUpdateManyWithoutProjectNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutProjectNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutCampaignsInput = {
@@ -3225,6 +3963,9 @@ export type ProjectUncheckedUpdateWithoutCampaignsInput = {
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
   managerId?: Prisma.StringFieldUpdateOperationsInput | string
   teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  teamLeadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3240,6 +3981,7 @@ export type ProjectUncheckedUpdateWithoutCampaignsInput = {
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutProjectNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutProjectNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateWithoutWebsitesInput = {
@@ -3255,6 +3997,7 @@ export type ProjectCreateWithoutWebsitesInput = {
   completedAt?: Date | string | null
   budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: number
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -3267,6 +4010,8 @@ export type ProjectCreateWithoutWebsitesInput = {
   deal?: Prisma.DealCreateNestedOneWithoutProjectsInput
   manager: Prisma.UserCreateNestedOneWithoutManagedProjectsInput
   team?: Prisma.TeamCreateNestedOneWithoutProjectsInput
+  department?: Prisma.DepartmentCreateNestedOneWithoutProjectsInput
+  teamLead?: Prisma.UserCreateNestedOneWithoutLedProjectsInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutProjectInput
   recurringInvoices?: Prisma.RecurringInvoiceCreateNestedManyWithoutProjectInput
   members?: Prisma.ProjectMemberCreateNestedManyWithoutProjectInput
@@ -3277,6 +4022,7 @@ export type ProjectCreateWithoutWebsitesInput = {
   tickets?: Prisma.TicketCreateNestedManyWithoutProjectInput
   documents?: Prisma.DocumentCreateNestedManyWithoutProjectInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutWebsitesInput = {
@@ -3299,6 +4045,9 @@ export type ProjectUncheckedCreateWithoutWebsitesInput = {
   progressPercent?: number
   managerId: string
   teamId?: string | null
+  departmentId?: string | null
+  teamLeadId?: string | null
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -3314,6 +4063,7 @@ export type ProjectUncheckedCreateWithoutWebsitesInput = {
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutProjectInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutProjectInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutWebsitesInput = {
@@ -3345,6 +4095,7 @@ export type ProjectUpdateWithoutWebsitesInput = {
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3357,6 +4108,8 @@ export type ProjectUpdateWithoutWebsitesInput = {
   deal?: Prisma.DealUpdateOneWithoutProjectsNestedInput
   manager?: Prisma.UserUpdateOneRequiredWithoutManagedProjectsNestedInput
   team?: Prisma.TeamUpdateOneWithoutProjectsNestedInput
+  department?: Prisma.DepartmentUpdateOneWithoutProjectsNestedInput
+  teamLead?: Prisma.UserUpdateOneWithoutLedProjectsNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutProjectNestedInput
   recurringInvoices?: Prisma.RecurringInvoiceUpdateManyWithoutProjectNestedInput
   members?: Prisma.ProjectMemberUpdateManyWithoutProjectNestedInput
@@ -3367,6 +4120,7 @@ export type ProjectUpdateWithoutWebsitesInput = {
   tickets?: Prisma.TicketUpdateManyWithoutProjectNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutProjectNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutWebsitesInput = {
@@ -3389,6 +4143,9 @@ export type ProjectUncheckedUpdateWithoutWebsitesInput = {
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
   managerId?: Prisma.StringFieldUpdateOperationsInput | string
   teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  teamLeadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3404,6 +4161,7 @@ export type ProjectUncheckedUpdateWithoutWebsitesInput = {
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutProjectNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutProjectNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateWithoutTicketsInput = {
@@ -3419,6 +4177,7 @@ export type ProjectCreateWithoutTicketsInput = {
   completedAt?: Date | string | null
   budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: number
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -3431,6 +4190,8 @@ export type ProjectCreateWithoutTicketsInput = {
   deal?: Prisma.DealCreateNestedOneWithoutProjectsInput
   manager: Prisma.UserCreateNestedOneWithoutManagedProjectsInput
   team?: Prisma.TeamCreateNestedOneWithoutProjectsInput
+  department?: Prisma.DepartmentCreateNestedOneWithoutProjectsInput
+  teamLead?: Prisma.UserCreateNestedOneWithoutLedProjectsInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutProjectInput
   recurringInvoices?: Prisma.RecurringInvoiceCreateNestedManyWithoutProjectInput
   members?: Prisma.ProjectMemberCreateNestedManyWithoutProjectInput
@@ -3441,6 +4202,7 @@ export type ProjectCreateWithoutTicketsInput = {
   websites?: Prisma.WebsiteCreateNestedManyWithoutProjectInput
   documents?: Prisma.DocumentCreateNestedManyWithoutProjectInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutTicketsInput = {
@@ -3463,6 +4225,9 @@ export type ProjectUncheckedCreateWithoutTicketsInput = {
   progressPercent?: number
   managerId: string
   teamId?: string | null
+  departmentId?: string | null
+  teamLeadId?: string | null
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -3478,6 +4243,7 @@ export type ProjectUncheckedCreateWithoutTicketsInput = {
   websites?: Prisma.WebsiteUncheckedCreateNestedManyWithoutProjectInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutProjectInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutTicketsInput = {
@@ -3509,6 +4275,7 @@ export type ProjectUpdateWithoutTicketsInput = {
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3521,6 +4288,8 @@ export type ProjectUpdateWithoutTicketsInput = {
   deal?: Prisma.DealUpdateOneWithoutProjectsNestedInput
   manager?: Prisma.UserUpdateOneRequiredWithoutManagedProjectsNestedInput
   team?: Prisma.TeamUpdateOneWithoutProjectsNestedInput
+  department?: Prisma.DepartmentUpdateOneWithoutProjectsNestedInput
+  teamLead?: Prisma.UserUpdateOneWithoutLedProjectsNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutProjectNestedInput
   recurringInvoices?: Prisma.RecurringInvoiceUpdateManyWithoutProjectNestedInput
   members?: Prisma.ProjectMemberUpdateManyWithoutProjectNestedInput
@@ -3531,6 +4300,7 @@ export type ProjectUpdateWithoutTicketsInput = {
   websites?: Prisma.WebsiteUpdateManyWithoutProjectNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutProjectNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutTicketsInput = {
@@ -3553,6 +4323,9 @@ export type ProjectUncheckedUpdateWithoutTicketsInput = {
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
   managerId?: Prisma.StringFieldUpdateOperationsInput | string
   teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  teamLeadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3568,6 +4341,7 @@ export type ProjectUncheckedUpdateWithoutTicketsInput = {
   websites?: Prisma.WebsiteUncheckedUpdateManyWithoutProjectNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutProjectNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateWithoutDocumentsInput = {
@@ -3583,6 +4357,7 @@ export type ProjectCreateWithoutDocumentsInput = {
   completedAt?: Date | string | null
   budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: number
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -3595,6 +4370,8 @@ export type ProjectCreateWithoutDocumentsInput = {
   deal?: Prisma.DealCreateNestedOneWithoutProjectsInput
   manager: Prisma.UserCreateNestedOneWithoutManagedProjectsInput
   team?: Prisma.TeamCreateNestedOneWithoutProjectsInput
+  department?: Prisma.DepartmentCreateNestedOneWithoutProjectsInput
+  teamLead?: Prisma.UserCreateNestedOneWithoutLedProjectsInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutProjectInput
   recurringInvoices?: Prisma.RecurringInvoiceCreateNestedManyWithoutProjectInput
   members?: Prisma.ProjectMemberCreateNestedManyWithoutProjectInput
@@ -3605,6 +4382,7 @@ export type ProjectCreateWithoutDocumentsInput = {
   websites?: Prisma.WebsiteCreateNestedManyWithoutProjectInput
   tickets?: Prisma.TicketCreateNestedManyWithoutProjectInput
   expenses?: Prisma.ExpenseCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutDocumentsInput = {
@@ -3627,6 +4405,9 @@ export type ProjectUncheckedCreateWithoutDocumentsInput = {
   progressPercent?: number
   managerId: string
   teamId?: string | null
+  departmentId?: string | null
+  teamLeadId?: string | null
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -3642,6 +4423,7 @@ export type ProjectUncheckedCreateWithoutDocumentsInput = {
   websites?: Prisma.WebsiteUncheckedCreateNestedManyWithoutProjectInput
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutProjectInput
   expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutDocumentsInput = {
@@ -3673,6 +4455,7 @@ export type ProjectUpdateWithoutDocumentsInput = {
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3685,6 +4468,8 @@ export type ProjectUpdateWithoutDocumentsInput = {
   deal?: Prisma.DealUpdateOneWithoutProjectsNestedInput
   manager?: Prisma.UserUpdateOneRequiredWithoutManagedProjectsNestedInput
   team?: Prisma.TeamUpdateOneWithoutProjectsNestedInput
+  department?: Prisma.DepartmentUpdateOneWithoutProjectsNestedInput
+  teamLead?: Prisma.UserUpdateOneWithoutLedProjectsNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutProjectNestedInput
   recurringInvoices?: Prisma.RecurringInvoiceUpdateManyWithoutProjectNestedInput
   members?: Prisma.ProjectMemberUpdateManyWithoutProjectNestedInput
@@ -3695,6 +4480,7 @@ export type ProjectUpdateWithoutDocumentsInput = {
   websites?: Prisma.WebsiteUpdateManyWithoutProjectNestedInput
   tickets?: Prisma.TicketUpdateManyWithoutProjectNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutDocumentsInput = {
@@ -3717,6 +4503,9 @@ export type ProjectUncheckedUpdateWithoutDocumentsInput = {
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
   managerId?: Prisma.StringFieldUpdateOperationsInput | string
   teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  teamLeadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3732,6 +4521,7 @@ export type ProjectUncheckedUpdateWithoutDocumentsInput = {
   websites?: Prisma.WebsiteUncheckedUpdateManyWithoutProjectNestedInput
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutProjectNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateWithoutExpensesInput = {
@@ -3747,6 +4537,7 @@ export type ProjectCreateWithoutExpensesInput = {
   completedAt?: Date | string | null
   budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: number
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -3759,6 +4550,8 @@ export type ProjectCreateWithoutExpensesInput = {
   deal?: Prisma.DealCreateNestedOneWithoutProjectsInput
   manager: Prisma.UserCreateNestedOneWithoutManagedProjectsInput
   team?: Prisma.TeamCreateNestedOneWithoutProjectsInput
+  department?: Prisma.DepartmentCreateNestedOneWithoutProjectsInput
+  teamLead?: Prisma.UserCreateNestedOneWithoutLedProjectsInput
   invoices?: Prisma.InvoiceCreateNestedManyWithoutProjectInput
   recurringInvoices?: Prisma.RecurringInvoiceCreateNestedManyWithoutProjectInput
   members?: Prisma.ProjectMemberCreateNestedManyWithoutProjectInput
@@ -3769,6 +4562,7 @@ export type ProjectCreateWithoutExpensesInput = {
   websites?: Prisma.WebsiteCreateNestedManyWithoutProjectInput
   tickets?: Prisma.TicketCreateNestedManyWithoutProjectInput
   documents?: Prisma.DocumentCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectUncheckedCreateWithoutExpensesInput = {
@@ -3791,6 +4585,9 @@ export type ProjectUncheckedCreateWithoutExpensesInput = {
   progressPercent?: number
   managerId: string
   teamId?: string | null
+  departmentId?: string | null
+  teamLeadId?: string | null
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -3806,6 +4603,7 @@ export type ProjectUncheckedCreateWithoutExpensesInput = {
   websites?: Prisma.WebsiteUncheckedCreateNestedManyWithoutProjectInput
   tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutProjectInput
   documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutProjectInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedCreateNestedManyWithoutProjectInput
 }
 
 export type ProjectCreateOrConnectWithoutExpensesInput = {
@@ -3837,6 +4635,7 @@ export type ProjectUpdateWithoutExpensesInput = {
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3849,6 +4648,8 @@ export type ProjectUpdateWithoutExpensesInput = {
   deal?: Prisma.DealUpdateOneWithoutProjectsNestedInput
   manager?: Prisma.UserUpdateOneRequiredWithoutManagedProjectsNestedInput
   team?: Prisma.TeamUpdateOneWithoutProjectsNestedInput
+  department?: Prisma.DepartmentUpdateOneWithoutProjectsNestedInput
+  teamLead?: Prisma.UserUpdateOneWithoutLedProjectsNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutProjectNestedInput
   recurringInvoices?: Prisma.RecurringInvoiceUpdateManyWithoutProjectNestedInput
   members?: Prisma.ProjectMemberUpdateManyWithoutProjectNestedInput
@@ -3859,6 +4660,7 @@ export type ProjectUpdateWithoutExpensesInput = {
   websites?: Prisma.WebsiteUpdateManyWithoutProjectNestedInput
   tickets?: Prisma.TicketUpdateManyWithoutProjectNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutExpensesInput = {
@@ -3881,6 +4683,9 @@ export type ProjectUncheckedUpdateWithoutExpensesInput = {
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
   managerId?: Prisma.StringFieldUpdateOperationsInput | string
   teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  teamLeadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3896,6 +4701,7 @@ export type ProjectUncheckedUpdateWithoutExpensesInput = {
   websites?: Prisma.WebsiteUncheckedUpdateManyWithoutProjectNestedInput
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutProjectNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectCreateManyOrganizationInput = {
@@ -3917,6 +4723,9 @@ export type ProjectCreateManyOrganizationInput = {
   progressPercent?: number
   managerId: string
   teamId?: string | null
+  departmentId?: string | null
+  teamLeadId?: string | null
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -3937,6 +4746,7 @@ export type ProjectUpdateWithoutOrganizationInput = {
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3948,6 +4758,8 @@ export type ProjectUpdateWithoutOrganizationInput = {
   deal?: Prisma.DealUpdateOneWithoutProjectsNestedInput
   manager?: Prisma.UserUpdateOneRequiredWithoutManagedProjectsNestedInput
   team?: Prisma.TeamUpdateOneWithoutProjectsNestedInput
+  department?: Prisma.DepartmentUpdateOneWithoutProjectsNestedInput
+  teamLead?: Prisma.UserUpdateOneWithoutLedProjectsNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutProjectNestedInput
   recurringInvoices?: Prisma.RecurringInvoiceUpdateManyWithoutProjectNestedInput
   members?: Prisma.ProjectMemberUpdateManyWithoutProjectNestedInput
@@ -3959,6 +4771,7 @@ export type ProjectUpdateWithoutOrganizationInput = {
   tickets?: Prisma.TicketUpdateManyWithoutProjectNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutProjectNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutOrganizationInput = {
@@ -3980,6 +4793,9 @@ export type ProjectUncheckedUpdateWithoutOrganizationInput = {
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
   managerId?: Prisma.StringFieldUpdateOperationsInput | string
   teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  teamLeadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -3996,6 +4812,7 @@ export type ProjectUncheckedUpdateWithoutOrganizationInput = {
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutProjectNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutProjectNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateManyWithoutOrganizationInput = {
@@ -4017,6 +4834,9 @@ export type ProjectUncheckedUpdateManyWithoutOrganizationInput = {
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
   managerId?: Prisma.StringFieldUpdateOperationsInput | string
   teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  teamLeadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4043,6 +4863,9 @@ export type ProjectCreateManyBranchInput = {
   progressPercent?: number
   managerId: string
   teamId?: string | null
+  departmentId?: string | null
+  teamLeadId?: string | null
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -4063,6 +4886,7 @@ export type ProjectUpdateWithoutBranchInput = {
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4074,6 +4898,8 @@ export type ProjectUpdateWithoutBranchInput = {
   deal?: Prisma.DealUpdateOneWithoutProjectsNestedInput
   manager?: Prisma.UserUpdateOneRequiredWithoutManagedProjectsNestedInput
   team?: Prisma.TeamUpdateOneWithoutProjectsNestedInput
+  department?: Prisma.DepartmentUpdateOneWithoutProjectsNestedInput
+  teamLead?: Prisma.UserUpdateOneWithoutLedProjectsNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutProjectNestedInput
   recurringInvoices?: Prisma.RecurringInvoiceUpdateManyWithoutProjectNestedInput
   members?: Prisma.ProjectMemberUpdateManyWithoutProjectNestedInput
@@ -4085,6 +4911,7 @@ export type ProjectUpdateWithoutBranchInput = {
   tickets?: Prisma.TicketUpdateManyWithoutProjectNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutProjectNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutBranchInput = {
@@ -4106,6 +4933,9 @@ export type ProjectUncheckedUpdateWithoutBranchInput = {
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
   managerId?: Prisma.StringFieldUpdateOperationsInput | string
   teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  teamLeadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4122,6 +4952,7 @@ export type ProjectUncheckedUpdateWithoutBranchInput = {
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutProjectNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutProjectNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateManyWithoutBranchInput = {
@@ -4143,6 +4974,149 @@ export type ProjectUncheckedUpdateManyWithoutBranchInput = {
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
   managerId?: Prisma.StringFieldUpdateOperationsInput | string
   teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  teamLeadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type ProjectCreateManyDepartmentInput = {
+  id?: string
+  organizationId: string
+  branchId?: string | null
+  projectNumber: string
+  name: string
+  description?: string | null
+  customerId: string
+  quotationId?: string | null
+  dealId?: string | null
+  category: $Enums.ServiceCategory
+  status?: $Enums.ProjectStatus
+  priority?: $Enums.Priority
+  startDate?: Date | string | null
+  dueDate?: Date | string | null
+  completedAt?: Date | string | null
+  budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  progressPercent?: number
+  managerId: string
+  teamId?: string | null
+  teamLeadId?: string | null
+  crossDepartment?: boolean
+  createdById?: string | null
+  updatedById?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+}
+
+export type ProjectUpdateWithoutDepartmentInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  projectNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.EnumServiceCategoryFieldUpdateOperationsInput | $Enums.ServiceCategory
+  status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  priority?: Prisma.EnumPriorityFieldUpdateOperationsInput | $Enums.Priority
+  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  organization?: Prisma.OrganizationUpdateOneRequiredWithoutProjectsNestedInput
+  branch?: Prisma.BranchUpdateOneWithoutProjectsNestedInput
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutProjectsNestedInput
+  quotation?: Prisma.QuotationUpdateOneWithoutProjectsNestedInput
+  deal?: Prisma.DealUpdateOneWithoutProjectsNestedInput
+  manager?: Prisma.UserUpdateOneRequiredWithoutManagedProjectsNestedInput
+  team?: Prisma.TeamUpdateOneWithoutProjectsNestedInput
+  teamLead?: Prisma.UserUpdateOneWithoutLedProjectsNestedInput
+  invoices?: Prisma.InvoiceUpdateManyWithoutProjectNestedInput
+  recurringInvoices?: Prisma.RecurringInvoiceUpdateManyWithoutProjectNestedInput
+  members?: Prisma.ProjectMemberUpdateManyWithoutProjectNestedInput
+  milestones?: Prisma.MilestoneUpdateManyWithoutProjectNestedInput
+  tasks?: Prisma.TaskUpdateManyWithoutProjectNestedInput
+  timeEntries?: Prisma.TimeEntryUpdateManyWithoutProjectNestedInput
+  campaigns?: Prisma.CampaignUpdateManyWithoutProjectNestedInput
+  websites?: Prisma.WebsiteUpdateManyWithoutProjectNestedInput
+  tickets?: Prisma.TicketUpdateManyWithoutProjectNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutProjectNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUpdateManyWithoutProjectNestedInput
+}
+
+export type ProjectUncheckedUpdateWithoutDepartmentInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
+  branchId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
+  quotationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.EnumServiceCategoryFieldUpdateOperationsInput | $Enums.ServiceCategory
+  status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  priority?: Prisma.EnumPriorityFieldUpdateOperationsInput | $Enums.Priority
+  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
+  managerId?: Prisma.StringFieldUpdateOperationsInput | string
+  teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  teamLeadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutProjectNestedInput
+  recurringInvoices?: Prisma.RecurringInvoiceUncheckedUpdateManyWithoutProjectNestedInput
+  members?: Prisma.ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
+  milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutProjectNestedInput
+  tasks?: Prisma.TaskUncheckedUpdateManyWithoutProjectNestedInput
+  timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
+  campaigns?: Prisma.CampaignUncheckedUpdateManyWithoutProjectNestedInput
+  websites?: Prisma.WebsiteUncheckedUpdateManyWithoutProjectNestedInput
+  tickets?: Prisma.TicketUncheckedUpdateManyWithoutProjectNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutProjectNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedUpdateManyWithoutProjectNestedInput
+}
+
+export type ProjectUncheckedUpdateManyWithoutDepartmentInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
+  branchId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
+  quotationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.EnumServiceCategoryFieldUpdateOperationsInput | $Enums.ServiceCategory
+  status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  priority?: Prisma.EnumPriorityFieldUpdateOperationsInput | $Enums.Priority
+  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
+  managerId?: Prisma.StringFieldUpdateOperationsInput | string
+  teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  teamLeadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4169,6 +5143,9 @@ export type ProjectCreateManyTeamInput = {
   budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: number
   managerId: string
+  departmentId?: string | null
+  teamLeadId?: string | null
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -4189,6 +5166,7 @@ export type ProjectUpdateWithoutTeamInput = {
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4200,6 +5178,8 @@ export type ProjectUpdateWithoutTeamInput = {
   quotation?: Prisma.QuotationUpdateOneWithoutProjectsNestedInput
   deal?: Prisma.DealUpdateOneWithoutProjectsNestedInput
   manager?: Prisma.UserUpdateOneRequiredWithoutManagedProjectsNestedInput
+  department?: Prisma.DepartmentUpdateOneWithoutProjectsNestedInput
+  teamLead?: Prisma.UserUpdateOneWithoutLedProjectsNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutProjectNestedInput
   recurringInvoices?: Prisma.RecurringInvoiceUpdateManyWithoutProjectNestedInput
   members?: Prisma.ProjectMemberUpdateManyWithoutProjectNestedInput
@@ -4211,6 +5191,7 @@ export type ProjectUpdateWithoutTeamInput = {
   tickets?: Prisma.TicketUpdateManyWithoutProjectNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutProjectNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutTeamInput = {
@@ -4232,6 +5213,9 @@ export type ProjectUncheckedUpdateWithoutTeamInput = {
   budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
   managerId?: Prisma.StringFieldUpdateOperationsInput | string
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  teamLeadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4248,6 +5232,7 @@ export type ProjectUncheckedUpdateWithoutTeamInput = {
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutProjectNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutProjectNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateManyWithoutTeamInput = {
@@ -4269,6 +5254,9 @@ export type ProjectUncheckedUpdateManyWithoutTeamInput = {
   budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
   managerId?: Prisma.StringFieldUpdateOperationsInput | string
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  teamLeadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4295,6 +5283,38 @@ export type ProjectCreateManyManagerInput = {
   budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: number
   teamId?: string | null
+  departmentId?: string | null
+  teamLeadId?: string | null
+  crossDepartment?: boolean
+  createdById?: string | null
+  updatedById?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+}
+
+export type ProjectCreateManyTeamLeadInput = {
+  id?: string
+  organizationId: string
+  branchId?: string | null
+  projectNumber: string
+  name: string
+  description?: string | null
+  customerId: string
+  quotationId?: string | null
+  dealId?: string | null
+  category: $Enums.ServiceCategory
+  status?: $Enums.ProjectStatus
+  priority?: $Enums.Priority
+  startDate?: Date | string | null
+  dueDate?: Date | string | null
+  completedAt?: Date | string | null
+  budget?: runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  progressPercent?: number
+  managerId: string
+  teamId?: string | null
+  departmentId?: string | null
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -4315,6 +5335,7 @@ export type ProjectUpdateWithoutManagerInput = {
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4326,6 +5347,8 @@ export type ProjectUpdateWithoutManagerInput = {
   quotation?: Prisma.QuotationUpdateOneWithoutProjectsNestedInput
   deal?: Prisma.DealUpdateOneWithoutProjectsNestedInput
   team?: Prisma.TeamUpdateOneWithoutProjectsNestedInput
+  department?: Prisma.DepartmentUpdateOneWithoutProjectsNestedInput
+  teamLead?: Prisma.UserUpdateOneWithoutLedProjectsNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutProjectNestedInput
   recurringInvoices?: Prisma.RecurringInvoiceUpdateManyWithoutProjectNestedInput
   members?: Prisma.ProjectMemberUpdateManyWithoutProjectNestedInput
@@ -4337,6 +5360,7 @@ export type ProjectUpdateWithoutManagerInput = {
   tickets?: Prisma.TicketUpdateManyWithoutProjectNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutProjectNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutManagerInput = {
@@ -4358,6 +5382,9 @@ export type ProjectUncheckedUpdateWithoutManagerInput = {
   budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
   teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  teamLeadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4374,6 +5401,7 @@ export type ProjectUncheckedUpdateWithoutManagerInput = {
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutProjectNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutProjectNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateManyWithoutManagerInput = {
@@ -4395,6 +5423,120 @@ export type ProjectUncheckedUpdateManyWithoutManagerInput = {
   budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
   teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  teamLeadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
+export type ProjectUpdateWithoutTeamLeadInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  projectNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.EnumServiceCategoryFieldUpdateOperationsInput | $Enums.ServiceCategory
+  status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  priority?: Prisma.EnumPriorityFieldUpdateOperationsInput | $Enums.Priority
+  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  organization?: Prisma.OrganizationUpdateOneRequiredWithoutProjectsNestedInput
+  branch?: Prisma.BranchUpdateOneWithoutProjectsNestedInput
+  customer?: Prisma.CustomerUpdateOneRequiredWithoutProjectsNestedInput
+  quotation?: Prisma.QuotationUpdateOneWithoutProjectsNestedInput
+  deal?: Prisma.DealUpdateOneWithoutProjectsNestedInput
+  manager?: Prisma.UserUpdateOneRequiredWithoutManagedProjectsNestedInput
+  team?: Prisma.TeamUpdateOneWithoutProjectsNestedInput
+  department?: Prisma.DepartmentUpdateOneWithoutProjectsNestedInput
+  invoices?: Prisma.InvoiceUpdateManyWithoutProjectNestedInput
+  recurringInvoices?: Prisma.RecurringInvoiceUpdateManyWithoutProjectNestedInput
+  members?: Prisma.ProjectMemberUpdateManyWithoutProjectNestedInput
+  milestones?: Prisma.MilestoneUpdateManyWithoutProjectNestedInput
+  tasks?: Prisma.TaskUpdateManyWithoutProjectNestedInput
+  timeEntries?: Prisma.TimeEntryUpdateManyWithoutProjectNestedInput
+  campaigns?: Prisma.CampaignUpdateManyWithoutProjectNestedInput
+  websites?: Prisma.WebsiteUpdateManyWithoutProjectNestedInput
+  tickets?: Prisma.TicketUpdateManyWithoutProjectNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutProjectNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUpdateManyWithoutProjectNestedInput
+}
+
+export type ProjectUncheckedUpdateWithoutTeamLeadInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
+  branchId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
+  quotationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.EnumServiceCategoryFieldUpdateOperationsInput | $Enums.ServiceCategory
+  status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  priority?: Prisma.EnumPriorityFieldUpdateOperationsInput | $Enums.Priority
+  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
+  managerId?: Prisma.StringFieldUpdateOperationsInput | string
+  teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutProjectNestedInput
+  recurringInvoices?: Prisma.RecurringInvoiceUncheckedUpdateManyWithoutProjectNestedInput
+  members?: Prisma.ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
+  milestones?: Prisma.MilestoneUncheckedUpdateManyWithoutProjectNestedInput
+  tasks?: Prisma.TaskUncheckedUpdateManyWithoutProjectNestedInput
+  timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutProjectNestedInput
+  campaigns?: Prisma.CampaignUncheckedUpdateManyWithoutProjectNestedInput
+  websites?: Prisma.WebsiteUncheckedUpdateManyWithoutProjectNestedInput
+  tickets?: Prisma.TicketUncheckedUpdateManyWithoutProjectNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutProjectNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedUpdateManyWithoutProjectNestedInput
+}
+
+export type ProjectUncheckedUpdateManyWithoutTeamLeadInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
+  branchId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  projectNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  customerId?: Prisma.StringFieldUpdateOperationsInput | string
+  quotationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  category?: Prisma.EnumServiceCategoryFieldUpdateOperationsInput | $Enums.ServiceCategory
+  status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  priority?: Prisma.EnumPriorityFieldUpdateOperationsInput | $Enums.Priority
+  startDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  dueDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
+  progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
+  managerId?: Prisma.StringFieldUpdateOperationsInput | string
+  teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4421,6 +5563,9 @@ export type ProjectCreateManyCustomerInput = {
   progressPercent?: number
   managerId: string
   teamId?: string | null
+  departmentId?: string | null
+  teamLeadId?: string | null
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -4441,6 +5586,7 @@ export type ProjectUpdateWithoutCustomerInput = {
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4452,6 +5598,8 @@ export type ProjectUpdateWithoutCustomerInput = {
   deal?: Prisma.DealUpdateOneWithoutProjectsNestedInput
   manager?: Prisma.UserUpdateOneRequiredWithoutManagedProjectsNestedInput
   team?: Prisma.TeamUpdateOneWithoutProjectsNestedInput
+  department?: Prisma.DepartmentUpdateOneWithoutProjectsNestedInput
+  teamLead?: Prisma.UserUpdateOneWithoutLedProjectsNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutProjectNestedInput
   recurringInvoices?: Prisma.RecurringInvoiceUpdateManyWithoutProjectNestedInput
   members?: Prisma.ProjectMemberUpdateManyWithoutProjectNestedInput
@@ -4463,6 +5611,7 @@ export type ProjectUpdateWithoutCustomerInput = {
   tickets?: Prisma.TicketUpdateManyWithoutProjectNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutProjectNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutCustomerInput = {
@@ -4484,6 +5633,9 @@ export type ProjectUncheckedUpdateWithoutCustomerInput = {
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
   managerId?: Prisma.StringFieldUpdateOperationsInput | string
   teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  teamLeadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4500,6 +5652,7 @@ export type ProjectUncheckedUpdateWithoutCustomerInput = {
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutProjectNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutProjectNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateManyWithoutCustomerInput = {
@@ -4521,6 +5674,9 @@ export type ProjectUncheckedUpdateManyWithoutCustomerInput = {
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
   managerId?: Prisma.StringFieldUpdateOperationsInput | string
   teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  teamLeadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4547,6 +5703,9 @@ export type ProjectCreateManyDealInput = {
   progressPercent?: number
   managerId: string
   teamId?: string | null
+  departmentId?: string | null
+  teamLeadId?: string | null
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -4567,6 +5726,7 @@ export type ProjectUpdateWithoutDealInput = {
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4578,6 +5738,8 @@ export type ProjectUpdateWithoutDealInput = {
   quotation?: Prisma.QuotationUpdateOneWithoutProjectsNestedInput
   manager?: Prisma.UserUpdateOneRequiredWithoutManagedProjectsNestedInput
   team?: Prisma.TeamUpdateOneWithoutProjectsNestedInput
+  department?: Prisma.DepartmentUpdateOneWithoutProjectsNestedInput
+  teamLead?: Prisma.UserUpdateOneWithoutLedProjectsNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutProjectNestedInput
   recurringInvoices?: Prisma.RecurringInvoiceUpdateManyWithoutProjectNestedInput
   members?: Prisma.ProjectMemberUpdateManyWithoutProjectNestedInput
@@ -4589,6 +5751,7 @@ export type ProjectUpdateWithoutDealInput = {
   tickets?: Prisma.TicketUpdateManyWithoutProjectNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutProjectNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutDealInput = {
@@ -4610,6 +5773,9 @@ export type ProjectUncheckedUpdateWithoutDealInput = {
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
   managerId?: Prisma.StringFieldUpdateOperationsInput | string
   teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  teamLeadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4626,6 +5792,7 @@ export type ProjectUncheckedUpdateWithoutDealInput = {
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutProjectNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutProjectNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateManyWithoutDealInput = {
@@ -4647,6 +5814,9 @@ export type ProjectUncheckedUpdateManyWithoutDealInput = {
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
   managerId?: Prisma.StringFieldUpdateOperationsInput | string
   teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  teamLeadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4673,6 +5843,9 @@ export type ProjectCreateManyQuotationInput = {
   progressPercent?: number
   managerId: string
   teamId?: string | null
+  departmentId?: string | null
+  teamLeadId?: string | null
+  crossDepartment?: boolean
   createdById?: string | null
   updatedById?: string | null
   createdAt?: Date | string
@@ -4693,6 +5866,7 @@ export type ProjectUpdateWithoutQuotationInput = {
   completedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   budget?: Prisma.NullableDecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string | null
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4704,6 +5878,8 @@ export type ProjectUpdateWithoutQuotationInput = {
   deal?: Prisma.DealUpdateOneWithoutProjectsNestedInput
   manager?: Prisma.UserUpdateOneRequiredWithoutManagedProjectsNestedInput
   team?: Prisma.TeamUpdateOneWithoutProjectsNestedInput
+  department?: Prisma.DepartmentUpdateOneWithoutProjectsNestedInput
+  teamLead?: Prisma.UserUpdateOneWithoutLedProjectsNestedInput
   invoices?: Prisma.InvoiceUpdateManyWithoutProjectNestedInput
   recurringInvoices?: Prisma.RecurringInvoiceUpdateManyWithoutProjectNestedInput
   members?: Prisma.ProjectMemberUpdateManyWithoutProjectNestedInput
@@ -4715,6 +5891,7 @@ export type ProjectUpdateWithoutQuotationInput = {
   tickets?: Prisma.TicketUpdateManyWithoutProjectNestedInput
   documents?: Prisma.DocumentUpdateManyWithoutProjectNestedInput
   expenses?: Prisma.ExpenseUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateWithoutQuotationInput = {
@@ -4736,6 +5913,9 @@ export type ProjectUncheckedUpdateWithoutQuotationInput = {
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
   managerId?: Prisma.StringFieldUpdateOperationsInput | string
   teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  teamLeadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4752,6 +5932,7 @@ export type ProjectUncheckedUpdateWithoutQuotationInput = {
   tickets?: Prisma.TicketUncheckedUpdateManyWithoutProjectNestedInput
   documents?: Prisma.DocumentUncheckedUpdateManyWithoutProjectNestedInput
   expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutProjectNestedInput
+  extraDepartments?: Prisma.ProjectDepartmentUncheckedUpdateManyWithoutProjectNestedInput
 }
 
 export type ProjectUncheckedUpdateManyWithoutQuotationInput = {
@@ -4773,6 +5954,9 @@ export type ProjectUncheckedUpdateManyWithoutQuotationInput = {
   progressPercent?: Prisma.IntFieldUpdateOperationsInput | number
   managerId?: Prisma.StringFieldUpdateOperationsInput | string
   teamId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  teamLeadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  crossDepartment?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   updatedById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -4797,6 +5981,7 @@ export type ProjectCountOutputType = {
   tickets: number
   documents: number
   expenses: number
+  extraDepartments: number
 }
 
 export type ProjectCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -4811,6 +5996,7 @@ export type ProjectCountOutputTypeSelect<ExtArgs extends runtime.Types.Extension
   tickets?: boolean | ProjectCountOutputTypeCountTicketsArgs
   documents?: boolean | ProjectCountOutputTypeCountDocumentsArgs
   expenses?: boolean | ProjectCountOutputTypeCountExpensesArgs
+  extraDepartments?: boolean | ProjectCountOutputTypeCountExtraDepartmentsArgs
 }
 
 /**
@@ -4900,6 +6086,13 @@ export type ProjectCountOutputTypeCountExpensesArgs<ExtArgs extends runtime.Type
   where?: Prisma.ExpenseWhereInput
 }
 
+/**
+ * ProjectCountOutputType without action
+ */
+export type ProjectCountOutputTypeCountExtraDepartmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ProjectDepartmentWhereInput
+}
+
 
 export type ProjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -4921,6 +6114,9 @@ export type ProjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   progressPercent?: boolean
   managerId?: boolean
   teamId?: boolean
+  departmentId?: boolean
+  teamLeadId?: boolean
+  crossDepartment?: boolean
   createdById?: boolean
   updatedById?: boolean
   createdAt?: boolean
@@ -4933,6 +6129,8 @@ export type ProjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   deal?: boolean | Prisma.Project$dealArgs<ExtArgs>
   manager?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   team?: boolean | Prisma.Project$teamArgs<ExtArgs>
+  department?: boolean | Prisma.Project$departmentArgs<ExtArgs>
+  teamLead?: boolean | Prisma.Project$teamLeadArgs<ExtArgs>
   invoices?: boolean | Prisma.Project$invoicesArgs<ExtArgs>
   recurringInvoices?: boolean | Prisma.Project$recurringInvoicesArgs<ExtArgs>
   members?: boolean | Prisma.Project$membersArgs<ExtArgs>
@@ -4944,6 +6142,7 @@ export type ProjectSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   tickets?: boolean | Prisma.Project$ticketsArgs<ExtArgs>
   documents?: boolean | Prisma.Project$documentsArgs<ExtArgs>
   expenses?: boolean | Prisma.Project$expensesArgs<ExtArgs>
+  extraDepartments?: boolean | Prisma.Project$extraDepartmentsArgs<ExtArgs>
   _count?: boolean | Prisma.ProjectCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["project"]>
 
@@ -4967,6 +6166,9 @@ export type ProjectSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   progressPercent?: boolean
   managerId?: boolean
   teamId?: boolean
+  departmentId?: boolean
+  teamLeadId?: boolean
+  crossDepartment?: boolean
   createdById?: boolean
   updatedById?: boolean
   createdAt?: boolean
@@ -4979,6 +6181,8 @@ export type ProjectSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   deal?: boolean | Prisma.Project$dealArgs<ExtArgs>
   manager?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   team?: boolean | Prisma.Project$teamArgs<ExtArgs>
+  department?: boolean | Prisma.Project$departmentArgs<ExtArgs>
+  teamLead?: boolean | Prisma.Project$teamLeadArgs<ExtArgs>
 }, ExtArgs["result"]["project"]>
 
 export type ProjectSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -5001,6 +6205,9 @@ export type ProjectSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   progressPercent?: boolean
   managerId?: boolean
   teamId?: boolean
+  departmentId?: boolean
+  teamLeadId?: boolean
+  crossDepartment?: boolean
   createdById?: boolean
   updatedById?: boolean
   createdAt?: boolean
@@ -5013,6 +6220,8 @@ export type ProjectSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   deal?: boolean | Prisma.Project$dealArgs<ExtArgs>
   manager?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   team?: boolean | Prisma.Project$teamArgs<ExtArgs>
+  department?: boolean | Prisma.Project$departmentArgs<ExtArgs>
+  teamLead?: boolean | Prisma.Project$teamLeadArgs<ExtArgs>
 }, ExtArgs["result"]["project"]>
 
 export type ProjectSelectScalar = {
@@ -5035,6 +6244,9 @@ export type ProjectSelectScalar = {
   progressPercent?: boolean
   managerId?: boolean
   teamId?: boolean
+  departmentId?: boolean
+  teamLeadId?: boolean
+  crossDepartment?: boolean
   createdById?: boolean
   updatedById?: boolean
   createdAt?: boolean
@@ -5042,7 +6254,7 @@ export type ProjectSelectScalar = {
   deletedAt?: boolean
 }
 
-export type ProjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "branchId" | "projectNumber" | "name" | "description" | "customerId" | "quotationId" | "dealId" | "category" | "status" | "priority" | "startDate" | "dueDate" | "completedAt" | "budget" | "progressPercent" | "managerId" | "teamId" | "createdById" | "updatedById" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["project"]>
+export type ProjectOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "organizationId" | "branchId" | "projectNumber" | "name" | "description" | "customerId" | "quotationId" | "dealId" | "category" | "status" | "priority" | "startDate" | "dueDate" | "completedAt" | "budget" | "progressPercent" | "managerId" | "teamId" | "departmentId" | "teamLeadId" | "crossDepartment" | "createdById" | "updatedById" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["project"]>
 export type ProjectInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
   branch?: boolean | Prisma.Project$branchArgs<ExtArgs>
@@ -5051,6 +6263,8 @@ export type ProjectInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   deal?: boolean | Prisma.Project$dealArgs<ExtArgs>
   manager?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   team?: boolean | Prisma.Project$teamArgs<ExtArgs>
+  department?: boolean | Prisma.Project$departmentArgs<ExtArgs>
+  teamLead?: boolean | Prisma.Project$teamLeadArgs<ExtArgs>
   invoices?: boolean | Prisma.Project$invoicesArgs<ExtArgs>
   recurringInvoices?: boolean | Prisma.Project$recurringInvoicesArgs<ExtArgs>
   members?: boolean | Prisma.Project$membersArgs<ExtArgs>
@@ -5062,6 +6276,7 @@ export type ProjectInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   tickets?: boolean | Prisma.Project$ticketsArgs<ExtArgs>
   documents?: boolean | Prisma.Project$documentsArgs<ExtArgs>
   expenses?: boolean | Prisma.Project$expensesArgs<ExtArgs>
+  extraDepartments?: boolean | Prisma.Project$extraDepartmentsArgs<ExtArgs>
   _count?: boolean | Prisma.ProjectCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ProjectIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -5072,6 +6287,8 @@ export type ProjectIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   deal?: boolean | Prisma.Project$dealArgs<ExtArgs>
   manager?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   team?: boolean | Prisma.Project$teamArgs<ExtArgs>
+  department?: boolean | Prisma.Project$departmentArgs<ExtArgs>
+  teamLead?: boolean | Prisma.Project$teamLeadArgs<ExtArgs>
 }
 export type ProjectIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   organization?: boolean | Prisma.OrganizationDefaultArgs<ExtArgs>
@@ -5081,6 +6298,8 @@ export type ProjectIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   deal?: boolean | Prisma.Project$dealArgs<ExtArgs>
   manager?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   team?: boolean | Prisma.Project$teamArgs<ExtArgs>
+  department?: boolean | Prisma.Project$departmentArgs<ExtArgs>
+  teamLead?: boolean | Prisma.Project$teamLeadArgs<ExtArgs>
 }
 
 export type $ProjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -5093,6 +6312,8 @@ export type $ProjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     deal: Prisma.$DealPayload<ExtArgs> | null
     manager: Prisma.$UserPayload<ExtArgs>
     team: Prisma.$TeamPayload<ExtArgs> | null
+    department: Prisma.$DepartmentPayload<ExtArgs> | null
+    teamLead: Prisma.$UserPayload<ExtArgs> | null
     invoices: Prisma.$InvoicePayload<ExtArgs>[]
     recurringInvoices: Prisma.$RecurringInvoicePayload<ExtArgs>[]
     members: Prisma.$ProjectMemberPayload<ExtArgs>[]
@@ -5104,6 +6325,7 @@ export type $ProjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     tickets: Prisma.$TicketPayload<ExtArgs>[]
     documents: Prisma.$DocumentPayload<ExtArgs>[]
     expenses: Prisma.$ExpensePayload<ExtArgs>[]
+    extraDepartments: Prisma.$ProjectDepartmentPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -5125,6 +6347,9 @@ export type $ProjectPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     progressPercent: number
     managerId: string
     teamId: string | null
+    departmentId: string | null
+    teamLeadId: string | null
+    crossDepartment: boolean
     createdById: string | null
     updatedById: string | null
     createdAt: Date
@@ -5531,6 +6756,8 @@ export interface Prisma__ProjectClient<T, Null = never, ExtArgs extends runtime.
   deal<T extends Prisma.Project$dealArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$dealArgs<ExtArgs>>): Prisma.Prisma__DealClient<runtime.Types.Result.GetResult<Prisma.$DealPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   manager<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   team<T extends Prisma.Project$teamArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$teamArgs<ExtArgs>>): Prisma.Prisma__TeamClient<runtime.Types.Result.GetResult<Prisma.$TeamPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  department<T extends Prisma.Project$departmentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$departmentArgs<ExtArgs>>): Prisma.Prisma__DepartmentClient<runtime.Types.Result.GetResult<Prisma.$DepartmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  teamLead<T extends Prisma.Project$teamLeadArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$teamLeadArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   invoices<T extends Prisma.Project$invoicesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   recurringInvoices<T extends Prisma.Project$recurringInvoicesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$recurringInvoicesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RecurringInvoicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   members<T extends Prisma.Project$membersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$membersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -5542,6 +6769,7 @@ export interface Prisma__ProjectClient<T, Null = never, ExtArgs extends runtime.
   tickets<T extends Prisma.Project$ticketsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$ticketsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   documents<T extends Prisma.Project$documentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   expenses<T extends Prisma.Project$expensesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$expensesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ExpensePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  extraDepartments<T extends Prisma.Project$extraDepartmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Project$extraDepartmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectDepartmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5590,6 +6818,9 @@ export interface ProjectFieldRefs {
   readonly progressPercent: Prisma.FieldRef<"Project", 'Int'>
   readonly managerId: Prisma.FieldRef<"Project", 'String'>
   readonly teamId: Prisma.FieldRef<"Project", 'String'>
+  readonly departmentId: Prisma.FieldRef<"Project", 'String'>
+  readonly teamLeadId: Prisma.FieldRef<"Project", 'String'>
+  readonly crossDepartment: Prisma.FieldRef<"Project", 'Boolean'>
   readonly createdById: Prisma.FieldRef<"Project", 'String'>
   readonly updatedById: Prisma.FieldRef<"Project", 'String'>
   readonly createdAt: Prisma.FieldRef<"Project", 'DateTime'>
@@ -6072,6 +7303,44 @@ export type Project$teamArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 }
 
 /**
+ * Project.department
+ */
+export type Project$departmentArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Department
+   */
+  select?: Prisma.DepartmentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Department
+   */
+  omit?: Prisma.DepartmentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DepartmentInclude<ExtArgs> | null
+  where?: Prisma.DepartmentWhereInput
+}
+
+/**
+ * Project.teamLead
+ */
+export type Project$teamLeadArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
+}
+
+/**
  * Project.invoices
  */
 export type Project$invoicesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -6333,6 +7602,30 @@ export type Project$expensesArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.ExpenseScalarFieldEnum | Prisma.ExpenseScalarFieldEnum[]
+}
+
+/**
+ * Project.extraDepartments
+ */
+export type Project$extraDepartmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ProjectDepartment
+   */
+  select?: Prisma.ProjectDepartmentSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ProjectDepartment
+   */
+  omit?: Prisma.ProjectDepartmentOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProjectDepartmentInclude<ExtArgs> | null
+  where?: Prisma.ProjectDepartmentWhereInput
+  orderBy?: Prisma.ProjectDepartmentOrderByWithRelationInput | Prisma.ProjectDepartmentOrderByWithRelationInput[]
+  cursor?: Prisma.ProjectDepartmentWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ProjectDepartmentScalarFieldEnum | Prisma.ProjectDepartmentScalarFieldEnum[]
 }
 
 /**

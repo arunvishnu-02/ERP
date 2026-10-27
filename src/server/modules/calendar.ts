@@ -26,7 +26,7 @@ async function scope(user: any, module: string, key = module) {
   const s = can(user, module, 'VIEW')
   if (!s) return null
   const ids = await scopeIds(user, s)
-  return ids && SCOPES[key] ? SCOPES[key](ids) : {}
+  return ids && SCOPES[key] ? SCOPES[key](ids, s) : {}
 }
 
 calendarRouter.get('/', async (req, res) => {

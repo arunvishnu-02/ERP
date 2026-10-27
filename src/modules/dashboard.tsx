@@ -3,7 +3,7 @@ import { AlertTriangle, ChevronRight, FileText } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
 import { ChartLegend, HBars, PairBars } from '@/components/misc'
-import { Badge, Button, Card, cn, Panel, StatBand } from '@/components/ui'
+import { Badge, Button, Card, cn, Loading, Panel, Progress, StatBand, Table, Td, Th, Two } from '@/components/ui'
 import { api, useApi } from '@/lib/api'
 import { useAuth } from '@/lib/auth'
 import { ago, daysFromToday, fmtDateTime, human, inr, inrShort, leadLabel, personName } from '@/lib/format'
@@ -149,6 +149,55 @@ function Overview({ data, review }: { data: any; review: (id: string) => void })
   )
 }
 
+/** A Team Leader's team at a glance: each person's work, the team's projects with progress, and what is due soon. */
+function MyTeam() {
+  const { me } = useAuth()
+  const leads = me.roles?.some((r) => r.key === 'TEAM_LEAD')
+  const { data, error } = useApi<any>(leads ? '/dashboard/team' : null)
+  if (!leads) return null
+  if (error) return <Panel title="My team" className="lg:col-span-2"><p className="text-sm text-bad">Could not load your team: {error.message}</p></Panel>
+  if (!data) return <Panel title="My team" className="lg:col-span-2"><Loading /></Panel>
+  if (!data.leads) return <Panel title="My team" className="lg:col-span-2"><p className="text-sm text-muted">No one reports to you yet. Admin adds your team in Settings &gt; Users.</p></Panel>
+  return (
+    <>
+      <Panel title={`My team${data.teams[0] ? `: ${data.teams.map((t: any) => t.name).join(', ')}` : ''}`} className="lg:col-span-2" action={<Link href="/tasks" className="text-[13px] text-accent-strong hover:underline">Task board</Link>}>
+        <div className="mb-3 flex flex-wrap gap-2 text-[13px]">
+          <Badge tone="info">{data.totals.open} open</Badge><Badge tone="good">{data.totals.done} done</Badge>{data.totals.overdue > 0 && <Badge tone="bad">{data.totals.overdue} late</Badge>}
+          <Badge>{data.members.length} {data.members.length === 1 ? 'person' : 'people'}</Badge><Badge>{data.projects.length} {data.projects.length === 1 ? 'project' : 'projects'}</Badge>
+        </div>
+        {data.members.length ? (
+          <Table>
+            <thead><tr><Th>Person</Th><Th right>Open</Th><Th right>Done</Th><Th right>Late</Th></tr></thead>
+            <tbody>{data.members.map((m: any) => (
+              <tr key={m.id}><Td><Two top={<span className="font-normal">{m.name}{!m.active ? <span className="ml-1.5 text-xs text-muted">not active</span> : null}</span>} bottom={m.designation} /></Td><Td right className="num">{m.open}</Td><Td right className="num">{m.done}</Td><Td right className={cn('num', m.overdue > 0 && 'text-bad')}>{m.overdue}</Td></tr>
+            ))}</tbody>
+          </Table>
+        ) : <p className="text-sm text-muted">No one is in your team yet.</p>}
+      </Panel>
+      <Panel title="Team projects" action={<Link href="/projects" className="text-[13px] text-accent-strong hover:underline">All projects</Link>}>
+        {data.projects.length ? (
+          <ul className="divide-y divide-line">{data.projects.map((p: any) => (
+            <li key={p.id} className="py-2 text-sm first:pt-0 last:pb-0">
+              <Link href={`/projects?open=${p.id}`} className="flex items-center justify-between gap-3 hover:text-accent-strong"><span className="min-w-0 truncate font-medium">{p.name}</span><DueTag date={p.dueDate} done={['COMPLETED', 'CANCELLED'].includes(p.status)} /></Link>
+              <div className="mt-1 flex items-center gap-2 text-xs text-muted"><Progress value={p.progress} /><span className="num shrink-0">{p.done}/{p.tasks} tasks</span></div>
+            </li>
+          ))}</ul>
+        ) : <p className="text-sm text-muted">No projects for your team yet.</p>}
+      </Panel>
+      <Panel title="Due this week">
+        {data.upcoming.length ? (
+          <ul className="divide-y divide-line">{data.upcoming.map((t: any) => (
+            <li key={t.id}><Link href={`/tasks?open=${t.id}`} className="flex items-center justify-between gap-3 py-2 text-sm hover:text-accent-strong">
+              <span className="min-w-0"><span className="block truncate">{t.title}</span><span className="text-xs text-muted">{[t.assignee?.name ?? 'Not assigned', t.project?.name].filter(Boolean).join(' · ')}</span></span>
+              <DueTag date={t.dueDate} />
+            </Link></li>
+          ))}</ul>
+        ) : <p className="text-sm text-muted">Nothing is due in the next 7 days.</p>}
+      </Panel>
+    </>
+  )
+}
+
 export default function Dashboard() {
   const { can } = useAuth()
   const { data, reload } = useApi<any>('/dashboard')
@@ -161,6 +210,7 @@ export default function Dashboard() {
       {data.overview ? <Overview data={data} review={setQuotation} /> : data.kpis.length > 0 && <StatBand items={data.kpis.map((k: any) => ({ label: k.label, value: k.money ? inrShort(k.value) : k.value, hint: k.hint, href: k.href }))} />}
       {fresh && <StartHere />}
       <div className="grid items-start gap-6 lg:grid-cols-2">
+        <MyTeam />
         {!data.overview && data.approvals?.length > 0 && (
           <Panel title="Waiting for your approval" className="lg:col-span-2">
             <ul className="divide-y divide-line">

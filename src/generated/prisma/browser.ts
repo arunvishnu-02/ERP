@@ -320,6 +320,11 @@ export type PaymentReminder = Prisma.PaymentReminderModel
  */
 export type Project = Prisma.ProjectModel
 /**
+ * Model ProjectDepartment
+ * Other departments a cross-department project may take members from (Admin only).
+ */
+export type ProjectDepartment = Prisma.ProjectDepartmentModel
+/**
  * Model ProjectMember
  * 
  */

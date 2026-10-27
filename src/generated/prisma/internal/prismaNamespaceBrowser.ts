@@ -111,6 +111,7 @@ export const ModelName = {
   PaymentAllocation: 'PaymentAllocation',
   PaymentReminder: 'PaymentReminder',
   Project: 'Project',
+  ProjectDepartment: 'ProjectDepartment',
   ProjectMember: 'ProjectMember',
   Milestone: 'Milestone',
   Task: 'Task',
@@ -1255,6 +1256,9 @@ export const ProjectScalarFieldEnum = {
   progressPercent: 'progressPercent',
   managerId: 'managerId',
   teamId: 'teamId',
+  departmentId: 'departmentId',
+  teamLeadId: 'teamLeadId',
+  crossDepartment: 'crossDepartment',
   createdById: 'createdById',
   updatedById: 'updatedById',
   createdAt: 'createdAt',
@@ -1263,6 +1267,14 @@ export const ProjectScalarFieldEnum = {
 } as const
 
 export type ProjectScalarFieldEnum = (typeof ProjectScalarFieldEnum)[keyof typeof ProjectScalarFieldEnum]
+
+
+export const ProjectDepartmentScalarFieldEnum = {
+  projectId: 'projectId',
+  departmentId: 'departmentId'
+} as const
+
+export type ProjectDepartmentScalarFieldEnum = (typeof ProjectDepartmentScalarFieldEnum)[keyof typeof ProjectDepartmentScalarFieldEnum]
 
 
 export const ProjectMemberScalarFieldEnum = {

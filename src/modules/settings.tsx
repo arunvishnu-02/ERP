@@ -6,7 +6,8 @@ import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import { ConfirmDialog, FormDialog, InlineForm, type Field } from '@/components/form'
 import { Resource } from '@/components/resource'
-import { Badge, Button, Card, Chips, cn, Empty, Input, Loading, Panel, Select, Status, Table, Tabs, Td, Th, Two } from '@/components/ui'
+import { PeoplePicker } from '@/components/people'
+import { Badge, Button, Card, Chips, cn, Dialog, Empty, Field as UiField, Input, Loading, Panel, PasswordInput, Select, Status, Table, Tabs, Td, Th, Two } from '@/components/ui'
 import { api, useApi } from '@/lib/api'
 import { useAuth } from '@/lib/auth'
 import { fmtDateTime, gstOff, human, personName } from '@/lib/format'
@@ -85,37 +86,163 @@ function Company() {
   )
 }
 
+/** The five main roles. Department and role are saved separately, so "Development" + "Team Leader" never becomes a role of its own. */
+const MAIN_ROLES = ['SUPER_ADMIN', 'MANAGER', 'TEAM_LEAD', 'STAFF', 'INTERN']
+const hasRole = (u: any, key: string) => u?.roles?.some((r: any) => r.role.key === key)
+
+/** Add or edit a team member: name, sign-in, department, role, who they report to, status, and a Team Leader's team. */
+function PersonDialog({ open, row, users, onClose, onSaved }: { open: boolean; row?: any; users: any[]; onClose: () => void; onSaved: () => Promise<void> }) {
+  const { lookups } = useAuth()
+  const [v, setV] = useState<Record<string, any>>({})
+  const [busy, setBusy] = useState(false)
+  const [error, setError] = useState('')
+  const roles = lookups.roles as { id: string; name: string; key: string }[]
+  const main = MAIN_ROLES.map((k) => roles.find((r) => r.key === k)).filter(Boolean) as typeof roles
+  const extra = roles.filter((r) => !MAIN_ROLES.includes(r.key))
+  const teamLeadRole = roles.find((r) => r.key === 'TEAM_LEAD')?.id
+  useEffect(() => {
+    if (!open) return
+    setError('')
+    if (row) {
+      const ids: string[] = row.roles.map((r: any) => r.role.id)
+      const role = main.find((r) => ids.includes(r.id))?.id ?? ''
+      setV({ firstName: row.firstName, lastName: row.lastName ?? '', email: row.email, phone: row.phone ?? '', designation: row.employee?.designation ?? '', departmentId: row.departmentId ?? '', managerId: row.managerId ?? '', status: row.status === 'INVITED' ? 'ACTIVE' : row.status, role, extra: ids.filter((id) => id !== role), team: users.filter((u) => u.managerId === row.id && u.status === 'ACTIVE').map((u) => u.id) })
+    } else setV({ status: 'ACTIVE', role: roles.find((r) => r.key === 'STAFF')?.id ?? '', extra: [], team: [], departmentId: '', managerId: '' })
+  }, [open]) // eslint-disable-line react-hooks/exhaustive-deps
+  const set = (k: string, x: any) => setV((s) => ({ ...s, [k]: x }))
+  const isLeader = v.role === teamLeadRole
+  // reports to: active Admins and Managers, plus active people of the same department
+  const bosses = users.filter((u) => u.id !== row?.id && u.status === 'ACTIVE' && (hasRole(u, 'SUPER_ADMIN') || hasRole(u, 'MANAGER') || (!!v.departmentId && u.departmentId === v.departmentId)))
+  const teamPool = users.filter((u) => u.id !== row?.id && u.status === 'ACTIVE' && !!v.departmentId && u.departmentId === v.departmentId && !['SUPER_ADMIN', 'MANAGER', 'TEAM_LEAD'].some((k) => hasRole(u, k)))
+  const changeDept = (id: string) => setV((s) => {
+    const keepBoss = users.find((u) => u.id === s.managerId && (hasRole(u, 'SUPER_ADMIN') || hasRole(u, 'MANAGER') || u.departmentId === id))
+    return { ...s, departmentId: id, managerId: keepBoss ? s.managerId : '', team: (s.team ?? []).filter((t: string) => users.find((u) => u.id === t)?.departmentId === id) }
+  })
+  const deptName = lookups.departments.find((d: any) => d.id === v.departmentId)?.name
+  const roleName = roles.find((r) => r.id === v.role)?.name
+  const bossName = personName(users.find((u) => u.id === v.managerId))
+
+  async function submit(e: React.FormEvent) {
+    e.preventDefault()
+    setError('')
+    if (!v.role) return setError('Choose a role')
+    if ((isLeader || roles.find((r) => r.id === v.role)?.key === 'STAFF' || roles.find((r) => r.id === v.role)?.key === 'INTERN') && !v.departmentId) return setError('Choose a department for this person')
+    setBusy(true)
+    try {
+      const body: Record<string, any> = { firstName: v.firstName, lastName: v.lastName ?? '', email: v.email, phone: v.phone ?? '', departmentId: v.departmentId ?? '', managerId: v.managerId ?? '', status: v.status, designation: v.designation ?? '', roleIds: [v.role, ...(v.extra ?? []).filter((x: string) => x !== v.role && !main.some((m) => m.id === x))] }
+      if (isLeader) body.teamMemberIds = v.team ?? []
+      if (row) await api(`/settings/users/${row.id}`, { method: 'PATCH', body })
+      else await api('/settings/users', { body: { ...body, password: v.password ?? '' } })
+      toast.success(row ? 'Changes saved' : 'Team member added. Share the email and temporary password with them.')
+      await onSaved()
+      onClose()
+    } catch (err) {
+      setError((err as Error).message)
+    } finally { setBusy(false) }
+  }
+
+  return (
+    <Dialog open={open} onClose={onClose} title={row ? `Edit ${personName(row)}` : 'Add team member'} size="lg"
+      footer={<><Button onClick={onClose}>Cancel</Button><Button variant="primary" type="submit" form="person-form" loading={busy}>{row ? 'Save changes' : 'Add team member'}</Button></>}>
+      <form id="person-form" onSubmit={submit} className="space-y-5">
+        <section className="grid gap-x-4 gap-y-3.5 sm:grid-cols-2">
+          <h3 className="text-[13px] font-semibold tracking-wide text-muted uppercase sm:col-span-2">Person</h3>
+          <UiField label="First name"><Input required value={v.firstName ?? ''} onChange={(e) => set('firstName', e.target.value)} /></UiField>
+          <UiField label="Last name"><Input value={v.lastName ?? ''} onChange={(e) => set('lastName', e.target.value)} /></UiField>
+          <UiField label="Work email, used to sign in"><Input type="email" required value={v.email ?? ''} onChange={(e) => set('email', e.target.value)} /></UiField>
+          {!row ? <UiField label="Temporary password" help="At least 8 characters. They choose their own when they first sign in."><PasswordInput autoComplete="new-password" required minLength={8} value={v.password ?? ''} onChange={(e) => set('password', e.target.value)} /></UiField>
+            : <UiField label="Phone"><Input value={v.phone ?? ''} onChange={(e) => set('phone', e.target.value)} /></UiField>}
+          <UiField label="Designation"><Input placeholder="Senior developer" value={v.designation ?? ''} onChange={(e) => set('designation', e.target.value)} /></UiField>
+          <UiField label="Employee status">
+            <Select value={v.status ?? 'ACTIVE'} onChange={(e) => set('status', e.target.value)}>
+              <option value="ACTIVE">Active</option><option value="SUSPENDED">Suspended</option><option value="DEACTIVATED">Left the company</option>
+            </Select>
+          </UiField>
+        </section>
+        <section className="grid gap-x-4 gap-y-3.5 sm:grid-cols-2">
+          <h3 className="text-[13px] font-semibold tracking-wide text-muted uppercase sm:col-span-2">Department and role</h3>
+          <UiField label="Department">
+            <Select value={v.departmentId ?? ''} onChange={(e) => changeDept(e.target.value)}>
+              <option value="">No department</option>
+              {lookups.departments.map((d: any) => <option key={d.id} value={d.id}>{d.name}</option>)}
+            </Select>
+          </UiField>
+          <UiField label="Role">
+            <Select required value={v.role ?? ''} onChange={(e) => set('role', e.target.value)}>
+              <option value="">Choose a role</option>
+              {main.map((r) => <option key={r.id} value={r.id}>{r.name}</option>)}
+              {extra.length > 0 && <optgroup label="Other roles">{extra.map((r) => <option key={r.id} value={r.id}>{r.name}</option>)}</optgroup>}
+            </Select>
+          </UiField>
+          <UiField label="Reports to" help={v.departmentId ? 'Admins, Managers and people in this department.' : 'Choose a department to see its Team Leaders.'}>
+            <Select value={v.managerId ?? ''} onChange={(e) => set('managerId', e.target.value)}>
+              <option value="">No one</option>
+              {bosses.map((u) => <option key={u.id} value={u.id}>{personName(u)}{hasRole(u, 'TEAM_LEAD') ? ' (Team Leader)' : hasRole(u, 'MANAGER') ? ' (Manager)' : hasRole(u, 'SUPER_ADMIN') ? ' (Admin)' : ''}</option>)}
+            </Select>
+          </UiField>
+          {extra.length > 0 && (
+            <UiField label="Extra access (optional)" group className="sm:col-span-2" help="For example HR or Accounts, on top of the main role.">
+              <span className="flex flex-wrap gap-1.5">{extra.map((r) => {
+                const on = (v.extra ?? []).includes(r.id)
+                return <button key={r.id} type="button" aria-pressed={on} onClick={() => set('extra', on ? v.extra.filter((x: string) => x !== r.id) : [...(v.extra ?? []), r.id])} className={cn('rounded-full border px-2.5 py-1 text-[13px]', on ? 'border-accent-strong bg-accent-soft text-ink' : 'border-line bg-surface text-muted hover:text-ink')}>{r.name}</button>
+              })}</span>
+            </UiField>
+          )}
+        </section>
+        {isLeader && (
+          <section className="space-y-2">
+            <h3 className="text-[13px] font-semibold tracking-wide text-muted uppercase">Team members who report to this Team Leader</h3>
+            {v.departmentId
+              ? <PeoplePicker people={teamPool.map((u) => ({ id: u.id, name: personName(u), hint: u.employee?.designation, tag: u.roles.map((r: any) => r.role.name).join(', ') }))} value={v.team ?? []} onChange={(ids) => set('team', ids)} empty={`No other active people in ${deptName ?? 'this department'} yet.`} />
+              : <p className="text-[13px] text-muted">Choose the department first.</p>}
+          </section>
+        )}
+        <div className="rounded-xl bg-surface-2 px-3.5 py-2.5 text-[13px]">
+          <span className="font-medium">Summary: </span>
+          {[v.firstName ? `${v.firstName} ${v.lastName ?? ''}`.trim() : 'This person', roleName ? `is a ${roleName}` : null, deptName ? `in ${deptName}` : 'with no department', bossName ? `and reports to ${bossName}` : null].filter(Boolean).join(' ')}.
+          {isLeader ? ` Leads ${(v.team ?? []).length} ${(v.team ?? []).length === 1 ? 'person' : 'people'}.` : ''}
+        </div>
+        {error && <p role="alert" className="rounded-xl bg-bad-soft px-3.5 py-2.5 text-[13px] text-bad">{error}</p>}
+      </form>
+    </Dialog>
+  )
+}
+
 function Users() {
   const { lookups, reloadLookups, can, me } = useAuth()
   const { data, reload } = useApi<{ items: any[] }>('/settings/users')
   const [form, setForm] = useState<{ row?: any } | null>(null)
   const [reset, setReset] = useState<any>(null)
-  const roles = lookups.roles.map((r: any) => ({ value: r.id, label: r.name }))
-  const depts = lookups.departments.map((d: any) => ({ value: d.id, label: d.name }))
-  const fields: Field[] = [
-    { name: 'firstName', label: 'First name', required: true }, { name: 'lastName', label: 'Last name' }, { name: 'email', label: 'Work email, used to sign in', type: 'email', required: true }, { name: 'phone', label: 'Phone' },
-    ...(form?.row ? [] : [{ name: 'password', label: 'Temporary password', required: true, help: 'At least 8 characters. They choose their own when they first sign in.' } as Field, { name: 'designation', label: 'Designation', placeholder: 'Senior developer' } as Field]),
-    { name: 'departmentId', label: 'Department', type: 'select', options: depts }, { name: 'managerId', label: 'Reports to', type: 'select', options: userOptions(lookups).filter((u: any) => u.value !== form?.row?.id), help: 'Used for the Team access scope.' },
-    { name: 'roleIds', label: 'Roles', type: 'multi', options: roles },
-  ]
+  const [q, setQ] = useState('')
+  const [dept, setDept] = useState('')
   const after = async () => { reload(); await reloadLookups() }
   const setStatus = async (u: any, status: string) => { if (await act(() => api(`/settings/users/${u.id}`, { method: 'PATCH', body: { status } }), status === 'ACTIVE' ? 'User can sign in again' : 'User suspended')) after() }
   if (!data) return <Loading />
   const edit = can('SETTINGS', 'EDIT')
+  const rows = data.items.filter((u) => (!dept || u.departmentId === dept) && (!q || `${personName(u)} ${u.email} ${u.employee?.designation ?? ''}`.toLowerCase().includes(q.toLowerCase())))
+  const leader = (id?: string | null) => data.items.find((x) => x.id === id)
   return (
     <div className="space-y-3">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <p className="text-[13px] text-muted">{data.items.filter((u) => u.status === 'ACTIVE').length} people can sign in.</p>
-        {can('SETTINGS', 'CREATE') && <Button variant="primary" onClick={() => setForm({})}><Plus size={16} />Add user</Button>}
+        <div className="flex flex-wrap items-center gap-2">
+          <Input aria-label="Search people" placeholder="Search name or email" value={q} onChange={(e) => setQ(e.target.value)} className="w-48" />
+          <Select aria-label="Department" value={dept} onChange={(e) => setDept(e.target.value)} className="w-44">
+            <option value="">All departments</option>
+            {lookups.departments.map((d: any) => <option key={d.id} value={d.id}>{d.name}</option>)}
+          </Select>
+          {can('SETTINGS', 'CREATE') && <Button variant="primary" onClick={() => setForm({})}><Plus size={16} />Add team member</Button>}
+        </div>
       </div>
       <Card className="overflow-hidden">
         <Table>
-          <thead><tr><Th>User</Th><Th>Roles</Th><Th>Department</Th><Th>Last signed in</Th><Th>Status</Th><Th /></tr></thead>
-          <tbody>{data.items.map((u) => (
+          <thead><tr><Th>Person</Th><Th>Role</Th><Th>Department</Th><Th>Reports to</Th><Th>Last signed in</Th><Th>Status</Th><Th /></tr></thead>
+          <tbody>{!rows.length && <tr><Td colSpan={7}><Empty>No one matches this search.</Empty></Td></tr>}{rows.map((u) => (
             <tr key={u.id}>
               <Td><Two top={<>{personName(u)}{u.id === me.id ? <span className="ml-1.5 text-xs font-normal text-muted">you</span> : null}</>} bottom={u.email} /></Td>
               <Td><div className="flex flex-wrap gap-1">{u.roles.map((r: any) => <Badge key={r.role.id} tone={r.role.key === 'SUPER_ADMIN' ? 'accent' : 'mute'}>{r.role.name}</Badge>)}</div></Td>
               <Td><Two top={<span className="font-normal">{u.department?.name ?? ''}</span>} bottom={u.employee?.designation} /></Td>
+              <Td className="whitespace-nowrap">{u.managerId ? personName(leader(u.managerId)) : <span className="text-muted">-</span>}</Td>
               <Td className="whitespace-nowrap text-muted">{u.lastLoginAt ? fmtDateTime(u.lastLoginAt) : 'Never'}</Td><Td><Status value={u.status} /></Td>
               <Td>{edit && <div className="flex justify-end gap-1">
                 <Button size="icon" variant="ghost" aria-label="Edit user" onClick={() => setForm({ row: u })}><Pencil size={15} /></Button>
@@ -126,14 +253,7 @@ function Users() {
           ))}</tbody>
         </Table>
       </Card>
-      <FormDialog open={!!form} onClose={() => setForm(null)} title={form?.row ? 'Edit user' : 'Add user'} fields={fields} submitLabel={form?.row ? 'Save changes' : 'Add user'}
-        initial={form?.row ? { firstName: form.row.firstName, lastName: form.row.lastName ?? '', email: form.row.email, phone: form.row.phone ?? '', departmentId: form.row.departmentId ?? '', managerId: form.row.managerId ?? '', roleIds: form.row.roles.map((r: any) => r.role.id) } : { roleIds: [] }}
-        onSubmit={async (v) => {
-          if (form?.row) await api(`/settings/users/${form.row.id}`, { method: 'PATCH', body: v })
-          else await api('/settings/users', { body: v })
-          toast.success(form?.row ? 'Changes saved' : 'User added. Share the email and temporary password with them.')
-          await after()
-        }} />
+      <PersonDialog open={!!form} row={form?.row} users={data.items} onClose={() => setForm(null)} onSaved={after} />
       <FormDialog open={!!reset} onClose={() => setReset(null)} title={`Reset password for ${personName(reset)}`} submitLabel="Reset password" size="sm"
         intro={<p className="text-sm text-muted">They are signed out everywhere and must choose a new password when they sign in with this one.</p>}
         fields={[{ name: 'password', label: 'New temporary password, at least 8 characters', required: true, full: true }]}

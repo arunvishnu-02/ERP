@@ -20,7 +20,7 @@ export interface CrudOptions {
   soft?: boolean
   noOrg?: boolean
   by?: boolean
-  scope?: (ids: string[]) => any
+  scope?: (ids: string[], scope?: any) => any
   number?: [field: string, type: string]
   ownerField?: string
   where?: (req: Request) => any
@@ -47,7 +47,7 @@ export function crud(o: CrudOptions) {
     if (!o.noOrg) w.organizationId = req.user.organizationId
     if (o.soft) w.deletedAt = null
     const s = can(req.user, module, action)
-    if (o.scope && s && s !== 'ALL') and.push(o.scope((await scopeIds(req.user, s))!))
+    if (o.scope && s && s !== 'ALL') and.push(o.scope((await scopeIds(req.user, s))!, s))
     if (o.where) and.push(await o.where(req))
     return w
   }
