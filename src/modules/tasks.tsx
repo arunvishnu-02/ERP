@@ -10,7 +10,7 @@ import { api, useApi } from '@/lib/api'
 import { useAuth } from '@/lib/auth'
 import { useUrlParam } from '@/lib/url'
 import { day, daysFromToday, fmtDateTime, human, options, personName, plusDays } from '@/lib/format'
-import { act, DueTag, Person, userOptions } from './common'
+import { act, DueTag, Person, useAssignees, userOptions } from './common'
 import Timesheet from './timesheet'
 
 const COLUMNS = ['TODO', 'IN_PROGRESS', 'IN_REVIEW', 'BLOCKED', 'DONE']
@@ -61,19 +61,22 @@ function TaskSheet({ id, onClose, onChanged, fields }: { id: string | null; onCl
 export default function Tasks() {
   const { lookups, can, scope } = useAuth()
   const ownOnly = scope('TASKS') === 'OWN'
+  const assignees = useAssignees()
   const [who, setWho] = useState('mine')
   const [view, setView] = useState('board')
   const [openId, setOpenId] = useState<string | null>(null)
   useUrlParam('open', setOpenId)
   useUrlParam('new', () => setAdd(true))
   const [add, setAdd] = useState(false)
+  const [project, setProject] = useState('')
+  useUrlParam('project', (v) => { setProject(v); setWho('all') })
   const { data, reload } = useApi<{ items: any[] }>(`/tasks?limit=500${who === 'mine' ? '&mine=1' : ''}`)
   const projects = useApi<{ items: any[] }>(can('PROJECTS') ? '/projects?limit=200' : null).data?.items ?? []
   // finished tasks drop off the board two weeks after completion
-  const tasks = (data?.items ?? []).filter((t) => t.status !== 'CANCELLED' && (t.status !== 'DONE' || !t.completedAt || daysFromToday(t.completedAt) > -14))
+  const tasks = (data?.items ?? []).filter((t) => t.status !== 'CANCELLED' && (t.status !== 'DONE' || !t.completedAt || daysFromToday(t.completedAt) > -14) && (!project || (project === 'none' ? !t.projectId : t.projectId === project)))
   const fields: Field[] = [
     { name: 'title', label: 'Task', required: true, full: true }, { name: 'projectId', label: 'Project', type: 'select', options: projects.filter((p) => p.status !== 'COMPLETED').map((p) => ({ value: p.id, label: p.name })), placeholder: 'General, no project' },
-    { name: 'assigneeId', label: 'Assign to', type: 'select', options: userOptions(lookups), placeholder: 'Me' }, { name: 'priority', label: 'Priority', type: 'select', options: options(lookups.enums.Priority), required: true },
+    { name: 'assigneeId', label: 'Assign to', type: 'select', options: assignees, placeholder: 'Me' }, { name: 'priority', label: 'Priority', type: 'select', options: options(lookups.enums.Priority), required: true },
     { name: 'dueDate', label: 'Due date', type: 'date' }, { name: 'estimatedMinutes', label: 'Estimate (minutes)', type: 'number' }, { name: 'description', label: 'Details', type: 'textarea' },
   ]
   const viewTabs = <Tabs value={view} onChange={setView} options={[{ value: 'board', label: 'Board' }, { value: 'timesheet', label: 'Timesheet' }]} />
@@ -83,7 +86,10 @@ export default function Tasks() {
       {viewTabs}
       <div className="flex flex-wrap items-center justify-between gap-2">
         {ownOnly ? <p className="text-[13px] text-muted">Tasks assigned to you or added by you. Drag a card to change its status.</p> : <Tabs value={who} onChange={setWho} options={[{ value: 'mine', label: 'Assigned to me' }, { value: 'all', label: 'Everyone' }]} />}
-        {can('TASKS', 'CREATE') && <Button variant="primary" onClick={() => setAdd(true)}><Plus size={16} />Add task</Button>}
+        <div className="flex flex-wrap items-center gap-2">
+          {!!projects.length && <Select aria-label="Project" className="h-9 w-56" value={project} onChange={(e) => setProject(e.target.value)}><option value="">All projects</option>{projects.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}<option value="none">General, no project</option></Select>}
+          {can('TASKS', 'CREATE') && <Button variant="primary" onClick={() => setAdd(true)}><Plus size={16} />Add task</Button>}
+        </div>
       </div>
       <Board
         items={tasks} columnOf={(t: any) => t.status} onOpen={(t: any) => setOpenId(t.id)} columns={COLUMNS.map((c) => ({ key: c, label: human(c) }))}
@@ -91,7 +97,7 @@ export default function Tasks() {
         render={(t: any) => <><div className="font-medium">{t.title}</div><div className="text-xs text-muted">{t.project?.name ?? 'General'}</div><div className="mt-2 flex items-center justify-between gap-2"><Badge tone={prioTone(t.priority)}>{human(t.priority)}</Badge><span className="flex items-center gap-1.5 text-xs">{t.status !== 'DONE' && t.dueDate && <DueTag date={t.dueDate} />}{t.assignee && <Avatar name={personName(t.assignee)} />}</span></div></>}
       />
       {data && !tasks.length && <Card className="px-4 py-8 text-center text-sm text-muted">No tasks here yet. Add one, or create tasks from a project.</Card>}
-      <FormDialog open={add} onClose={() => setAdd(false)} title="Add task" fields={fields} submitLabel="Add task" initial={{ priority: 'MEDIUM', dueDate: plusDays(2) }} onSubmit={async (v) => { await api('/tasks', { body: v }); toast.success('Task added'); reload() }} />
+      <FormDialog open={add} onClose={() => setAdd(false)} title="Add task" fields={fields} submitLabel="Add task" initial={{ priority: 'MEDIUM', dueDate: plusDays(2), projectId: project && project !== 'none' ? project : '' }} onSubmit={async (v) => { await api('/tasks', { body: v }); toast.success('Task added'); reload() }} />
       <TaskSheet id={openId} onClose={() => setOpenId(null)} onChanged={reload} fields={fields} />
     </div>
   )
