@@ -95,12 +95,12 @@ function ThemeToggle() {
   return <button type="button" className="glass grid h-[42px] w-[42px] place-items-center rounded-xl" aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'} onClick={() => setTheme(dark ? 'light' : 'dark')}>{dark ? <Sun size={18} /> : <Moon size={18} />}</button>
 }
 
-function NavLink({ path, label, Icon, active, onClick, badge }: { path: string; label: string; Icon: any; active: boolean; onClick: () => void; badge?: number }) {
+function NavLink({ path, label, Icon, active, onClick, badge, slim }: { path: string; label: string; Icon: any; active: boolean; onClick: () => void; badge?: number; slim?: boolean }) {
   return (
-    <Link href={`/${path}`} onClick={onClick} aria-current={active ? 'page' : undefined} className={cn('flex h-10 items-center gap-3 rounded-[10px] px-3 text-sm text-rail-ink hover:bg-white/5 hover:text-white', active && 'relative bg-rail-active font-medium text-white hover:bg-rail-active')}>
+    <Link href={`/${path}`} onClick={onClick} title={slim ? label : undefined} aria-current={active ? 'page' : undefined} className={cn('relative flex h-10 items-center gap-3 rounded-[10px] px-3 text-sm text-rail-ink hover:bg-white/5 hover:text-white', active && 'bg-rail-active font-medium text-white hover:bg-rail-active', slim && 'lg:justify-center lg:px-0')}>
       {active && <span aria-hidden className="absolute top-2.5 bottom-2.5 left-1.5 w-1 rounded-full bg-accent" />}
-      <Icon size={16} className={active ? 'text-white' : 'text-rail-mute'} />{label}
-      {!!badge && <span className="num ml-auto grid h-5 min-w-5 place-items-center rounded-full bg-bad px-1.5 text-[11px] font-semibold text-white">{badge > 99 ? '99+' : badge}</span>}
+      <Icon size={slim ? 18 : 16} className={cn('shrink-0', active ? 'text-white' : 'text-rail-mute')} /><span className={cn(slim && 'lg:sr-only')}>{label}</span>
+      {!!badge && <span className={cn('num ml-auto grid h-5 min-w-5 place-items-center rounded-full bg-bad px-1.5 text-[11px] font-semibold text-white', slim && 'lg:absolute lg:top-0 lg:right-0.5 lg:h-4 lg:min-w-4 lg:px-1 lg:text-[10px]')}>{badge > 99 ? '99+' : badge}</span>}
     </Link>
   )
 }
@@ -112,7 +112,7 @@ function Shell({ children }: { children: React.ReactNode }) {
   const { me, can, logout, lookups, reloadMe } = useAuth()
   const key = usePathname().split('/')[1] || 'dashboard'
   const [open, setOpen] = useState(false)
-  // On a computer the side menu can be hidden for more room; the choice is remembered on this browser.
+  // On a computer the side menu can shrink to icons only for more room; the choice is remembered on this browser.
   const [hidden, setHidden] = useState(false)
   useEffect(() => { try { setHidden(localStorage.getItem('cx-rail') === 'hidden') } catch {} }, [])
   const toggleRail = () => setHidden((h) => { try { localStorage.setItem('cx-rail', h ? 'shown' : 'hidden') } catch {} return !h })
@@ -123,38 +123,39 @@ function Shell({ children }: { children: React.ReactNode }) {
   const subtitle = key === 'dashboard' ? `${new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })} · ${me.roles[0]?.name ?? 'Your'} view of ${month}` : SUBTITLES[key]
   const tall = key === 'dashboard'
   return (
-    <div className={cn('min-h-screen lg:grid', hidden ? 'lg:grid-cols-[minmax(0,1fr)]' : 'lg:grid-cols-[256px_minmax(0,1fr)]')}>
-      <aside className={cn('app-rail fixed inset-y-0 left-0 z-40 flex w-64 flex-col overflow-y-auto px-4 pt-6 pb-4 text-rail-ink transition-transform duration-150 lg:sticky lg:top-0 lg:h-screen lg:w-auto lg:translate-x-0', open ? 'translate-x-0' : '-translate-x-full', hidden && 'lg:hidden')} aria-label="Modules">
-        <div className="flex items-center gap-2.5">
+    <div className={cn('min-h-screen lg:grid', hidden ? 'lg:grid-cols-[80px_minmax(0,1fr)]' : 'lg:grid-cols-[256px_minmax(0,1fr)]')}>
+      <aside className={cn('app-rail fixed inset-y-0 left-0 z-40 flex w-64 flex-col overflow-y-auto px-4 pt-6 pb-4 text-rail-ink transition-transform duration-150 lg:sticky lg:top-0 lg:h-screen lg:w-auto lg:translate-x-0', open ? 'translate-x-0' : '-translate-x-full', hidden && 'lg:px-3')} aria-label="Modules">
+        <div className={cn('flex items-center gap-2.5', hidden && 'lg:justify-center')}>
           <Mark />
-          <span className="min-w-0"><span className="block text-[13px] leading-5 font-semibold tracking-[0.22em] text-white uppercase">One X System</span><span className="block truncate text-xs text-rail-mute">{lookups.organization.name}</span></span>
+          <span className={cn('min-w-0', hidden && 'lg:hidden')}><span className="block text-[13px] leading-5 font-semibold tracking-[0.22em] text-white uppercase">One X System</span><span className="block truncate text-xs text-rail-mute">{lookups.organization.name}</span></span>
         </div>
-        <button type="button" onClick={() => { setOpen(false); openSearch() }} className="mt-6 flex h-10 w-full items-center gap-2 rounded-[10px] bg-rail-active pr-2 pl-2.5 text-[13px] text-rail-mute hover:text-rail-ink">
-          <Search size={16} className="text-rail-ink" /><span className="flex-1 text-left">Search or jump to</span><kbd className="rounded-md bg-rail px-1.5 py-0.5 text-[11px] font-semibold">Ctrl K</kbd>
+        <button type="button" onClick={() => { setOpen(false); openSearch() }} title={hidden ? 'Search' : undefined} aria-label="Search or jump to" className={cn('mt-6 flex h-10 w-full shrink-0 items-center gap-2 rounded-[10px] bg-rail-active pr-2 pl-2.5 text-[13px] text-rail-mute hover:text-rail-ink', hidden && 'lg:justify-center lg:px-0')}>
+          <Search size={16} className="shrink-0 text-rail-ink" /><span className={cn('flex-1 text-left', hidden && 'lg:hidden')}>Search or jump to</span><kbd className={cn('rounded-md bg-rail px-1.5 py-0.5 text-[11px] font-semibold', hidden && 'lg:hidden')}>Ctrl K</kbd>
         </button>
         <nav className="mt-5 flex-1 space-y-4">
           {NAV.map((g) => {
             const items = g.items.filter(([, , module]) => !module || can(module))
             if (!items.length) return null
             const here = items.some(([path]) => path === key)
-            const shown = !g.fold || here || unfold[g.group]
+            const shown = !g.fold || here || unfold[g.group] || hidden
             return (
               <div key={g.group || 'home'}>
                 {g.group && (g.fold ? (
-                  <button type="button" aria-expanded={shown} onClick={() => setUnfold((u) => ({ ...u, [g.group]: !shown }))} className="flex h-8 w-full items-center px-2.5 text-xs text-rail-mute hover:text-rail-ink">
+                  <button type="button" aria-expanded={shown} onClick={() => setUnfold((u) => ({ ...u, [g.group]: !shown }))} className={cn('flex h-8 w-full items-center px-2.5 text-xs text-rail-mute hover:text-rail-ink', hidden && 'lg:hidden')}>
                     <span className="flex-1 text-left">{g.group}</span><span className="num mr-2">{items.length}</span><ChevronRight size={14} className={cn('transition-transform', shown && 'rotate-90')} />
                   </button>
-                ) : <div className="px-2.5 pb-1 text-xs text-rail-mute">{g.group}</div>)}
-                {shown && items.map(([path, label, , Icon]) => <NavLink key={path} path={path} label={label} Icon={Icon} active={key === path} onClick={() => setOpen(false)} badge={path === 'approvals' ? waiting : undefined} />)}
+                ) : <div className={cn('px-2.5 pb-1 text-xs text-rail-mute', hidden && 'lg:hidden')}>{g.group}</div>)}
+                {g.group && hidden && <div aria-hidden className="mx-3 mb-2 hidden h-px bg-white/10 lg:block" />}
+                {shown && items.map(([path, label, , Icon]) => <NavLink key={path} path={path} label={label} Icon={Icon} active={key === path} onClick={() => setOpen(false)} badge={path === 'approvals' ? waiting : undefined} slim={hidden} />)}
               </div>
             )
           })}
         </nav>
         <Menu.Root>
-          <Menu.Trigger className="mt-4 flex w-full items-center gap-3 rounded-xl bg-rail-active p-3 text-left">
+          <Menu.Trigger title={hidden ? me.name : undefined} className={cn('mt-4 flex w-full shrink-0 items-center gap-3 rounded-xl bg-rail-active p-3 text-left', hidden && 'lg:justify-center lg:p-2')}>
             <Avatar name={me.name} className="h-9 w-9 bg-accent text-[12px] text-accent-ink ring-0" />
-            <span className="min-w-0 flex-1"><span className="block truncate text-[13px] font-medium text-white">{me.name}</span><span className="block truncate text-xs text-rail-mute">{me.roles.map((r) => r.name).join(', ')}</span></span>
-            <Ellipsis size={16} className="text-rail-mute" />
+            <span className={cn('min-w-0 flex-1', hidden && 'lg:hidden')}><span className="block truncate text-[13px] font-medium text-white">{me.name}</span><span className="block truncate text-xs text-rail-mute">{me.roles.map((r) => r.name).join(', ')}</span></span>
+            <Ellipsis size={16} className={cn('text-rail-mute', hidden && 'lg:hidden')} />
           </Menu.Trigger>
           <Menu.Portal>
             <Menu.Content side="top" align="start" sideOffset={8} className="z-50 w-60 rounded-xl border border-line bg-surface p-1 text-sm shadow-xl">
@@ -168,7 +169,7 @@ function Shell({ children }: { children: React.ReactNode }) {
       <div className="relative flex min-w-0 flex-col">
         <header className="relative z-20 flex shrink-0 items-center gap-3 px-4 pt-6 pb-4 lg:px-8 lg:pt-8">
           <button type="button" className="glass grid h-[42px] w-[42px] place-items-center rounded-xl lg:hidden" aria-label="Open menu" onClick={() => setOpen(true)}><MenuIcon size={18} /></button>
-          <button type="button" className="glass hidden h-[42px] w-[42px] shrink-0 place-items-center rounded-xl lg:grid" aria-label={hidden ? 'Show side menu' : 'Hide side menu'} title={hidden ? 'Show side menu' : 'Hide side menu'} onClick={toggleRail}>{hidden ? <PanelLeftOpen size={18} /> : <PanelLeftClose size={18} />}</button>
+          <button type="button" className="glass hidden h-[42px] w-[42px] shrink-0 place-items-center rounded-xl lg:grid" aria-label={hidden ? 'Show full side menu' : 'Show icons only'} title={hidden ? 'Show full side menu' : 'Show icons only'} onClick={toggleRail}>{hidden ? <PanelLeftOpen size={18} /> : <PanelLeftClose size={18} />}</button>
           <div className="min-w-0 flex-1">
             <h1 className="truncate font-display text-[22px] leading-8 font-bold tracking-tight lg:text-[28px] lg:leading-9">{tall ? greeting(me.name) : TITLES[key] ?? APP_NAME}</h1>
             {subtitle && <p className="mt-0.5 hidden truncate font-serif text-[15px] text-muted sm:block">{subtitle}</p>}
