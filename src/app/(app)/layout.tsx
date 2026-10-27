@@ -56,9 +56,9 @@ function Notifications() {
   return (
     <Menu.Root>
       <Menu.Trigger asChild>
-        <button type="button" aria-label={`Notifications, ${data?.unread ?? 0} unread`} className="glass relative grid h-[38px] w-[38px] place-items-center rounded-xl">
+        <button type="button" aria-label={`Notifications, ${data?.unread ?? 0} unread`} className="glass relative grid h-[42px] w-[42px] place-items-center rounded-xl">
           <Bell size={18} />
-          {!!data?.unread && <span className="num absolute -top-1 -right-1 grid h-4 min-w-4 place-items-center rounded-full border-2 border-rail bg-bad px-1 text-[10px] font-semibold text-white">{data.unread > 9 ? '9+' : data.unread}</span>}
+          {!!data?.unread && <span className="num absolute -top-1 -right-1 grid h-4 min-w-4 place-items-center rounded-full border-2 border-bg bg-bad px-1 text-[10px] font-semibold text-white">{data.unread > 9 ? '9+' : data.unread}</span>}
         </button>
       </Menu.Trigger>
       <Menu.Portal>
@@ -92,18 +92,21 @@ function ThemeToggle() {
   const [mounted, setMounted] = useState(false)
   useEffect(() => setMounted(true), [])
   const dark = mounted && resolvedTheme === 'dark'
-  return <button type="button" className="glass grid h-[38px] w-[38px] place-items-center rounded-xl" aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'} onClick={() => setTheme(dark ? 'light' : 'dark')}>{dark ? <Sun size={18} /> : <Moon size={18} />}</button>
+  return <button type="button" className="glass grid h-[42px] w-[42px] place-items-center rounded-xl" aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'} onClick={() => setTheme(dark ? 'light' : 'dark')}>{dark ? <Sun size={18} /> : <Moon size={18} />}</button>
 }
 
 function NavLink({ path, label, Icon, active, onClick, badge }: { path: string; label: string; Icon: any; active: boolean; onClick: () => void; badge?: number }) {
   return (
-    <Link href={`/${path}`} onClick={onClick} aria-current={active ? 'page' : undefined} className={cn('flex h-9 items-center gap-2.5 rounded-lg px-2.5 text-[13px] text-rail-ink hover:bg-white/5 hover:text-white', active && 'relative bg-rail-active font-medium text-white hover:bg-rail-active')}>
-      {active && <span aria-hidden className="absolute top-2 bottom-2 left-0 w-1 rounded-full bg-accent" />}
+    <Link href={`/${path}`} onClick={onClick} aria-current={active ? 'page' : undefined} className={cn('flex h-10 items-center gap-3 rounded-[10px] px-3 text-sm text-rail-ink hover:bg-white/5 hover:text-white', active && 'relative bg-rail-active font-medium text-white hover:bg-rail-active')}>
+      {active && <span aria-hidden className="absolute top-2.5 bottom-2.5 left-1.5 w-1 rounded-full bg-accent" />}
       <Icon size={16} className={active ? 'text-white' : 'text-rail-mute'} />{label}
       {!!badge && <span className="num ml-auto grid h-5 min-w-5 place-items-center rounded-full bg-bad px-1.5 text-[11px] font-semibold text-white">{badge > 99 ? '99+' : badge}</span>}
     </Link>
   )
 }
+
+/** "Good morning, Arun" on the dashboard, by the time of day. */
+const greeting = (name: string) => { const h = new Date().getHours(); return `Good ${h < 12 ? 'morning' : h < 17 ? 'afternoon' : 'evening'}, ${name.split(' ')[0]}` }
 
 function Shell({ children }: { children: React.ReactNode }) {
   const { me, can, logout, lookups, reloadMe } = useAuth()
@@ -113,19 +116,19 @@ function Shell({ children }: { children: React.ReactNode }) {
   const waiting = useApprovalCount()
   useEffect(() => { document.title = `${TITLES[key] ?? APP_NAME} | ${APP_NAME}` }, [key])
   const month = new Date().toLocaleDateString('en-IN', { month: 'long', year: 'numeric' })
-  const subtitle = key === 'dashboard' ? `${me.roles[0]?.name ?? 'Your'} view. ${month} so far.` : SUBTITLES[key]
+  const subtitle = key === 'dashboard' ? `${new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })} · ${me.roles[0]?.name ?? 'Your'} view of ${month}` : SUBTITLES[key]
   const tall = key === 'dashboard'
   return (
-    <div className="min-h-screen lg:grid lg:grid-cols-[240px_minmax(0,1fr)]">
-      <aside className={cn('app-rail fixed inset-y-0 left-0 z-40 flex w-60 flex-col overflow-y-auto px-3.5 pt-4 pb-3 text-rail-ink transition-transform duration-150 lg:sticky lg:top-0 lg:h-screen lg:w-auto lg:translate-x-0', open ? 'translate-x-0' : '-translate-x-full')} aria-label="Modules">
+    <div className="min-h-screen lg:grid lg:grid-cols-[256px_minmax(0,1fr)]">
+      <aside className={cn('app-rail fixed inset-y-0 left-0 z-40 flex w-64 flex-col overflow-y-auto px-4 pt-6 pb-4 text-rail-ink transition-transform duration-150 lg:sticky lg:top-0 lg:h-screen lg:w-auto lg:translate-x-0', open ? 'translate-x-0' : '-translate-x-full')} aria-label="Modules">
         <div className="flex items-center gap-2.5">
           <Mark />
-          <span className="min-w-0"><span className="block text-sm leading-5 font-semibold text-white">{APP_NAME}</span><span className="block truncate text-xs text-rail-mute">{lookups.organization.name}</span></span>
+          <span className="min-w-0"><span className="block text-[13px] leading-5 font-semibold tracking-[0.22em] text-white uppercase">One X System</span><span className="block truncate text-xs text-rail-mute">{lookups.organization.name}</span></span>
         </div>
-        <button type="button" onClick={() => { setOpen(false); openSearch() }} className="mt-4 flex h-9 w-full items-center gap-2 rounded-[10px] bg-rail-active pr-2 pl-2.5 text-[13px] text-rail-mute hover:text-rail-ink">
+        <button type="button" onClick={() => { setOpen(false); openSearch() }} className="mt-6 flex h-10 w-full items-center gap-2 rounded-[10px] bg-rail-active pr-2 pl-2.5 text-[13px] text-rail-mute hover:text-rail-ink">
           <Search size={16} className="text-rail-ink" /><span className="flex-1 text-left">Search or jump to</span><kbd className="rounded-md bg-rail px-1.5 py-0.5 text-[11px] font-semibold">Ctrl K</kbd>
         </button>
-        <nav className="mt-4 flex-1 space-y-3.5">
+        <nav className="mt-5 flex-1 space-y-4">
           {NAV.map((g) => {
             const items = g.items.filter(([, , module]) => !module || can(module))
             if (!items.length) return null
@@ -144,8 +147,8 @@ function Shell({ children }: { children: React.ReactNode }) {
           })}
         </nav>
         <Menu.Root>
-          <Menu.Trigger className="mt-3 flex w-full items-center gap-2.5 border-t border-white/10 px-1 pt-3 text-left">
-            <Avatar name={me.name} className="h-8 w-8 text-[11px] ring-0" />
+          <Menu.Trigger className="mt-4 flex w-full items-center gap-3 rounded-xl bg-rail-active p-3 text-left">
+            <Avatar name={me.name} className="h-9 w-9 bg-accent text-[12px] text-accent-ink ring-0" />
             <span className="min-w-0 flex-1"><span className="block truncate text-[13px] font-medium text-white">{me.name}</span><span className="block truncate text-xs text-rail-mute">{me.roles.map((r) => r.name).join(', ')}</span></span>
             <Ellipsis size={16} className="text-rail-mute" />
           </Menu.Trigger>
@@ -159,20 +162,19 @@ function Shell({ children }: { children: React.ReactNode }) {
       </aside>
       {open && <div className="fixed inset-0 z-30 bg-black/50 lg:hidden" onClick={() => setOpen(false)} />}
       <div className="relative flex min-w-0 flex-col">
-        <div aria-hidden className={cn('app-hero pointer-events-none absolute inset-x-0 top-0', tall ? 'h-[150px]' : 'h-[82px]')} />
-        <header className="relative z-20 flex h-16 shrink-0 items-center gap-3 px-4 text-white lg:px-7">
-          <button type="button" className="glass grid h-[38px] w-[38px] place-items-center rounded-xl lg:hidden" aria-label="Open menu" onClick={() => setOpen(true)}><MenuIcon size={18} /></button>
+        <header className="relative z-20 flex shrink-0 items-center gap-3 px-4 pt-6 pb-4 lg:px-8 lg:pt-8">
+          <button type="button" className="glass grid h-[42px] w-[42px] place-items-center rounded-xl lg:hidden" aria-label="Open menu" onClick={() => setOpen(true)}><MenuIcon size={18} /></button>
           <div className="min-w-0 flex-1">
-            <h1 className="truncate font-display text-xl leading-7 font-semibold tracking-tight">{TITLES[key] ?? APP_NAME}</h1>
-            {subtitle && <p className="hidden truncate text-[13px] text-white/65 sm:block">{subtitle}</p>}
+            <h1 className="truncate font-display text-[22px] leading-8 font-bold tracking-tight lg:text-[28px] lg:leading-9">{tall ? greeting(me.name) : TITLES[key] ?? APP_NAME}</h1>
+            {subtitle && <p className="mt-0.5 hidden truncate font-serif text-[15px] text-muted sm:block">{subtitle}</p>}
           </div>
           <SearchEverywhere pages={NAV.flatMap((g) => g.items.filter(([, , module]) => !module || can(module)).map(([path, label]) => ({ path, label })))} />
           <NewMenu />
           <Notifications />
           <ThemeToggle />
-          <Link href="/profile" aria-label="My profile" className="hidden sm:block"><Avatar name={me.name} className="h-[38px] w-[38px] text-[13px] ring-2 ring-white/20" /></Link>
+          <Link href="/profile" aria-label="My profile" className="hidden sm:block"><Avatar name={me.name} className="h-[42px] w-[42px] text-[13px] ring-1 ring-line" /></Link>
         </header>
-        <main className={cn('relative min-w-0 flex-1 px-4 pb-10 lg:px-7', tall ? 'pt-3' : 'pt-5')}>{children}</main>
+        <main className="relative min-w-0 flex-1 px-4 pt-2 pb-10 lg:px-8">{children}</main>
       </div>
       <FormDialog
         open={me.mustChangePassword} onClose={() => {}} title="Choose your own password" submitLabel="Save password" size="sm"

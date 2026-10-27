@@ -103,25 +103,25 @@ function Overview({ data, review }: { data: any; review: (id: string) => void })
   const growth = o.billedBefore ? Math.round(((o.billed - o.billedBefore) / o.billedBefore) * 100) : null
   return (
     <>
-      <StatBand items={[
+      <StatBand lead items={[
         { label: 'Billed this month', value: inr(o.billed), hint: growth === null ? 'Nothing billed last month' : `${Math.abs(growth)}% ${growth >= 0 ? 'more' : 'less'} than last month`, href: '/invoices' },
         { label: 'Collected', value: inr(o.collected), hint: `${pct(o.collected, o.billed)}% of what was billed`, href: '/payments' },
         { label: 'Profit so far', value: inr(o.profit), hint: `After ${inr(o.costs)} of costs`, tone: o.profit < 0 ? 'bad' : undefined, href: '/finance' },
         { label: 'Still to collect', value: inr(o.toCollect), hint: o.overdue ? `${o.overdue} ${o.overdue === 1 ? 'invoice is' : 'invoices are'} overdue` : 'Nothing overdue', href: '/invoices' },
       ]} />
       <Stands s={o.steps} />
-      <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+      <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
         <Panel title="Money in and money out" action={<ChartLegend second="Costs" />}><PairBars data={data.revenue} second="costs" legend={false} /></Panel>
         {data.team && <Panel title="Tasks done this month" action={<Link href="/tasks" className={linkCls}>Open tasks</Link>}><HBars rows={data.team.slice(0, 8).map((t: any) => ({ label: t.name, value: t.done, text: String(t.done) }))} empty="No tasks have been completed this month." /></Panel>}
       </div>
-      <div className="grid items-start gap-4 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+      <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
         <Panel title="Waiting for your approval" action={data.approvals?.length ? <Badge tone="warn">{data.approvals.length} waiting</Badge> : <Link href="/approvals" className={linkCls}>Approvals</Link>}>
           {data.approvals?.length ? (
             <ul className="divide-y divide-line">
               {data.approvals.map((q: any) => (
                 <li key={q.id} className="flex flex-wrap items-center gap-3 py-3 first:pt-0 last:pb-0">
                   <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-warn-soft text-warn"><FileText size={17} /></span>
-                  <span className="min-w-0 flex-1"><span className="block truncate font-medium">Quotation for {q.customer?.name ?? leadLabel(q.lead)}, {inr(q.totalAmount)}</span><span className="block truncate text-[13px] text-muted">{q.quotationNumber}, prepared by {personName(q.preparedBy)}</span></span>
+                  <span className="min-w-0 flex-1"><span className="block truncate font-medium">Quotation for {q.customer?.name ?? leadLabel(q.lead)}, {inr(q.totalAmount)}</span><span className="block truncate font-serif text-[13px] text-muted">{q.quotationNumber}, prepared by {personName(q.preparedBy)}</span></span>
                   <Button variant="primary" onClick={() => review(q.id)}>Review</Button>
                 </li>
               ))}
@@ -157,10 +157,10 @@ export default function Dashboard() {
   const kpi = (key: string) => data.kpis.find((k: any) => k.key === key)
   const fresh = can('SETTINGS') && kpi('leads')?.value === 0 && kpi('clients')?.value === 0
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       {data.overview ? <Overview data={data} review={setQuotation} /> : data.kpis.length > 0 && <StatBand items={data.kpis.map((k: any) => ({ label: k.label, value: k.money ? inrShort(k.value) : k.value, hint: k.hint, href: k.href }))} />}
       {fresh && <StartHere />}
-      <div className="grid items-start gap-4 lg:grid-cols-2">
+      <div className="grid items-start gap-6 lg:grid-cols-2">
         {!data.overview && data.approvals?.length > 0 && (
           <Panel title="Waiting for your approval" className="lg:col-span-2">
             <ul className="divide-y divide-line">
