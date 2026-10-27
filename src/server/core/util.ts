@@ -151,15 +151,24 @@ export function decrypt(r: { secretCiphertext: Uint8Array | null; secretIv: Uint
 }
 
 /** Which records a user may reach in each module when their scope is not "all". */
-export const SCOPES: Record<string, (ids: string[]) => any> = {
+/** The second argument is the scope (OWN, TEAM, DEPARTMENT) the ids came from. */
+export const SCOPES: Record<string, (ids: string[], scope?: Scope) => any> = {
   LEADS: (ids) => ({ ownerId: { in: ids } }),
   CUSTOMERS: (ids) => ({ accountManagerId: { in: ids } }),
   SALES: (ids) => ({ ownerId: { in: ids } }),
   QUOTATIONS: (ids) => ({ preparedById: { in: ids } }),
   INVOICES: (ids) => ({ customer: { accountManagerId: { in: ids } } }),
   PAYMENTS: (ids) => ({ customer: { accountManagerId: { in: ids } } }),
-  PROJECTS: (ids) => ({ OR: [{ managerId: { in: ids } }, { members: { some: { userId: { in: ids } } } }, { team: { OR: [{ leadId: { in: ids } }, { members: { some: { userId: { in: ids } } } }] } }] }),
-  TASKS: (ids) => ({ OR: [{ assigneeId: { in: ids } }, { reporterId: { in: ids } }] }),
+  // A project is reached by its manager, Team Leader, members and team; a department scope (Manager) also reaches every project of the department
+  PROJECTS: (ids, scope) => ({ OR: [
+    { managerId: { in: ids } }, { teamLeadId: { in: ids } }, { members: { some: { userId: { in: ids } } } }, { team: { OR: [{ leadId: { in: ids } }, { members: { some: { userId: { in: ids } } } }] } },
+    // a Manager sees their departments' projects, and older projects that have no department yet
+    ...(scope === 'DEPARTMENT' ? [{ department: { OR: [{ members: { some: { id: { in: ids } } } }, { headId: { in: ids } }] } }, { departmentId: null }] : []),
+  ] }),
+  TASKS: (ids, scope) => ({ OR: [
+    { assigneeId: { in: ids } }, { reporterId: { in: ids } },
+    ...(scope === 'DEPARTMENT' ? [{ project: { department: { OR: [{ members: { some: { id: { in: ids } } } }, { headId: { in: ids } }] } } }, { project: { departmentId: null } }] : []),
+  ] }),
   TICKETS: (ids) => ({ OR: [{ assigneeId: { in: ids } }, { createdById: { in: ids } }] }),
   CAMPAIGNS: (ids) => ({ managerId: { in: ids } }),
   CONTENT: (ids) => ({ OR: [{ assigneeId: { in: ids } }, { campaign: { managerId: { in: ids } } }] }),
@@ -169,7 +178,7 @@ export async function scoped(req: Request, module: string, action: 'VIEW' | 'EDI
   const s: Scope | undefined = can(req.user, module, action)
   if (!s) return null
   const ids = await scopeIds(req.user, s)
-  return ids && SCOPES[key] ? SCOPES[key](ids) : {}
+  return ids && SCOPES[key] ? SCOPES[key](ids, s) : {}
 }
 
 export const render = (text: string, vars: Record<string, string | number | null | undefined>) => text.replace(/\{\{\s*(\w+)\s*\}\}/g, (_m, k) => String(vars[k] ?? ''))

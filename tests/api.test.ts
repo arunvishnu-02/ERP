@@ -73,9 +73,9 @@ test('first-run setup creates the company with no sample records', async () => {
   assert.equal(me.perms.LEADS.VIEW, 'ALL')
   assert.equal(me.email, 'admin@example.com')
   S.lk = await ok('GET', '/lookups', S.admin)
-  assert.equal(S.lk.roles.length, 11)
+  assert.equal(S.lk.roles.length, 12)
   assert.equal(me.admin, true)
-  assert.deepEqual(['SUPER_ADMIN', 'TEAM_LEAD', 'STAFF', 'SALES_EXECUTIVE'].map((k) => S.lk.roles.find((r: any) => r.key === k)?.name), ['Admin', 'Team Lead', 'Staff', 'Sales'])
+  assert.deepEqual(['SUPER_ADMIN', 'TEAM_LEAD', 'STAFF', 'SALES_EXECUTIVE'].map((k) => S.lk.roles.find((r: any) => r.key === k)?.name), ['Admin', 'Team Leader', 'Staff', 'Sales'])
   assert.equal(S.lk.leadStages.length, 6)
   assert.equal(S.lk.organization.stateCode, '29')
   for (const p of ['/leads', '/customers', '/quotations', '/invoices', '/payments', '/projects', '/tasks', '/tickets', '/campaigns', '/services']) assert.equal((await ok('GET', p, S.admin)).total, 0, p)
@@ -303,7 +303,7 @@ test('permission changes apply at once', async () => {
   await deny('PUT', `/settings/roles/${roles.find((r: any) => r.key === 'SUPER_ADMIN').id}/permissions`, S.admin, { perms: {} })
   await deny('PATCH', `/settings/users/${S.ids.admin}`, S.admin, { status: 'SUSPENDED' }, 400)
   await ok('PUT', `/settings/roles/${sales.id}/permissions`, S.admin, { perms: sales.perms })
-  const custom = await ok('POST', '/settings/roles', S.admin, { name: 'Intern' })
+  const custom = await ok('POST', '/settings/roles', S.admin, { name: 'Trainee' })
   await ok('DELETE', `/settings/roles/${custom.id}`, S.admin)
   await ok('PATCH', `/settings/users/${S.ids.sales2}`, S.admin, { status: 'SUSPENDED' })
   await deny('GET', '/leads', S.sales2, undefined, 401)
@@ -1092,4 +1092,111 @@ test('Leave balances are shown to Admin and HR only', async () => {
   }
   const hr = await ok('GET', '/me/hr', S.hr)
   if (hr.employee) assert.ok(hr.leaveTypes.every((t: any) => typeof t.used === 'number'))
+})
+
+test('Departments and roles decide who plans projects, who is on them, and who gets tasks', async () => {
+  const lk = await ok('GET', '/lookups', S.admin)
+  const role = (key: string) => lk.roles.find((r: any) => r.key === key).id
+  const dept = (n: string) => lk.departments.find((d: any) => d.name === n)?.id
+  for (const n of ['Development', 'Digital Marketing', 'UI/UX Design', 'Video Editing']) assert.ok(dept(n), `${n} department exists`)
+  assert.equal(lk.roles.find((r: any) => r.key === 'INTERN')?.name, 'Intern')
+  const DEV = dept('Development'), MKT = dept('Digital Marketing')
+  const add = (first: string, email: string, roleKey: string, departmentId: string, extra: any = {}) => ok('POST', '/settings/users', S.admin, { firstName: first, email, password: 'Passw0rd!', roleIds: [role(roleKey)], departmentId, ...extra })
+
+  // people: department and role are saved separately
+  const a1 = await add('Arjun', 'arjun@example.com', 'STAFF', DEV)
+  const a2 = await add('Bala', 'bala@example.com', 'STAFF', DEV)
+  const intern = await add('Isha', 'isha@example.com', 'INTERN', DEV)
+  const away = await add('Sam', 'sam@example.com', 'STAFF', DEV, { status: 'SUSPENDED' })
+  assert.equal(away.status, 'SUSPENDED')
+  const mkt = await add('Megha', 'megha@example.com', 'STAFF', MKT)
+  // a Team Leader is created with the people who report to them
+  await deny('POST', '/settings/users', S.admin, { firstName: 'X', email: 'x1@example.com', password: 'Passw0rd!', roleIds: [role('TEAM_LEAD')], departmentId: DEV, teamMemberIds: [mkt.id] }, 400)
+  await deny('POST', '/settings/users', S.admin, { firstName: 'X', email: 'x2@example.com', password: 'Passw0rd!', roleIds: [role('TEAM_LEAD')], departmentId: DEV, teamMemberIds: [away.id] }, 400)
+  const tl = await add('Tara', 'tara@example.com', 'TEAM_LEAD', DEV, { teamMemberIds: [a1.id, a2.id, intern.id] })
+  const users = (await ok('GET', '/settings/users', S.admin)).items
+  assert.deepEqual([a1, a2, intern].map((u) => users.find((x: any) => x.id === u.id).managerId), [tl.id, tl.id, tl.id])
+  let team = (await ok('GET', '/lookups', S.admin)).teams.find((t: any) => t.leadId === tl.id)
+  assert.equal(team.departmentId, DEV)
+  assert.deepEqual(team.members.map((m: any) => m.userId).sort(), [tl.id, a1.id, a2.id, intern.id].sort())
+  // someone in Digital Marketing cannot report to the Development Team Leader
+  await deny('PATCH', `/settings/users/${mkt.id}`, S.admin, { managerId: tl.id }, 400)
+  await deny('PATCH', `/settings/users/${a1.id}`, S.admin, { managerId: away.id }, 400)
+
+  const devMgr = await add('Dev', 'devmgr@example.com', 'MANAGER', DEV)
+  const [T, M, A1, A2, I, K] = await Promise.all([['tara', tl], ['devmgr', devMgr], ['arjun', a1], ['bala', a2], ['isha', intern], ['megha', mkt]].map(([e]) => signIn(`${e}@example.com`, 'Passw0rd!')))
+
+  // only Admin and Managers see who can be put on a project; a Manager only sees their own department
+  const el = await ok('GET', '/projects/eligible', S.admin)
+  assert.equal(el.canCrossDepartment, true)
+  const devPeople = el.departments.find((d: any) => d.id === DEV).people
+  assert.ok(devPeople.some((p: any) => p.id === tl.id && p.teamLeader && p.team.includes(a1.id)))
+  assert.ok(!devPeople.some((p: any) => p.id === away.id), 'inactive people are not offered')
+  const mel = await ok('GET', '/projects/eligible', M)
+  assert.deepEqual(mel.departments.map((d: any) => d.id), [DEV])
+  assert.equal(mel.canCrossDepartment, false)
+  for (const who of [T, A1, I]) await deny('GET', '/projects/eligible', who, undefined)
+
+  // a Manager plans projects for their own department only
+  const base = { customerId: S.acme.id, priority: 'HIGH', dueDate: plusDays(30) }
+  await deny('POST', '/projects', M, { ...base, name: 'Ads push', departmentId: MKT }, 403)
+  await deny('POST', '/projects', M, { ...base, name: 'No dept' }, 400)
+  await deny('POST', '/projects', M, { ...base, name: 'Mixed', departmentId: DEV, memberIds: [mkt.id] }, 400)
+  await deny('POST', '/projects', M, { ...base, name: 'Cross', departmentId: DEV, crossDepartment: true, extraDepartmentIds: [MKT] }, 403)
+  await deny('POST', '/projects', M, { ...base, name: 'Away', departmentId: DEV, memberIds: [away.id] }, 400)
+  await deny('POST', '/projects', M, { ...base, name: 'Wrong lead', departmentId: DEV, teamLeadId: a1.id }, 400)
+  const app = await ok('POST', '/projects', M, { ...base, name: 'Mobile app', departmentId: DEV, teamLeadId: tl.id, memberIds: [a1.id] })
+  assert.deepEqual([app.departmentId, app.teamLeadId, app.teamId, app.members.map((m: any) => m.userId)], [DEV, tl.id, team.id, [a1.id]])
+  // Team Leaders, Staff and Interns cannot create projects
+  for (const who of [T, A1, I]) await deny('POST', '/projects', who, { ...base, name: 'Mine', departmentId: DEV })
+
+  // only Admin opens a project to other departments
+  await deny('POST', '/projects', S.admin, { ...base, name: 'Launch', departmentId: DEV, memberIds: [mkt.id] }, 400)
+  const launch = await ok('POST', '/projects', S.admin, { ...base, name: 'Launch', departmentId: DEV, crossDepartment: true, extraDepartmentIds: [MKT], teamLeadId: tl.id, memberIds: [a2.id, mkt.id] })
+  assert.deepEqual(launch.extraDepartments.map((x: any) => x.department.id), [MKT])
+  await deny('PATCH', `/projects/${launch.id}`, M, { crossDepartment: false })
+
+  // who sees what
+  const sees = async (who: string, id: string) => (await ok('GET', '/projects?limit=100', who)).items.some((p: any) => p.id === id)
+  assert.deepEqual(await Promise.all([S.admin, M, T, A1, I, K].map((w) => sees(w, app.id))), [true, true, true, true, true, false])
+  assert.equal(await sees(K, launch.id), true)
+  assert.equal(await sees(S.manager, app.id), false, 'a Manager of another department does not see it')
+  await deny('GET', `/projects/${app.id}/detail`, K, undefined, 404)
+
+  // the Team Leader runs the project but cannot change its department or people
+  assert.equal((await ok('PATCH', `/projects/${app.id}`, T, { status: 'IN_PROGRESS' })).status, 'IN_PROGRESS')
+  await deny('PATCH', `/projects/${app.id}`, T, { departmentId: MKT })
+  await deny('PATCH', `/projects/${app.id}`, T, { memberIds: [a1.id, a2.id] })
+  await deny('PUT', `/projects/${app.id}/members`, T, { userIds: [a2.id] })
+  // and gives tasks only inside the team and the project's department
+  const t1 = await ok('POST', '/tasks', T, { title: 'Login screen', projectId: app.id, assigneeId: a1.id, dueDate: plusDays(2) })
+  await ok('POST', '/tasks', T, { title: 'Splash screen', projectId: app.id, assigneeId: intern.id, dueDate: plusDays(-1) })
+  await deny('POST', '/tasks', T, { title: 'Ads', projectId: app.id, assigneeId: mkt.id })
+  await deny('POST', '/tasks', M, { title: 'Ads', projectId: app.id, assigneeId: mkt.id })
+  // on the cross-department project a Marketing member can get work
+  await ok('POST', '/tasks', S.admin, { title: 'Launch post', projectId: launch.id, assigneeId: mkt.id })
+
+  // Staff and Interns update their own work but cannot hand work to others
+  assert.equal((await ok('PATCH', `/tasks/${t1.id}`, A1, { status: 'DONE' })).status, 'DONE')
+  await deny('POST', '/tasks', A1, { title: 'For Bala', projectId: app.id, assigneeId: a2.id })
+  await deny('POST', '/tasks', I, { title: 'For Arjun', projectId: app.id, assigneeId: a1.id })
+  await deny('PATCH', `/tasks/${t1.id}`, I, { status: 'TODO' }, 404)
+  assert.ok((await ok('GET', '/tasks?limit=100', I)).items.every((t: any) => t.assigneeId === intern.id || t.reporterId === intern.id))
+
+  // the Team Leader's dashboard
+  const board = await ok('GET', '/dashboard/team', T)
+  assert.equal(board.leads, true)
+  const row = (id: string) => board.members.find((m: any) => m.id === id)
+  assert.deepEqual([row(a1.id).done, row(intern.id).overdue], [1, 1])
+  assert.ok(board.projects.some((p: any) => p.id === app.id && p.progress === 50))
+  assert.equal((await ok('GET', '/dashboard/team', A1)).leads, false)
+
+  // inactive people get no new work
+  await ok('PATCH', `/settings/users/${a2.id}`, S.admin, { status: 'SUSPENDED' })
+  await deny('POST', '/tasks', T, { title: 'Late work', projectId: app.id, assigneeId: a2.id }, 400)
+  await deny('PATCH', `/projects/${app.id}`, M, { memberIds: [a1.id, a2.id] }, 400)
+  // moving someone to another department takes them out of the old team
+  await ok('PATCH', `/settings/users/${a1.id}`, S.admin, { departmentId: MKT, managerId: '' })
+  team = (await ok('GET', '/lookups', S.admin)).teams.find((t: any) => t.leadId === tl.id)
+  assert.ok(!team.members.some((m: any) => m.userId === a1.id))
 })

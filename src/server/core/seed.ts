@@ -17,9 +17,11 @@ type Grants = Record<string, [letters: string, scope?: string]>
 export const ROLES: { key: string; name: string; description: string; grants: Grants | 'ALL' }[] = [
   { key: 'SUPER_ADMIN', name: 'Admin', description: 'Full access to everything, including all money', grants: 'ALL' },
   { key: 'MANAGER', name: 'Manager', description: 'Runs projects, tasks, tickets and leads; approves leave. Sees no money',
-    grants: { DASHBOARD: ['V'], LEADS: ['VCEDXI'], CUSTOMERS: ['VCEDXI'], SALES: ['VCED'], PROJECTS: ['VCEDX'], TASKS: ['VCED'], MARKETING: ['VCED'], WEBSITES: ['VCE'], TICKETS: ['VCED'], DOCUMENTS: ['VCE'], HR: ['VA'], AUTOMATION: ['V'] } },
-  { key: 'TEAM_LEAD', name: 'Team Lead', description: 'Assigns tasks to the team and approves their leave first. Sees no money',
+    grants: { DASHBOARD: ['V'], LEADS: ['VCEDXI'], CUSTOMERS: ['VCEDXI'], SALES: ['VCED'], PROJECTS: ['VCEDX', 'DEPARTMENT'], TASKS: ['VCED', 'DEPARTMENT'], MARKETING: ['VCED'], WEBSITES: ['VCE'], TICKETS: ['VCED'], DOCUMENTS: ['VCE'], HR: ['VA'], AUTOMATION: ['V'] } },
+  { key: 'TEAM_LEAD', name: 'Team Leader', description: 'Assigns tasks to the team and approves their leave first. Sees no money',
     grants: { DASHBOARD: ['V'], CUSTOMERS: ['V'], PROJECTS: ['VE', 'TEAM'], TASKS: ['VCED', 'TEAM'], TICKETS: ['VCE', 'TEAM'], WEBSITES: ['V'], DOCUMENTS: ['VC'], HR: ['VA', 'TEAM'] } },
+  { key: 'INTERN', name: 'Intern', description: 'Own tasks and the projects they are on, like Staff',
+    grants: { DASHBOARD: ['V'], PROJECTS: ['V', 'OWN'], TASKS: ['VCE', 'OWN'], TICKETS: ['VCE', 'OWN'], DOCUMENTS: ['V'] } },
   { key: 'SALES_EXECUTIVE', name: 'Sales', description: 'Works own leads and follow-ups. No quotations or amounts',
     grants: { DASHBOARD: ['V'], LEADS: ['VCE', 'OWN'], CUSTOMERS: ['VCE', 'OWN'], SALES: ['VCE', 'OWN'], TASKS: ['VCE', 'OWN'] } },
   { key: 'STAFF', name: 'Staff', description: 'Own tasks, timesheet, tickets, leave and payslips',
@@ -48,7 +50,7 @@ export async function bootstrap(tx: Tx, d: { companyName: string; stateCode: str
   })
   const organizationId = org.id
   const branch = await tx.branch.create({ data: { organizationId, name: 'Head office', code: 'HO', isHeadOffice: true, state: org.state, stateCode: org.stateCode, gstin: org.gstin } })
-  const depts = ['Management', 'Sales', 'Marketing', 'Development', 'Design', 'Accounts', 'HR']
+  const depts = ['Management', 'Sales', 'Development', 'Digital Marketing', 'UI/UX Design', 'Video Editing', 'Accounts', 'HR']
   await tx.department.createMany({ data: depts.map((name) => ({ organizationId, name, branchId: branch.id })) })
   const management = await tx.department.findFirstOrThrow({ where: { organizationId, name: 'Management' } })
 

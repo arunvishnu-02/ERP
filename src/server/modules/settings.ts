@@ -6,6 +6,7 @@ import { docEmailHtml } from '../core/email-html'
 import { sendMail } from '../core/mail'
 import { APP_NAME } from '../../lib/brand'
 import { LETTER, LETTER_OF } from '../core/seed'
+import { checkReportsTo, syncTeams } from '../core/assign'
 import { audit, encrypt, nextNumber, stateName, STATES, today } from '../core/util'
 import { prisma, type Tx } from '../db'
 import * as E from '../../generated/prisma/enums'
@@ -83,7 +84,7 @@ settingsRouter.get('/users', authorize(S, 'VIEW'), async (req, res) => {
 })
 
 settingsRouter.post('/users', authorize(S, 'CREATE'), async (req, res) => {
-  const d = parse(shape({ ...userSpec, password: 's', roleIds: 's[]', designation: 's?' }), req.body)
+  const d = parse(shape({ ...userSpec, password: 's', roleIds: 's[]', designation: 's?', 'teamMemberIds?': 's[]', 'status?': ['ACTIVE', 'SUSPENDED', 'DEACTIVATED'] }), req.body)
   if (d.password.length < 8) throw bad('Use a password of at least 8 characters')
   if (!d.roleIds.length) throw bad('Choose at least one role')
   const organizationId = req.user.organizationId
@@ -91,30 +92,38 @@ settingsRouter.post('/users', authorize(S, 'CREATE'), async (req, res) => {
   const user = await prisma.$transaction(async (tx) => {
     const roles = await tx.role.findMany({ where: { id: { in: d.roleIds }, organizationId } })
     if (roles.length !== d.roleIds.length) throw bad('Choose a valid role')
+    if (d.departmentId && !(await tx.department.findFirst({ where: { id: d.departmentId, organizationId } }))) throw notFound('Department')
+    await checkReportsTo(tx, organizationId, d.managerId, d.departmentId)
     const u = await tx.user.create({
       data: {
         organizationId, email: d.email.toLowerCase(), firstName: d.firstName, lastName: d.lastName ?? null, phone: d.phone ?? null, departmentId: d.departmentId ?? null,
-        branchId: d.branchId ?? null, managerId: d.managerId ?? null, passwordHash, status: 'ACTIVE', mustChangePassword: true, roles: { create: roles.map((r) => ({ roleId: r.id })) },
+        branchId: d.branchId ?? null, managerId: d.managerId ?? null, passwordHash, status: d.status ?? 'ACTIVE', mustChangePassword: true, roles: { create: roles.map((r) => ({ roleId: r.id })) },
       },
     })
     await tx.employee.create({
       data: { organizationId, userId: u.id, employeeCode: await nextNumber(tx, organizationId, 'EMPLOYEE'), firstName: d.firstName, lastName: d.lastName ?? null, designation: d.designation || roles[0].name, dateOfJoining: today(), departmentId: d.departmentId ?? null, branchId: d.branchId ?? null, phone: d.phone ?? null },
     })
-    await audit(tx, req, 'CREATE', S, 'User', u.id, null, { email: u.email, roles: roles.map((r) => r.key) })
+    await syncTeams(tx, organizationId, u.id, d.teamMemberIds)
+    await audit(tx, req, 'CREATE', S, 'User', u.id, null, { email: u.email, roles: roles.map((r) => r.key), departmentId: d.departmentId ?? null, managerId: d.managerId ?? null })
     return tx.user.findUniqueOrThrow({ where: { id: u.id }, include: userInclude })
   })
   res.status(201).json(user)
 })
 
 settingsRouter.patch('/users/:id', authorize(S, 'EDIT'), async (req, res) => {
-  const d = parse(shape({ ...userSpec, 'roleIds?': 's[]', 'status?': ['ACTIVE', 'SUSPENDED', 'DEACTIVATED'] }).partial(), req.body)
+  const d = parse(shape({ ...userSpec, 'roleIds?': 's[]', 'status?': ['ACTIVE', 'SUSPENDED', 'DEACTIVATED'], 'teamMemberIds?': 's[]', 'designation?': 's' }).partial(), req.body)
   const organizationId = req.user.organizationId
   const user = await prisma.$transaction(async (tx) => {
     const before = await tx.user.findFirst({ where: { id: String(req.params.id), organizationId, deletedAt: null } })
     if (!before) throw notFound('User')
-    const { roleIds, ...cols } = d
+    const { roleIds, teamMemberIds, designation, ...cols } = d
     if (cols.email) cols.email = cols.email.toLowerCase()
+    const departmentId = cols.departmentId !== undefined ? cols.departmentId : before.departmentId
+    if (cols.departmentId && !(await tx.department.findFirst({ where: { id: cols.departmentId, organizationId } }))) throw notFound('Department')
+    if (cols.managerId !== undefined || cols.departmentId !== undefined) await checkReportsTo(tx, organizationId, cols.managerId !== undefined ? cols.managerId : before.managerId, departmentId, before.id)
     await tx.user.update({ where: { id: before.id }, data: cols })
+    if (cols.departmentId !== undefined) await tx.employee.updateMany({ where: { userId: before.id }, data: { departmentId: cols.departmentId ?? null } })
+    if (designation !== undefined) await tx.employee.updateMany({ where: { userId: before.id }, data: { designation } })
     if (roleIds) {
       if (!roleIds.length) throw bad('Choose at least one role')
       const roles = await tx.role.findMany({ where: { id: { in: roleIds }, organizationId } })
@@ -123,6 +132,7 @@ settingsRouter.patch('/users/:id', authorize(S, 'EDIT'), async (req, res) => {
       await tx.userRole.createMany({ data: roleIds.map((roleId: string) => ({ userId: before.id, roleId })) })
     }
     if (cols.status && cols.status !== 'ACTIVE') await tx.session.deleteMany({ where: { userId: before.id } })
+    if (roleIds || teamMemberIds || cols.departmentId !== undefined || cols.managerId !== undefined) await syncTeams(tx, organizationId, before.id, teamMemberIds)
     await assertAdminRemains(tx, organizationId)
     await audit(tx, req, roleIds ? 'PERMISSION_CHANGE' : 'UPDATE', S, 'User', before.id, null, d)
     return tx.user.findUniqueOrThrow({ where: { id: before.id }, include: userInclude })

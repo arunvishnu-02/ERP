@@ -343,6 +343,7 @@ export type UserWhereInput = {
   approvalRequests?: Prisma.ApprovalRequestListRelationFilter
   approvalSteps?: Prisma.ApprovalStepListRelationFilter
   managedProjects?: Prisma.ProjectListRelationFilter
+  ledProjects?: Prisma.ProjectListRelationFilter
   projectMemberships?: Prisma.ProjectMemberListRelationFilter
   assignedTasks?: Prisma.TaskListRelationFilter
   reportedTasks?: Prisma.TaskListRelationFilter
@@ -418,6 +419,7 @@ export type UserOrderByWithRelationInput = {
   approvalRequests?: Prisma.ApprovalRequestOrderByRelationAggregateInput
   approvalSteps?: Prisma.ApprovalStepOrderByRelationAggregateInput
   managedProjects?: Prisma.ProjectOrderByRelationAggregateInput
+  ledProjects?: Prisma.ProjectOrderByRelationAggregateInput
   projectMemberships?: Prisma.ProjectMemberOrderByRelationAggregateInput
   assignedTasks?: Prisma.TaskOrderByRelationAggregateInput
   reportedTasks?: Prisma.TaskOrderByRelationAggregateInput
@@ -497,6 +499,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   approvalRequests?: Prisma.ApprovalRequestListRelationFilter
   approvalSteps?: Prisma.ApprovalStepListRelationFilter
   managedProjects?: Prisma.ProjectListRelationFilter
+  ledProjects?: Prisma.ProjectListRelationFilter
   projectMemberships?: Prisma.ProjectMemberListRelationFilter
   assignedTasks?: Prisma.TaskListRelationFilter
   reportedTasks?: Prisma.TaskListRelationFilter
@@ -624,6 +627,7 @@ export type UserCreateInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -695,6 +699,7 @@ export type UserUncheckedCreateInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -766,6 +771,7 @@ export type UserUpdateInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -837,6 +843,7 @@ export type UserUncheckedUpdateInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -1567,12 +1574,28 @@ export type UserCreateNestedOneWithoutManagedProjectsInput = {
   connect?: Prisma.UserWhereUniqueInput
 }
 
+export type UserCreateNestedOneWithoutLedProjectsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutLedProjectsInput, Prisma.UserUncheckedCreateWithoutLedProjectsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutLedProjectsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
 export type UserUpdateOneRequiredWithoutManagedProjectsNestedInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutManagedProjectsInput, Prisma.UserUncheckedCreateWithoutManagedProjectsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutManagedProjectsInput
   upsert?: Prisma.UserUpsertWithoutManagedProjectsInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutManagedProjectsInput, Prisma.UserUpdateWithoutManagedProjectsInput>, Prisma.UserUncheckedUpdateWithoutManagedProjectsInput>
+}
+
+export type UserUpdateOneWithoutLedProjectsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutLedProjectsInput, Prisma.UserUncheckedCreateWithoutLedProjectsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutLedProjectsInput
+  upsert?: Prisma.UserUpsertWithoutLedProjectsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutLedProjectsInput, Prisma.UserUpdateWithoutLedProjectsInput>, Prisma.UserUncheckedUpdateWithoutLedProjectsInput>
 }
 
 export type UserCreateNestedOneWithoutProjectMembershipsInput = {
@@ -1930,6 +1953,7 @@ export type UserCreateWithoutOrganizationInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -2000,6 +2024,7 @@ export type UserUncheckedCreateWithoutOrganizationInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -2124,6 +2149,7 @@ export type UserCreateWithoutBranchInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -2194,6 +2220,7 @@ export type UserUncheckedCreateWithoutBranchInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -2290,6 +2317,7 @@ export type UserCreateWithoutHeadedDepartmentsInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -2360,6 +2388,7 @@ export type UserUncheckedCreateWithoutHeadedDepartmentsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -2435,6 +2464,7 @@ export type UserCreateWithoutDepartmentInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -2505,6 +2535,7 @@ export type UserUncheckedCreateWithoutDepartmentInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -2596,6 +2627,7 @@ export type UserUpdateWithoutHeadedDepartmentsInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -2666,6 +2698,7 @@ export type UserUncheckedUpdateWithoutHeadedDepartmentsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -2752,6 +2785,7 @@ export type UserCreateWithoutLedTeamsInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -2822,6 +2856,7 @@ export type UserUncheckedCreateWithoutLedTeamsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -2908,6 +2943,7 @@ export type UserUpdateWithoutLedTeamsInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -2978,6 +3014,7 @@ export type UserUncheckedUpdateWithoutLedTeamsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -3048,6 +3085,7 @@ export type UserCreateWithoutTeamMembershipsInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -3118,6 +3156,7 @@ export type UserUncheckedCreateWithoutTeamMembershipsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -3204,6 +3243,7 @@ export type UserUpdateWithoutTeamMembershipsInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -3274,6 +3314,7 @@ export type UserUncheckedUpdateWithoutTeamMembershipsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -3344,6 +3385,7 @@ export type UserCreateWithoutReportsInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -3414,6 +3456,7 @@ export type UserUncheckedCreateWithoutReportsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -3489,6 +3532,7 @@ export type UserCreateWithoutManagerInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -3559,6 +3603,7 @@ export type UserUncheckedCreateWithoutManagerInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -3650,6 +3695,7 @@ export type UserUpdateWithoutReportsInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -3720,6 +3766,7 @@ export type UserUncheckedUpdateWithoutReportsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -3806,6 +3853,7 @@ export type UserCreateWithoutRolesInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -3876,6 +3924,7 @@ export type UserUncheckedCreateWithoutRolesInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -3962,6 +4011,7 @@ export type UserUpdateWithoutRolesInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -4032,6 +4082,7 @@ export type UserUncheckedUpdateWithoutRolesInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -4102,6 +4153,7 @@ export type UserCreateWithoutSessionsInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -4172,6 +4224,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -4258,6 +4311,7 @@ export type UserUpdateWithoutSessionsInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -4328,6 +4382,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -4398,6 +4453,7 @@ export type UserCreateWithoutPasswordResetTokensInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -4468,6 +4524,7 @@ export type UserUncheckedCreateWithoutPasswordResetTokensInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -4554,6 +4611,7 @@ export type UserUpdateWithoutPasswordResetTokensInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -4624,6 +4682,7 @@ export type UserUncheckedUpdateWithoutPasswordResetTokensInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -4694,6 +4753,7 @@ export type UserCreateWithoutLoginCodesInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -4764,6 +4824,7 @@ export type UserUncheckedCreateWithoutLoginCodesInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -4850,6 +4911,7 @@ export type UserUpdateWithoutLoginCodesInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -4920,6 +4982,7 @@ export type UserUncheckedUpdateWithoutLoginCodesInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -4990,6 +5053,7 @@ export type UserCreateWithoutCalendarEventsInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -5060,6 +5124,7 @@ export type UserUncheckedCreateWithoutCalendarEventsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -5146,6 +5211,7 @@ export type UserUpdateWithoutCalendarEventsInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -5216,6 +5282,7 @@ export type UserUncheckedUpdateWithoutCalendarEventsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -5286,6 +5353,7 @@ export type UserCreateWithoutAuditLogsInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -5356,6 +5424,7 @@ export type UserUncheckedCreateWithoutAuditLogsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -5442,6 +5511,7 @@ export type UserUpdateWithoutAuditLogsInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -5512,6 +5582,7 @@ export type UserUncheckedUpdateWithoutAuditLogsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -5582,6 +5653,7 @@ export type UserCreateWithoutNotesInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -5652,6 +5724,7 @@ export type UserUncheckedCreateWithoutNotesInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -5738,6 +5811,7 @@ export type UserUpdateWithoutNotesInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -5808,6 +5882,7 @@ export type UserUncheckedUpdateWithoutNotesInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -5878,6 +5953,7 @@ export type UserCreateWithoutCommentsInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -5948,6 +6024,7 @@ export type UserUncheckedCreateWithoutCommentsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -6034,6 +6111,7 @@ export type UserUpdateWithoutCommentsInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -6104,6 +6182,7 @@ export type UserUncheckedUpdateWithoutCommentsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -6174,6 +6253,7 @@ export type UserCreateWithoutActivitiesInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -6244,6 +6324,7 @@ export type UserUncheckedCreateWithoutActivitiesInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -6330,6 +6411,7 @@ export type UserUpdateWithoutActivitiesInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -6400,6 +6482,7 @@ export type UserUncheckedUpdateWithoutActivitiesInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -6470,6 +6553,7 @@ export type UserCreateWithoutOwnedLeadsInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -6540,6 +6624,7 @@ export type UserUncheckedCreateWithoutOwnedLeadsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -6626,6 +6711,7 @@ export type UserUpdateWithoutOwnedLeadsInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -6696,6 +6782,7 @@ export type UserUncheckedUpdateWithoutOwnedLeadsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -6766,6 +6853,7 @@ export type UserCreateWithoutFollowUpsInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -6836,6 +6924,7 @@ export type UserUncheckedCreateWithoutFollowUpsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -6922,6 +7011,7 @@ export type UserUpdateWithoutFollowUpsInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -6992,6 +7082,7 @@ export type UserUncheckedUpdateWithoutFollowUpsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -7062,6 +7153,7 @@ export type UserCreateWithoutManagedCustomersInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -7132,6 +7224,7 @@ export type UserUncheckedCreateWithoutManagedCustomersInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -7218,6 +7311,7 @@ export type UserUpdateWithoutManagedCustomersInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -7288,6 +7382,7 @@ export type UserUncheckedUpdateWithoutManagedCustomersInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -7358,6 +7453,7 @@ export type UserCreateWithoutOwnedDealsInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -7428,6 +7524,7 @@ export type UserUncheckedCreateWithoutOwnedDealsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -7514,6 +7611,7 @@ export type UserUpdateWithoutOwnedDealsInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -7584,6 +7682,7 @@ export type UserUncheckedUpdateWithoutOwnedDealsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -7654,6 +7753,7 @@ export type UserCreateWithoutOrganizedMeetingsInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -7724,6 +7824,7 @@ export type UserUncheckedCreateWithoutOrganizedMeetingsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -7810,6 +7911,7 @@ export type UserUpdateWithoutOrganizedMeetingsInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -7880,6 +7982,7 @@ export type UserUncheckedUpdateWithoutOrganizedMeetingsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -7950,6 +8053,7 @@ export type UserCreateWithoutMeetingInvitesInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -8020,6 +8124,7 @@ export type UserUncheckedCreateWithoutMeetingInvitesInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -8106,6 +8211,7 @@ export type UserUpdateWithoutMeetingInvitesInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -8176,6 +8282,7 @@ export type UserUncheckedUpdateWithoutMeetingInvitesInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -8246,6 +8353,7 @@ export type UserCreateWithoutCallLogsInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -8316,6 +8424,7 @@ export type UserUncheckedCreateWithoutCallLogsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -8402,6 +8511,7 @@ export type UserUpdateWithoutCallLogsInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -8472,6 +8582,7 @@ export type UserUncheckedUpdateWithoutCallLogsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -8542,6 +8653,7 @@ export type UserCreateWithoutPreparedQuotationsInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -8612,6 +8724,7 @@ export type UserUncheckedCreateWithoutPreparedQuotationsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -8698,6 +8811,7 @@ export type UserUpdateWithoutPreparedQuotationsInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -8768,6 +8882,7 @@ export type UserUncheckedUpdateWithoutPreparedQuotationsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -8838,6 +8953,7 @@ export type UserCreateWithoutApprovalRulesInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -8908,6 +9024,7 @@ export type UserUncheckedCreateWithoutApprovalRulesInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -8994,6 +9111,7 @@ export type UserUpdateWithoutApprovalRulesInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -9064,6 +9182,7 @@ export type UserUncheckedUpdateWithoutApprovalRulesInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -9134,6 +9253,7 @@ export type UserCreateWithoutApprovalRequestsInput = {
   approvalRules?: Prisma.ApprovalRuleCreateNestedManyWithoutApproverUserInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -9204,6 +9324,7 @@ export type UserUncheckedCreateWithoutApprovalRequestsInput = {
   approvalRules?: Prisma.ApprovalRuleUncheckedCreateNestedManyWithoutApproverUserInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -9290,6 +9411,7 @@ export type UserUpdateWithoutApprovalRequestsInput = {
   approvalRules?: Prisma.ApprovalRuleUpdateManyWithoutApproverUserNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -9360,6 +9482,7 @@ export type UserUncheckedUpdateWithoutApprovalRequestsInput = {
   approvalRules?: Prisma.ApprovalRuleUncheckedUpdateManyWithoutApproverUserNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -9430,6 +9553,7 @@ export type UserCreateWithoutApprovalStepsInput = {
   approvalRules?: Prisma.ApprovalRuleCreateNestedManyWithoutApproverUserInput
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -9500,6 +9624,7 @@ export type UserUncheckedCreateWithoutApprovalStepsInput = {
   approvalRules?: Prisma.ApprovalRuleUncheckedCreateNestedManyWithoutApproverUserInput
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -9586,6 +9711,7 @@ export type UserUpdateWithoutApprovalStepsInput = {
   approvalRules?: Prisma.ApprovalRuleUpdateManyWithoutApproverUserNestedInput
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -9656,6 +9782,7 @@ export type UserUncheckedUpdateWithoutApprovalStepsInput = {
   approvalRules?: Prisma.ApprovalRuleUncheckedUpdateManyWithoutApproverUserNestedInput
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -9726,6 +9853,7 @@ export type UserCreateWithoutManagedProjectsInput = {
   approvalRules?: Prisma.ApprovalRuleCreateNestedManyWithoutApproverUserInput
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -9796,6 +9924,7 @@ export type UserUncheckedCreateWithoutManagedProjectsInput = {
   approvalRules?: Prisma.ApprovalRuleUncheckedCreateNestedManyWithoutApproverUserInput
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -9822,6 +9951,153 @@ export type UserUncheckedCreateWithoutManagedProjectsInput = {
 export type UserCreateOrConnectWithoutManagedProjectsInput = {
   where: Prisma.UserWhereUniqueInput
   create: Prisma.XOR<Prisma.UserCreateWithoutManagedProjectsInput, Prisma.UserUncheckedCreateWithoutManagedProjectsInput>
+}
+
+export type UserCreateWithoutLedProjectsInput = {
+  id?: string
+  email: string
+  phone?: string | null
+  passwordHash: string
+  firstName: string
+  lastName?: string | null
+  avatarFileId?: string | null
+  status?: $Enums.UserStatus
+  twoFactorEnabled?: boolean
+  twoFactorSecret?: string | null
+  mustChangePassword?: boolean
+  emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
+  lastLoginAt?: Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  organization: Prisma.OrganizationCreateNestedOneWithoutUsersInput
+  branch?: Prisma.BranchCreateNestedOneWithoutUsersInput
+  department?: Prisma.DepartmentCreateNestedOneWithoutMembersInput
+  manager?: Prisma.UserCreateNestedOneWithoutReportsInput
+  reports?: Prisma.UserCreateNestedManyWithoutManagerInput
+  headedDepartments?: Prisma.DepartmentCreateNestedManyWithoutHeadInput
+  ledTeams?: Prisma.TeamCreateNestedManyWithoutLeadInput
+  teamMemberships?: Prisma.TeamMemberCreateNestedManyWithoutUserInput
+  roles?: Prisma.UserRoleCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenCreateNestedManyWithoutUserInput
+  loginCodes?: Prisma.LoginCodeCreateNestedManyWithoutUserInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutCreatedByInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteCreateNestedManyWithoutAuthorInput
+  comments?: Prisma.CommentCreateNestedManyWithoutAuthorInput
+  activities?: Prisma.ActivityCreateNestedManyWithoutActorInput
+  ownedLeads?: Prisma.LeadCreateNestedManyWithoutOwnerInput
+  followUps?: Prisma.FollowUpCreateNestedManyWithoutAssignedToInput
+  managedCustomers?: Prisma.CustomerCreateNestedManyWithoutAccountManagerInput
+  ownedDeals?: Prisma.DealCreateNestedManyWithoutOwnerInput
+  organizedMeetings?: Prisma.MeetingCreateNestedManyWithoutOrganizerInput
+  meetingInvites?: Prisma.MeetingAttendeeCreateNestedManyWithoutUserInput
+  callLogs?: Prisma.CallLogCreateNestedManyWithoutUserInput
+  preparedQuotations?: Prisma.QuotationCreateNestedManyWithoutPreparedByInput
+  approvalRules?: Prisma.ApprovalRuleCreateNestedManyWithoutApproverUserInput
+  approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
+  approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
+  managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
+  assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
+  reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
+  timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutUserInput
+  managedCampaigns?: Prisma.CampaignCreateNestedManyWithoutManagerInput
+  contentItems?: Prisma.ContentItemCreateNestedManyWithoutAssigneeInput
+  credentialAccessLogs?: Prisma.CredentialAccessLogCreateNestedManyWithoutUserInput
+  assignedTickets?: Prisma.TicketCreateNestedManyWithoutAssigneeInput
+  ownedDocuments?: Prisma.DocumentCreateNestedManyWithoutOwnerInput
+  employee?: Prisma.EmployeeCreateNestedOneWithoutUserInput
+  leaveApprovals?: Prisma.LeaveRequestCreateNestedManyWithoutApproverInput
+  performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutReviewerInput
+  paidExpenses?: Prisma.ExpenseCreateNestedManyWithoutPaidByInput
+  savedReports?: Prisma.SavedReportCreateNestedManyWithoutOwnerInput
+  exportJobs?: Prisma.ExportJobCreateNestedManyWithoutRequestedByInput
+  importJobs?: Prisma.ImportJobCreateNestedManyWithoutRequestedByInput
+  dashboardWidgets?: Prisma.DashboardWidgetCreateNestedManyWithoutUserInput
+  savedFilters?: Prisma.SavedFilterCreateNestedManyWithoutUserInput
+  sentMessages?: Prisma.MessageCreateNestedManyWithoutSentByInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutLedProjectsInput = {
+  id?: string
+  organizationId: string
+  branchId?: string | null
+  departmentId?: string | null
+  email: string
+  phone?: string | null
+  passwordHash: string
+  firstName: string
+  lastName?: string | null
+  avatarFileId?: string | null
+  status?: $Enums.UserStatus
+  managerId?: string | null
+  twoFactorEnabled?: boolean
+  twoFactorSecret?: string | null
+  mustChangePassword?: boolean
+  emailVerifiedAt?: Date | string | null
+  googleSub?: string | null
+  lastLoginAt?: Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  reports?: Prisma.UserUncheckedCreateNestedManyWithoutManagerInput
+  headedDepartments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutHeadInput
+  ledTeams?: Prisma.TeamUncheckedCreateNestedManyWithoutLeadInput
+  teamMemberships?: Prisma.TeamMemberUncheckedCreateNestedManyWithoutUserInput
+  roles?: Prisma.UserRoleUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedCreateNestedManyWithoutUserInput
+  loginCodes?: Prisma.LoginCodeUncheckedCreateNestedManyWithoutUserInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutCreatedByInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutAuthorInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutAuthorInput
+  activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutActorInput
+  ownedLeads?: Prisma.LeadUncheckedCreateNestedManyWithoutOwnerInput
+  followUps?: Prisma.FollowUpUncheckedCreateNestedManyWithoutAssignedToInput
+  managedCustomers?: Prisma.CustomerUncheckedCreateNestedManyWithoutAccountManagerInput
+  ownedDeals?: Prisma.DealUncheckedCreateNestedManyWithoutOwnerInput
+  organizedMeetings?: Prisma.MeetingUncheckedCreateNestedManyWithoutOrganizerInput
+  meetingInvites?: Prisma.MeetingAttendeeUncheckedCreateNestedManyWithoutUserInput
+  callLogs?: Prisma.CallLogUncheckedCreateNestedManyWithoutUserInput
+  preparedQuotations?: Prisma.QuotationUncheckedCreateNestedManyWithoutPreparedByInput
+  approvalRules?: Prisma.ApprovalRuleUncheckedCreateNestedManyWithoutApproverUserInput
+  approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
+  approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
+  managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+  assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
+  reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
+  timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutUserInput
+  managedCampaigns?: Prisma.CampaignUncheckedCreateNestedManyWithoutManagerInput
+  contentItems?: Prisma.ContentItemUncheckedCreateNestedManyWithoutAssigneeInput
+  credentialAccessLogs?: Prisma.CredentialAccessLogUncheckedCreateNestedManyWithoutUserInput
+  assignedTickets?: Prisma.TicketUncheckedCreateNestedManyWithoutAssigneeInput
+  ownedDocuments?: Prisma.DocumentUncheckedCreateNestedManyWithoutOwnerInput
+  employee?: Prisma.EmployeeUncheckedCreateNestedOneWithoutUserInput
+  leaveApprovals?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutApproverInput
+  performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutReviewerInput
+  paidExpenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutPaidByInput
+  savedReports?: Prisma.SavedReportUncheckedCreateNestedManyWithoutOwnerInput
+  exportJobs?: Prisma.ExportJobUncheckedCreateNestedManyWithoutRequestedByInput
+  importJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutRequestedByInput
+  dashboardWidgets?: Prisma.DashboardWidgetUncheckedCreateNestedManyWithoutUserInput
+  savedFilters?: Prisma.SavedFilterUncheckedCreateNestedManyWithoutUserInput
+  sentMessages?: Prisma.MessageUncheckedCreateNestedManyWithoutSentByInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutLedProjectsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutLedProjectsInput, Prisma.UserUncheckedCreateWithoutLedProjectsInput>
 }
 
 export type UserUpsertWithoutManagedProjectsInput = {
@@ -9882,6 +10158,7 @@ export type UserUpdateWithoutManagedProjectsInput = {
   approvalRules?: Prisma.ApprovalRuleUpdateManyWithoutApproverUserNestedInput
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -9952,6 +10229,160 @@ export type UserUncheckedUpdateWithoutManagedProjectsInput = {
   approvalRules?: Prisma.ApprovalRuleUncheckedUpdateManyWithoutApproverUserNestedInput
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
+  projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+  assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+  reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
+  timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutUserNestedInput
+  managedCampaigns?: Prisma.CampaignUncheckedUpdateManyWithoutManagerNestedInput
+  contentItems?: Prisma.ContentItemUncheckedUpdateManyWithoutAssigneeNestedInput
+  credentialAccessLogs?: Prisma.CredentialAccessLogUncheckedUpdateManyWithoutUserNestedInput
+  assignedTickets?: Prisma.TicketUncheckedUpdateManyWithoutAssigneeNestedInput
+  ownedDocuments?: Prisma.DocumentUncheckedUpdateManyWithoutOwnerNestedInput
+  employee?: Prisma.EmployeeUncheckedUpdateOneWithoutUserNestedInput
+  leaveApprovals?: Prisma.LeaveRequestUncheckedUpdateManyWithoutApproverNestedInput
+  performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutReviewerNestedInput
+  paidExpenses?: Prisma.ExpenseUncheckedUpdateManyWithoutPaidByNestedInput
+  savedReports?: Prisma.SavedReportUncheckedUpdateManyWithoutOwnerNestedInput
+  exportJobs?: Prisma.ExportJobUncheckedUpdateManyWithoutRequestedByNestedInput
+  importJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutRequestedByNestedInput
+  dashboardWidgets?: Prisma.DashboardWidgetUncheckedUpdateManyWithoutUserNestedInput
+  savedFilters?: Prisma.SavedFilterUncheckedUpdateManyWithoutUserNestedInput
+  sentMessages?: Prisma.MessageUncheckedUpdateManyWithoutSentByNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserUpsertWithoutLedProjectsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutLedProjectsInput, Prisma.UserUncheckedUpdateWithoutLedProjectsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutLedProjectsInput, Prisma.UserUncheckedCreateWithoutLedProjectsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutLedProjectsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutLedProjectsInput, Prisma.UserUncheckedUpdateWithoutLedProjectsInput>
+}
+
+export type UserUpdateWithoutLedProjectsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  twoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  organization?: Prisma.OrganizationUpdateOneRequiredWithoutUsersNestedInput
+  branch?: Prisma.BranchUpdateOneWithoutUsersNestedInput
+  department?: Prisma.DepartmentUpdateOneWithoutMembersNestedInput
+  manager?: Prisma.UserUpdateOneWithoutReportsNestedInput
+  reports?: Prisma.UserUpdateManyWithoutManagerNestedInput
+  headedDepartments?: Prisma.DepartmentUpdateManyWithoutHeadNestedInput
+  ledTeams?: Prisma.TeamUpdateManyWithoutLeadNestedInput
+  teamMemberships?: Prisma.TeamMemberUpdateManyWithoutUserNestedInput
+  roles?: Prisma.UserRoleUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUpdateManyWithoutUserNestedInput
+  loginCodes?: Prisma.LoginCodeUpdateManyWithoutUserNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutCreatedByNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUpdateManyWithoutAuthorNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutAuthorNestedInput
+  activities?: Prisma.ActivityUpdateManyWithoutActorNestedInput
+  ownedLeads?: Prisma.LeadUpdateManyWithoutOwnerNestedInput
+  followUps?: Prisma.FollowUpUpdateManyWithoutAssignedToNestedInput
+  managedCustomers?: Prisma.CustomerUpdateManyWithoutAccountManagerNestedInput
+  ownedDeals?: Prisma.DealUpdateManyWithoutOwnerNestedInput
+  organizedMeetings?: Prisma.MeetingUpdateManyWithoutOrganizerNestedInput
+  meetingInvites?: Prisma.MeetingAttendeeUpdateManyWithoutUserNestedInput
+  callLogs?: Prisma.CallLogUpdateManyWithoutUserNestedInput
+  preparedQuotations?: Prisma.QuotationUpdateManyWithoutPreparedByNestedInput
+  approvalRules?: Prisma.ApprovalRuleUpdateManyWithoutApproverUserNestedInput
+  approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
+  approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
+  managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
+  assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
+  reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
+  timeEntries?: Prisma.TimeEntryUpdateManyWithoutUserNestedInput
+  managedCampaigns?: Prisma.CampaignUpdateManyWithoutManagerNestedInput
+  contentItems?: Prisma.ContentItemUpdateManyWithoutAssigneeNestedInput
+  credentialAccessLogs?: Prisma.CredentialAccessLogUpdateManyWithoutUserNestedInput
+  assignedTickets?: Prisma.TicketUpdateManyWithoutAssigneeNestedInput
+  ownedDocuments?: Prisma.DocumentUpdateManyWithoutOwnerNestedInput
+  employee?: Prisma.EmployeeUpdateOneWithoutUserNestedInput
+  leaveApprovals?: Prisma.LeaveRequestUpdateManyWithoutApproverNestedInput
+  performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutReviewerNestedInput
+  paidExpenses?: Prisma.ExpenseUpdateManyWithoutPaidByNestedInput
+  savedReports?: Prisma.SavedReportUpdateManyWithoutOwnerNestedInput
+  exportJobs?: Prisma.ExportJobUpdateManyWithoutRequestedByNestedInput
+  importJobs?: Prisma.ImportJobUpdateManyWithoutRequestedByNestedInput
+  dashboardWidgets?: Prisma.DashboardWidgetUpdateManyWithoutUserNestedInput
+  savedFilters?: Prisma.SavedFilterUpdateManyWithoutUserNestedInput
+  sentMessages?: Prisma.MessageUpdateManyWithoutSentByNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput
+  notificationPreferences?: Prisma.NotificationPreferenceUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutLedProjectsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  organizationId?: Prisma.StringFieldUpdateOperationsInput | string
+  branchId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departmentId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  firstName?: Prisma.StringFieldUpdateOperationsInput | string
+  lastName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  managerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  twoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  twoFactorSecret?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mustChangePassword?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailVerifiedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  googleSub?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastLoginAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  preferences?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  reports?: Prisma.UserUncheckedUpdateManyWithoutManagerNestedInput
+  headedDepartments?: Prisma.DepartmentUncheckedUpdateManyWithoutHeadNestedInput
+  ledTeams?: Prisma.TeamUncheckedUpdateManyWithoutLeadNestedInput
+  teamMemberships?: Prisma.TeamMemberUncheckedUpdateManyWithoutUserNestedInput
+  roles?: Prisma.UserRoleUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
+  passwordResetTokens?: Prisma.PasswordResetTokenUncheckedUpdateManyWithoutUserNestedInput
+  loginCodes?: Prisma.LoginCodeUncheckedUpdateManyWithoutUserNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutCreatedByNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  notes?: Prisma.NoteUncheckedUpdateManyWithoutAuthorNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutAuthorNestedInput
+  activities?: Prisma.ActivityUncheckedUpdateManyWithoutActorNestedInput
+  ownedLeads?: Prisma.LeadUncheckedUpdateManyWithoutOwnerNestedInput
+  followUps?: Prisma.FollowUpUncheckedUpdateManyWithoutAssignedToNestedInput
+  managedCustomers?: Prisma.CustomerUncheckedUpdateManyWithoutAccountManagerNestedInput
+  ownedDeals?: Prisma.DealUncheckedUpdateManyWithoutOwnerNestedInput
+  organizedMeetings?: Prisma.MeetingUncheckedUpdateManyWithoutOrganizerNestedInput
+  meetingInvites?: Prisma.MeetingAttendeeUncheckedUpdateManyWithoutUserNestedInput
+  callLogs?: Prisma.CallLogUncheckedUpdateManyWithoutUserNestedInput
+  preparedQuotations?: Prisma.QuotationUncheckedUpdateManyWithoutPreparedByNestedInput
+  approvalRules?: Prisma.ApprovalRuleUncheckedUpdateManyWithoutApproverUserNestedInput
+  approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
+  approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
+  managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -10023,6 +10454,7 @@ export type UserCreateWithoutProjectMembershipsInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutUserInput
@@ -10093,6 +10525,7 @@ export type UserUncheckedCreateWithoutProjectMembershipsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutUserInput
@@ -10179,6 +10612,7 @@ export type UserUpdateWithoutProjectMembershipsInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutUserNestedInput
@@ -10249,6 +10683,7 @@ export type UserUncheckedUpdateWithoutProjectMembershipsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutUserNestedInput
@@ -10319,6 +10754,7 @@ export type UserCreateWithoutAssignedTasksInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutUserInput
@@ -10389,6 +10825,7 @@ export type UserUncheckedCreateWithoutAssignedTasksInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutUserInput
@@ -10464,6 +10901,7 @@ export type UserCreateWithoutReportedTasksInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutUserInput
@@ -10534,6 +10972,7 @@ export type UserUncheckedCreateWithoutReportedTasksInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutUserInput
@@ -10620,6 +11059,7 @@ export type UserUpdateWithoutAssignedTasksInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutUserNestedInput
@@ -10690,6 +11130,7 @@ export type UserUncheckedUpdateWithoutAssignedTasksInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutUserNestedInput
@@ -10771,6 +11212,7 @@ export type UserUpdateWithoutReportedTasksInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   timeEntries?: Prisma.TimeEntryUpdateManyWithoutUserNestedInput
@@ -10841,6 +11283,7 @@ export type UserUncheckedUpdateWithoutReportedTasksInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutUserNestedInput
@@ -10911,6 +11354,7 @@ export type UserCreateWithoutTimeEntriesInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -10981,6 +11425,7 @@ export type UserUncheckedCreateWithoutTimeEntriesInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -11067,6 +11512,7 @@ export type UserUpdateWithoutTimeEntriesInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -11137,6 +11583,7 @@ export type UserUncheckedUpdateWithoutTimeEntriesInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -11207,6 +11654,7 @@ export type UserCreateWithoutManagedCampaignsInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -11277,6 +11725,7 @@ export type UserUncheckedCreateWithoutManagedCampaignsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -11363,6 +11812,7 @@ export type UserUpdateWithoutManagedCampaignsInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -11433,6 +11883,7 @@ export type UserUncheckedUpdateWithoutManagedCampaignsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -11503,6 +11954,7 @@ export type UserCreateWithoutContentItemsInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -11573,6 +12025,7 @@ export type UserUncheckedCreateWithoutContentItemsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -11659,6 +12112,7 @@ export type UserUpdateWithoutContentItemsInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -11729,6 +12183,7 @@ export type UserUncheckedUpdateWithoutContentItemsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -11799,6 +12254,7 @@ export type UserCreateWithoutCredentialAccessLogsInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -11869,6 +12325,7 @@ export type UserUncheckedCreateWithoutCredentialAccessLogsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -11955,6 +12412,7 @@ export type UserUpdateWithoutCredentialAccessLogsInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -12025,6 +12483,7 @@ export type UserUncheckedUpdateWithoutCredentialAccessLogsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -12095,6 +12554,7 @@ export type UserCreateWithoutAssignedTicketsInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -12165,6 +12625,7 @@ export type UserUncheckedCreateWithoutAssignedTicketsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -12251,6 +12712,7 @@ export type UserUpdateWithoutAssignedTicketsInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -12321,6 +12783,7 @@ export type UserUncheckedUpdateWithoutAssignedTicketsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -12391,6 +12854,7 @@ export type UserCreateWithoutOwnedDocumentsInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -12461,6 +12925,7 @@ export type UserUncheckedCreateWithoutOwnedDocumentsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -12547,6 +13012,7 @@ export type UserUpdateWithoutOwnedDocumentsInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -12617,6 +13083,7 @@ export type UserUncheckedUpdateWithoutOwnedDocumentsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -12687,6 +13154,7 @@ export type UserCreateWithoutEmployeeInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -12757,6 +13225,7 @@ export type UserUncheckedCreateWithoutEmployeeInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -12843,6 +13312,7 @@ export type UserUpdateWithoutEmployeeInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -12913,6 +13383,7 @@ export type UserUncheckedUpdateWithoutEmployeeInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -12983,6 +13454,7 @@ export type UserCreateWithoutLeaveApprovalsInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -13053,6 +13525,7 @@ export type UserUncheckedCreateWithoutLeaveApprovalsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -13139,6 +13612,7 @@ export type UserUpdateWithoutLeaveApprovalsInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -13209,6 +13683,7 @@ export type UserUncheckedUpdateWithoutLeaveApprovalsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -13279,6 +13754,7 @@ export type UserCreateWithoutPerformanceReviewsInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -13349,6 +13825,7 @@ export type UserUncheckedCreateWithoutPerformanceReviewsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -13435,6 +13912,7 @@ export type UserUpdateWithoutPerformanceReviewsInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -13505,6 +13983,7 @@ export type UserUncheckedUpdateWithoutPerformanceReviewsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -13575,6 +14054,7 @@ export type UserCreateWithoutPaidExpensesInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -13645,6 +14125,7 @@ export type UserUncheckedCreateWithoutPaidExpensesInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -13731,6 +14212,7 @@ export type UserUpdateWithoutPaidExpensesInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -13801,6 +14283,7 @@ export type UserUncheckedUpdateWithoutPaidExpensesInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -13871,6 +14354,7 @@ export type UserCreateWithoutSavedReportsInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -13941,6 +14425,7 @@ export type UserUncheckedCreateWithoutSavedReportsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -14027,6 +14512,7 @@ export type UserUpdateWithoutSavedReportsInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -14097,6 +14583,7 @@ export type UserUncheckedUpdateWithoutSavedReportsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -14167,6 +14654,7 @@ export type UserCreateWithoutExportJobsInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -14237,6 +14725,7 @@ export type UserUncheckedCreateWithoutExportJobsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -14323,6 +14812,7 @@ export type UserUpdateWithoutExportJobsInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -14393,6 +14883,7 @@ export type UserUncheckedUpdateWithoutExportJobsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -14463,6 +14954,7 @@ export type UserCreateWithoutImportJobsInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -14533,6 +15025,7 @@ export type UserUncheckedCreateWithoutImportJobsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -14619,6 +15112,7 @@ export type UserUpdateWithoutImportJobsInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -14689,6 +15183,7 @@ export type UserUncheckedUpdateWithoutImportJobsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -14759,6 +15254,7 @@ export type UserCreateWithoutDashboardWidgetsInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -14829,6 +15325,7 @@ export type UserUncheckedCreateWithoutDashboardWidgetsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -14915,6 +15412,7 @@ export type UserUpdateWithoutDashboardWidgetsInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -14985,6 +15483,7 @@ export type UserUncheckedUpdateWithoutDashboardWidgetsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -15055,6 +15554,7 @@ export type UserCreateWithoutSavedFiltersInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -15125,6 +15625,7 @@ export type UserUncheckedCreateWithoutSavedFiltersInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -15211,6 +15712,7 @@ export type UserUpdateWithoutSavedFiltersInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -15281,6 +15783,7 @@ export type UserUncheckedUpdateWithoutSavedFiltersInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -15351,6 +15854,7 @@ export type UserCreateWithoutSentMessagesInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -15421,6 +15925,7 @@ export type UserUncheckedCreateWithoutSentMessagesInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -15507,6 +16012,7 @@ export type UserUpdateWithoutSentMessagesInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -15577,6 +16083,7 @@ export type UserUncheckedUpdateWithoutSentMessagesInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -15647,6 +16154,7 @@ export type UserCreateWithoutNotificationsInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -15717,6 +16225,7 @@ export type UserUncheckedCreateWithoutNotificationsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -15803,6 +16312,7 @@ export type UserUpdateWithoutNotificationsInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -15873,6 +16383,7 @@ export type UserUncheckedUpdateWithoutNotificationsInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -15943,6 +16454,7 @@ export type UserCreateWithoutNotificationPreferencesInput = {
   approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskCreateNestedManyWithoutReporterInput
@@ -16013,6 +16525,7 @@ export type UserUncheckedCreateWithoutNotificationPreferencesInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutRequestedByInput
   approvalSteps?: Prisma.ApprovalStepUncheckedCreateNestedManyWithoutApproverInput
   managedProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutManagerInput
+  ledProjects?: Prisma.ProjectUncheckedCreateNestedManyWithoutTeamLeadInput
   projectMemberships?: Prisma.ProjectMemberUncheckedCreateNestedManyWithoutUserInput
   assignedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutAssigneeInput
   reportedTasks?: Prisma.TaskUncheckedCreateNestedManyWithoutReporterInput
@@ -16099,6 +16612,7 @@ export type UserUpdateWithoutNotificationPreferencesInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -16169,6 +16683,7 @@ export type UserUncheckedUpdateWithoutNotificationPreferencesInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -16262,6 +16777,7 @@ export type UserUpdateWithoutOrganizationInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -16332,6 +16848,7 @@ export type UserUncheckedUpdateWithoutOrganizationInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -16450,6 +16967,7 @@ export type UserUpdateWithoutBranchInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -16520,6 +17038,7 @@ export type UserUncheckedUpdateWithoutBranchInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -16638,6 +17157,7 @@ export type UserUpdateWithoutDepartmentInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -16708,6 +17228,7 @@ export type UserUncheckedUpdateWithoutDepartmentInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -16826,6 +17347,7 @@ export type UserUpdateWithoutManagerInput = {
   approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUpdateManyWithoutReporterNestedInput
@@ -16896,6 +17418,7 @@ export type UserUncheckedUpdateWithoutManagerInput = {
   approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutRequestedByNestedInput
   approvalSteps?: Prisma.ApprovalStepUncheckedUpdateManyWithoutApproverNestedInput
   managedProjects?: Prisma.ProjectUncheckedUpdateManyWithoutManagerNestedInput
+  ledProjects?: Prisma.ProjectUncheckedUpdateManyWithoutTeamLeadNestedInput
   projectMemberships?: Prisma.ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
   assignedTasks?: Prisma.TaskUncheckedUpdateManyWithoutAssigneeNestedInput
   reportedTasks?: Prisma.TaskUncheckedUpdateManyWithoutReporterNestedInput
@@ -16974,6 +17497,7 @@ export type UserCountOutputType = {
   approvalRequests: number
   approvalSteps: number
   managedProjects: number
+  ledProjects: number
   projectMemberships: number
   assignedTasks: number
   reportedTasks: number
@@ -17022,6 +17546,7 @@ export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.I
   approvalRequests?: boolean | UserCountOutputTypeCountApprovalRequestsArgs
   approvalSteps?: boolean | UserCountOutputTypeCountApprovalStepsArgs
   managedProjects?: boolean | UserCountOutputTypeCountManagedProjectsArgs
+  ledProjects?: boolean | UserCountOutputTypeCountLedProjectsArgs
   projectMemberships?: boolean | UserCountOutputTypeCountProjectMembershipsArgs
   assignedTasks?: boolean | UserCountOutputTypeCountAssignedTasksArgs
   reportedTasks?: boolean | UserCountOutputTypeCountReportedTasksArgs
@@ -17232,6 +17757,13 @@ export type UserCountOutputTypeCountManagedProjectsArgs<ExtArgs extends runtime.
 /**
  * UserCountOutputType without action
  */
+export type UserCountOutputTypeCountLedProjectsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ProjectWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
 export type UserCountOutputTypeCountProjectMembershipsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ProjectMemberWhereInput
 }
@@ -17422,6 +17954,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   approvalRequests?: boolean | Prisma.User$approvalRequestsArgs<ExtArgs>
   approvalSteps?: boolean | Prisma.User$approvalStepsArgs<ExtArgs>
   managedProjects?: boolean | Prisma.User$managedProjectsArgs<ExtArgs>
+  ledProjects?: boolean | Prisma.User$ledProjectsArgs<ExtArgs>
   projectMemberships?: boolean | Prisma.User$projectMembershipsArgs<ExtArgs>
   assignedTasks?: boolean | Prisma.User$assignedTasksArgs<ExtArgs>
   reportedTasks?: boolean | Prisma.User$reportedTasksArgs<ExtArgs>
@@ -17560,6 +18093,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   approvalRequests?: boolean | Prisma.User$approvalRequestsArgs<ExtArgs>
   approvalSteps?: boolean | Prisma.User$approvalStepsArgs<ExtArgs>
   managedProjects?: boolean | Prisma.User$managedProjectsArgs<ExtArgs>
+  ledProjects?: boolean | Prisma.User$ledProjectsArgs<ExtArgs>
   projectMemberships?: boolean | Prisma.User$projectMembershipsArgs<ExtArgs>
   assignedTasks?: boolean | Prisma.User$assignedTasksArgs<ExtArgs>
   reportedTasks?: boolean | Prisma.User$reportedTasksArgs<ExtArgs>
@@ -17628,6 +18162,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     approvalRequests: Prisma.$ApprovalRequestPayload<ExtArgs>[]
     approvalSteps: Prisma.$ApprovalStepPayload<ExtArgs>[]
     managedProjects: Prisma.$ProjectPayload<ExtArgs>[]
+    ledProjects: Prisma.$ProjectPayload<ExtArgs>[]
     projectMemberships: Prisma.$ProjectMemberPayload<ExtArgs>[]
     assignedTasks: Prisma.$TaskPayload<ExtArgs>[]
     reportedTasks: Prisma.$TaskPayload<ExtArgs>[]
@@ -18096,6 +18631,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   approvalRequests<T extends Prisma.User$approvalRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$approvalRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ApprovalRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   approvalSteps<T extends Prisma.User$approvalStepsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$approvalStepsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ApprovalStepPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   managedProjects<T extends Prisma.User$managedProjectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$managedProjectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  ledProjects<T extends Prisma.User$ledProjectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ledProjectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   projectMemberships<T extends Prisma.User$projectMembershipsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$projectMembershipsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   assignedTasks<T extends Prisma.User$assignedTasksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$assignedTasksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reportedTasks<T extends Prisma.User$reportedTasksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reportedTasksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -19205,6 +19741,30 @@ export type User$approvalStepsArgs<ExtArgs extends runtime.Types.Extensions.Inte
  * User.managedProjects
  */
 export type User$managedProjectsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Project
+   */
+  select?: Prisma.ProjectSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Project
+   */
+  omit?: Prisma.ProjectOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ProjectInclude<ExtArgs> | null
+  where?: Prisma.ProjectWhereInput
+  orderBy?: Prisma.ProjectOrderByWithRelationInput | Prisma.ProjectOrderByWithRelationInput[]
+  cursor?: Prisma.ProjectWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ProjectScalarFieldEnum | Prisma.ProjectScalarFieldEnum[]
+}
+
+/**
+ * User.ledProjects
+ */
+export type User$ledProjectsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Project
    */

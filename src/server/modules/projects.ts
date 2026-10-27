@@ -5,10 +5,13 @@ import { createInvoice } from '../core/docs'
 import { conflict, forbidden, notFound, parse, shape, stripNulls } from '../core/http'
 import { activity, audit, notify, SCOPES, scoped, U, usersWith } from '../core/util'
 import { prisma, type Tx } from '../db'
+import { checkPlan, people, plannerScope, savePlan, managedDepartments, TEAM_LEADER } from '../core/assign'
 import * as E from '../../generated/prisma/enums'
 
 const M = 'PROJECTS'
 const TEAM = { select: { id: true, name: true, leadId: true, lead: U } }
+const PLAN = { members: { select: { userId: true } }, extraDepartments: { select: { departmentId: true } } }
+const DEPT = { select: { id: true, name: true } }
 
 async function checkTeam(tx: Tx, req: any, teamId: string) {
   if (!(await tx.team.findFirst({ where: { id: teamId, organizationId: req.user.organizationId } }))) throw notFound('Team')
@@ -37,7 +40,7 @@ projectsRouter.get('/:id/detail', authorize(M, 'VIEW'), async (req, res) => {
   const p = await findScoped(req, 'project', M, 'VIEW', {
     soft: true, label: 'Project',
     include: {
-      customer: { select: { id: true, name: true } }, manager: U, team: TEAM, quotation: { select: { id: true, quotationNumber: true } }, members: { include: { user: U } },
+      customer: { select: { id: true, name: true } }, manager: U, team: TEAM, teamLead: U, department: DEPT, extraDepartments: { select: { department: DEPT } }, quotation: { select: { id: true, quotationNumber: true } }, members: { include: { user: U } },
       milestones: { orderBy: { position: 'asc' }, include: { invoiceItems: { select: { invoice: { select: { id: true, invoiceNumber: true, status: true, balanceDue: true, totalAmount: true } } } } } },
     },
   })
@@ -50,15 +53,49 @@ projectsRouter.get('/:id/detail', authorize(M, 'VIEW'), async (req, res) => {
 
 projectsRouter.put('/:id/members', authorize(M, 'EDIT'), async (req, res) => {
   const d = parse(shape({ userIds: 's[]' }), req.body)
-  const p = await findScoped(req, 'project', M, 'EDIT', { soft: true, label: 'Project' })
-  const ids = [...new Set(d.userIds as string[])].filter((id) => id !== p.managerId)
-  const before = await prisma.projectMember.findMany({ where: { projectId: p.id }, select: { userId: true } })
+  const p = await findScoped(req, 'project', M, 'EDIT', { soft: true, label: 'Project', include: PLAN })
+  if (!plannerScope(req.user)) throw forbidden('Only Admin or a Manager can add or remove project members')
   await prisma.$transaction(async (tx) => {
-    await tx.projectMember.deleteMany({ where: { projectId: p.id } })
-    await tx.projectMember.createMany({ data: ids.map((userId) => ({ projectId: p.id, userId })) })
-    for (const uid of ids) if (!before.some((b) => b.userId === uid) && uid !== req.user.id) await notify(tx, p.organizationId, uid, 'project.member', `You were added to the project ${p.name}`, '/projects')
+    const plan = await checkPlan(tx, req.user, { memberIds: d.userIds }, p)
+    await savePlan(tx, p, { memberIds: plan.memberIds }, req.user.id, notify)
   })
   res.status(204).end()
+})
+
+/**
+ * The people who can be put on a project of the chosen departments: active users only, by department, with their roles.
+ * Admin sees every department; a Manager only the departments they look after.
+ */
+projectsRouter.get('/eligible', authorize(M, 'VIEW'), async (req, res) => {
+  const planner = plannerScope(req.user)
+  if (!planner) throw forbidden('Only Admin or a Manager can plan project members')
+  const org = req.user.organizationId
+  const asked = String(req.query.departmentIds ?? '').split(',').filter(Boolean)
+  const mine = planner === 'DEPARTMENT' ? await managedDepartments(prisma as unknown as Tx, req.user) : null
+  const departments = await prisma.department.findMany({ where: { organizationId: org, ...(asked.length ? { id: { in: asked } } : {}), ...(mine ? { id: { in: asked.length ? asked.filter((x) => mine.includes(x)) : mine } } : {}) }, select: { id: true, name: true }, orderBy: { name: 'asc' } })
+  const users = await prisma.user.findMany({
+    where: { organizationId: org, deletedAt: null, status: 'ACTIVE', departmentId: { in: departments.map((x) => x.id) } },
+    select: { id: true, firstName: true, lastName: true, email: true, departmentId: true, managerId: true, roles: { select: { role: { select: { key: true, name: true } } } }, employee: { select: { designation: true } } },
+    orderBy: { firstName: 'asc' },
+  })
+  const teams = await prisma.team.findMany({ where: { organizationId: org, leadId: { in: users.map((u) => u.id) } }, select: { leadId: true, members: { select: { userId: true } } } })
+  // who can be the project manager: active Admins and Managers (a Manager plans only inside their own departments)
+  const managers = await prisma.user.findMany({
+    where: { organizationId: org, deletedAt: null, status: 'ACTIVE', roles: { some: { role: { key: { in: ['SUPER_ADMIN', 'MANAGER'] } } } }, ...(mine ? { OR: [{ id: req.user.id }, { departmentId: { in: mine } }] } : {}) },
+    select: { id: true, firstName: true, lastName: true, departmentId: true }, orderBy: { firstName: 'asc' },
+  })
+  res.json({
+    managers: managers.map((m) => ({ id: m.id, name: [m.firstName, m.lastName].filter(Boolean).join(' '), departmentId: m.departmentId })),
+    departments: departments.map((dep) => ({
+      ...dep,
+      people: users.filter((u) => u.departmentId === dep.id).map((u) => ({
+        id: u.id, name: [u.firstName, u.lastName].filter(Boolean).join(' '), email: u.email, designation: u.employee?.designation ?? null, managerId: u.managerId,
+        roles: u.roles.map((r) => r.role.name), teamLeader: u.roles.some((r) => r.role.key === TEAM_LEADER),
+        team: teams.filter((t) => t.leadId === u.id).flatMap((t) => t.members.map((m) => m.userId)).filter((id) => id !== u.id),
+      })),
+    })),
+    canCrossDepartment: req.user.admin,
+  })
 })
 
 const msSpec = { name: 's', description: 's?', dueDate: 'd?', 'isBillable?': 'b', amount: 'n?' } as const
@@ -138,26 +175,52 @@ projectsRouter.post('/:id/complete', authorize(M, 'EDIT'), async (req, res) => {
 
 projectsRouter.use('/', crud({
   model: 'project', module: M, label: 'Project', soft: true, by: true, number: ['projectNumber', 'PROJECT'], ownerField: 'managerId', scope: SCOPES.PROJECTS,
-  fields: { name: 's', description: 's?', customerId: 'id', 'category?': Object.values(E.ServiceCategory), 'status?': Object.values(E.ProjectStatus), 'priority?': Object.values(E.Priority), startDate: 'd?', dueDate: 'd?', budget: 'n?', managerId: 'id?', teamId: 'id?' },
-  search: ['name', 'projectNumber', 'customer.name'], filters: ['status', 'customerId', 'managerId', 'category', 'teamId'],
-  include: { customer: { select: { id: true, name: true } }, manager: U, team: TEAM, members: { select: { userId: true } }, milestones: { select: { id: true, status: true } } },
+  fields: {
+    name: 's', description: 's?', customerId: 'id', 'category?': Object.values(E.ServiceCategory), 'status?': Object.values(E.ProjectStatus), 'priority?': Object.values(E.Priority), startDate: 'd?', dueDate: 'd?', budget: 'n?',
+    managerId: 'id?', teamId: 'id?', departmentId: 'id?', teamLeadId: 'id?', 'crossDepartment?': 'b', 'memberIds?': 's[]', 'extraDepartmentIds?': 's[]',
+  },
+  search: ['name', 'projectNumber', 'customer.name'], filters: ['status', 'customerId', 'managerId', 'category', 'teamId', 'departmentId', 'teamLeadId'],
+  include: {
+    customer: { select: { id: true, name: true } }, manager: U, teamLead: U, team: TEAM, department: DEPT, extraDepartments: { select: { department: DEPT } },
+    members: { select: { userId: true, user: U } }, milestones: { select: { id: true, status: true } },
+  },
   beforeCreate: async (d, req, tx) => {
     d.category ??= 'OTHER'
-    if (d.teamId) await checkTeam(tx, req, d.teamId)
+    const plan = await checkPlan(tx, req.user, d, null)
+    delete d.memberIds
+    delete d.extraDepartmentIds
+    Object.assign(d, { departmentId: plan.departmentId, teamLeadId: plan.teamLeadId, crossDepartment: plan.crossDepartment })
+    if (plan.teamId !== undefined) d.teamId = plan.teamId
+    else if (d.teamId) await checkTeam(tx, req, d.teamId)
+    ;(req as any).plan = plan
   },
   afterCreate: async (row, req, tx) => {
     await activity(tx, row.organizationId, 'PROJECT', row.id, 'CREATED', 'Project created', req.user.id)
+    await savePlan(tx, row, (req as any).plan, req.user.id, notify)
+    // show the saved people in the reply
+    Object.assign(row, await tx.project.findUniqueOrThrow({ where: { id: row.id }, select: { members: { select: { userId: true, user: U } }, extraDepartments: { select: { department: DEPT } } } }))
     if (row.managerId !== req.user.id) await notify(tx, row.organizationId, row.managerId, 'project.assigned', `New project assigned to you: ${row.name}`, '/projects')
-    if (row.teamId) await tellTeamLead(tx, row, req)
+    if (row.teamLeadId && row.teamLeadId !== req.user.id && row.teamLeadId !== row.managerId) await notify(tx, row.organizationId, row.teamLeadId, 'project.assigned', `New project for your team: ${row.name}`, '/projects')
+    else if (row.teamId && !row.teamLeadId) await tellTeamLead(tx, row, req)
   },
   beforeUpdate: async (d, before, req, tx) => {
     if (d.status && d.status !== before.status) d.completedAt = d.status === 'COMPLETED' ? new Date() : null
-    // Only Admin and Manager (who see every project) choose the team and the manager; a Team Lead runs the project
-    const changing = (d.teamId !== undefined && (d.teamId ?? null) !== before.teamId) || (d.managerId !== undefined && d.managerId !== before.managerId)
-    if (changing && can(req.user, M, 'EDIT') !== 'ALL') throw forbidden('Only Admin or a Manager can change the team or manager of a project')
-    if (d.teamId && d.teamId !== before.teamId) await checkTeam(tx, req, d.teamId)
+    const full = await tx.project.findUniqueOrThrow({ where: { id: before.id }, include: PLAN })
+    const plan = await checkPlan(tx, req.user, d, full)
+    const membersGiven = d.memberIds !== undefined
+    delete d.memberIds
+    delete d.extraDepartmentIds
+    if (d.teamId !== undefined && (d.teamId ?? null) !== before.teamId && !plannerScope(req.user)) throw forbidden('Only Admin or a Manager can change the team of a project')
+    if ('departmentId' in plan) {
+      Object.assign(d, { departmentId: plan.departmentId, teamLeadId: plan.teamLeadId, crossDepartment: plan.crossDepartment })
+      if (plan.managerId) d.managerId = plan.managerId
+      if (plan.teamId !== undefined) d.teamId = plan.teamId
+      else if (d.teamId && d.teamId !== before.teamId) await checkTeam(tx, req, d.teamId)
+      await savePlan(tx, full, { memberIds: membersGiven ? plan.memberIds : undefined, extraDepartmentIds: plan.extraDepartmentIds }, req.user.id, notify)
+    }
   },
   afterUpdate: async (row, before, req, tx) => {
-    if (row.teamId && row.teamId !== before.teamId) await tellTeamLead(tx, row, req)
+    if (row.teamLeadId && row.teamLeadId !== before.teamLeadId && row.teamLeadId !== req.user.id) await notify(tx, row.organizationId, row.teamLeadId, 'project.assigned', `New project for your team: ${row.name}`, '/projects')
+    else if (row.teamId && row.teamId !== before.teamId && !row.teamLeadId) await tellTeamLead(tx, row, req)
   },
 }))

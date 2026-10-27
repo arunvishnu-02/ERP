@@ -54,6 +54,53 @@ async function companyOverview(organizationId: string, t: Date, months: { billed
 
 // ── Dashboard ──
 export const dashboardRouter = Router()
+/**
+ * A Team Leader's view of their team: each person's open, done and late tasks, the team's projects with progress,
+ * and the tasks due soon. Empty for people who lead no team.
+ */
+dashboardRouter.get('/team', authorize('DASHBOARD', 'VIEW'), async (req, res) => {
+  const organizationId = req.user.organizationId
+  const me = req.user.id
+  const t = today()
+  const teams = await prisma.team.findMany({ where: { organizationId, leadId: me }, select: { id: true, name: true, department: { select: { id: true, name: true } }, members: { select: { userId: true } } } })
+  const memberIds = [...new Set(teams.flatMap((x) => x.members.map((m) => m.userId)).filter((id) => id !== me))]
+  const projects = await prisma.project.findMany({
+    where: { organizationId, deletedAt: null, OR: [{ teamLeadId: me }, { team: { leadId: me } }] },
+    select: { id: true, name: true, status: true, priority: true, dueDate: true, department: { select: { name: true } } },
+    orderBy: [{ dueDate: 'asc' }, { createdAt: 'desc' }],
+  })
+  if (!teams.length && !projects.length) return res.json({ leads: false, teams: [], members: [], projects: [], upcoming: [], totals: { open: 0, done: 0, overdue: 0 } })
+  const people = [me, ...memberIds]
+  const open = { notIn: ['DONE', 'CANCELLED'] as any }
+  const [users, byPerson, byProject, upcoming] = await Promise.all([
+    prisma.user.findMany({ where: { id: { in: memberIds }, organizationId, deletedAt: null }, select: { id: true, firstName: true, lastName: true, status: true, employee: { select: { designation: true } } }, orderBy: { firstName: 'asc' } }),
+    prisma.task.findMany({ where: { organizationId, deletedAt: null, assigneeId: { in: people } }, select: { assigneeId: true, status: true, dueDate: true } }),
+    prisma.task.groupBy({ by: ['projectId', 'status'], where: { organizationId, deletedAt: null, projectId: { in: projects.map((p) => p.id) } }, _count: { _all: true } }),
+    prisma.task.findMany({
+      where: { organizationId, deletedAt: null, status: open, OR: [{ assigneeId: { in: people } }, { projectId: { in: projects.map((p) => p.id) } }], dueDate: { lt: addDays(t, 8) } },
+      select: { id: true, title: true, taskNumber: true, status: true, dueDate: true, assignee: U, project: { select: { id: true, name: true } } },
+      orderBy: { dueDate: 'asc' }, take: 15,
+    }),
+  ])
+  const count = (id: string) => {
+    const mine = byPerson.filter((x) => x.assigneeId === id)
+    return {
+      open: mine.filter((x) => x.status !== 'DONE' && x.status !== 'CANCELLED').length,
+      done: mine.filter((x) => x.status === 'DONE').length,
+      overdue: mine.filter((x) => x.status !== 'DONE' && x.status !== 'CANCELLED' && x.dueDate && x.dueDate < t).length,
+    }
+  }
+  const members = users.map((u) => ({ id: u.id, name: fullName(u), designation: u.employee?.designation ?? null, active: u.status === 'ACTIVE', ...count(u.id) }))
+  const list = projects.map((p) => {
+    const rows = byProject.filter((x) => x.projectId === p.id)
+    const total = rows.filter((x) => x.status !== 'CANCELLED').reduce((a, x) => a + x._count._all, 0)
+    const done = rows.filter((x) => x.status === 'DONE').reduce((a, x) => a + x._count._all, 0)
+    return { ...p, department: p.department?.name ?? null, tasks: total, done, progress: total ? Math.round((done / total) * 100) : 0 }
+  })
+  const totals = members.reduce((a, m) => ({ open: a.open + m.open, done: a.done + m.done, overdue: a.overdue + m.overdue }), { open: 0, done: 0, overdue: 0 })
+  res.json({ leads: true, teams: teams.map((x) => ({ id: x.id, name: x.name, department: x.department?.name ?? null, size: x.members.filter((m) => m.userId !== me).length })), members, projects: list, upcoming: upcoming.map((x) => ({ ...x, assignee: x.assignee ? { id: x.assignee.id, name: fullName(x.assignee) } : null, late: !!x.dueDate && x.dueDate < t })), totals })
+})
+
 dashboardRouter.get('/', authorize('DASHBOARD', 'VIEW'), async (req, res) => {
   const organizationId = req.user.organizationId
   const t = today()
