@@ -1,18 +1,21 @@
 import crypto from 'node:crypto'
-import { authenticate, endOtherSessions, endSession, hashPassword, sha, startSession, verifyPassword } from '../core/auth'
+import { ADMIN_ROLE, authenticate, endOtherSessions, endSession, hashPassword, sha, startSession, verifyPassword } from '../core/auth'
 import { bad, conflict, HttpError, parse, shape } from '../core/http'
 import { rateLimit, Router } from '../core/router'
 import { codeEmailHtml } from '../core/email-html'
-import { sendMail } from '../core/mail'
+import { resendConfig, sendMail, smtpConfig } from '../core/mail'
 import { bootstrap } from '../core/seed'
 import { STATES } from '../core/util'
 import { prisma } from '../db'
 import { googleSignInOn } from './google'
+import { APP_NAME } from '../../lib/brand'
 
 export const authRouter = Router()
 const limiter = rateLimit({ windowMs: 60_000, limit: 20, message: { message: 'Too many attempts. Wait a minute and try again.' } })
 // password codes get their own counter, so sign-in attempts and code attempts do not use up each other's allowance
 const codeLimiter = rateLimit({ windowMs: 60_000, limit: 10, message: { message: 'Too many attempts. Wait a minute and try again.' } })
+// sign-in codes get their own counter too
+const loginCodeLimiter = rateLimit({ windowMs: 60_000, limit: 10, message: { message: 'Too many attempts. Wait a minute and try again.' } })
 const unauthorized = (m = 'Sign in to continue') => new HttpError(401, m)
 
 authRouter.get('/status', async (_req, res) => {
@@ -38,7 +41,69 @@ authRouter.post('/login', limiter, async (req, res) => {
     await prisma.auditLog.create({ data: { organizationId: user.organizationId, userId: user.id, action: ok ? 'LOGIN' : 'LOGIN_FAILED', entityType: 'User', entityId: user.id, ipAddress: req.ip.slice(0, 100), userAgent: String(req.headers['user-agent'] ?? '').slice(0, 300) } })
   }
   if (!ok || !user) throw unauthorized('Email or password is incorrect')
+  if (await needsLoginCode(user)) {
+    res.json(await sendLoginCode(user))
+    return
+  }
   await prisma.user.update({ where: { id: user.id }, data: { lastLoginAt: new Date() } })
+  await startSession(req, res, user.id)
+  res.json({ ok: true })
+})
+
+// ── Admin sign-in code: after the password, Admin types a 6-digit code sent to their email (10 minutes, 5 tries) ──
+const LOGIN_CODE_MINUTES = 10
+const loginCodeHash = (userId: string, code: string) => sha(`login:${userId}:${code}`)
+const maskEmail = (email: string) => email.replace(/^(.)(.*)(@.*)$/, (_m, a: string, b: string, c: string) => a + '•'.repeat(Math.min(b.length, 6)) + c)
+
+/**
+ * Admin needs the emailed code, as long as email is set up (otherwise nobody could ever sign in).
+ * Setting ADMIN_LOGIN_CODE=off on the server turns it off in an emergency, for example when email stops working.
+ */
+async function needsLoginCode(user: { id: string; organizationId: string }) {
+  if (process.env.ADMIN_LOGIN_CODE === 'off') return false
+  const admin = await prisma.userRole.count({ where: { userId: user.id, role: { key: ADMIN_ROLE } } })
+  if (!admin) return false
+  return !!((await resendConfig(user.organizationId)) ?? (await smtpConfig(user.organizationId)))
+}
+
+async function sendLoginCode(user: { id: string; organizationId: string; email: string; firstName: string }) {
+  const code = String(crypto.randomInt(0, 1_000_000)).padStart(6, '0')
+  const ticket = crypto.randomBytes(32).toString('base64url')
+  const org = await prisma.organization.findUniqueOrThrow({ where: { id: user.organizationId }, select: { name: true } })
+  await prisma.$transaction([
+    prisma.loginCode.updateMany({ where: { userId: user.id, usedAt: null }, data: { usedAt: new Date() } }),
+    prisma.loginCode.create({ data: { userId: user.id, ticketHash: sha(ticket), codeHash: loginCodeHash(user.id, code), expiresAt: new Date(Date.now() + LOGIN_CODE_MINUTES * 60_000) } }),
+  ])
+  const sent = await sendMail(user.organizationId, {
+    to: user.email, logText: 'Sign-in code sent. The code itself is not kept.',
+    subject: `${code} is your ${APP_NAME} sign-in code`,
+    text: `Hello ${user.firstName},\n\nYour ${APP_NAME} sign-in code is ${code}\n\nIt works for ${LOGIN_CODE_MINUTES} minutes. If you did not just sign in, change your password now.\n\n${org.name}`,
+    html: await codeEmailHtml(user.organizationId, {
+      heading: `Sign in to ${APP_NAME}`, firstName: user.firstName, code, minutes: LOGIN_CODE_MINUTES,
+      intro: 'Your password was right. Enter this code on the sign-in page to finish signing in.',
+      note: 'If this was not you, someone knows your password. Change it now.',
+    }),
+  })
+  if (!sent.sent) throw new HttpError(503, `We could not email your sign-in code (${sent.error}). Try again in a minute.`)
+  return { codeSent: true, ticket, email: maskEmail(user.email), minutes: LOGIN_CODE_MINUTES }
+}
+
+authRouter.post('/login/code', loginCodeLimiter, async (req, res) => {
+  const d = parse(shape({ ticket: 's', code: 's' }), req.body)
+  const expired = () => bad('This code has expired. Sign in again to get a new one.')
+  const row = await prisma.loginCode.findUnique({ where: { ticketHash: sha(d.ticket) } })
+  if (!row || row.usedAt || row.expiresAt < new Date()) throw expired()
+  if (row.codeHash !== loginCodeHash(row.userId, d.code.replace(/\D/g, ''))) {
+    const tries = row.tries + 1
+    await prisma.loginCode.update({ where: { id: row.id }, data: { tries, ...(tries >= CODE_TRIES ? { usedAt: new Date() } : {}) } })
+    throw bad(tries >= CODE_TRIES ? 'Too many wrong codes. Sign in again to get a new one.' : 'That code is not right. Check the email and try again.')
+  }
+  const user = await prisma.user.findFirst({ where: { id: row.userId, status: 'ACTIVE', deletedAt: null } })
+  if (!user) throw expired()
+  await prisma.$transaction([
+    prisma.loginCode.update({ where: { id: row.id }, data: { usedAt: new Date() } }),
+    prisma.user.update({ where: { id: user.id }, data: { lastLoginAt: new Date() } }),
+  ])
   await startSession(req, res, user.id)
   res.json({ ok: true })
 })

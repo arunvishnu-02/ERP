@@ -8,6 +8,7 @@ import { Badge, Button, Card } from '@/components/ui'
 import { api, useApi } from '@/lib/api'
 import { useAuth } from '@/lib/auth'
 import { fmtDateTime } from '@/lib/format'
+import { APP_NAME } from '@/lib/brand'
 
 type Google = { clientId: string; hasSecret: boolean; allowedDomain: string; signIn: boolean; folderName: string; connected: boolean; connectedEmail: string | null; connectedAt: string | null; folderUrl: string | null; redirectUri: string; linkedUsers: number }
 type Data = { google: Google; smtp: { active: boolean; fromEmail: string | null }; resend?: { active: boolean; fromEmail: string | null } }
@@ -114,7 +115,7 @@ export default function Integrations({ goEmail }: { goEmail: () => void }) {
           { name: 'clientId', label: 'OAuth client ID', required: true, placeholder: '1234-abc.apps.googleusercontent.com' },
           { name: 'clientSecret', label: g.hasSecret ? 'Client secret (leave empty to keep)' : 'Client secret', type: 'password', required: !g.hasSecret },
           { name: 'allowedDomain', label: 'Company domain', placeholder: 'ciphermutex.com', help: 'Only Google accounts on this domain can sign in or connect. Leave empty to allow any.' },
-          { name: 'folderName', label: 'Drive folder name', placeholder: 'CX CRM ERP' },
+          { name: 'folderName', label: 'Drive folder name', placeholder: APP_NAME },
           { name: 'signIn', label: 'Sign in with Google', type: 'checkbox', placeholder: 'Show "Sign in with Google" on the sign-in page. It only lets in people who already have a user here with the same email.' },
         ]}
         onSubmit={async (v) => { await api('/settings/integrations/google', { method: 'PUT', body: v }); toast.success('Google settings saved'); reload() }} />

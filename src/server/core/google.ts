@@ -5,6 +5,7 @@ import { prisma } from '../db'
 import { env } from '../env'
 import { HttpError } from './http'
 import { decrypt, encrypt } from './util'
+import { APP_NAME } from '../../lib/brand'
 
 const AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth'
 const TOKEN_URL = 'https://oauth2.googleapis.com/token'
@@ -109,7 +110,7 @@ async function folder(organizationId: string) {
     const f = await gapi(organizationId, `${DRIVE}/${config.folderId}?fields=id,trashed`).catch((e) => (e.googleStatus === 404 ? null : Promise.reject(e)))
     if (f && !f.trashed) return config.folderId
   }
-  const made = await gapi(organizationId, `${DRIVE}?fields=id`, { json: { name: config.folderName || 'CX CRM ERP', mimeType: FOLDER } })
+  const made = await gapi(organizationId, `${DRIVE}?fields=id`, { json: { name: config.folderName || APP_NAME, mimeType: FOLDER } })
   await saveGoogle(organizationId, { ...config, folderId: made.id }, secret)
   return made.id as string
 }

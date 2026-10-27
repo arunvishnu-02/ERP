@@ -886,6 +886,7 @@ model User {
   roles                   UserRole[]
   sessions                Session[]
   passwordResetTokens     PasswordResetToken[]
+  loginCodes              LoginCode[]
   auditLogs               AuditLog[]
   notes                   Note[]                   @relation("NoteAuthor")
   comments                Comment[]                @relation("CommentAuthor")
@@ -933,7 +934,7 @@ model Role {
   organizationId String       @db.Char(36)
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   name           String
-  key            String // SUPER_ADMIN, MANAGER, SALES_EXECUTIVE, DIGITAL_MARKETING_EXECUTIVE, DEVELOPER, UI_UX_DESIGNER, VIDEO_EDITOR, ACCOUNTS, HR, or a custom key
+  key            String // SUPER_ADMIN, MANAGER, TEAM_LEAD, SALES_EXECUTIVE, STAFF, DIGITAL_MARKETING_EXECUTIVE, DEVELOPER, UI_UX_DESIGNER, VIDEO_EDITOR, ACCOUNTS, HR, or a custom key
   description    String?      @db.Text
   isSystem       Boolean      @default(false) // the nine seeded roles cannot be deleted
   createdAt      DateTime     @default(now())
@@ -1034,6 +1035,21 @@ model PasswordResetToken {
   expiresAt DateTime
   usedAt    DateTime?
   createdAt DateTime  @default(now())
+}
+
+// The emailed code an Admin types after the password (see POST /auth/login/code).
+model LoginCode {
+  id         String    @id @default(uuid()) @db.Char(36)
+  userId     String    @db.Char(36)
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ticketHash String    @unique // SHA-256 of the one-time ticket the browser holds between the two steps
+  codeHash   String
+  tries      Int       @default(0)
+  expiresAt  DateTime
+  usedAt     DateTime?
+  createdAt  DateTime  @default(now())
+
+  @@index([userId])
 }
 
 model ApiKey {

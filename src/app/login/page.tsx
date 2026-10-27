@@ -22,6 +22,9 @@ export default function LoginPage() {
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
   const [google, setGoogle] = useState(false)
+  // Admin types an emailed code after the password
+  const [step, setStep] = useState<{ ticket: string; email: string; minutes: number } | null>(null)
+  const [code, setCode] = useState('')
   useEffect(() => {
     const back = new URLSearchParams(window.location.search).get('google')
     if (back) { setError(GOOGLE_LOGIN[back] ?? 'Google sign-in did not work. Try again or use your password.'); window.history.replaceState(null, '', '/login') }
@@ -32,13 +35,36 @@ export default function LoginPage() {
     setBusy(true)
     setError('')
     try {
-      await api('/auth/login', { body: { email, password } })
+      if (step) {
+        await api('/auth/login/code', { body: { ticket: step.ticket, code } })
+        router.replace('/dashboard')
+        return
+      }
+      const r = await api('/auth/login', { body: { email, password } })
+      if (r?.codeSent) {
+        setStep({ ticket: r.ticket, email: r.email, minutes: r.minutes })
+        setBusy(false)
+        return
+      }
       router.replace('/dashboard')
     } catch (err) {
       setError((err as Error).message)
       setBusy(false)
     }
   }
+  if (step) return (
+    <EntryFrame title="Check your email" intro={`We sent a 6-digit code to ${step.email}. It works for ${step.minutes} minutes.`}>
+      <form onSubmit={submit} className="space-y-4">
+        <Field label="Sign-in code"><Input inputMode="numeric" autoComplete="one-time-code" placeholder="123456" maxLength={7} className="num h-11 text-lg tracking-[0.3em]" value={code} onChange={(e) => setCode(e.target.value)} required autoFocus /></Field>
+        {error && <p role="alert" className="rounded-lg bg-bad-soft px-3 py-2 text-sm text-bad">{error}</p>}
+        <Button type="submit" variant="primary" loading={busy} className="h-11 w-full">Sign in</Button>
+        <div className="flex flex-wrap items-center justify-between gap-2 border-t border-line pt-4 text-[13px] text-muted">
+          <span>No email? Check spam, or start again.</span>
+          <button type="button" className="font-medium text-accent hover:underline" onClick={() => { setStep(null); setCode(''); setError('') }}>Start again</button>
+        </div>
+      </form>
+    </EntryFrame>
+  )
   return (
     <EntryFrame title="Sign in" intro="Use your work email and password.">
       <form onSubmit={submit} className="space-y-4">

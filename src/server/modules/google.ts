@@ -9,6 +9,7 @@ import { rateLimit, Router, type Request, type Response } from '../core/router'
 import { audit } from '../core/util'
 import { prisma, type Tx } from '../db'
 import { env } from '../env'
+import { APP_NAME } from '../../lib/brand'
 
 const S = 'SETTINGS'
 // Remembers, for ten minutes, which sign-in this browser started: "login.<state>" or "connect.<state>.<userId>".
@@ -91,7 +92,7 @@ integrationsRouter.get('/', authorize(S, 'VIEW'), async (req, res) => {
   const mail = (smtp?.config ?? {}) as { host?: string; fromEmail?: string }
   res.json({
     google: {
-      clientId: config.clientId ?? '', hasSecret: !!secret.clientSecret, allowedDomain: config.allowedDomain ?? '', signIn: !!config.signIn, folderName: config.folderName || 'CX CRM ERP',
+      clientId: config.clientId ?? '', hasSecret: !!secret.clientSecret, allowedDomain: config.allowedDomain ?? '', signIn: !!config.signIn, folderName: config.folderName || APP_NAME,
       connected: !!secret.refreshToken, connectedEmail: config.connectedEmail ?? null, connectedAt: config.connectedAt ?? null, folderUrl: folderUrl(config.folderId), redirectUri: redirectUri(),
       linkedUsers: await prisma.user.count({ where: { organizationId, googleSub: { not: null }, deletedAt: null } }),
     },

@@ -411,6 +411,7 @@ export const ModelName = {
   PortalSession: 'PortalSession',
   PortalCode: 'PortalCode',
   PasswordResetToken: 'PasswordResetToken',
+  LoginCode: 'LoginCode',
   ApiKey: 'ApiKey',
   AuditLog: 'AuditLog',
   File: 'File',
@@ -521,7 +522,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "organization" | "branch" | "department" | "team" | "teamMember" | "user" | "role" | "userRole" | "permission" | "rolePermission" | "session" | "portalSession" | "portalCode" | "passwordResetToken" | "apiKey" | "auditLog" | "file" | "attachment" | "note" | "comment" | "activity" | "tag" | "tagAssignment" | "numberSequence" | "leadSource" | "leadStage" | "lead" | "followUp" | "customer" | "contact" | "pipeline" | "pipelineStage" | "deal" | "meeting" | "meetingAttendee" | "callLog" | "service" | "servicePackage" | "servicePackageItem" | "priceRule" | "taxRate" | "quotation" | "quotationItem" | "approvalRule" | "approvalRequest" | "approvalStep" | "invoiceTemplate" | "invoice" | "invoiceItem" | "creditNote" | "creditNoteItem" | "recurringInvoice" | "recurringInvoiceItem" | "bankAccount" | "payment" | "paymentAllocation" | "paymentReminder" | "project" | "projectMember" | "milestone" | "task" | "timeEntry" | "socialAccount" | "campaign" | "contentItem" | "adSpend" | "campaignReport" | "website" | "webAsset" | "credential" | "credentialAccessLog" | "ticket" | "documentFolder" | "document" | "documentVersion" | "employee" | "attendance" | "leaveType" | "leaveBalance" | "leaveRequest" | "holiday" | "payrollRun" | "payslip" | "performanceReview" | "asset" | "assetAssignment" | "assetMaintenance" | "expenseCategory" | "vendor" | "expense" | "ledgerEntry" | "savedReport" | "exportJob" | "importJob" | "dashboardWidget" | "savedFilter" | "automationRule" | "automationAction" | "automationRun" | "leadAssignmentRule" | "messageTemplate" | "message" | "notification" | "notificationPreference" | "integrationSetting" | "webhookEvent" | "outboxEvent" | "jobOpening" | "candidate"
+    modelProps: "organization" | "branch" | "department" | "team" | "teamMember" | "user" | "role" | "userRole" | "permission" | "rolePermission" | "session" | "portalSession" | "portalCode" | "passwordResetToken" | "loginCode" | "apiKey" | "auditLog" | "file" | "attachment" | "note" | "comment" | "activity" | "tag" | "tagAssignment" | "numberSequence" | "leadSource" | "leadStage" | "lead" | "followUp" | "customer" | "contact" | "pipeline" | "pipelineStage" | "deal" | "meeting" | "meetingAttendee" | "callLog" | "service" | "servicePackage" | "servicePackageItem" | "priceRule" | "taxRate" | "quotation" | "quotationItem" | "approvalRule" | "approvalRequest" | "approvalStep" | "invoiceTemplate" | "invoice" | "invoiceItem" | "creditNote" | "creditNoteItem" | "recurringInvoice" | "recurringInvoiceItem" | "bankAccount" | "payment" | "paymentAllocation" | "paymentReminder" | "project" | "projectMember" | "milestone" | "task" | "timeEntry" | "socialAccount" | "campaign" | "contentItem" | "adSpend" | "campaignReport" | "website" | "webAsset" | "credential" | "credentialAccessLog" | "ticket" | "documentFolder" | "document" | "documentVersion" | "employee" | "attendance" | "leaveType" | "leaveBalance" | "leaveRequest" | "holiday" | "payrollRun" | "payslip" | "performanceReview" | "asset" | "assetAssignment" | "assetMaintenance" | "expenseCategory" | "vendor" | "expense" | "ledgerEntry" | "savedReport" | "exportJob" | "importJob" | "dashboardWidget" | "savedFilter" | "automationRule" | "automationAction" | "automationRun" | "leadAssignmentRule" | "messageTemplate" | "message" | "notification" | "notificationPreference" | "integrationSetting" | "webhookEvent" | "outboxEvent" | "jobOpening" | "candidate"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1558,6 +1559,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.PasswordResetTokenCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.PasswordResetTokenCountAggregateOutputType> | number
+        }
+      }
+    }
+    LoginCode: {
+      payload: Prisma.$LoginCodePayload<ExtArgs>
+      fields: Prisma.LoginCodeFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.LoginCodeFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginCodePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.LoginCodeFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginCodePayload>
+        }
+        findFirst: {
+          args: Prisma.LoginCodeFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginCodePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.LoginCodeFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginCodePayload>
+        }
+        findMany: {
+          args: Prisma.LoginCodeFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginCodePayload>[]
+        }
+        create: {
+          args: Prisma.LoginCodeCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginCodePayload>
+        }
+        createMany: {
+          args: Prisma.LoginCodeCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.LoginCodeCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginCodePayload>[]
+        }
+        delete: {
+          args: Prisma.LoginCodeDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginCodePayload>
+        }
+        update: {
+          args: Prisma.LoginCodeUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginCodePayload>
+        }
+        deleteMany: {
+          args: Prisma.LoginCodeDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.LoginCodeUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.LoginCodeUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginCodePayload>[]
+        }
+        upsert: {
+          args: Prisma.LoginCodeUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$LoginCodePayload>
+        }
+        aggregate: {
+          args: Prisma.LoginCodeAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateLoginCode>
+        }
+        groupBy: {
+          args: Prisma.LoginCodeGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LoginCodeGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.LoginCodeCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.LoginCodeCountAggregateOutputType> | number
         }
       }
     }
@@ -8840,6 +8915,20 @@ export const PasswordResetTokenScalarFieldEnum = {
 export type PasswordResetTokenScalarFieldEnum = (typeof PasswordResetTokenScalarFieldEnum)[keyof typeof PasswordResetTokenScalarFieldEnum]
 
 
+export const LoginCodeScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  ticketHash: 'ticketHash',
+  codeHash: 'codeHash',
+  tries: 'tries',
+  expiresAt: 'expiresAt',
+  usedAt: 'usedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type LoginCodeScalarFieldEnum = (typeof LoginCodeScalarFieldEnum)[keyof typeof LoginCodeScalarFieldEnum]
+
+
 export const ApiKeyScalarFieldEnum = {
   id: 'id',
   organizationId: 'organizationId',
@@ -11922,6 +12011,7 @@ export type GlobalOmitConfig = {
   portalSession?: Prisma.PortalSessionOmit
   portalCode?: Prisma.PortalCodeOmit
   passwordResetToken?: Prisma.PasswordResetTokenOmit
+  loginCode?: Prisma.LoginCodeOmit
   apiKey?: Prisma.ApiKeyOmit
   auditLog?: Prisma.AuditLogOmit
   file?: Prisma.FileOmit

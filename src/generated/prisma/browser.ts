@@ -90,6 +90,11 @@ export type PortalCode = Prisma.PortalCodeModel
  */
 export type PasswordResetToken = Prisma.PasswordResetTokenModel
 /**
+ * Model LoginCode
+ * 
+ */
+export type LoginCode = Prisma.LoginCodeModel
+/**
  * Model ApiKey
  * 
  */

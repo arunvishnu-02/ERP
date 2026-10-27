@@ -65,6 +65,7 @@ export const ModelName = {
   PortalSession: 'PortalSession',
   PortalCode: 'PortalCode',
   PasswordResetToken: 'PasswordResetToken',
+  LoginCode: 'LoginCode',
   ApiKey: 'ApiKey',
   AuditLog: 'AuditLog',
   File: 'File',
@@ -386,6 +387,20 @@ export const PasswordResetTokenScalarFieldEnum = {
 } as const
 
 export type PasswordResetTokenScalarFieldEnum = (typeof PasswordResetTokenScalarFieldEnum)[keyof typeof PasswordResetTokenScalarFieldEnum]
+
+
+export const LoginCodeScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  ticketHash: 'ticketHash',
+  codeHash: 'codeHash',
+  tries: 'tries',
+  expiresAt: 'expiresAt',
+  usedAt: 'usedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type LoginCodeScalarFieldEnum = (typeof LoginCodeScalarFieldEnum)[keyof typeof LoginCodeScalarFieldEnum]
 
 
 export const ApiKeyScalarFieldEnum = {

@@ -11,12 +11,16 @@ export interface Me {
   departmentId: string | null
   mustChangePassword: boolean
   roles: { id: string; key: string; name: string }[]
+  /** Only Admin sees money: amounts, budgets, quotations and salaries. */
+  admin: boolean
   perms: Record<string, Record<string, 'OWN' | 'TEAM' | 'DEPARTMENT' | 'ALL'>>
 }
 export type Action = 'VIEW' | 'CREATE' | 'EDIT' | 'DELETE' | 'APPROVE' | 'EXPORT' | 'IMPORT'
 interface Ctx {
   me: Me
   lookups: any
+  /** True for Admin, the only person who sees money. */
+  admin: boolean
   can: (module: string, action?: Action) => boolean
   scope: (module: string, action?: Action) => string | undefined
   reloadLookups: () => Promise<void>
@@ -54,7 +58,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const value = useMemo<Ctx | null>(() => {
     if (!me || !lookups) return null
     return {
-      me, lookups, reloadLookups, reloadMe,
+      me, lookups, reloadLookups, reloadMe, admin: !!me.admin,
       can: (module, action = 'VIEW') => !!me.perms[module]?.[action],
       scope: (module, action = 'VIEW') => me.perms[module]?.[action],
       logout: async () => {
