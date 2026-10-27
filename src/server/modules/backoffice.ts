@@ -94,6 +94,22 @@ hrRouter.put('/attendance', authorize(HR, 'EDIT'), async (req, res) => {
   res.json(row)
 })
 
+/** Leave balances are for Admin and the HR role only. */
+const seesLeaveBalance = (u: Request['user']) => u.admin || u.roles.some((r) => r.key === 'HR')
+hrRouter.get('/leave-balances', authorize(HR, 'VIEW'), async (req, res) => {
+  if (!seesLeaveBalance(req.user)) throw forbidden('Only Admin and HR see leave balances')
+  const org = req.user.organizationId
+  const year = Number(todayStr().slice(0, 4))
+  const [types, people, used] = await Promise.all([
+    prisma.leaveType.findMany({ where: { organizationId: org }, orderBy: { name: 'asc' }, select: { id: true, name: true, annualQuota: true } }),
+    prisma.employee.findMany({ where: { organizationId: org, status: { not: 'EXITED' } }, orderBy: { firstName: 'asc' }, select: { id: true, firstName: true, lastName: true, employeeCode: true, designation: true } }),
+    prisma.leaveRequest.groupBy({ by: ['employeeId', 'leaveTypeId'], where: { organizationId: org, status: 'APPROVED', startDate: { gte: dateOnly(`${year}-01-01`) } }, _sum: { days: true } }),
+  ])
+  res.json({
+    year, types,
+    items: people.map((p) => ({ ...p, leave: types.map((t) => { const u = Number(used.find((x) => x.employeeId === p.id && x.leaveTypeId === t.id)?._sum.days ?? 0); return { leaveTypeId: t.id, used: u, left: Number(t.annualQuota) - u } }) })),
+  })
+})
 const leaveInclude = { employee: { select: { id: true, firstName: true, lastName: true, userId: true } }, leaveType: true, approver: U }
 hrRouter.get('/leave-requests', authorize(HR, 'VIEW'), async (req, res) => {
   const where: any = { organizationId: req.user.organizationId }
@@ -153,7 +169,8 @@ meRouter.get('/hr', async (req, res) => {
     prisma.leaveType.findMany({ where: { organizationId: req.user.organizationId }, orderBy: { name: 'asc' } }),
     prisma.leaveRequest.groupBy({ by: ['leaveTypeId'], where: { employeeId, status: 'APPROVED', startDate: { gte: dateOnly(`${year}-01-01`) } }, _sum: { days: true } }),
   ])
-  res.json({ employee, attendance, leaveRequests, leaveTypes: leaveTypes.map((t) => ({ ...t, used: Number(used.find((u) => u.leaveTypeId === t.id)?._sum.days ?? 0) })) })
+  // leave balances (days per year and days used) are shown to Admin and HR only
+  res.json({ employee, attendance, leaveRequests, leaveTypes: seesLeaveBalance(req.user) ? leaveTypes.map((t) => ({ ...t, used: Number(used.find((u) => u.leaveTypeId === t.id)?._sum.days ?? 0) })) : leaveTypes.map((t) => ({ id: t.id, name: t.name, code: t.code })) })
 })
 meRouter.post('/check-in', async (req, res) => {
   const employeeId = myEmployee(req)

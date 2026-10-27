@@ -129,15 +129,38 @@ function Leave() {
   )
 }
 
+function LeaveBalances() {
+  const { data } = useApi<{ year: number; types: any[]; items: any[] }>('/hr/leave-balances')
+  if (!data) return <Loading />
+  return (
+    <Card className="overflow-hidden">
+      <p className="px-6 pt-5 pb-3 font-serif text-[15px] text-muted">Approved leave taken in {data.year}, and what is left. Only Admin and HR see this.</p>
+      {!data.items.length ? <Empty>No employees yet.</Empty> : (
+        <Table>
+          <thead><tr><Th>Employee</Th>{data.types.map((t) => <Th key={t.id} right>{t.name}{Number(t.annualQuota) ? ` (${Number(t.annualQuota)})` : ''}</Th>)}</tr></thead>
+          <tbody>{data.items.map((e) => (
+            <tr key={e.id}>
+              <Td><Two top={personName(e)} bottom={[e.employeeCode, e.designation].filter(Boolean).join(' · ')} /></Td>
+              {data.types.map((t, i) => { const l = e.leave[i]; const quota = Number(t.annualQuota); return <Td key={t.id} right><span className="num">{quota ? <><span className={l.left < 0 ? 'text-bad' : ''}>{l.left} left</span><span className="text-muted"> · {l.used} used</span></> : <span className="text-muted">{l.used} used</span>}</span></Td> })}
+            </tr>
+          ))}</tbody>
+        </Table>
+      )}
+    </Card>
+  )
+}
+
 export default function HR() {
-  const { lookups, reloadLookups, admin } = useAuth()
+  const { lookups, reloadLookups, admin, me } = useAuth()
+  const balances = admin || me.roles.some((r) => r.key === 'HR')
   const [tab, setTab] = useState('employees')
   return (
     <div className="space-y-3">
-      <Tabs value={tab} onChange={setTab} options={[{ value: 'employees', label: 'Employees' }, { value: 'attendance', label: 'Attendance' }, { value: 'leave', label: 'Leave requests' }, ...(admin ? [{ value: 'payroll', label: 'Payroll' }] : []), { value: 'hiring', label: 'Hiring' }, { value: 'holidays', label: 'Holidays' }, { value: 'reviews', label: 'Performance reviews' }, { value: 'types', label: 'Leave types' }]} />
+      <Tabs value={tab} onChange={setTab} options={[{ value: 'employees', label: 'Employees' }, { value: 'attendance', label: 'Attendance' }, { value: 'leave', label: 'Leave requests' }, ...(balances ? [{ value: 'balances', label: 'Leave balance' }] : []), ...(admin ? [{ value: 'payroll', label: 'Payroll' }] : []), { value: 'hiring', label: 'Hiring' }, { value: 'holidays', label: 'Holidays' }, { value: 'reviews', label: 'Performance reviews' }, { value: 'types', label: 'Leave types' }]} />
       {tab === 'employees' && <Employees />}
       {tab === 'attendance' && <Attendance />}
       {tab === 'leave' && <Leave />}
+      {tab === 'balances' && balances && <LeaveBalances />}
       {tab === 'payroll' && admin && <Payroll />}
       {tab === 'hiring' && <Hiring />}
       {tab === 'holidays' && (

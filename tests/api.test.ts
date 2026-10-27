@@ -394,7 +394,10 @@ test('the other modules save and read back', async () => {
   await deny('POST', `/hr/leave-requests/${leave.id}/approve`, S.dev, undefined)
   assert.equal((await ok('POST', `/hr/leave-requests/${leave.id}/approve`, S.hr)).status, 'APPROVED')
   const mine = await ok('GET', '/me/hr', S.dev)
-  assert.deepEqual([mine.attendance.status, mine.leaveRequests.length, mine.leaveTypes.find((t: any) => t.id === S.lk.leaveTypes[0].id).used], ['PRESENT', 1, 2])
+  // staff do not see their balance; HR does
+  assert.deepEqual([mine.attendance.status, mine.leaveRequests.length, mine.leaveTypes.find((t: any) => t.id === S.lk.leaveTypes[0].id).used], ['PRESENT', 1, undefined])
+  const bal = await ok('GET', '/hr/leave-balances', S.hr)
+  assert.equal(bal.items.find((e: any) => e.id === devEmp.id).leave[bal.types.findIndex((t: any) => t.id === S.lk.leaveTypes[0].id)].used, 2)
   assert.equal((await ok('GET', `/hr/attendance?date=${plusDays(3)}`, S.hr)).items.find((e: any) => e.id === devEmp.id).attendance.status, 'ON_LEAVE')
   await ok('POST', '/hr/holidays', S.hr, { name: 'Founders day', date: plusDays(20) })
   await ok('POST', '/hr/reviews', S.hr, { employeeId: devEmp.id, periodStart: plusDays(-90), periodEnd: today, rating: 4.5, strengths: 'Reliable' })
@@ -1073,4 +1076,20 @@ test('A project given to a team is run by its Team Lead, who gives tasks only to
   // the team member sees the team project
   const D = await signIn('priya@example.com', 'Passw0rd!')
   assert.ok((await ok('GET', '/projects', D)).items.some((p: any) => p.id === proj.id))
+})
+
+test('Leave balances are shown to Admin and HR only', async () => {
+  const all = await ok('GET', '/hr/leave-balances', S.admin)
+  assert.ok(all.types.length && all.items.length)
+  assert.ok(all.items[0].leave.every((l: any) => typeof l.used === 'number' && typeof l.left === 'number'))
+  await ok('GET', '/hr/leave-balances', S.hr)
+  await deny('GET', '/hr/leave-balances', S.manager, undefined)
+  await deny('GET', '/hr/leave-balances', S.sales, undefined)
+  const mine = await ok('GET', '/me/hr', S.sales)
+  if (mine.employee) {
+    assert.ok(mine.leaveTypes.length)
+    assert.ok(mine.leaveTypes.every((t: any) => t.used === undefined && t.annualQuota === undefined))
+  }
+  const hr = await ok('GET', '/me/hr', S.hr)
+  if (hr.employee) assert.ok(hr.leaveTypes.every((t: any) => typeof t.used === 'number'))
 })

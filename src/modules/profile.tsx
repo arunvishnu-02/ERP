@@ -39,15 +39,15 @@ export default function Profile() {
         </Panel>
       )}
       {e && (
-        <Panel title="Leave this year" action={<Button size="sm" variant="primary" onClick={() => setLeave(true)}>Ask for leave</Button>}>
-          <div className="space-y-3">
+        <Panel title={data.leaveTypes.some((t: any) => t.used !== undefined) ? 'Leave this year' : 'Leave'} action={<Button size="sm" variant="primary" onClick={() => setLeave(true)}>Ask for leave</Button>}>
+          {data.leaveTypes.every((t: any) => t.used === undefined) ? <p className="font-serif text-[15px] text-muted">Ask for leave here. Your Team Lead and HR approve it, and HR keeps your leave balance.</p> : <div className="space-y-3">
             {data.leaveTypes.map((t: any) => (
               <div key={t.id} className="text-sm">
                 <div className="mb-1 flex justify-between gap-2"><span>{t.name}</span><span className="num text-muted">{t.used} of {t.annualQuota} days used</span></div>
                 <Progress value={t.annualQuota ? (t.used / t.annualQuota) * 100 : 0} hot={t.used > t.annualQuota} />
               </div>
             ))}
-          </div>
+          </div>}
         </Panel>
       )}
       {e && (
