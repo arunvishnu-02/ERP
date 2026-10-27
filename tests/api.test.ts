@@ -1013,4 +1013,33 @@ test('Team Lead and Staff roles are ready to give out, with no money', async () 
   assert.deepEqual(Object.keys((await ok('GET', '/auth/me', P)).perms).sort(), ['DASHBOARD', 'DOCUMENTS', 'PROJECTS', 'TASKS', 'TICKETS'])
   await deny('GET', '/leads', P, undefined)
   assert.ok(st.id)
+  S.staff = P
+})
+
+test('Calendar shows each person only what they may see, and their own events', async () => {
+  const day = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(new Date())
+  const range = `/calendar?from=${day.slice(0, 8)}01&to=${day.slice(0, 8)}28`
+  const task = await ok('POST', '/tasks', S.admin, { title: 'Calendar check task', dueDate: `${day.slice(0, 8)}10T10:00:00.000Z` })
+  const shared = await ok('POST', '/calendar/events', S.admin, { title: 'Office outing', date: `${day.slice(0, 8)}12`, shared: true })
+  const P = S.staff
+  await deny('POST', '/calendar/events', P, { title: 'For all', date: `${day.slice(0, 8)}12`, shared: true })
+  const mine = await ok('POST', '/calendar/events', P, { title: 'Dentist', date: `${day.slice(0, 8)}14`, time: '16:30' })
+  await deny('DELETE', `/calendar/events/${shared.id}`, P, undefined)
+  await deny('POST', '/calendar/events', P, { title: 'Bad time', date: day, time: '25:00' }, 400)
+
+  const staff = (await ok('GET', range, P)).items
+  assert.ok(staff.some((i: any) => i.id === `event-${shared.id}` && !i.mine))
+  assert.ok(staff.some((i: any) => i.id === `event-${mine.id}` && i.mine && i.time === '16:30'))
+  assert.ok(!staff.some((i: any) => i.id === `task-${task.id}`))
+  assert.ok(!staff.some((i: any) => i.kind === 'invoice' || i.kind === 'payroll'))
+
+  const admin = await ok('GET', range, S.admin)
+  assert.equal(admin.finance, true)
+  assert.ok(admin.items.some((i: any) => i.id === `task-${task.id}` && i.date.endsWith('-10')))
+  assert.ok(!admin.items.some((i: any) => i.id === `event-${mine.id}`))
+  await deny('GET', `/calendar?from=${day}&to=2099-01-01`, S.admin, undefined, 400)
+
+  await ok('PUT', `/calendar/events/${mine.id}`, P, { title: 'Dentist visit', date: `${day.slice(0, 8)}15` })
+  await ok('DELETE', `/calendar/events/${mine.id}`, P)
+  assert.ok(!(await ok('GET', range, P)).items.some((i: any) => i.id === `event-${mine.id}`))
 })

@@ -66,6 +66,7 @@ export const ModelName = {
   PortalCode: 'PortalCode',
   PasswordResetToken: 'PasswordResetToken',
   LoginCode: 'LoginCode',
+  CalendarEvent: 'CalendarEvent',
   ApiKey: 'ApiKey',
   AuditLog: 'AuditLog',
   File: 'File',
@@ -401,6 +402,22 @@ export const LoginCodeScalarFieldEnum = {
 } as const
 
 export type LoginCodeScalarFieldEnum = (typeof LoginCodeScalarFieldEnum)[keyof typeof LoginCodeScalarFieldEnum]
+
+
+export const CalendarEventScalarFieldEnum = {
+  id: 'id',
+  organizationId: 'organizationId',
+  title: 'title',
+  date: 'date',
+  time: 'time',
+  notes: 'notes',
+  shared: 'shared',
+  createdById: 'createdById',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CalendarEventScalarFieldEnum = (typeof CalendarEventScalarFieldEnum)[keyof typeof CalendarEventScalarFieldEnum]
 
 
 export const ApiKeyScalarFieldEnum = {
