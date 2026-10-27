@@ -84,6 +84,7 @@
   --color-chart-2: var(--chart-2);
   --font-sans: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-display: 'Poppins', system-ui, sans-serif;
+  --font-serif: 'Lora', Georgia, serif;
 }
 
 html {
@@ -167,10 +168,10 @@ button:not(:disabled),
 }
 .btn-bright:hover { background: #d8f88f; }
 .glass {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  color: #fff;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--ink);
 }
-.glass:hover { background: rgba(255, 255, 255, 0.16); }
+.glass:hover { background: var(--surface-2); }
 .card-shadow { box-shadow: 0 8px 28px rgba(20, 20, 19, 0.06); }
 .dark .card-shadow { box-shadow: none; }
