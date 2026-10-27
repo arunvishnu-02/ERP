@@ -27,7 +27,7 @@ function Mini({ title, rows, empty }: { title: string; rows: { key: string; left
 }
 
 function CustomerSheet({ id, onClose, onChanged }: { id: string | null; onClose: () => void; onChanged: () => void }) {
-  const { can } = useAuth()
+  const { can, admin } = useAuth()
   const { data: c, reload } = useApi<any>(id ? `/customers/${id}` : null)
   const { data: h } = useApi<any>(id ? `/customers/${id}/history` : null)
   const [contact, setContact] = useState(false)
@@ -58,8 +58,8 @@ function CustomerSheet({ id, onClose, onChanged }: { id: string | null; onClose:
             <Card className="grid gap-5 p-4 sm:grid-cols-2">
               <Mini title="Projects" empty="No projects" rows={h.projects.map((p: any) => ({ key: p.id, left: p.name, right: <Status value={p.status} /> }))} />
               <Mini title="Quotations" empty="No quotations" rows={h.quotations.map((q: any) => ({ key: q.id, left: <span className="num">{q.quotationNumber}</span>, right: <Status value={q.status} /> }))} />
-              <Mini title="Invoices" empty="No invoices" rows={h.invoices.map((i: any) => ({ key: i.id, left: <><span className="num">{i.invoiceNumber.startsWith('DRAFT-') ? 'Draft' : i.invoiceNumber}</span> <span className="num text-muted">{inr(i.totalAmount)}</span></>, right: <Status value={i.status} /> }))} />
-              <Mini title="Payments" empty="No payments" rows={h.payments.map((p: any) => ({ key: p.id, left: <span className="num">{p.receiptNumber}</span>, right: <span className="num">{inr(p.amount)} <span className="text-muted">{fmtDate(p.paymentDate)}</span></span> }))} />
+              <Mini title="Invoices" empty="No invoices" rows={h.invoices.map((i: any) => ({ key: i.id, left: <><span className="num">{i.invoiceNumber.startsWith('DRAFT-') ? 'Draft' : i.invoiceNumber}</span> {admin && <span className="num text-muted">{inr(i.totalAmount)}</span>}</>, right: <Status value={i.status} /> }))} />
+              <Mini title="Payments" empty="No payments" rows={h.payments.map((p: any) => ({ key: p.id, left: <span className="num">{p.receiptNumber}</span>, right: <span className="num">{admin && inr(p.amount)} <span className="text-muted">{fmtDate(p.paymentDate)}</span></span> }))} />
               <Mini title="Domains, hosting and SSL" empty="Nothing to renew" rows={h.webAssets.map((w: any) => ({ key: w.id, left: w.name, right: <ExpiryTag date={w.expiryDate} /> }))} />
               <Mini title="Tickets" empty="No tickets" rows={h.tickets.map((t: any) => ({ key: t.id, left: t.subject, right: <Status value={t.status} /> }))} />
             </Card>

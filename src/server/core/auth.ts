@@ -4,6 +4,7 @@ import { env } from '../env'
 import { forbidden, HttpError } from './http'
 import type { NextFunction, Request, Response } from './router'
 
+export const ADMIN_ROLE = 'SUPER_ADMIN'
 export type Scope = 'OWN' | 'TEAM' | 'DEPARTMENT' | 'ALL'
 export type Action = 'VIEW' | 'CREATE' | 'EDIT' | 'DELETE' | 'APPROVE' | 'EXPORT' | 'IMPORT'
 const RANK: Record<Scope, number> = { OWN: 0, TEAM: 1, DEPARTMENT: 2, ALL: 3 }
@@ -18,6 +19,8 @@ export interface AuthUser {
   employeeId: string | null
   mustChangePassword: boolean
   roles: { id: string; key: string; name: string }[]
+  /** Admin (the SUPER_ADMIN role): the only person who sees money amounts, quotations and salaries. */
+  admin: boolean
   perms: Record<string, Record<string, Scope>>
 }
 
@@ -73,6 +76,7 @@ export async function loadUser(id: string): Promise<AuthUser | null> {
     employeeId: u.employee?.id ?? null,
     mustChangePassword: u.mustChangePassword,
     roles: u.roles.map((r) => ({ id: r.role.id, key: r.role.key, name: r.role.name })),
+    admin: u.roles.some((r) => r.role.key === ADMIN_ROLE),
     perms,
   }
 }
@@ -126,6 +130,12 @@ export const authorize = (module: string, action: Action) => (req: Request, _res
   const s = can(req.user, module, action)
   if (!s) throw forbidden()
   req.scope = s
+  next()
+}
+
+/** Lets only Admin through, for salaries and payroll. */
+export const adminOnly = (req: Request, _res: Response, next: NextFunction) => {
+  if (!req.user?.admin) throw forbidden()
   next()
 }
 

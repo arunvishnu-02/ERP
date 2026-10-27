@@ -14,7 +14,7 @@ import { act, DueTag, Person, useCustomerOptions, userOptions } from './common'
 const party = (r: any) => r.customer?.name ?? leadLabel(r.lead) ?? ''
 
 function Pipeline() {
-  const { lookups, can } = useAuth()
+  const { lookups, can, admin } = useAuth()
   const customers = useCustomerOptions()
   const { data, reload } = useApi<{ items: any[] }>('/deals?limit=500')
   const [form, setForm] = useState<{ row?: any } | null>(null)
@@ -22,7 +22,7 @@ function Pipeline() {
   const deals = data?.items ?? []
   const fields: Field[] = [
     { name: 'title', label: 'Deal', required: true, full: true }, { name: 'customerId', label: 'Customer', type: 'select', options: customers },
-    { name: 'value', label: 'Value (₹)', type: 'number' }, { name: 'stageId', label: 'Stage', type: 'select', options: stages.map((s) => ({ value: s.id, label: s.name })), required: true },
+    ...(admin ? [{ name: 'value', label: 'Value (₹)', type: 'number' as const }] : []), { name: 'stageId', label: 'Stage', type: 'select', options: stages.map((s) => ({ value: s.id, label: s.name })), required: true },
     { name: 'expectedCloseDate', label: 'Expected close', type: 'date' }, { name: 'ownerId', label: 'Owner', type: 'select', options: userOptions(lookups), placeholder: 'Me' },
   ]
   return (
@@ -33,9 +33,9 @@ function Pipeline() {
       </div>
       <Board
         items={deals} columnOf={(d: any) => d.stageId} onOpen={can('SALES', 'EDIT') ? (d: any) => setForm({ row: d }) : undefined}
-        columns={stages.map((s) => { const ds = deals.filter((d) => d.stageId === s.id); return { key: s.id, label: s.name, meta: `${ds.length}, ${inrShort(ds.reduce((a, d) => a + d.value, 0))}` } })}
+        columns={stages.map((s) => { const ds = deals.filter((d) => d.stageId === s.id); return { key: s.id, label: s.name, meta: admin ? `${ds.length}, ${inrShort(ds.reduce((a, d) => a + d.value, 0))}` : String(ds.length) } })}
         onMove={can('SALES', 'EDIT') ? (d: any, to) => act(() => api(`/deals/${d.id}`, { method: 'PATCH', body: { stageId: to } })).then(reload) : undefined}
-        render={(d: any) => <><div className="font-medium">{d.title}</div><div className="text-xs text-muted">{party(d)}</div><div className="mt-2 flex items-center justify-between gap-2 text-xs"><span className="num font-medium">{inrShort(d.value)}</span><span className="flex items-center gap-1.5 text-muted">{d.expectedCloseDate && fmtShort(d.expectedCloseDate)}<Avatar name={personName(d.owner)} /></span></div></>}
+        render={(d: any) => <><div className="font-medium">{d.title}</div><div className="text-xs text-muted">{party(d)}</div><div className="mt-2 flex items-center justify-between gap-2 text-xs"><span className="num font-medium">{admin ? inrShort(d.value) : ''}</span><span className="flex items-center gap-1.5 text-muted">{d.expectedCloseDate && fmtShort(d.expectedCloseDate)}<Avatar name={personName(d.owner)} /></span></div></>}
       />
       <FormDialog open={!!form} onClose={() => setForm(null)} title={form?.row ? 'Edit deal' : 'Add deal'} fields={fields} submitLabel={form?.row ? 'Save changes' : 'Add deal'}
         initial={form?.row ? { ...form.row, expectedCloseDate: day(form.row.expectedCloseDate), customerId: form.row.customerId ?? '' } : { stageId: stages[0]?.id, expectedCloseDate: plusDays(30) }}

@@ -1,6 +1,6 @@
 // Hiring: job openings, the people who apply, the offer letter, and turning a candidate into an employee.
 import { Router } from '../core/router'
-import { authorize } from '../core/auth'
+import { adminOnly, authorize } from '../core/auth'
 import { crud } from '../core/crud'
 import { conflict, isUuid, notFound, parse, shape } from '../core/http'
 import { addDays, audit, nextNumber, todayStr } from '../core/util'
@@ -18,7 +18,7 @@ const findCandidate = async (req: any) => {
 }
 
 /** The data the offer letter prints, in the same shape as an employee's letter. */
-hiringRouter.get('/candidates/:id/offer', authorize(HR, 'VIEW'), async (req, res) => {
+hiringRouter.get('/candidates/:id/offer', adminOnly, authorize(HR, 'VIEW'), async (req, res) => {
   const c = await findCandidate(req)
   const [org, dept] = await Promise.all([
     prisma.organization.findUniqueOrThrow({ where: { id: req.user.organizationId } }),
@@ -31,7 +31,7 @@ hiringRouter.get('/candidates/:id/offer', authorize(HR, 'VIEW'), async (req, res
   })
 })
 
-hiringRouter.post('/candidates/:id/offer-sent', authorize(HR, 'EDIT'), async (req, res) => {
+hiringRouter.post('/candidates/:id/offer-sent', adminOnly, authorize(HR, 'EDIT'), async (req, res) => {
   const d = parse(shape({ monthlySalary: 'n', joiningDate: 'd' }), req.body)
   const c = await findCandidate(req)
   if (['JOINED', 'REJECTED'].includes(c.stage)) throw conflict('This candidate is no longer in the hiring steps')

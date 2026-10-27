@@ -71,7 +71,9 @@ test('first-run setup creates the company with no sample records', async () => {
   assert.equal(me.perms.LEADS.VIEW, 'ALL')
   assert.equal(me.email, 'admin@example.com')
   S.lk = await ok('GET', '/lookups', S.admin)
-  assert.equal(S.lk.roles.length, 9)
+  assert.equal(S.lk.roles.length, 11)
+  assert.equal(me.admin, true)
+  assert.deepEqual(['SUPER_ADMIN', 'TEAM_LEAD', 'STAFF', 'SALES_EXECUTIVE'].map((k) => S.lk.roles.find((r: any) => r.key === k)?.name), ['Admin', 'Team Lead', 'Staff', 'Sales'])
   assert.equal(S.lk.leadStages.length, 6)
   assert.equal(S.lk.organization.stateCode, '29')
   for (const p of ['/leads', '/customers', '/quotations', '/invoices', '/payments', '/projects', '/tasks', '/tickets', '/campaigns', '/services']) assert.equal((await ok('GET', p, S.admin)).total, 0, p)
@@ -158,39 +160,43 @@ test('leads: own-record scope, follow-ups, rotation, website form, import, notes
 
 test('quotation: GST, approval, rejection, revision, sending, customer acceptance, conversion', async () => {
   const items = [{ description: 'Business website', quantity: 1, unitPrice: 60000, sacCode: '998314' }, { description: 'Ads management', quantity: 6, unit: 'months', unitPrice: 15000, discountPercent: 10 }]
-  const q = await ok('POST', '/quotations', S.sales, { leadId: S.l1.id, items })
+  // only Admin makes quotations; Sales and Manager cannot even see them
+  await deny('POST', '/quotations', S.sales, { leadId: S.l1.id, items })
+  await deny('GET', '/quotations', S.manager, undefined)
+  const q = await ok('POST', '/quotations', S.admin, { leadId: S.l1.id, items })
   assert.match(q.quotationNumber, /^CX\/QT\//)
   assert.deepEqual([q.taxableAmount, q.igstAmount, q.cgstAmount, q.totalAmount], [141000, 25380, 0, 166380]) // Kerala customer, Karnataka company: IGST
   assert.equal((await ok('GET', `/leads/${S.l1.id}`, S.sales)).stage.name, 'Proposal')
-  await deny('POST', '/quotations', S.sales, { leadId: S.l1.id, items: [] }, 400)
-  await ok('POST', `/quotations/${q.id}/submit`, S.sales)
+  await deny('POST', '/quotations', S.admin, { leadId: S.l1.id, items: [] }, 400)
+  await ok('POST', `/quotations/${q.id}/submit`, S.admin)
   await deny('POST', `/quotations/${q.id}/approve`, S.sales, undefined)
-  await deny('PATCH', `/quotations/${q.id}`, S.sales, { leadId: S.l1.id, items }, 409)
-  await deny('POST', `/quotations/${q.id}/send`, S.sales, {}, 409)
-  assert.equal((await ok('GET', '/dashboard', S.manager)).approvals.length, 1)
-  assert.equal((await ok('POST', `/quotations/${q.id}/reject`, S.manager, { note: 'Discount is too high' })).status, 'REJECTED')
-  const q2 = await ok('POST', `/quotations/${q.id}/revise`, S.sales)
+  await deny('PATCH', `/quotations/${q.id}`, S.admin, { leadId: S.l1.id, items }, 409)
+  await deny('POST', `/quotations/${q.id}/send`, S.admin, {}, 409)
+  assert.equal((await ok('GET', '/dashboard', S.admin)).approvals.length, 1)
+  assert.equal((await ok('GET', '/dashboard', S.manager)).approvals, undefined)
+  assert.equal((await ok('POST', `/quotations/${q.id}/reject`, S.admin, { note: 'Discount is too high' })).status, 'REJECTED')
+  const q2 = await ok('POST', `/quotations/${q.id}/revise`, S.admin)
   assert.deepEqual([q2.revision, q2.status, q2.quotationNumber], [2, 'DRAFT', q.quotationNumber])
-  const list = await ok('GET', '/quotations', S.sales)
+  const list = await ok('GET', '/quotations', S.admin)
   assert.deepEqual([list.total, list.items[0].id], [1, q2.id])
   items[0].unitPrice = 50000
-  const edited = await ok('PATCH', `/quotations/${q2.id}`, S.sales, { leadId: S.l1.id, items })
+  const edited = await ok('PATCH', `/quotations/${q2.id}`, S.admin, { leadId: S.l1.id, items })
   assert.deepEqual([edited.taxableAmount, edited.igstAmount, edited.totalAmount], [131000, 23580, 154580])
-  await ok('POST', `/quotations/${q2.id}/submit`, S.sales)
-  assert.equal((await ok('POST', `/quotations/${q2.id}/approve`, S.manager)).status, 'APPROVED')
-  const sent = await ok('POST', `/quotations/${q2.id}/send`, S.sales, { channel: 'LINK' })
+  await ok('POST', `/quotations/${q2.id}/submit`, S.admin)
+  assert.equal((await ok('POST', `/quotations/${q2.id}/approve`, S.admin)).status, 'APPROVED')
+  const sent = await ok('POST', `/quotations/${q2.id}/send`, S.admin, { channel: 'LINK' })
   assert.equal(sent.status, 'SENT')
   assert.match(sent.link, /^http:\/\/app\.test\/q\/.{20,}$/)
   assert.ok(sent.message.includes(sent.link))
-  const mail = await ok('POST', `/quotations/${q2.id}/send`, S.sales, { channel: 'EMAIL' })
+  const mail = await ok('POST', `/quotations/${q2.id}/send`, S.admin, { channel: 'EMAIL' })
   assert.equal(mail.email.sent, false) // SMTP is not set up yet
   const token = sent.link.split('/q/')[1]
   const pub = await ok('GET', `/public/quotations/${token}`)
   assert.deepEqual([pub.status, pub.publicToken, pub.organization.name, pub.items.length], ['VIEWED', undefined, 'Cipher Mutex', 2])
   await deny('GET', '/public/quotations/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', undefined, undefined, 404)
-  await deny('POST', `/quotations/${q2.id}/convert`, S.sales, {}, 409)
+  await deny('POST', `/quotations/${q2.id}/convert`, S.admin, {}, 409)
   assert.equal((await ok('POST', `/public/quotations/${token}/accept`)).status, 'ACCEPTED')
-  const project = await ok('POST', `/quotations/${q2.id}/convert`, S.sales, { managerId: S.ids.dev, memberIds: [S.ids.sales], category: 'WEBSITE_DEVELOPMENT' })
+  const project = await ok('POST', `/quotations/${q2.id}/convert`, S.admin, { managerId: S.ids.dev, memberIds: [S.ids.sales], category: 'WEBSITE_DEVELOPMENT' })
   S.project = project
   const lead = await ok('GET', `/leads/${S.l1.id}`, S.sales)
   assert.deepEqual([lead.status, lead.stage.name], ['CONVERTED', 'Won'])
@@ -198,20 +204,24 @@ test('quotation: GST, approval, rejection, revision, sending, customer acceptanc
   assert.equal(customers.total, 1)
   S.customer = customers.items[0]
   assert.deepEqual([S.customer.name, S.customer.billingStateCode, S.customer.contacts.length], ['UrbanNest Realty', '32', 1])
-  const full = await ok('GET', `/quotations/${q2.id}`, S.sales)
+  const full = await ok('GET', `/quotations/${q2.id}`, S.admin)
   assert.deepEqual([full.status, full.revisions.length, full.projects.length], ['CONVERTED', 2, 1])
   assert.ok(full.activities.some((a: any) => a.summary.startsWith('Rejected')))
 })
 
 test('project to payment: milestones draft invoices, numbering, part payment with TDS, credit note, completion', async () => {
   const p = await ok('GET', `/projects/${S.project.id}/detail`, S.dev)
-  assert.deepEqual(p.milestones.map((m: any) => m.amount), [50000, 81000])
+  // the developer sees the milestones but not their amounts; Admin sees them
+  assert.deepEqual(p.milestones.map((m: any) => m.amount), [undefined, undefined])
+  assert.equal(JSON.stringify(p).includes('81000'), false)
+  assert.deepEqual((await ok('GET', `/projects/${S.project.id}/detail`, S.admin)).milestones.map((m: any) => m.amount), [50000, 81000])
   await deny('GET', '/projects', S.sales, undefined) // Sales Executive has no Projects permission by default
   assert.equal((await ok('GET', '/projects', S.manager)).total, 1)
   const done = await ok('POST', `/projects/milestones/${p.milestones[0].id}/complete`, S.dev)
   assert.ok(done.invoice.invoiceNumber.startsWith('DRAFT-'))
   await deny('GET', '/invoices', S.dev, undefined)
-  assert.equal((await ok('GET', '/invoices', S.sales)).total, 1)
+  await deny('GET', '/invoices', S.sales, undefined)
+  assert.equal((await ok('GET', '/invoices', S.accounts)).total, 1)
   await deny('POST', `/invoices/${done.invoice.id}/send`, S.sales, {})
   const inv = await ok('POST', `/invoices/${done.invoice.id}/send`, S.accounts, { channel: 'LINK' })
   assert.match(inv.invoiceNumber, /^CX\/INV\/\d\d-\d\d\/0001$/)
@@ -255,6 +265,28 @@ test('project to payment: milestones draft invoices, numbering, part payment wit
   assert.equal((await ok('POST', `/invoices/${ms.id}/void`, S.accounts)).status, 'VOID')
   await deny('DELETE', `/invoices/${ms.id}`, S.accounts, undefined, 409)
   assert.deepEqual((await ok('GET', `/customers/${S.customer.id}/history`, S.sales)).invoices.length, 3)
+})
+
+test('only Admin sees money: amounts are hidden from, and ignored for, everyone else', async () => {
+  // Sales typed an estimated value on their lead; it was ignored, and nobody but Admin sees one
+  assert.equal((await ok('GET', `/leads/${S.l1.id}`, S.sales)).estimatedValue, undefined)
+  assert.equal((await ok('GET', `/leads/${S.l1.id}`, S.admin)).estimatedValue, null)
+  await ok('PATCH', `/leads/${S.l1.id}`, S.admin, { estimatedValue: 200000 })
+  await ok('PATCH', `/leads/${S.l1.id}`, S.sales, { estimatedValue: 1, requirement: 'Website, ads and SEO' })
+  assert.deepEqual([(await ok('GET', `/leads/${S.l1.id}`, S.admin)).estimatedValue, (await ok('GET', '/leads', S.manager)).items.some((l: any) => 'estimatedValue' in l)], [200000, false])
+  // the dashboard: money over time and the company overview are for Admin only
+  const [mgr, adm, acc] = await Promise.all([S.manager, S.admin, S.accounts].map((t) => ok('GET', '/dashboard', t)))
+  assert.deepEqual([mgr.revenue, mgr.overview, acc.revenue], [undefined, undefined, undefined])
+  assert.ok(adm.revenue.length === 6 && adm.overview)
+  // project budgets, and the customer history, show no amounts outside Admin
+  const pr = await ok('GET', '/projects', S.manager)
+  assert.ok(pr.items.length && pr.items.every((p: any) => !('budget' in p)))
+  const h = await ok('GET', `/customers/${S.customer.id}/history`, S.manager)
+  assert.ok(h.invoices.length && h.invoices.every((i: any) => !('totalAmount' in i)))
+  // Accounts still sees bills and payments, but not quotations or reports
+  assert.ok((await ok('GET', '/payments', S.accounts)).items.every((p: any) => typeof p.amount === 'number'))
+  await deny('GET', '/quotations', S.accounts, undefined)
+  await deny('GET', '/reports/overview', S.accounts, undefined)
 })
 
 test('permission changes apply at once', async () => {
@@ -374,14 +406,16 @@ test('the other modules save and read back', async () => {
   // finance
   const x = await ok('POST', '/finance/expenses', S.accounts, { categoryId: S.lk.expenseCategories[0].id, expenseDate: today, amount: 5000, taxAmount: 900, description: 'Meta ads top-up' })
   assert.equal(x.status, 'SUBMITTED')
-  await ok('POST', `/finance/expenses/${x.id}/approve`, S.manager)
+  await deny('POST', `/finance/expenses/${x.id}/approve`, S.manager, undefined)
+  await ok('POST', `/finance/expenses/${x.id}/approve`, S.admin)
   const fin = await ok('GET', '/finance/summary', S.accounts)
   assert.deepEqual([fin.months.at(-1).expense, fin.byCategory[0].amount], [5900, 5900])
   // recurring invoices
   const rec = await ok('POST', '/recurring-invoices', S.accounts, { customerId: acme.id, title: 'SEO retainer', frequency: 'MONTHLY', startDate: plusDays(-2), items: [{ description: 'SEO', quantity: 1, unitPrice: 18000 }] })
   S.rec = rec
   // reports, automation, communication, settings
-  const rep = await ok('GET', '/reports/overview', S.manager)
+  await deny('GET', '/reports/overview', S.manager, undefined)
+  const rep = await ok('GET', '/reports/overview', S.admin)
   assert.deepEqual([rep.summary.leads >= 5, rep.summary.converted, rep.team.length], [true, 1, 7], JSON.stringify(rep.summary))
   await deny('GET', '/reports/overview', S.dev, undefined)
   assert.ok((await ok('GET', '/communication/feed', A)).total > 10)
@@ -469,8 +503,13 @@ test('payroll: monthly payslips with loss of pay, HR changes, finalising, own pa
   const emps = (await ok('GET', '/hr/employees?limit=100', hr)).items
   const sales = emps.find((e: any) => e.user?.id === S.ids.sales)
   const acc = emps.find((e: any) => e.user?.id === S.ids.accounts)
-  await ok('PATCH', `/hr/employees/${sales.id}`, hr, { ctcAnnual: 360000, dateOfJoining: '2025-01-06' })
-  await ok('PATCH', `/hr/employees/${acc.id}`, hr, { ctcAnnual: 240000, dateOfJoining: '2025-09-16' }) // joins half way through the month
+  // HR cannot see or set salaries: the amount is ignored and never shown
+  await ok('PATCH', `/hr/employees/${sales.id}`, hr, { ctcAnnual: 999999 })
+  assert.equal(emps.some((e: any) => 'ctcAnnual' in e), false)
+  await deny('GET', '/payroll', hr, undefined)
+  await deny('POST', '/payroll', hr, { month: '2025-09' })
+  await ok('PATCH', `/hr/employees/${sales.id}`, S.admin, { ctcAnnual: 360000, dateOfJoining: '2025-01-06' })
+  await ok('PATCH', `/hr/employees/${acc.id}`, S.admin, { ctcAnnual: 240000, dateOfJoining: '2025-09-16' }) // joins half way through the month
   await ok('PATCH', `/hr/employees/${emps.find((e: any) => e.user?.id === S.ids.sales2).id}`, hr, { dateOfJoining: '2025-01-06' }) // no salary set yet
   // September 2025: 30 days, 4 Sundays off, and one office holiday, so 25 working days
   await ok('POST', '/hr/holidays', hr, { name: 'Office closed', date: '2025-09-05' })
@@ -483,9 +522,9 @@ test('payroll: monthly payslips with loss of pay, HR changes, finalising, own pa
   await ok('PUT', '/hr/attendance', hr, { employeeId: sales.id, date: '2025-09-14', status: 'ABSENT' }) // a Sunday: not a working day, so no loss of pay
 
   await deny('GET', '/payroll', S.sales, undefined)
-  await deny('POST', '/payroll', hr, { month: '2999-01' }, 400)
-  const run = await ok('POST', '/payroll', hr, { month: '2025-09' })
-  await deny('POST', '/payroll', hr, { month: '2025-09' }, 409)
+  await deny('POST', '/payroll', S.admin, { month: '2999-01' }, 400)
+  const run = await ok('POST', '/payroll', S.admin, { month: '2025-09' })
+  await deny('POST', '/payroll', S.admin, { month: '2025-09' }, 409)
   assert.equal(run.workingDays, 25)
   assert.deepEqual(run.skipped, ['Meera']) // people with no salary set are left out and named
   const slip = (id: string) => run.payslips.find((p: any) => p.employeeId === id)
@@ -495,19 +534,19 @@ test('payroll: monthly payslips with loss of pay, HR changes, finalising, own pa
   assert.deepEqual([slip(acc.id).workingDays, slip(acc.id).gross], [13, 10400])
   assert.equal(run.totalNet, 36800)
 
-  // HR adds a bonus and an advance being paid back, and forgives a day of loss of pay
-  await deny('PATCH', `/payroll/payslips/${s1.id}`, hr, { deductions: [{ name: 'Too much', amount: 99999 }] }, 400)
-  const edited = await ok('PATCH', `/payroll/payslips/${s1.id}`, hr, { lopDays: 2, extraEarnings: [{ name: 'Diwali bonus', amount: 5000 }], deductions: [{ name: 'Salary advance', amount: 2000 }], notes: 'Advance 2 of 5' })
+  // Admin adds a bonus and an advance being paid back, and forgives a day of loss of pay
+  await deny('PATCH', `/payroll/payslips/${s1.id}`, S.admin, { deductions: [{ name: 'Too much', amount: 99999 }] }, 400)
+  const edited = await ok('PATCH', `/payroll/payslips/${s1.id}`, S.admin, { lopDays: 2, extraEarnings: [{ name: 'Diwali bonus', amount: 5000 }], deductions: [{ name: 'Salary advance', amount: 2000 }], notes: 'Advance 2 of 5' })
   assert.deepEqual([edited.paidDays, edited.gross, edited.totalDeductions, edited.netPay], [23, 32600, 2000, 30600])
-  const again = await ok('POST', `/payroll/${run.id}/recalculate`, hr, {}) // HR's own lines survive a recalculation
+  const again = await ok('POST', `/payroll/${run.id}/recalculate`, S.admin, {}) // Admin's own lines survive a recalculation
   const s2 = again.payslips.find((p: any) => p.employeeId === sales.id)
   assert.deepEqual([s2.lopDays, s2.gross, s2.totalDeductions, s2.netPay, again.totalNet], [3, 31400, 2000, 29400, 39800])
 
   // people see nothing until the month is finalised
   assert.equal((await ok('GET', '/me/payslips', S.sales)).items.length, 0)
   await deny('GET', `/me/payslips/${s1.id}`, S.sales, undefined, 404)
-  await ok('POST', `/payroll/${run.id}/finalise`, hr, {})
-  await deny('PATCH', `/payroll/payslips/${s1.id}`, hr, { lopDays: 0 }, 409)
+  await ok('POST', `/payroll/${run.id}/finalise`, S.admin, {})
+  await deny('PATCH', `/payroll/payslips/${s1.id}`, S.admin, { lopDays: 0 }, 409)
   const mine = await ok('GET', '/me/payslips', S.sales)
   assert.deepEqual([mine.items.length, mine.items[0].monthName], [1, 'September 2025'])
   const view = await ok('GET', `/me/payslips/${s1.id}`, S.sales)
@@ -518,24 +557,24 @@ test('payroll: monthly payslips with loss of pay, HR changes, finalising, own pa
   await deny('GET', `/payroll/payslips/${s1.id}`, S.sales, undefined)
   assert.ok((await ok('GET', '/notifications', S.sales)).items.some((n: any) => /payslip for September 2025/.test(n.title)))
 
-  await ok('POST', `/payroll/${run.id}/reopen`, hr, {})
-  await ok('POST', `/payroll/${run.id}/finalise`, hr, {})
-  const paid = await ok('POST', `/payroll/${run.id}/paid`, hr, { paidOn: '2025-10-01' })
+  await ok('POST', `/payroll/${run.id}/reopen`, S.admin, {})
+  await ok('POST', `/payroll/${run.id}/finalise`, S.admin, {})
+  const paid = await ok('POST', `/payroll/${run.id}/paid`, S.admin, { paidOn: '2025-10-01' })
   assert.deepEqual([paid.status, paid.paidOn.slice(0, 10)], ['PAID', '2025-10-01'])
-  await deny('POST', `/payroll/${run.id}/reopen`, hr, {}, 409)
-  await deny('DELETE', `/payroll/${run.id}`, hr, undefined, 409)
+  await deny('POST', `/payroll/${run.id}/reopen`, S.admin, {}, 409)
+  await deny('DELETE', `/payroll/${run.id}`, S.admin, undefined, 409)
 
   // payroll settings, then the appointment letter uses them
-  await deny('PUT', '/payroll/settings', hr, { split: [{ name: 'Basic', percent: 50 }], weeklyOff: [0], noticeMonths: 3 }, 400)
-  await ok('PUT', '/payroll/settings', hr, { split: [{ name: 'Basic', percent: 40 }, { name: 'HRA', percent: 20 }, { name: 'Special allowance', percent: 40 }], weeklyOff: [0], payDay: 7, probationMonths: 6, noticeMonths: 3, workHours: 'Monday to Saturday, 9:30 am to 6:30 pm' })
-  const letter = await ok('GET', `/payroll/appointment/${sales.id}`, hr)
+  await deny('PUT', '/payroll/settings', S.admin, { split: [{ name: 'Basic', percent: 50 }], weeklyOff: [0], noticeMonths: 3 }, 400)
+  await ok('PUT', '/payroll/settings', S.admin, { split: [{ name: 'Basic', percent: 40 }, { name: 'HRA', percent: 20 }, { name: 'Special allowance', percent: 40 }], weeklyOff: [0], payDay: 7, probationMonths: 6, noticeMonths: 3, workHours: 'Monday to Saturday, 9:30 am to 6:30 pm' })
+  const letter = await ok('GET', `/payroll/appointment/${sales.id}`, S.admin)
   assert.deepEqual([letter.monthly, letter.annual, letter.salary[0].amount, letter.salary[0].annual, letter.settings.probationMonths, letter.settings.noticeMonths], [30000, 360000, 12000, 144000, 6, 3])
   assert.deepEqual(letter.leaveTypes.map((t: any) => t.days), [18, 6])
   await deny('GET', `/payroll/appointment/${sales.id}`, S.sales, undefined)
   // the joining form: blank, or with the person's details filled in, and the company's own rules
   const blank = await ok('GET', '/payroll/joining/new', hr)
   assert.deepEqual([blank.employee, blank.settings.terms.split('\n').length > 5], [null, true])
-  await ok('PUT', '/payroll/settings', hr, { split: letter.settings.split, weeklyOff: [0], noticeMonths: 3, terms: 'Be on time.\nKeep client data private.' })
+  await ok('PUT', '/payroll/settings', S.admin, { split: letter.settings.split, weeklyOff: [0], noticeMonths: 3, terms: 'Be on time.\nKeep client data private.' })
   const filled = await ok('GET', `/payroll/joining/${sales.id}`, hr)
   assert.deepEqual([filled.employee.employeeCode, filled.settings.terms], [sales.employeeCode, 'Be on time.\nKeep client data private.'])
   await deny('GET', '/payroll/joining/new', S.sales, undefined)
@@ -566,20 +605,20 @@ test('part 3: forgot password, approvals inbox, timesheet, ticket replies and pr
   await signIn('hr@example.com', 'Reset-Passw0rd!')
 
   // approvals inbox: what waits on each approver, never their own
-  const q = await ok('POST', '/quotations', S.sales, { customerId: S.acme.id, items: [{ description: 'Logo', quantity: 1, unitPrice: 8000 }] })
-  await ok('POST', `/quotations/${q.id}/submit`, S.sales)
+  const q = await ok('POST', '/quotations', S.admin, { customerId: S.acme.id, items: [{ description: 'Logo', quantity: 1, unitPrice: 8000 }] })
+  await ok('POST', `/quotations/${q.id}/submit`, S.admin)
   const lv = await ok('POST', '/me/leave-requests', S.dev, { leaveTypeId: S.lk.leaveTypes[0].id, startDate: plusDays(10), endDate: plusDays(10) })
   const ex = await ok('POST', '/finance/expenses', S.accounts, { categoryId: S.lk.expenseCategories[0].id, expenseDate: today, amount: 1200, description: 'Stock photos' })
+  // the Manager sees no quotations or expenses now: those are money
   const mgr = await ok('GET', '/approvals', S.manager)
-  assert.ok(mgr.waiting.quotations.some((x: any) => x.id === q.id))
-  assert.ok(mgr.waiting.expenses.some((x: any) => x.id === ex.id))
+  assert.ok(!(mgr.waiting.quotations ?? []).length && !(mgr.waiting.expenses ?? []).length)
+  const adm = await ok('GET', '/approvals', S.admin)
+  assert.ok(adm.waiting.expenses.some((x: any) => x.id === ex.id && x.amount === 1200))
+  assert.ok(adm.mine.quotations.some((x: any) => x.id === q.id))
   assert.ok((await ok('GET', '/approvals', S.hr)).waiting.leave.some((x: any) => x.id === lv.id))
-  const own = await ok('GET', '/approvals', S.sales)
-  assert.equal(own.count, 0)
-  assert.ok(own.mine.quotations.some((x: any) => x.id === q.id))
-  assert.equal((await ok('GET', '/approvals/count', S.manager)).count, mgr.count)
-  await ok('POST', `/quotations/${q.id}/approve`, S.manager)
-  assert.ok(!(await ok('GET', '/approvals', S.manager)).waiting.quotations.some((x: any) => x.id === q.id))
+  assert.equal((await ok('GET', '/approvals', S.sales)).count, 0)
+  assert.equal((await ok('GET', '/approvals/count', S.admin)).count, adm.count)
+  await ok('POST', `/quotations/${q.id}/approve`, S.admin)
 
   // weekly timesheet: manual entries on a task or project, team view, removal
   const proj = await ok('POST', '/projects', S.admin, { name: 'Acme app', customerId: S.acme.id, managerId: S.ids.manager })
@@ -620,7 +659,7 @@ test('part 3: forgot password, approvals inbox, timesheet, ticket replies and pr
 
   // profit by project: billed, team time at the member's hourly cost, and approved expenses
   const px = await ok('POST', '/finance/expenses', S.accounts, { categoryId: S.lk.expenseCategories[0].id, expenseDate: today, amount: 2000, description: 'Test devices', projectId: proj.id })
-  await ok('POST', `/finance/expenses/${px.id}/approve`, S.manager)
+  await ok('POST', `/finance/expenses/${px.id}/approve`, S.admin)
   await deny('GET', '/finance/project-profit', S.dev, undefined)
   const pp = await ok('GET', '/finance/project-profit', S.accounts)
   const row = pp.items.find((r: any) => r.id === proj.id)
@@ -724,16 +763,20 @@ test('desktop: search everywhere, hiring to employee, and vendor bills', async (
   await ok('PATCH', `/hr/hiring/candidates/${r.id}`, S.hr, { stage: 'REJECTED', rejectionReason: 'Not enough experience' })
   await deny('POST', `/hr/hiring/candidates/${r.id}/hire`, S.hr, undefined, 409)
   await ok('PATCH', `/hr/hiring/candidates/${c.id}`, S.hr, { stage: 'INTERVIEW', interviewAt: `${plusDays(2)}T10:00:00.000Z` })
-  const offered = await ok('POST', `/hr/hiring/candidates/${c.id}/offer-sent`, S.hr, { monthlySalary: 40000, joiningDate: plusDays(14) })
+  // the offer has the salary, so only Admin sends it
+  await deny('POST', `/hr/hiring/candidates/${c.id}/offer-sent`, S.hr, { monthlySalary: 40000, joiningDate: plusDays(14) })
+  await deny('GET', `/hr/hiring/candidates/${c.id}/offer`, S.hr, undefined)
+  const offered = await ok('POST', `/hr/hiring/candidates/${c.id}/offer-sent`, S.admin, { monthlySalary: 40000, joiningDate: plusDays(14) })
   assert.equal(offered.stage, 'OFFER')
-  const letter = await ok('GET', `/hr/hiring/candidates/${c.id}/offer`, S.hr)
+  const letter = await ok('GET', `/hr/hiring/candidates/${c.id}/offer`, S.admin)
   assert.equal(letter.employee.designation, 'Flutter developer')
   assert.equal(letter.annual, 480000)
   const listed = (await ok('GET', '/hr/hiring/openings', S.hr)).items.find((x: any) => x.id === job.id)
   assert.deepEqual([listed.applied, listed.appliedThisMonth], [2, 2])
   const emp = await ok('POST', `/hr/hiring/candidates/${c.id}/hire`, S.hr)
   assert.equal(emp.firstName, 'Nila')
-  assert.equal(Number(emp.ctcAnnual), 480000)
+  assert.equal(emp.ctcAnnual, undefined) // HR does not see it
+  assert.equal(Number((await ok('GET', `/hr/employees/${emp.id}`, S.admin)).ctcAnnual), 480000)
   assert.equal(emp.departmentId, dept)
   assert.equal((await ok('GET', `/hr/hiring/candidates/${c.id}`, S.hr)).stage, 'JOINED')
   await deny('POST', `/hr/hiring/candidates/${c.id}/hire`, S.hr, undefined, 409) // only once
@@ -744,13 +787,14 @@ test('desktop: search everywhere, hiring to employee, and vendor bills', async (
   const cat = S.lk.expenseCategories[0].id
   const late = await ok('POST', '/finance/expenses', S.accounts, { categoryId: cat, vendorId: v.id, expenseDate: plusDays(-20), billNumber: 'PH-101', dueDate: plusDays(-5), amount: 3000, taxAmount: 0, description: 'Brochures' })
   const soon = await ok('POST', '/finance/expenses', S.accounts, { categoryId: cat, vendorId: v.id, expenseDate: today, billNumber: 'PH-102', dueDate: plusDays(3), amount: 1500, description: 'Visiting cards' })
-  await deny('POST', `/finance/expenses/${soon.id}/paid`, S.manager, undefined, 409) // not approved yet
+  await deny('POST', `/finance/expenses/${soon.id}/paid`, S.manager, undefined) // the Manager has no money access
+  await deny('POST', `/finance/expenses/${soon.id}/paid`, S.accounts, undefined, 409) // not approved yet
   let sum = await ok('GET', '/finance/vendors-summary', S.accounts)
   const row = () => sum.items.find((x: any) => x.id === v.id)
   assert.equal(row().toPay, 4500)
   assert.ok(sum.bills.find((b: any) => b.id === late.id).overdue)
   assert.ok(sum.stats.dueThisWeek >= 1 && sum.stats.overdue >= 1)
-  await ok('POST', `/finance/expenses/${late.id}/approve`, S.manager)
+  await ok('POST', `/finance/expenses/${late.id}/approve`, S.admin)
   await deny('POST', `/finance/expenses/${late.id}/paid`, S.sales, undefined, 403)
   assert.equal((await ok('POST', `/finance/expenses/${late.id}/paid`, S.accounts)).status, 'PAID')
   await deny('POST', `/finance/expenses/${late.id}/paid`, S.accounts, undefined, 409)
@@ -902,9 +946,42 @@ test('email: Resend is used instead of the mailbox when it is on, and the key st
     assert.equal(r.sent, true)
     assert.equal(sent.length, 1)
     assert.equal(sent[0]!.auth, 'Bearer re_1234567890')
-    assert.deepEqual([sent[0]!.body.from, sent[0]!.body.to, sent[0]!.body.subject], ['Cipher Mutex <info@ciphermutex.com>', ['arun@example.com'], 'Test email from CX CRM ERP'])
+    assert.deepEqual([sent[0]!.body.from, sent[0]!.body.to, sent[0]!.body.subject], ['Cipher Mutex <info@ciphermutex.com>', ['arun@example.com'], 'Test email from 1X System'])
+
+    // with email set up, Admin types an emailed code after the password; other people sign in as before
+    const ip = { 'x-forwarded-for': '10.0.0.9' } // its own sign-in counter, after all the sign-ins above
+    const post = (path: string, body: any) => call('POST', path, undefined, body, ip)
+    const first = await post('/auth/login', { email: 'admin@example.com', password: 'Passw0rd!' })
+    assert.equal(first.status, 200)
+    assert.equal(first.headers.get('set-cookie'), null) // not signed in yet
+    assert.deepEqual([first.body.codeSent, first.body.email, first.body.minutes], [true, 'a••••@example.com', 10])
+    const codeMail = sent.at(-1)!.body
+    assert.match(codeMail.subject, /^\d{6} is your 1X System sign-in code$/)
+    const code = codeMail.subject.slice(0, 6)
+    const logged1 = await prisma.message.findFirst({ where: { toAddress: 'admin@example.com' }, orderBy: { createdAt: 'desc' } })
+    assert.ok(logged1 && !logged1.subject!.includes(code) && !logged1.body.includes(code)) // the code is not kept
+    const wrong = code === '000000' ? '111111' : '000000'
+    assert.equal((await post('/auth/login/code', { ticket: first.body.ticket, code: wrong })).status, 400)
+    assert.equal((await post('/auth/login/code', { ticket: 'not-a-ticket', code })).status, 400)
+    const done = await post('/auth/login/code', { ticket: first.body.ticket, code: `${code.slice(0, 3)} ${code.slice(3)}` })
+    assert.equal(done.status, 200, JSON.stringify(done.body))
+    assert.equal((await ok('GET', '/auth/me', cookieOf(done))).admin, true)
+    assert.equal((await post('/auth/login/code', { ticket: first.body.ticket, code })).status, 400) // once only
+    // five wrong codes end the ticket
+    const again = (await post('/auth/login', { email: 'admin@example.com', password: 'Passw0rd!' })).body
+    for (let i = 0; i < 5; i++) assert.equal((await post('/auth/login/code', { ticket: again.ticket, code: wrong })).status, 400)
+    assert.equal((await post('/auth/login/code', { ticket: again.ticket, code: sent.at(-1)!.body.subject.slice(0, 6) })).status, 400)
+    const plain = await post('/auth/login', { email: 'accounts@example.com', password: 'Passw0rd!' })
+    assert.deepEqual([plain.status, plain.body], [200, { ok: true }])
+    // the emergency switch on the server turns the code off
+    process.env.ADMIN_LOGIN_CODE = 'off'
+    try { assert.deepEqual((await post('/auth/login', { email: 'admin@example.com', password: 'Passw0rd!' })).body, { ok: true }) } finally { delete process.env.ADMIN_LOGIN_CODE }
 
     fail = true
+    // if the code cannot be emailed, Admin is told and is not signed in
+    const noMail = await post('/auth/login', { email: 'admin@example.com', password: 'Passw0rd!' })
+    assert.equal(noMail.status, 503)
+    assert.match(noMail.body.message, /could not email your sign-in code/)
     const bad = await ok('POST', '/settings/integrations/smtp/test', S.admin, { to: 'arun@example.com' })
     assert.equal(bad.sent, false)
     assert.match(bad.error, /not verified/)
@@ -920,4 +997,19 @@ test('email: Resend is used instead of the mailbox when it is on, and the key st
   } finally {
     globalThis.fetch = realFetch
   }
+})
+
+test('Team Lead and Staff roles are ready to give out, with no money', async () => {
+  const tl = S.lk.roles.find((r: any) => r.key === 'TEAM_LEAD')
+  const lead = await ok('POST', '/settings/users', S.admin, { firstName: 'Tara', email: 'tl@example.com', password: 'Passw0rd!', roleIds: [tl.id] })
+  const T = await signIn('tl@example.com', 'Passw0rd!')
+  const me = await ok('GET', '/auth/me', T)
+  assert.deepEqual([me.admin, me.perms.TASKS.CREATE, me.perms.HR.APPROVE, me.perms.QUOTATIONS, me.perms.INVOICES], [false, 'TEAM', 'TEAM', undefined, undefined])
+  await deny('GET', '/payroll', T, undefined)
+  await ok('PATCH', `/settings/users/${lead.id}`, S.admin, { status: 'SUSPENDED' })
+  const st = await ok('POST', '/settings/users', S.admin, { firstName: 'Sam', email: 'staff@example.com', password: 'Passw0rd!', roleIds: [S.lk.roles.find((r: any) => r.key === 'STAFF').id] })
+  const P = await signIn('staff@example.com', 'Passw0rd!')
+  assert.deepEqual(Object.keys((await ok('GET', '/auth/me', P)).perms).sort(), ['DASHBOARD', 'DOCUMENTS', 'PROJECTS', 'TASKS', 'TICKETS'])
+  await deny('GET', '/leads', P, undefined)
+  assert.ok(st.id)
 })

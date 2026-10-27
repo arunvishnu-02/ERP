@@ -15,7 +15,7 @@ const COLUMNS = [{ key: 'APPLIED', label: 'Applied' }, { key: 'INTERVIEW', label
 const stop = (fn: () => void) => (e: React.MouseEvent) => { e.stopPropagation(); fn() }
 
 export default function Hiring() {
-  const { lookups, can, reloadLookups } = useAuth()
+  const { lookups, can, reloadLookups, admin } = useAuth()
   const edit = can('HR', 'EDIT')
   const openings = useApi<{ items: any[] }>('/hr/hiring/openings?limit=100')
   const [job, setJob] = useState('')
@@ -68,7 +68,7 @@ export default function Hiring() {
       ) : (
         <Board
           items={shown} columns={COLUMNS} columnOf={(c: any) => c.stage} onOpen={(c: any) => edit && setDlg({ kind: 'cand', row: c })}
-          onMove={edit ? (c: any, to) => (to === 'OFFER' ? setDlg({ kind: 'offer', row: c }) : to === 'INTERVIEW' && !c.interviewAt ? setDlg({ kind: 'interview', row: c }) : to === 'JOINED' ? hire(c) : move(c, to)) : undefined}
+          onMove={edit ? (c: any, to) => (to === 'OFFER' && !admin ? toast.error('Only Admin can send an offer, because it shows the salary') : to === 'OFFER' ? setDlg({ kind: 'offer', row: c }) : to === 'INTERVIEW' && !c.interviewAt ? setDlg({ kind: 'interview', row: c }) : to === 'JOINED' ? hire(c) : move(c, to)) : undefined}
           render={(c: any) => (
             <div className="space-y-2">
               <div className="flex items-center gap-2.5"><Avatar name={personName(c)} /><div className="min-w-0"><div className="truncate font-medium">{personName(c)}</div><div className="truncate text-xs text-muted">
@@ -83,8 +83,8 @@ export default function Hiring() {
               {edit && c.stage !== 'JOINED' && (
                 <div className="flex flex-wrap gap-1.5">
                   {c.stage === 'APPLIED' && <Button size="sm" variant="primary" onClick={stop(() => setDlg({ kind: 'interview', row: c }))}>Set interview</Button>}
-                  {c.stage === 'INTERVIEW' && <Button size="sm" variant="primary" onClick={stop(() => setDlg({ kind: 'offer', row: c }))}>Send offer letter</Button>}
-                  {c.stage === 'OFFER' && <><Button size="sm" variant="primary" onClick={stop(() => hire(c))}>Add as employee</Button><Button size="sm" onClick={stop(() => window.open(`/print/candidate-offer/${c.id}`, '_blank'))}>Offer letter</Button></>}
+                  {c.stage === 'INTERVIEW' && admin && <Button size="sm" variant="primary" onClick={stop(() => setDlg({ kind: 'offer', row: c }))}>Send offer letter</Button>}
+                  {c.stage === 'OFFER' && <><Button size="sm" variant="primary" onClick={stop(() => hire(c))}>Add as employee</Button>{admin && <Button size="sm" onClick={stop(() => window.open(`/print/candidate-offer/${c.id}`, '_blank'))}>Offer letter</Button>}</>}
                   <Button size="sm" onClick={stop(() => setDlg({ kind: 'reject', row: c }))}>Reject</Button>
                 </div>
               )}

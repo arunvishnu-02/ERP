@@ -16,7 +16,7 @@ import Payroll from './payroll'
 const employeeOptions = (lookups: any) => lookups.employees.filter((e: any) => e.status !== 'EXITED').map((e: any) => ({ value: e.id, label: e.name }))
 
 function Employees() {
-  const { lookups, reloadLookups } = useAuth()
+  const { lookups, reloadLookups, admin } = useAuth()
   const depts = lookups.departments.map((d: any) => ({ value: d.id, label: d.name }))
   return (
     <>
@@ -24,7 +24,7 @@ function Employees() {
         toolbar={() => <Button onClick={() => window.open('/print/joining/new', '_blank')}><ClipboardList size={15} />Blank joining form</Button>}
         rowActions={(r) => <>
           <Button size="icon" variant="ghost" aria-label={`Joining form for ${personName(r)}`} title="Joining form" onClick={() => window.open(`/print/joining/${r.id}`, '_blank')}><ClipboardList size={15} /></Button>
-          <Button size="icon" variant="ghost" aria-label={`Appointment letter for ${personName(r)}`} title="Appointment letter" onClick={() => window.open(`/print/appointment/${r.id}`, '_blank')}><FileSignature size={15} /></Button>
+          {admin && <Button size="icon" variant="ghost" aria-label={`Appointment letter for ${personName(r)}`} title="Appointment letter" onClick={() => window.open(`/print/appointment/${r.id}`, '_blank')}><FileSignature size={15} /></Button>}
         </>}
         defaults={{ employmentType: 'FULL_TIME', status: 'ACTIVE', dateOfJoining: todayStr() }}
         filter={{ param: 'status', options: [{ value: '', label: 'All' }, ...options(lookups.enums.EmployeeStatus)] }}
@@ -33,7 +33,7 @@ function Employees() {
           { name: 'firstName', label: 'First name', required: true }, { name: 'lastName', label: 'Last name' }, { name: 'designation', label: 'Designation', required: true },
           { name: 'departmentId', label: 'Department', type: 'select', options: depts }, { name: 'employmentType', label: 'Employment type', type: 'select', options: options(lookups.enums.EmploymentType) },
           { name: 'reportingManagerId', label: 'Reports to', type: 'select', options: employeeOptions(lookups) }, { name: 'dateOfJoining', label: 'Joined on', type: 'date', required: true }, { name: 'dateOfBirth', label: 'Date of birth', type: 'date' },
-          { name: 'phone', label: 'Phone' }, { name: 'personalEmail', label: 'Personal email', type: 'email' }, { name: 'ctcAnnual', label: 'Salary per year (₹)', type: 'number' },
+          { name: 'phone', label: 'Phone' }, { name: 'personalEmail', label: 'Personal email', type: 'email' }, ...(admin ? [{ name: 'ctcAnnual', label: 'Salary per year (₹)', type: 'number' as const }] : []),
           { name: 'status', label: 'Status', type: 'select', options: options(lookups.enums.EmployeeStatus) }, { name: 'exitDate', label: 'Last working day', type: 'date', show: (v) => v.status !== 'ACTIVE' }, { name: 'address', label: 'Address', type: 'textarea' },
         ]}
         columns={[
@@ -42,7 +42,7 @@ function Employees() {
           { header: 'Department', cell: (r) => r.department?.name, text: (r) => r.department?.name }, { header: 'Type', cell: (r) => human(r.employmentType), text: (r) => human(r.employmentType) },
           { header: 'Joined', cell: (r) => <span className="text-muted">{fmtDate(r.dateOfJoining)}</span>, text: (r) => day(r.dateOfJoining) }, { header: 'Phone', cell: (r) => <span className="num">{r.phone}</span>, text: (r) => r.phone },
           { header: 'Login', cell: (r) => (r.user ? <span className="text-muted">{r.user.email}</span> : <span className="text-muted">No login</span>), text: (r) => r.user?.email },
-          { header: 'Salary', right: true, cell: (r) => inr(r.ctcAnnual), text: (r) => r.ctcAnnual }, { header: 'Status', cell: (r) => <Status value={r.status} />, text: (r) => human(r.status) },
+          ...(admin ? [{ header: 'Salary', right: true, cell: (r: any) => inr(r.ctcAnnual), text: (r: any) => r.ctcAnnual }] : []), { header: 'Status', cell: (r) => <Status value={r.status} />, text: (r) => human(r.status) },
         ]} />
       <p className="mt-3 text-xs text-muted">An employee added here has no login. To give someone a login, add them under Settings, Users. That creates their employee profile too.</p>
     </>
@@ -130,15 +130,15 @@ function Leave() {
 }
 
 export default function HR() {
-  const { lookups, reloadLookups } = useAuth()
+  const { lookups, reloadLookups, admin } = useAuth()
   const [tab, setTab] = useState('employees')
   return (
     <div className="space-y-3">
-      <Tabs value={tab} onChange={setTab} options={[{ value: 'employees', label: 'Employees' }, { value: 'attendance', label: 'Attendance' }, { value: 'leave', label: 'Leave requests' }, { value: 'payroll', label: 'Payroll' }, { value: 'hiring', label: 'Hiring' }, { value: 'holidays', label: 'Holidays' }, { value: 'reviews', label: 'Performance reviews' }, { value: 'types', label: 'Leave types' }]} />
+      <Tabs value={tab} onChange={setTab} options={[{ value: 'employees', label: 'Employees' }, { value: 'attendance', label: 'Attendance' }, { value: 'leave', label: 'Leave requests' }, ...(admin ? [{ value: 'payroll', label: 'Payroll' }] : []), { value: 'hiring', label: 'Hiring' }, { value: 'holidays', label: 'Holidays' }, { value: 'reviews', label: 'Performance reviews' }, { value: 'types', label: 'Leave types' }]} />
       {tab === 'employees' && <Employees />}
       {tab === 'attendance' && <Attendance />}
       {tab === 'leave' && <Leave />}
-      {tab === 'payroll' && <Payroll />}
+      {tab === 'payroll' && admin && <Payroll />}
       {tab === 'hiring' && <Hiring />}
       {tab === 'holidays' && (
         <Resource path="/hr/holidays" module="HR" noun="holiday" defaults={{ date: todayStr() }} empty="No holidays yet. Add the days the office is closed this year."

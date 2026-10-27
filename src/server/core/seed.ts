@@ -10,13 +10,20 @@ export const LETTER: Record<string, string> = { V: 'VIEW', C: 'CREATE', E: 'EDIT
 export const LETTER_OF: Record<string, string> = Object.fromEntries(Object.entries(LETTER).map(([k, v]) => [v, k]))
 
 type Grants = Record<string, [letters: string, scope?: string]>
-/** The nine roles from the spec with their starting permissions. A Super Admin can change every one of them later. */
-const ROLES: { key: string; name: string; description: string; grants: Grants | 'ALL' }[] = [
-  { key: 'SUPER_ADMIN', name: 'Super Admin', description: 'Full access to everything', grants: 'ALL' },
-  { key: 'MANAGER', name: 'Manager', description: 'Runs sales and delivery, approves quotations, expenses and leave',
-    grants: { DASHBOARD: ['V'], LEADS: ['VCEDXI'], CUSTOMERS: ['VCEDXI'], SALES: ['VCED'], QUOTATIONS: ['VCEDAX'], INVOICES: ['VX'], PAYMENTS: ['VX'], PROJECTS: ['VCEDX'], TASKS: ['VCED'], MARKETING: ['VCED'], WEBSITES: ['VCE'], TICKETS: ['VCED'], DOCUMENTS: ['VCE'], HR: ['VA'], FINANCE: ['VAX'], REPORTS: ['VX'], AUTOMATION: ['V'], COMMUNICATION: ['VC'] } },
-  { key: 'SALES_EXECUTIVE', name: 'Sales Executive', description: 'Works own leads, customers, deals and quotations',
-    grants: { DASHBOARD: ['V'], LEADS: ['VCE', 'OWN'], CUSTOMERS: ['VCE', 'OWN'], SALES: ['VCE', 'OWN'], QUOTATIONS: ['VCE', 'OWN'], INVOICES: ['V', 'OWN'], PAYMENTS: ['V', 'OWN'], TASKS: ['VCE', 'OWN'], COMMUNICATION: ['VC', 'OWN'] } },
+/**
+ * The 1X System roles and their starting permissions. Only Admin sees money: quotations, salaries, budgets and amounts.
+ * Accounts sees bills and payments. A Super Admin (shown as "Admin") can change every role later.
+ */
+export const ROLES: { key: string; name: string; description: string; grants: Grants | 'ALL' }[] = [
+  { key: 'SUPER_ADMIN', name: 'Admin', description: 'Full access to everything, including all money', grants: 'ALL' },
+  { key: 'MANAGER', name: 'Manager', description: 'Runs projects, tasks, tickets and leads; approves leave. Sees no money',
+    grants: { DASHBOARD: ['V'], LEADS: ['VCEDXI'], CUSTOMERS: ['VCEDXI'], SALES: ['VCED'], PROJECTS: ['VCEDX'], TASKS: ['VCED'], MARKETING: ['VCED'], WEBSITES: ['VCE'], TICKETS: ['VCED'], DOCUMENTS: ['VCE'], HR: ['VA'], AUTOMATION: ['V'], COMMUNICATION: ['VC'] } },
+  { key: 'TEAM_LEAD', name: 'Team Lead', description: 'Assigns tasks to the team and approves their leave first. Sees no money',
+    grants: { DASHBOARD: ['V'], CUSTOMERS: ['V'], PROJECTS: ['VE', 'TEAM'], TASKS: ['VCED', 'TEAM'], TICKETS: ['VCE', 'TEAM'], WEBSITES: ['V'], DOCUMENTS: ['VC'], HR: ['VA', 'TEAM'], COMMUNICATION: ['VC', 'TEAM'] } },
+  { key: 'SALES_EXECUTIVE', name: 'Sales', description: 'Works own leads and follow-ups. No quotations or amounts',
+    grants: { DASHBOARD: ['V'], LEADS: ['VCE', 'OWN'], CUSTOMERS: ['VCE', 'OWN'], SALES: ['VCE', 'OWN'], TASKS: ['VCE', 'OWN'], COMMUNICATION: ['VC', 'OWN'] } },
+  { key: 'STAFF', name: 'Staff', description: 'Own tasks, timesheet, tickets, leave and payslips',
+    grants: { DASHBOARD: ['V'], PROJECTS: ['V', 'OWN'], TASKS: ['VCE', 'OWN'], TICKETS: ['VCE', 'OWN'], DOCUMENTS: ['V'] } },
   { key: 'DIGITAL_MARKETING_EXECUTIVE', name: 'Digital Marketing Executive', description: 'Campaigns, content calendar and ad spend',
     grants: { DASHBOARD: ['V'], CUSTOMERS: ['V'], PROJECTS: ['V', 'OWN'], TASKS: ['VCE', 'OWN'], MARKETING: ['VCE', 'DEPARTMENT'], DOCUMENTS: ['V'], COMMUNICATION: ['V', 'OWN'] } },
   { key: 'DEVELOPER', name: 'Developer', description: 'Assigned projects, tasks, websites and tickets',
@@ -25,9 +32,9 @@ const ROLES: { key: string; name: string; description: string; grants: Grants | 
     grants: { DASHBOARD: ['V'], PROJECTS: ['V', 'OWN'], TASKS: ['VCE', 'OWN'], MARKETING: ['VE', 'OWN'], DOCUMENTS: ['VC'] } },
   { key: 'VIDEO_EDITOR', name: 'Video Editor', description: 'Own tasks, reels and videos',
     grants: { DASHBOARD: ['V'], TASKS: ['VCE', 'OWN'], MARKETING: ['VE', 'OWN'], DOCUMENTS: ['V'] } },
-  { key: 'ACCOUNTS', name: 'Accounts', description: 'Invoices, payments, expenses and finance',
-    grants: { DASHBOARD: ['V'], CUSTOMERS: ['V'], QUOTATIONS: ['V'], INVOICES: ['VCEDAX'], PAYMENTS: ['VCEDAX'], FINANCE: ['VCEDAX'], REPORTS: ['VX'] } },
-  { key: 'HR', name: 'HR', description: 'Employees, attendance, leave and assets',
+  { key: 'ACCOUNTS', name: 'Accounts', description: 'Expenses, vendor bills and client payments. No quotations or salaries',
+    grants: { DASHBOARD: ['V'], CUSTOMERS: ['V'], INVOICES: ['VCEDAX'], PAYMENTS: ['VCEDAX'], FINANCE: ['VCEDAX'] } },
+  { key: 'HR', name: 'HR', description: 'Staff records, attendance, leave, letters and assets. No salaries',
     grants: { DASHBOARD: ['V'], DOCUMENTS: ['VC'], HR: ['VCEDAX'], ASSETS: ['VCED'] } },
 ]
 

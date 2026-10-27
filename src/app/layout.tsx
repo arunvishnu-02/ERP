@@ -10,10 +10,11 @@ import '@fontsource/poppins/500.css'
 import '@fontsource/poppins/600.css'
 import '@fontsource/poppins/700.css'
 import './globals.css'
+import { APP_NAME } from '@/lib/brand'
 
 export const metadata: Metadata = {
-  title: 'CX CRM ERP',
-  description: 'CRM and ERP for digital marketing, website development and IT services',
+  title: APP_NAME,
+  description: 'CipherMuteX CRM and ERP: leads, clients, projects, money and people in one place',
   // A private business tool: keep it out of search engines.
   robots: { index: false, follow: false },
 }

@@ -18,14 +18,14 @@ const stageTone = (s: any) => (s?.isWon ? 'good' : s?.isLost ? 'bad' : s?.isDefa
 const StageBadge = ({ stage }: { stage: any }) => <Badge tone={stageTone(stage)}>{stage?.name}</Badge>
 
 function useLeadFields(): Field[] {
-  const { lookups } = useAuth()
+  const { lookups, admin } = useAuth()
   return [
     { name: 'firstName', label: 'First name', required: true }, { name: 'lastName', label: 'Last name' },
     { name: 'companyName', label: 'Company' }, { name: 'phone', label: 'Phone, with country code', placeholder: '919812345678' },
     { name: 'email', label: 'Email', type: 'email' }, { name: 'whatsappNumber', label: 'WhatsApp number, if different' },
     { name: 'state', label: 'State', type: 'select', options: lookups.states.map((s: any) => ({ value: s.name, label: s.name })), help: 'Decides CGST and SGST or IGST on quotations' }, { name: 'city', label: 'City' },
     { name: 'sourceId', label: 'Source', type: 'select', options: lookups.leadSources.filter((s: any) => s.isActive).map((s: any) => ({ value: s.id, label: s.name })) },
-    { name: 'estimatedValue', label: 'Estimated value (₹)', type: 'number' },
+    ...(admin ? [{ name: 'estimatedValue', label: 'Estimated value (₹)', type: 'number' as const }] : []),
     { name: 'requirement', label: 'What they need', type: 'textarea' },
     { name: 'ownerId', label: 'Owner', type: 'select', options: userOptions(lookups), placeholder: 'Assign automatically, or to me' },
     { name: 'nextFollowUpAt', label: 'Next follow-up', type: 'date' },
@@ -33,7 +33,7 @@ function useLeadFields(): Field[] {
 }
 
 export function LeadSheet({ id, onClose, onChanged }: { id: string | null; onClose: () => void; onChanged: () => void }) {
-  const { lookups, can, me } = useAuth()
+  const { lookups, can, me, admin } = useAuth()
   const { data: lead, reload } = useApi<any>(id ? `/leads/${id}` : null)
   const fields = useLeadFields()
   const [log, setLog] = useState({ type: 'CALL', note: '', nextFollowUpAt: plusDays(2) })
@@ -67,7 +67,7 @@ export function LeadSheet({ id, onClose, onChanged }: { id: string | null; onClo
             <KV rows={[
               ['Stage', editable ? <Select className="h-8 w-auto text-[13px]" value={lead.stageId} onChange={(e) => act(() => api(`/leads/${lead.id}`, { method: 'PATCH', body: { stageId: e.target.value } })).then(changed)} aria-label="Stage">{lookups.leadStages.filter((s: any) => !s.isWon).map((s: any) => <option key={s.id} value={s.id}>{s.name}</option>)}</Select> : <StageBadge stage={lead.stage} />],
               ['Owner', <Person key="o" user={lead.owner} />], ['Phone', lead.phone], ['Email', lead.email], ['Location', [lead.city, lead.state].filter(Boolean).join(', ')], ['Source', lead.source?.name],
-              ['Needs', lead.requirement], ['Estimated value', lead.estimatedValue ? inr(lead.estimatedValue) : ''], ['Next follow-up', lead.status === 'OPEN' ? <DueTag key="d" date={lead.nextFollowUpAt} /> : ''],
+              ['Needs', lead.requirement], ...(admin ? [['Estimated value', lead.estimatedValue ? inr(lead.estimatedValue) : ''] as [string, React.ReactNode]] : []), ['Next follow-up', lead.status === 'OPEN' ? <DueTag key="d" date={lead.nextFollowUpAt} /> : ''],
               ['Customer', lead.customer?.name],
               ['Quotations', qs.length ? <span key="q" className="flex flex-wrap gap-x-4 gap-y-1">{qs.map((q) => <span key={q.id} className="flex items-center gap-2"><span className="num">{q.quotationNumber}</span><Status value={q.status} /></span>)}</span> : ''],
             ]} />
@@ -129,7 +129,7 @@ function ImportDialog({ open, onClose, onDone }: { open: boolean; onClose: () =>
 }
 
 export default function Leads() {
-  const { lookups, can } = useAuth()
+  const { lookups, can, admin } = useAuth()
   const fields = useLeadFields()
   const [view, setView] = useState('list')
   const [openId, setOpenId] = useState<string | null>(null)
@@ -154,7 +154,7 @@ export default function Leads() {
             { header: 'Phone', exportOnly: true, cell: () => null, text: (r) => r.phone },
             { header: 'Email', exportOnly: true, cell: () => null, text: (r) => r.email },
             { header: 'Needs', cell: (r) => <Two top={<span className="font-normal">{r.requirement || <span className="text-muted">Not noted</span>}</span>} bottom={r.source?.name} />, text: (r) => r.requirement, className: 'max-w-64' },
-            { header: 'Est. value', right: true, cell: (r) => (r.estimatedValue ? inr(r.estimatedValue) : ''), text: (r) => r.estimatedValue },
+            ...(admin ? [{ header: 'Est. value', right: true, cell: (r: any) => (r.estimatedValue ? inr(r.estimatedValue) : ''), text: (r: any) => r.estimatedValue }] : []),
             { header: 'Owner', cell: (r) => <Person user={r.owner} />, text: (r) => personName(r.owner) },
             { header: 'Next follow-up', cell: (r) => (r.status === 'OPEN' ? <DueTag date={r.nextFollowUpAt} /> : <span className="text-muted">None</span>), text: (r) => day(r.nextFollowUpAt) },
             { header: 'Stage', cell: (r) => <StageBadge stage={r.stage} />, text: (r) => r.stage?.name },
@@ -163,7 +163,7 @@ export default function Leads() {
       ) : (
         <Board
           items={board.data?.items ?? []} columnOf={(l: any) => l.stageId} onOpen={(l: any) => setOpenId(l.id)}
-          columns={stages.map((s) => { const ls = (board.data?.items ?? []).filter((l) => l.stageId === s.id); return { key: s.id, label: s.name, meta: `${ls.length}, ${inrShort(ls.reduce((a, l) => a + (l.estimatedValue ?? 0), 0))}` } })}
+          columns={stages.map((s) => { const ls = (board.data?.items ?? []).filter((l) => l.stageId === s.id); return { key: s.id, label: s.name, meta: admin ? `${ls.length}, ${inrShort(ls.reduce((a, l) => a + (l.estimatedValue ?? 0), 0))}` : String(ls.length) } })}
           onMove={can('LEADS', 'EDIT') ? (l: any, to) => { if (stages.find((s) => s.id === to)?.isWon) return void toast.error('To mark a lead as won, open it and convert it to a customer'); act(() => api(`/leads/${l.id}`, { method: 'PATCH', body: { stageId: to } })).then(refresh) } : undefined}
           render={(l: any) => <><div className="font-medium">{leadLabel(l)}</div><div className="text-xs text-muted">{l.companyName ? personName(l) : l.requirement}</div><div className="mt-2 flex items-center justify-between gap-2 text-xs"><span className="num font-medium">{l.estimatedValue ? inrShort(l.estimatedValue) : ''}</span>{l.status === 'OPEN' && <DueTag date={l.nextFollowUpAt} />}</div></>}
         />

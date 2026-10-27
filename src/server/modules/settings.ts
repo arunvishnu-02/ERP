@@ -4,6 +4,7 @@ import { crud } from '../core/crud'
 import { bad, conflict, forbidden, notFound, parse, shape } from '../core/http'
 import { docEmailHtml } from '../core/email-html'
 import { sendMail } from '../core/mail'
+import { APP_NAME } from '../../lib/brand'
 import { LETTER, LETTER_OF } from '../core/seed'
 import { audit, encrypt, nextNumber, stateName, STATES, today } from '../core/util'
 import { prisma, type Tx } from '../db'
@@ -250,8 +251,8 @@ settingsRouter.put('/integrations/resend', authorize(S, 'EDIT'), async (req, res
 
 settingsRouter.post('/integrations/smtp/test', authorize(S, 'EDIT'), async (req, res) => {
   const d = parse(shape({ to: 's' }), req.body)
-  const html = await docEmailHtml(req.user.organizationId, { kind: 'Test email', heading: 'Email is set up correctly', body: 'This test came from your CX CRM ERP. Invoices, quotations, reminders and sign-in codes will look like this.', automatic: true })
-  res.json(await sendMail(req.user.organizationId, { to: d.to, subject: 'Test email from CX CRM ERP', text: 'Email is set up correctly.', html, sentById: req.user.id }))
+  const html = await docEmailHtml(req.user.organizationId, { kind: 'Test email', heading: 'Email is set up correctly', body: `This test came from your ${APP_NAME}. Invoices, quotations, reminders and sign-in codes will look like this.`, automatic: true })
+  res.json(await sendMail(req.user.organizationId, { to: d.to, subject: `Test email from ${APP_NAME}`, text: 'Email is set up correctly.', html, sentById: req.user.id }))
 })
 
 settingsRouter.get('/audit-logs', authorize(S, 'VIEW'), async (req, res) => {

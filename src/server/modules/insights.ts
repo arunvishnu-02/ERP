@@ -101,7 +101,8 @@ dashboardRouter.get('/', authorize('DASHBOARD', 'VIEW'), async (req, res) => {
     })
   }
   if (ww) out.renewals = await prisma.webAsset.findMany({ where: { organizationId, status: { notIn: ['CANCELLED'] }, expiryDate: { lt: addDays(t, 31) } }, select: { id: true, name: true, type: true, expiryDate: true, customer: { select: { name: true } } }, orderBy: { expiryDate: 'asc' }, take: 8 })
-  if (can(req.user, 'INVOICES', 'VIEW') === 'ALL') {
+  // money over time, costs (salaries included) and the company overview: Admin only
+  if (req.user.admin) {
     const { from, keys } = monthsFrom(6)
     const [inv, pay] = await Promise.all([
       prisma.invoice.findMany({ where: { organizationId, deletedAt: null, status: { notIn: ['DRAFT', 'VOID', 'CANCELLED'] }, issueDate: { gte: from } }, select: { issueDate: true, totalAmount: true } }),

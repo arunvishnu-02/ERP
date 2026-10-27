@@ -2,7 +2,7 @@
 // No PF, ESI, professional tax or TDS is taken by default. HR can add deductions by hand on any payslip.
 import { z } from 'zod'
 import { Router, type Request } from '../core/router'
-import { authorize, fullName } from '../core/auth'
+import { adminOnly, authorize, fullName } from '../core/auth'
 import { bad, conflict, notFound, isUuid, parse, shape } from '../core/http'
 import { addDays, audit, dateOnly, notify, todayStr, ymd } from '../core/util'
 import { prisma, type Tx } from '../db'
@@ -156,7 +156,7 @@ async function payslipView(organizationId: string, id: string, employeeId?: stri
 
 export const payrollRouter = Router()
 
-payrollRouter.get('/settings', authorize(HR, 'VIEW'), async (req, res) => {
+payrollRouter.get('/settings', adminOnly, authorize(HR, 'VIEW'), async (req, res) => {
   const org = await prisma.organization.findUniqueOrThrow({ where: { id: req.user.organizationId } })
   res.json(payrollSettings(org.settings))
 })
@@ -169,7 +169,7 @@ const settingsSchema = z.object({
   workHours: z.string().trim().max(120).nullable().optional(),
   terms: z.string().trim().max(5000).nullable().optional(),
 })
-payrollRouter.put('/settings', authorize(HR, 'EDIT'), async (req, res) => {
+payrollRouter.put('/settings', adminOnly, authorize(HR, 'EDIT'), async (req, res) => {
   const d = parse(settingsSchema, req.body)
   if (Math.abs(d.split.reduce((n: number, c: any) => n + c.percent, 0) - 100) > 0.001) throw bad('The salary parts must add up to 100%')
   const org = await prisma.organization.findUniqueOrThrow({ where: { id: req.user.organizationId } })
@@ -182,7 +182,7 @@ payrollRouter.put('/settings', authorize(HR, 'EDIT'), async (req, res) => {
 })
 
 /** What the appointment letter says about the job, the pay and the leave. */
-payrollRouter.get('/appointment/:employeeId', authorize(HR, 'VIEW'), async (req, res) => {
+payrollRouter.get('/appointment/:employeeId', adminOnly, authorize(HR, 'VIEW'), async (req, res) => {
   const e = isUuid(req.params.employeeId) ? await prisma.employee.findFirst({
     where: { id: String(req.params.employeeId), organizationId: req.user.organizationId },
     include: { department: { select: { name: true } }, branch: { select: { name: true } }, reportingManager: { select: { firstName: true, lastName: true, designation: true } } },
@@ -213,12 +213,12 @@ payrollRouter.get('/joining/:employeeId', authorize(HR, 'VIEW'), async (req, res
   res.json({ employee, settings: payrollSettings(org.settings), leaveTypes: leaveTypes.map((t) => ({ name: t.name, days: Number(t.annualQuota) })) })
 })
 
-payrollRouter.get('/', authorize(HR, 'VIEW'), async (req, res) => {
+payrollRouter.get('/', adminOnly, authorize(HR, 'VIEW'), async (req, res) => {
   const items = await prisma.payrollRun.findMany({ where: { organizationId: req.user.organizationId }, include: { _count: { select: { payslips: true } } }, orderBy: { month: 'desc' }, take: 36 })
   res.json({ items: items.map(({ _count, ...r }) => ({ ...r, monthName: monthName(r.month), people: _count.payslips })) })
 })
 
-payrollRouter.post('/', authorize(HR, 'CREATE'), async (req, res) => {
+payrollRouter.post('/', adminOnly, authorize(HR, 'CREATE'), async (req, res) => {
   const { month } = parse(shape({ month: 's' }), req.body)
   if (!/^\d{4}-(0[1-9]|1[0-2])$/.test(month)) throw bad('Choose a month')
   if (month > todayStr().slice(0, 7)) throw bad('You can only run payroll for this month or an earlier one')
@@ -237,12 +237,12 @@ async function runView(organizationId: string, id: string) {
   const run = await prisma.payrollRun.findFirstOrThrow({ where: { id, organizationId }, include: { payslips: { include: { employee: emp }, orderBy: { employee: { firstName: 'asc' } } } } })
   return { ...run, monthName: monthName(run.month) }
 }
-payrollRouter.get('/:id', authorize(HR, 'VIEW'), async (req, res) => {
+payrollRouter.get('/:id', adminOnly, authorize(HR, 'VIEW'), async (req, res) => {
   const run = await findRun(req)
   res.json(await runView(run.organizationId, run.id))
 })
 
-payrollRouter.post('/:id/recalculate', authorize(HR, 'EDIT'), async (req, res) => {
+payrollRouter.post('/:id/recalculate', adminOnly, authorize(HR, 'EDIT'), async (req, res) => {
   const run = await findRun(req)
   if (run.status !== 'DRAFT') throw conflict('Only a draft can be recalculated. Reopen it first.')
   const skipped = await prisma.$transaction((tx) => calculate(tx, run.organizationId, run.id, run.month), { timeout: 30_000 })
@@ -251,7 +251,7 @@ payrollRouter.post('/:id/recalculate', authorize(HR, 'EDIT'), async (req, res) =
 
 const lines = z.array(z.object({ name: z.string().trim().min(1).max(80), amount: z.coerce.number().min(0).max(1e8) })).max(20).nullable().optional()
 const payslipEdit = z.object({ lopDays: z.coerce.number().min(0).max(31).optional(), extraEarnings: lines, deductions: lines, notes: z.string().trim().max(500).nullable().optional() })
-payrollRouter.patch('/payslips/:id', authorize(HR, 'EDIT'), async (req, res) => {
+payrollRouter.patch('/payslips/:id', adminOnly, authorize(HR, 'EDIT'), async (req, res) => {
   const p = isUuid(req.params.id) ? await prisma.payslip.findFirst({ where: { id: String(req.params.id), organizationId: req.user.organizationId }, include: { run: true } }) : null
   if (!p) throw notFound('Payslip')
   if (p.run.status !== 'DRAFT') throw conflict('This payslip is finalised. Reopen the payroll to change it.')
@@ -278,7 +278,7 @@ payrollRouter.patch('/payslips/:id', authorize(HR, 'EDIT'), async (req, res) => 
   res.json(row)
 })
 
-payrollRouter.post('/:id/finalise', authorize(HR, 'APPROVE'), async (req, res) => {
+payrollRouter.post('/:id/finalise', adminOnly, authorize(HR, 'APPROVE'), async (req, res) => {
   const run = await findRun(req)
   if (run.status !== 'DRAFT') throw conflict('This payroll is already finalised')
   const slips = await prisma.payslip.findMany({ where: { runId: run.id }, include: { employee: { select: { userId: true } } } })
@@ -291,7 +291,7 @@ payrollRouter.post('/:id/finalise', authorize(HR, 'APPROVE'), async (req, res) =
   res.json(await runView(run.organizationId, run.id))
 })
 
-payrollRouter.post('/:id/reopen', authorize(HR, 'APPROVE'), async (req, res) => {
+payrollRouter.post('/:id/reopen', adminOnly, authorize(HR, 'APPROVE'), async (req, res) => {
   const run = await findRun(req)
   if (run.status !== 'FINALISED') throw conflict(run.status === 'PAID' ? 'This payroll is marked paid and cannot be reopened' : 'This payroll is still a draft')
   await prisma.$transaction(async (tx) => {
@@ -301,7 +301,7 @@ payrollRouter.post('/:id/reopen', authorize(HR, 'APPROVE'), async (req, res) => 
   res.json(await runView(run.organizationId, run.id))
 })
 
-payrollRouter.post('/:id/paid', authorize(HR, 'APPROVE'), async (req, res) => {
+payrollRouter.post('/:id/paid', adminOnly, authorize(HR, 'APPROVE'), async (req, res) => {
   const run = await findRun(req)
   if (run.status !== 'FINALISED') throw conflict(run.status === 'PAID' ? 'This payroll is already marked paid' : 'Finalise the payroll first')
   const d = parse(shape({ paidOn: 'd?' }), req.body ?? {})
@@ -312,7 +312,7 @@ payrollRouter.post('/:id/paid', authorize(HR, 'APPROVE'), async (req, res) => {
   res.json(await runView(run.organizationId, run.id))
 })
 
-payrollRouter.delete('/:id', authorize(HR, 'DELETE'), async (req, res) => {
+payrollRouter.delete('/:id', adminOnly, authorize(HR, 'DELETE'), async (req, res) => {
   const run = await findRun(req)
   if (run.status !== 'DRAFT') throw conflict('Only a draft payroll can be deleted')
   await prisma.$transaction(async (tx) => {
@@ -322,7 +322,7 @@ payrollRouter.delete('/:id', authorize(HR, 'DELETE'), async (req, res) => {
   res.status(204).end()
 })
 
-payrollRouter.get('/payslips/:id', authorize(HR, 'VIEW'), async (req, res) => {
+payrollRouter.get('/payslips/:id', adminOnly, authorize(HR, 'VIEW'), async (req, res) => {
   res.json(await payslipView(req.user.organizationId, String(req.params.id)))
 })
 

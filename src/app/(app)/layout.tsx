@@ -6,6 +6,8 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
+import { APP_NAME } from '@/lib/brand'
+import { Mark } from '@/components/entry'
 import { NewMenu, openSearch, SearchEverywhere } from '@/components/command'
 import { FormDialog } from '@/components/form'
 import { Avatar, Button, cn } from '@/components/ui'
@@ -108,7 +110,7 @@ function Shell({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false)
   const [unfold, setUnfold] = useState<Record<string, boolean>>({})
   const waiting = useApprovalCount()
-  useEffect(() => { document.title = `${TITLES[key] ?? 'CX CRM ERP'} | CX CRM ERP` }, [key])
+  useEffect(() => { document.title = `${TITLES[key] ?? APP_NAME} | ${APP_NAME}` }, [key])
   const month = new Date().toLocaleDateString('en-IN', { month: 'long', year: 'numeric' })
   const subtitle = key === 'dashboard' ? `${me.roles[0]?.name ?? 'Your'} view. ${month} so far.` : SUBTITLES[key]
   const tall = key === 'dashboard'
@@ -116,8 +118,8 @@ function Shell({ children }: { children: React.ReactNode }) {
     <div className="min-h-screen lg:grid lg:grid-cols-[240px_minmax(0,1fr)]">
       <aside className={cn('app-rail fixed inset-y-0 left-0 z-40 flex w-60 flex-col overflow-y-auto px-3.5 pt-4 pb-3 text-rail-ink transition-transform duration-150 lg:sticky lg:top-0 lg:h-screen lg:w-auto lg:translate-x-0', open ? 'translate-x-0' : '-translate-x-full')} aria-label="Modules">
         <div className="flex items-center gap-2.5">
-          <span className="grid h-8 w-8 place-items-center rounded-lg bg-gradient-to-br from-[#02a6dc] to-[#3b6bff] text-[13px] font-medium text-white">CX</span>
-          <span className="min-w-0"><span className="block text-sm leading-5 font-semibold text-white">CX CRM ERP</span><span className="block truncate text-xs text-rail-mute">{lookups.organization.name}</span></span>
+          <Mark />
+          <span className="min-w-0"><span className="block text-sm leading-5 font-semibold text-white">{APP_NAME}</span><span className="block truncate text-xs text-rail-mute">{lookups.organization.name}</span></span>
         </div>
         <button type="button" onClick={() => { setOpen(false); openSearch() }} className="mt-4 flex h-9 w-full items-center gap-2 rounded-[10px] bg-gradient-to-r from-[rgba(2,166,220,0.35)] to-[rgba(75,59,255,0.12)] pr-2 pl-2.5 text-[13px] text-rail-mute hover:text-rail-ink">
           <Search size={16} className="text-rail-ink" /><span className="flex-1 text-left">Search or jump to</span><kbd className="rounded-md bg-rail px-1.5 py-0.5 text-[11px] font-semibold">Ctrl K</kbd>
@@ -160,7 +162,7 @@ function Shell({ children }: { children: React.ReactNode }) {
         <header className="relative z-20 flex h-16 shrink-0 items-center gap-3 px-4 text-white lg:px-7">
           <button type="button" className="glass grid h-[38px] w-[38px] place-items-center rounded-xl lg:hidden" aria-label="Open menu" onClick={() => setOpen(true)}><MenuIcon size={18} /></button>
           <div className="min-w-0 flex-1">
-            <h1 className="truncate font-display text-xl leading-7 font-semibold tracking-tight">{TITLES[key] ?? 'CX CRM ERP'}</h1>
+            <h1 className="truncate font-display text-xl leading-7 font-semibold tracking-tight">{TITLES[key] ?? APP_NAME}</h1>
             {subtitle && <p className="hidden truncate text-[13px] text-white/65 sm:block">{subtitle}</p>}
           </div>
           <SearchEverywhere pages={NAV.flatMap((g) => g.items.filter(([, , module]) => !module || can(module)).map(([path, label]) => ({ path, label })))} />
