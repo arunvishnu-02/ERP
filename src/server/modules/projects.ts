@@ -2,12 +2,22 @@ import { Router } from '../core/router'
 import { authorize, can } from '../core/auth'
 import { crud, findScoped } from '../core/crud'
 import { createInvoice } from '../core/docs'
-import { conflict, notFound, parse, shape, stripNulls } from '../core/http'
+import { conflict, forbidden, notFound, parse, shape, stripNulls } from '../core/http'
 import { activity, audit, notify, SCOPES, scoped, U, usersWith } from '../core/util'
 import { prisma, type Tx } from '../db'
 import * as E from '../../generated/prisma/enums'
 
 const M = 'PROJECTS'
+const TEAM = { select: { id: true, name: true, leadId: true, lead: U } }
+
+async function checkTeam(tx: Tx, req: any, teamId: string) {
+  if (!(await tx.team.findFirst({ where: { id: teamId, organizationId: req.user.organizationId } }))) throw notFound('Team')
+}
+/** The team's lead hears about a project given to their team. */
+async function tellTeamLead(tx: Tx, row: any, req: any) {
+  const team = await tx.team.findFirst({ where: { id: row.teamId }, select: { leadId: true, name: true } })
+  if (team?.leadId && team.leadId !== req.user.id && team.leadId !== row.managerId) await notify(tx, row.organizationId, team.leadId, 'project.assigned', `New project for ${team.name}: ${row.name}`, '/projects')
+}
 export const projectsRouter = Router()
 
 async function refreshProgress(tx: Tx, projectId: string) {
@@ -27,7 +37,7 @@ projectsRouter.get('/:id/detail', authorize(M, 'VIEW'), async (req, res) => {
   const p = await findScoped(req, 'project', M, 'VIEW', {
     soft: true, label: 'Project',
     include: {
-      customer: { select: { id: true, name: true } }, manager: U, quotation: { select: { id: true, quotationNumber: true } }, members: { include: { user: U } },
+      customer: { select: { id: true, name: true } }, manager: U, team: TEAM, quotation: { select: { id: true, quotationNumber: true } }, members: { include: { user: U } },
       milestones: { orderBy: { position: 'asc' }, include: { invoiceItems: { select: { invoice: { select: { id: true, invoiceNumber: true, status: true, balanceDue: true, totalAmount: true } } } } } },
     },
   })
@@ -128,15 +138,26 @@ projectsRouter.post('/:id/complete', authorize(M, 'EDIT'), async (req, res) => {
 
 projectsRouter.use('/', crud({
   model: 'project', module: M, label: 'Project', soft: true, by: true, number: ['projectNumber', 'PROJECT'], ownerField: 'managerId', scope: SCOPES.PROJECTS,
-  fields: { name: 's', description: 's?', customerId: 'id', 'category?': Object.values(E.ServiceCategory), 'status?': Object.values(E.ProjectStatus), 'priority?': Object.values(E.Priority), startDate: 'd?', dueDate: 'd?', budget: 'n?', managerId: 'id?' },
-  search: ['name', 'projectNumber', 'customer.name'], filters: ['status', 'customerId', 'managerId', 'category'],
-  include: { customer: { select: { id: true, name: true } }, manager: U, members: { select: { userId: true } }, milestones: { select: { id: true, status: true } } },
-  beforeCreate: (d) => { d.category ??= 'OTHER' },
+  fields: { name: 's', description: 's?', customerId: 'id', 'category?': Object.values(E.ServiceCategory), 'status?': Object.values(E.ProjectStatus), 'priority?': Object.values(E.Priority), startDate: 'd?', dueDate: 'd?', budget: 'n?', managerId: 'id?', teamId: 'id?' },
+  search: ['name', 'projectNumber', 'customer.name'], filters: ['status', 'customerId', 'managerId', 'category', 'teamId'],
+  include: { customer: { select: { id: true, name: true } }, manager: U, team: TEAM, members: { select: { userId: true } }, milestones: { select: { id: true, status: true } } },
+  beforeCreate: async (d, req, tx) => {
+    d.category ??= 'OTHER'
+    if (d.teamId) await checkTeam(tx, req, d.teamId)
+  },
   afterCreate: async (row, req, tx) => {
     await activity(tx, row.organizationId, 'PROJECT', row.id, 'CREATED', 'Project created', req.user.id)
     if (row.managerId !== req.user.id) await notify(tx, row.organizationId, row.managerId, 'project.assigned', `New project assigned to you: ${row.name}`, '/projects')
+    if (row.teamId) await tellTeamLead(tx, row, req)
   },
-  beforeUpdate: (d, before) => {
+  beforeUpdate: async (d, before, req, tx) => {
     if (d.status && d.status !== before.status) d.completedAt = d.status === 'COMPLETED' ? new Date() : null
+    // Only Admin and Manager (who see every project) choose the team and the manager; a Team Lead runs the project
+    const changing = (d.teamId !== undefined && (d.teamId ?? null) !== before.teamId) || (d.managerId !== undefined && d.managerId !== before.managerId)
+    if (changing && can(req.user, M, 'EDIT') !== 'ALL') throw forbidden('Only Admin or a Manager can change the team or manager of a project')
+    if (d.teamId && d.teamId !== before.teamId) await checkTeam(tx, req, d.teamId)
+  },
+  afterUpdate: async (row, before, req, tx) => {
+    if (row.teamId && row.teamId !== before.teamId) await tellTeamLead(tx, row, req)
   },
 }))

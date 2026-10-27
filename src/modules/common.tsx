@@ -6,6 +6,16 @@ import { useAuth } from '@/lib/auth'
 import { daysFromToday, fmtDate, fmtShort, personName } from '@/lib/format'
 
 export const userOptions = (lookups: any) => lookups.users.filter((u: any) => u.status === 'ACTIVE').map((u: any) => ({ value: u.id, label: u.name }))
+/** People this person may give a task to: everyone for Admin and Manager, their own team for a Team Lead, only themselves otherwise. */
+export function useAssignees() {
+  const { lookups, me, scope } = useAuth()
+  const all = userOptions(lookups)
+  const s = scope('TASKS', 'CREATE')
+  if (s === 'ALL') return all
+  const ids = new Set([me.id])
+  if (s === 'TEAM') for (const t of lookups.teams ?? []) if (t.leadId === me.id || t.members?.some((m: any) => m.userId === me.id)) t.members?.forEach((m: any) => ids.add(m.userId))
+  return all.filter((o: any) => ids.has(o.value))
+}
 export const stateOptions = (lookups: any) => lookups.states.map((s: any) => ({ value: s.code, label: s.name }))
 export const byId = (list: any[], id?: string | null) => list.find((x) => x.id === id)
 

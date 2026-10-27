@@ -158,7 +158,7 @@ export const SCOPES: Record<string, (ids: string[]) => any> = {
   QUOTATIONS: (ids) => ({ preparedById: { in: ids } }),
   INVOICES: (ids) => ({ customer: { accountManagerId: { in: ids } } }),
   PAYMENTS: (ids) => ({ customer: { accountManagerId: { in: ids } } }),
-  PROJECTS: (ids) => ({ OR: [{ managerId: { in: ids } }, { members: { some: { userId: { in: ids } } } }] }),
+  PROJECTS: (ids) => ({ OR: [{ managerId: { in: ids } }, { members: { some: { userId: { in: ids } } } }, { team: { OR: [{ leadId: { in: ids } }, { members: { some: { userId: { in: ids } } } }] } }] }),
   TASKS: (ids) => ({ OR: [{ assigneeId: { in: ids } }, { reporterId: { in: ids } }] }),
   TICKETS: (ids) => ({ OR: [{ assigneeId: { in: ids } }, { createdById: { in: ids } }] }),
   CAMPAIGNS: (ids) => ({ managerId: { in: ids } }),
