@@ -16,7 +16,7 @@ function Attendance() {
   if (!me.employeeId || !data) return null
   const a = data.attendance
   return (
-    <Panel title="My attendance today" action={<Link href="/profile" className="text-[13px] text-accent hover:underline">Leave and profile</Link>}>
+    <Panel title="My attendance today" action={<Link href="/profile" className="text-[13px] text-accent-strong hover:underline">Leave and profile</Link>}>
       {a?.checkInAt ? (
         <div className="flex flex-wrap items-center justify-between gap-3 text-sm">
           <span>Checked in at {fmtDateTime(a.checkInAt)}{a.checkOutAt ? `, out at ${fmtDateTime(a.checkOutAt)}` : ''}{a.status === 'WORK_FROM_HOME' ? ' (working from home)' : ''}</span>
@@ -45,8 +45,8 @@ function StartHere() {
       <ol className="grid gap-3 sm:grid-cols-2">
         {steps.map(([title, text, href], i) => (
           <li key={title}>
-            <Link href={href} className="flex h-full gap-3 rounded-lg border border-line p-3 hover:border-accent">
-              <span className="num grid h-6 w-6 shrink-0 place-items-center rounded-full bg-accent-soft text-xs font-semibold text-accent">{i + 1}</span>
+            <Link href={href} className="flex h-full gap-3 rounded-lg border border-line p-3 hover:border-accent-strong">
+              <span className="num grid h-6 w-6 shrink-0 place-items-center rounded-full bg-accent-soft text-xs font-semibold text-accent-strong">{i + 1}</span>
               <span><span className="block font-medium">{title}</span><span className="text-[13px] text-muted">{text}</span></span>
             </Link>
           </li>
@@ -56,7 +56,7 @@ function StartHere() {
   )
 }
 
-const linkCls = 'text-[13px] font-medium text-accent hover:underline'
+const linkCls = 'text-[13px] font-medium text-accent-strong hover:underline'
 const pct = (a: number, b: number) => (b ? Math.round((a / b) * 100) : 0)
 
 /** "Where everything stands today": one tile per step from lead to completion. */
@@ -78,7 +78,7 @@ function Stands({ s }: { s: any }) {
         {tiles.map(([label, n, hint, href], i) => (
           <div key={label} className="contents">
             {i > 0 && <ChevronRight size={16} className="hidden shrink-0 text-muted xl:block" />}
-            <Link href={href} className={cn('min-w-0 flex-1 rounded-xl px-3.5 py-3 hover:ring-1 hover:ring-accent/40', i === stuck ? 'bg-warn-soft ring-1 ring-warn/60' : 'bg-surface-2')}>
+            <Link href={href} className={cn('min-w-0 flex-1 rounded-xl px-3.5 py-3 hover:ring-1 hover:ring-accent-strong/40', i === stuck ? 'bg-warn-soft ring-1 ring-warn/60' : 'bg-surface-2')}>
               <div className="text-[13px] text-muted">{label}</div>
               <div className="num font-display text-2xl leading-8 font-semibold">{n}</div>
               <div className="truncate text-xs text-muted">{hint}</div>
@@ -126,7 +126,7 @@ function Overview({ data, review }: { data: any; review: (id: string) => void })
                 </li>
               ))}
             </ul>
-          ) : <p className="text-sm text-muted">Nothing is waiting for you. Leave and expenses are in <Link href="/approvals" className="text-accent hover:underline">Approvals</Link>.</p>}
+          ) : <p className="text-sm text-muted">Nothing is waiting for you. Leave and expenses are in <Link href="/approvals" className="text-accent-strong hover:underline">Approvals</Link>.</p>}
         </Panel>
         <Panel title="Money to collect" action={<Link href="/invoices" className={linkCls}>Open invoices</Link>}>
           {o.collect.length ? (
@@ -175,7 +175,7 @@ export default function Dashboard() {
         )}
         {data.revenue && !data.overview && <Panel title="Billed and collected, last 6 months"><PairBars data={data.revenue} /></Panel>}
         {data.tasks && (
-          <Panel title="My tasks due today" action={<Link href="/tasks" className="text-[13px] text-accent hover:underline">Task board</Link>}>
+          <Panel title="My tasks due today" action={<Link href="/tasks" className="text-[13px] text-accent-strong hover:underline">Task board</Link>}>
             {data.tasks.length ? (
               <ul className="divide-y divide-line">
                 {data.tasks.map((t: any) => (
@@ -190,7 +190,7 @@ export default function Dashboard() {
         )}
         <Attendance />
         {data.followUps && (
-          <Panel title="Follow-ups due" action={<Link href="/leads" className="text-[13px] text-accent hover:underline">All leads</Link>}>
+          <Panel title="Follow-ups due" action={<Link href="/leads" className="text-[13px] text-accent-strong hover:underline">All leads</Link>}>
             {data.followUps.length ? (
               <ul className="divide-y divide-line">
                 {data.followUps.map((l: any) => <li key={l.id} className="flex items-center justify-between gap-3 py-2 text-sm first:pt-0 last:pb-0"><span className="min-w-0"><span className="block truncate">{personName(l)}</span><span className="text-xs text-muted">{l.companyName}</span></span><DueTag date={l.nextFollowUpAt} /></li>)}
@@ -199,7 +199,7 @@ export default function Dashboard() {
           </Panel>
         )}
         {data.renewals && (
-          <Panel title="Renewals in the next 30 days" action={<Link href="/websites" className="text-[13px] text-accent hover:underline">All renewals</Link>}>
+          <Panel title="Renewals in the next 30 days" action={<Link href="/websites" className="text-[13px] text-accent-strong hover:underline">All renewals</Link>}>
             {data.renewals.length ? (
               <ul className="divide-y divide-line">
                 {data.renewals.map((w: any) => <li key={w.id} className="flex items-center justify-between gap-3 py-2 text-sm first:pt-0 last:pb-0"><span className="min-w-0"><span className="block truncate">{w.name}</span><span className="text-xs text-muted">{human(w.type)}, {w.customer.name}</span></span><ExpiryTag date={w.expiryDate} /></li>)}

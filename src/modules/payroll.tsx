@@ -94,7 +94,7 @@ function PayrollSettings({ open, onClose }: { open: boolean; onClose: () => void
           <Field label="Weekly off days" group>
             <span className="flex flex-wrap gap-1.5">{WEEKDAYS.map((d, i) => {
               const on = off.includes(i)
-              return <button key={d} type="button" aria-pressed={on} onClick={() => setOff(on ? off.filter((x) => x !== i) : [...off, i].sort())} className={`rounded-full border px-2.5 py-1 text-[13px] ${on ? 'border-accent bg-accent-soft text-ink' : 'border-line bg-surface text-muted hover:text-ink'}`}>{d}</button>
+              return <button key={d} type="button" aria-pressed={on} onClick={() => setOff(on ? off.filter((x) => x !== i) : [...off, i].sort())} className={`rounded-full border px-2.5 py-1 text-[13px] ${on ? 'border-accent-strong bg-accent-soft text-ink' : 'border-line bg-surface text-muted hover:text-ink'}`}>{d}</button>
             })}</span>
           </Field>
           <div className="grid gap-x-4 gap-y-3.5 sm:grid-cols-3">

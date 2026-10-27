@@ -37,7 +37,7 @@ function AppCard({ mark, name, status, children, actions }: { mark: string; name
   return (
     <Card className="flex flex-col gap-3 p-4">
       <div className="flex items-start gap-3">
-        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-accent-soft text-sm font-semibold text-accent">{mark}</span>
+        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-accent-soft text-sm font-semibold text-accent-strong">{mark}</span>
         <div className="min-w-0"><div className="font-semibold">{name}</div><div className="mt-1">{status}</div></div>
       </div>
       <div className="flex-1 text-[13px] text-muted">{children}</div>
@@ -80,7 +80,7 @@ export default function Integrations({ goEmail }: { goEmail: () => void }) {
           {(g.connected || g.signIn) && (
             <div className="mt-2 space-y-1 rounded-lg bg-surface-2 px-3 py-2 text-ink">
               {g.connected && <div>{g.connectedEmail}, connected {fmtDateTime(g.connectedAt)}</div>}
-              {g.connected && <div className="flex items-center gap-1.5"><FolderOpen size={14} className="text-muted" />Drive folder: {g.folderUrl ? <a href={g.folderUrl} target="_blank" rel="noreferrer" className="text-accent hover:underline">{g.folderName}</a> : <span>{g.folderName} (made on first save)</span>}</div>}
+              {g.connected && <div className="flex items-center gap-1.5"><FolderOpen size={14} className="text-muted" />Drive folder: {g.folderUrl ? <a href={g.folderUrl} target="_blank" rel="noreferrer" className="text-accent-strong hover:underline">{g.folderName}</a> : <span>{g.folderName} (made on first save)</span>}</div>}
               {g.signIn && <div>Sign in with Google is on{g.allowedDomain ? ` for @${g.allowedDomain}` : ''}. {g.linkedUsers} {g.linkedUsers === 1 ? 'person has' : 'people have'} used it.</div>}
             </div>
           )}
@@ -98,7 +98,7 @@ export default function Integrations({ goEmail }: { goEmail: () => void }) {
         <Card className="p-4 text-[13px] text-muted">
           <div className="mb-2 font-semibold text-ink">How to set up Google (one time, about 10 minutes)</div>
           <ol className="list-decimal space-y-1 pl-5">
-            <li>Open <a className="text-accent hover:underline" href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noreferrer">Google Cloud credentials <ExternalLink size={12} className="inline" /></a> with your Workspace admin account and make a project.</li>
+            <li>Open <a className="text-accent-strong hover:underline" href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noreferrer">Google Cloud credentials <ExternalLink size={12} className="inline" /></a> with your Workspace admin account and make a project.</li>
             <li>Turn on the Google Drive API and the Google Sheets API for that project.</li>
             <li>On the OAuth consent screen choose Internal, so only your company can use it.</li>
             <li>Create an OAuth client ID of type Web application, and add this address under Authorised redirect URIs:

@@ -39,7 +39,7 @@ export default function PortalLogin() {
               <Field label="Code from the email"><Input inputMode="numeric" autoComplete="one-time-code" maxLength={6} className="num tracking-[0.4em]" value={code} onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))} required autoFocus /></Field>
               {alert}
               <Button type="submit" variant="primary" loading={busy} className="w-full">Sign in</Button>
-              <p className="text-sm text-muted">No email? Check spam, <button type="button" className="text-accent hover:underline" disabled={busy} onClick={() => sendCode()}>send a new code</button>, or <button type="button" className="text-accent hover:underline" onClick={() => { setStep('email'); setCode(''); setError('') }}>use another email</button>.</p>
+              <p className="text-sm text-muted">No email? Check spam, <button type="button" className="text-accent-strong hover:underline" disabled={busy} onClick={() => sendCode()}>send a new code</button>, or <button type="button" className="text-accent-strong hover:underline" onClick={() => { setStep('email'); setCode(''); setError('') }}>use another email</button>.</p>
             </form>
           )}
         </Card>

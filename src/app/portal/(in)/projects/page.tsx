@@ -27,7 +27,7 @@ export default function PortalProjects() {
                   const done = ['COMPLETED', 'INVOICED'].includes(m.status)
                   return (
                     <li key={m.id} className="flex items-center gap-3 text-sm">
-                      <span className={cn('grid h-6 w-6 shrink-0 place-items-center rounded-full border', done ? 'border-accent bg-accent text-accent-ink' : m.status === 'IN_PROGRESS' ? 'border-accent text-accent' : 'border-line text-muted')}>{done ? <Check size={13} /> : null}</span>
+                      <span className={cn('grid h-6 w-6 shrink-0 place-items-center rounded-full border', done ? 'border-accent-strong bg-accent text-accent-ink' : m.status === 'IN_PROGRESS' ? 'border-accent-strong text-accent-strong' : 'border-line text-muted')}>{done ? <Check size={13} /> : null}</span>
                       <span className={cn('flex-1', done && 'text-muted')}>{m.name}</span>
                       <span className="text-xs text-muted">{done ? (m.completedAt ? `Done ${fmtDate(m.completedAt)}` : 'Done') : m.status === 'IN_PROGRESS' ? 'In progress' : m.dueDate ? `By ${fmtDate(m.dueDate)}` : ''}</span>
                     </li>

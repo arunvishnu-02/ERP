@@ -58,14 +58,14 @@ function Notifications() {
       <Menu.Trigger asChild>
         <button type="button" aria-label={`Notifications, ${data?.unread ?? 0} unread`} className="glass relative grid h-[38px] w-[38px] place-items-center rounded-xl">
           <Bell size={18} />
-          {!!data?.unread && <span className="num absolute -top-1 -right-1 grid h-4 min-w-4 place-items-center rounded-full border-2 border-[#08043a] bg-bad px-1 text-[10px] font-semibold text-white">{data.unread > 9 ? '9+' : data.unread}</span>}
+          {!!data?.unread && <span className="num absolute -top-1 -right-1 grid h-4 min-w-4 place-items-center rounded-full border-2 border-rail bg-bad px-1 text-[10px] font-semibold text-white">{data.unread > 9 ? '9+' : data.unread}</span>}
         </button>
       </Menu.Trigger>
       <Menu.Portal>
         <Menu.Content align="end" sideOffset={6} className="z-50 max-h-[70vh] w-80 overflow-y-auto rounded-xl border border-line bg-surface p-1 shadow-xl">
           <div className="flex items-center justify-between px-3 py-2">
             <span className="font-display text-[15px] font-semibold">Notifications</span>
-            {!!data?.unread && <button className="text-xs text-accent hover:underline" onClick={() => read()}>Mark all as read</button>}
+            {!!data?.unread && <button className="text-xs text-accent-strong hover:underline" onClick={() => read()}>Mark all as read</button>}
           </div>
           {!data?.items.length && <p className="px-3 pb-3 text-sm text-muted">Nothing yet. Assignments, approvals and reminders appear here.</p>}
           {data?.items.map((n) => (
@@ -97,8 +97,9 @@ function ThemeToggle() {
 
 function NavLink({ path, label, Icon, active, onClick, badge }: { path: string; label: string; Icon: any; active: boolean; onClick: () => void; badge?: number }) {
   return (
-    <Link href={`/${path}`} onClick={onClick} aria-current={active ? 'page' : undefined} className={cn('flex h-9 items-center gap-2.5 rounded-lg px-2.5 text-[13px] text-rail-ink hover:bg-white/5 hover:text-white', active && 'bg-rail-active font-medium text-white hover:bg-rail-active')}>
-      <Icon size={16} className={active ? 'text-[#3cc2ef]' : 'text-rail-mute'} />{label}
+    <Link href={`/${path}`} onClick={onClick} aria-current={active ? 'page' : undefined} className={cn('flex h-9 items-center gap-2.5 rounded-lg px-2.5 text-[13px] text-rail-ink hover:bg-white/5 hover:text-white', active && 'relative bg-rail-active font-medium text-white hover:bg-rail-active')}>
+      {active && <span aria-hidden className="absolute top-2 bottom-2 left-0 w-1 rounded-full bg-accent" />}
+      <Icon size={16} className={active ? 'text-white' : 'text-rail-mute'} />{label}
       {!!badge && <span className="num ml-auto grid h-5 min-w-5 place-items-center rounded-full bg-bad px-1.5 text-[11px] font-semibold text-white">{badge > 99 ? '99+' : badge}</span>}
     </Link>
   )
@@ -121,7 +122,7 @@ function Shell({ children }: { children: React.ReactNode }) {
           <Mark />
           <span className="min-w-0"><span className="block text-sm leading-5 font-semibold text-white">{APP_NAME}</span><span className="block truncate text-xs text-rail-mute">{lookups.organization.name}</span></span>
         </div>
-        <button type="button" onClick={() => { setOpen(false); openSearch() }} className="mt-4 flex h-9 w-full items-center gap-2 rounded-[10px] bg-gradient-to-r from-[rgba(2,166,220,0.35)] to-[rgba(75,59,255,0.12)] pr-2 pl-2.5 text-[13px] text-rail-mute hover:text-rail-ink">
+        <button type="button" onClick={() => { setOpen(false); openSearch() }} className="mt-4 flex h-9 w-full items-center gap-2 rounded-[10px] bg-rail-active pr-2 pl-2.5 text-[13px] text-rail-mute hover:text-rail-ink">
           <Search size={16} className="text-rail-ink" /><span className="flex-1 text-left">Search or jump to</span><kbd className="rounded-md bg-rail px-1.5 py-0.5 text-[11px] font-semibold">Ctrl K</kbd>
         </button>
         <nav className="mt-4 flex-1 space-y-3.5">

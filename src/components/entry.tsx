@@ -26,8 +26,8 @@ export function EntryFrame({ title, intro, children }: { title: string; intro: s
           <ol className="mt-8 flex max-w-[480px] items-start">
             {STEPS.map((s, i) => (
               <li key={s} className="relative flex flex-1 flex-col items-center gap-2 text-center text-[11px] text-rail-ink">
-                {i > 0 && <span className="absolute top-3 right-1/2 h-px w-full bg-[#3cc2ef]/60" />}
-                <span className="relative grid h-6 w-6 place-items-center rounded-full bg-gradient-to-br from-[#3cc2ef] to-[#3b6bff] text-[#08043a]"><Check size={13} strokeWidth={2.5} /></span>
+                {i > 0 && <span className="absolute top-3 right-1/2 h-px w-full bg-accent/60" />}
+                <span className="relative grid h-6 w-6 place-items-center rounded-full bg-accent text-accent-ink"><Check size={13} strokeWidth={2.5} /></span>
                 <span className="whitespace-nowrap">{s === 'Completion' ? 'Done' : s}</span>
               </li>
             ))}

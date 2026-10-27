@@ -10,7 +10,7 @@ import { useAuth } from '@/lib/auth'
 import { day, fmtDate, human, inr, options, personName, todayStr, toneOf } from '@/lib/format'
 import { Person, useCustomerOptions, userOptions } from './common'
 
-const TONE_BG: Record<string, string> = { good: 'bg-good-soft text-good', warn: 'bg-warn-soft text-warn', bad: 'bg-bad-soft text-bad', info: 'bg-info-soft text-info', accent: 'bg-accent-soft text-accent', mute: 'bg-surface-2 text-muted' }
+const TONE_BG: Record<string, string> = { good: 'bg-good-soft text-good', warn: 'bg-warn-soft text-warn', bad: 'bg-bad-soft text-bad', info: 'bg-info-soft text-info', accent: 'bg-accent-soft text-accent-strong', mute: 'bg-surface-2 text-muted' }
 
 function useContentFields(): Field[] {
   const { lookups } = useAuth()
@@ -51,7 +51,7 @@ function Calendar({ fields }: { fields: Field[] }) {
           {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((d) => <div key={d} className="px-1.5 py-1 text-xs text-muted">{d}</div>)}
           {Array.from({ length: lead }, (_, i) => <div key={`b${i}`} />)}
           {days.map((d) => (
-            <div key={d} className={cn('min-h-24 rounded-lg border border-line p-1', d === todayStr() && 'border-accent ring-1 ring-accent')}>
+            <div key={d} className={cn('min-h-24 rounded-lg border border-line p-1', d === todayStr() && 'border-accent-strong ring-1 ring-accent-strong')}>
               <button className="num block w-full rounded px-1 text-left text-xs text-muted hover:bg-surface-2" aria-label={`Add content on ${fmtDate(d)}`} onClick={can('MARKETING', 'CREATE') ? () => setForm({ date: d }) : undefined}>{Number(d.slice(8))}</button>
               {(data?.items ?? []).filter((c) => day(c.scheduledAt) === d).map((c) => (
                 <button key={c.id} title={`${human(c.type)}, ${human(c.status)}`} onClick={() => setForm({ row: c })} className={cn('mt-1 block w-full truncate rounded px-1.5 py-1 text-left text-[11.5px] leading-tight', TONE_BG[toneOf(c.status)])}>

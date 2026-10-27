@@ -9,7 +9,7 @@ import { fmtDate } from '@/lib/format'
 function Block({ title, href, empty, children, count }: { title: string; href: string; empty: string; children: React.ReactNode; count: number }) {
   return (
     <Card className="p-4">
-      <div className="mb-2 flex items-center justify-between"><h2 className="font-display text-[15px] font-semibold">{title}</h2><Link href={href} className="flex items-center gap-1 text-[13px] text-accent hover:underline">See all<ArrowRight size={14} /></Link></div>
+      <div className="mb-2 flex items-center justify-between"><h2 className="font-display text-[15px] font-semibold">{title}</h2><Link href={href} className="flex items-center gap-1 text-[13px] text-accent-strong hover:underline">See all<ArrowRight size={14} /></Link></div>
       {count ? <ul className="divide-y divide-line text-sm">{children}</ul> : <p className="py-3 text-sm text-muted">{empty}</p>}
     </Card>
   )

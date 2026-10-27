@@ -27,7 +27,7 @@ export default function ForgotPage() {
     if (password !== again) return setError('The two passwords are not the same')
     return run(async () => { await api('/auth/reset', { body: { email, code, password } }); router.replace('/dashboard') })
   }
-  const back = <p className="text-sm"><Link href="/login" className="text-accent hover:underline">Back to sign in</Link></p>
+  const back = <p className="text-sm"><Link href="/login" className="text-accent-strong hover:underline">Back to sign in</Link></p>
   const alert = error && <p role="alert" className="rounded-lg bg-bad-soft px-3 py-2 text-sm text-bad">{error}</p>
   if (step === 'email') return (
     <EntryFrame title="Forgot your password?" intro="Enter your work email. We will send you a 6-digit code.">
@@ -48,7 +48,7 @@ export default function ForgotPage() {
         <Field label="Type it again"><PasswordInput autoComplete="new-password" minLength={8} value={again} onChange={(e) => setAgain(e.target.value)} required /></Field>
         {alert}
         <Button type="submit" variant="primary" loading={busy} className="w-full">Save new password</Button>
-        <p className="text-sm text-muted">No email? Check spam, or <button type="button" className="text-accent hover:underline" disabled={busy} onClick={() => sendCode()}>send a new code</button>.</p>
+        <p className="text-sm text-muted">No email? Check spam, or <button type="button" className="text-accent-strong hover:underline" disabled={busy} onClick={() => sendCode()}>send a new code</button>.</p>
         {back}
       </form>
     </EntryFrame>

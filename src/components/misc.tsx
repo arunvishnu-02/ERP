@@ -15,7 +15,7 @@ export function Workflow({ step }: { step: number }) {
         return (
           <li key={s} className="relative min-w-0 flex-1 text-center" aria-current={now ? 'step' : undefined}>
             {i > 0 && <span className={cn('absolute top-3 right-1/2 -left-1/2 h-0.5', i <= step ? 'bg-accent' : 'bg-line')} />}
-            <span className={cn('num relative z-10 mx-auto grid h-6 w-6 place-items-center rounded-full text-[11px] font-semibold', done ? 'bg-accent text-accent-ink' : now ? 'bg-surface text-accent ring-2 ring-accent' : 'bg-surface-2 text-muted')}>
+            <span className={cn('num relative z-10 mx-auto grid h-6 w-6 place-items-center rounded-full text-[11px] font-semibold', done ? 'bg-accent text-accent-ink' : now ? 'bg-surface text-accent-strong ring-2 ring-accent-strong' : 'bg-surface-2 text-muted')}>
               {done ? <Check size={13} strokeWidth={3} /> : i + 1}
             </span>
             <span className={cn('mt-1.5 block truncate px-0.5 text-[11.5px]', now ? 'font-semibold text-ink' : done ? 'text-ink' : 'text-muted')}>{s}</span>
@@ -47,7 +47,7 @@ export function Board<T extends { id: string }>({ columns, items, columnOf, rend
             onDragOver={onMove ? (e) => { e.preventDefault(); setOver(c.key) } : undefined}
             onDragLeave={() => setOver((o) => (o === c.key ? null : o))}
             onDrop={onMove ? (e) => { e.preventDefault(); setOver(null); const it = items.find((i) => i.id === e.dataTransfer.getData('text/plain')); if (it && columnOf(it) !== c.key) onMove(it, c.key) } : undefined}
-            className={cn('flex min-h-32 flex-col gap-2 rounded-xl border border-line bg-surface-2/60 p-2', over === c.key && 'border-accent bg-accent-soft')}
+            className={cn('flex min-h-32 flex-col gap-2 rounded-xl border border-line bg-surface-2/60 p-2', over === c.key && 'border-accent-strong bg-accent-soft')}
           >
             <header className="flex items-baseline justify-between gap-2 px-1.5 pt-1">
               <h3 className="text-[13px] font-semibold">{c.label}</h3>
