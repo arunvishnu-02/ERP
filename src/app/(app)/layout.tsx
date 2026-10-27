@@ -1,6 +1,6 @@
 'use client'
 import * as Menu from '@radix-ui/react-dropdown-menu'
-import { Bell, Building2, ChevronRight, Ellipsis, Inbox, ChartColumn, Search, FileText, Files, FolderKanban, Globe, Handshake, Landmark, Laptop, LayoutDashboard, LifeBuoy, LogOut, Megaphone, MenuIcon, MessagesSquare, Moon, Receipt, Settings, SquareCheckBig, Sun, TrendingUp, UserPlus, UserRound, Users, Wallet, Zap } from 'lucide-react'
+import { Bell, Building2, ChevronRight, Ellipsis, Inbox, ChartColumn, Search, FileText, Files, FolderKanban, Globe, Handshake, Landmark, Laptop, LayoutDashboard, LifeBuoy, LogOut, Megaphone, MenuIcon, MessagesSquare, PanelLeftClose, PanelLeftOpen, Moon, Receipt, Settings, SquareCheckBig, Sun, TrendingUp, UserPlus, UserRound, Users, Wallet, Zap } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useTheme } from 'next-themes'
@@ -112,6 +112,10 @@ function Shell({ children }: { children: React.ReactNode }) {
   const { me, can, logout, lookups, reloadMe } = useAuth()
   const key = usePathname().split('/')[1] || 'dashboard'
   const [open, setOpen] = useState(false)
+  // On a computer the side menu can be hidden for more room; the choice is remembered on this browser.
+  const [hidden, setHidden] = useState(false)
+  useEffect(() => { try { setHidden(localStorage.getItem('cx-rail') === 'hidden') } catch {} }, [])
+  const toggleRail = () => setHidden((h) => { try { localStorage.setItem('cx-rail', h ? 'shown' : 'hidden') } catch {} return !h })
   const [unfold, setUnfold] = useState<Record<string, boolean>>({})
   const waiting = useApprovalCount()
   useEffect(() => { document.title = `${TITLES[key] ?? APP_NAME} | ${APP_NAME}` }, [key])
@@ -119,8 +123,8 @@ function Shell({ children }: { children: React.ReactNode }) {
   const subtitle = key === 'dashboard' ? `${new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })} · ${me.roles[0]?.name ?? 'Your'} view of ${month}` : SUBTITLES[key]
   const tall = key === 'dashboard'
   return (
-    <div className="min-h-screen lg:grid lg:grid-cols-[256px_minmax(0,1fr)]">
-      <aside className={cn('app-rail fixed inset-y-0 left-0 z-40 flex w-64 flex-col overflow-y-auto px-4 pt-6 pb-4 text-rail-ink transition-transform duration-150 lg:sticky lg:top-0 lg:h-screen lg:w-auto lg:translate-x-0', open ? 'translate-x-0' : '-translate-x-full')} aria-label="Modules">
+    <div className={cn('min-h-screen lg:grid', hidden ? 'lg:grid-cols-[minmax(0,1fr)]' : 'lg:grid-cols-[256px_minmax(0,1fr)]')}>
+      <aside className={cn('app-rail fixed inset-y-0 left-0 z-40 flex w-64 flex-col overflow-y-auto px-4 pt-6 pb-4 text-rail-ink transition-transform duration-150 lg:sticky lg:top-0 lg:h-screen lg:w-auto lg:translate-x-0', open ? 'translate-x-0' : '-translate-x-full', hidden && 'lg:hidden')} aria-label="Modules">
         <div className="flex items-center gap-2.5">
           <Mark />
           <span className="min-w-0"><span className="block text-[13px] leading-5 font-semibold tracking-[0.22em] text-white uppercase">One X System</span><span className="block truncate text-xs text-rail-mute">{lookups.organization.name}</span></span>
@@ -164,6 +168,7 @@ function Shell({ children }: { children: React.ReactNode }) {
       <div className="relative flex min-w-0 flex-col">
         <header className="relative z-20 flex shrink-0 items-center gap-3 px-4 pt-6 pb-4 lg:px-8 lg:pt-8">
           <button type="button" className="glass grid h-[42px] w-[42px] place-items-center rounded-xl lg:hidden" aria-label="Open menu" onClick={() => setOpen(true)}><MenuIcon size={18} /></button>
+          <button type="button" className="glass hidden h-[42px] w-[42px] shrink-0 place-items-center rounded-xl lg:grid" aria-label={hidden ? 'Show side menu' : 'Hide side menu'} title={hidden ? 'Show side menu' : 'Hide side menu'} onClick={toggleRail}>{hidden ? <PanelLeftOpen size={18} /> : <PanelLeftClose size={18} />}</button>
           <div className="min-w-0 flex-1">
             <h1 className="truncate font-display text-[22px] leading-8 font-bold tracking-tight lg:text-[28px] lg:leading-9">{tall ? greeting(me.name) : TITLES[key] ?? APP_NAME}</h1>
             {subtitle && <p className="mt-0.5 hidden truncate font-serif text-[15px] text-muted sm:block">{subtitle}</p>}
