@@ -33,7 +33,7 @@ const SUBTITLES: Record<string, string> = {
   invoices: 'Bills you have sent and what is still to collect.',
   payments: 'Money received, by customer and bank account.',
   projects: 'Work in progress, milestones and who is on each project.',
-  tasks: 'What everyone is doing, and the time they log.',
+  tasks: 'The tasks inside each project, and the time people log.',
   marketing: 'Campaigns, content and ad spend for clients.',
   websites: 'Client websites, domains, hosting and renewals.',
   tickets: 'Client support requests and replies.',
@@ -96,9 +96,9 @@ function ThemeToggle() {
   return <button type="button" className="glass grid h-[42px] w-[42px] place-items-center rounded-xl" aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'} onClick={() => setTheme(dark ? 'light' : 'dark')}>{dark ? <Sun size={18} /> : <Moon size={18} />}</button>
 }
 
-function NavLink({ path, label, Icon, active, onClick, badge, slim }: { path: string; label: string; Icon: any; active: boolean; onClick: () => void; badge?: number; slim?: boolean }) {
+function NavLink({ path, label, Icon, active, onClick, badge, slim, sub }: { path: string; label: string; Icon: any; active: boolean; onClick: () => void; badge?: number; slim?: boolean; sub?: boolean }) {
   return (
-    <Link href={`/${path}`} onClick={onClick} title={slim ? label : undefined} aria-current={active ? 'page' : undefined} className={cn('relative flex h-10 items-center gap-3 rounded-[10px] px-3 text-sm text-rail-ink hover:bg-white/5 hover:text-white', active && 'bg-rail-active font-medium text-white hover:bg-rail-active', slim && 'lg:justify-center lg:px-0')}>
+    <Link href={`/${path}`} onClick={onClick} title={slim ? label : undefined} aria-current={active ? 'page' : undefined} className={cn(sub && !slim && 'ml-5 h-9 border-l border-white/10 pl-4', sub && slim && 'lg:ml-0 lg:border-0 lg:pl-0', 'relative flex h-10 items-center gap-3 rounded-[10px] px-3 text-sm text-rail-ink hover:bg-white/5 hover:text-white', active && 'bg-rail-active font-medium text-white hover:bg-rail-active', slim && 'lg:justify-center lg:px-0')}>
       {active && <span aria-hidden className="absolute top-2.5 bottom-2.5 left-1.5 w-1 rounded-full bg-accent" />}
       <Icon size={slim ? 18 : 16} className={cn('shrink-0', active ? 'text-white' : 'text-rail-mute')} /><span className={cn(slim && 'lg:sr-only')}>{label}</span>
       {!!badge && <span className={cn('num ml-auto grid h-5 min-w-5 place-items-center rounded-full bg-bad px-1.5 text-[11px] font-semibold text-white', slim && 'lg:absolute lg:top-0 lg:right-0.5 lg:h-4 lg:min-w-4 lg:px-1 lg:text-[10px]')}>{badge > 99 ? '99+' : badge}</span>}
@@ -147,7 +147,7 @@ function Shell({ children }: { children: React.ReactNode }) {
                   </button>
                 ) : <div className={cn('px-2.5 pb-1 text-xs text-rail-mute', hidden && 'lg:hidden')}>{g.group}</div>)}
                 {g.group && hidden && <div aria-hidden className="mx-3 mb-2 hidden h-px bg-white/10 lg:block" />}
-                {shown && items.map(([path, label, , Icon]) => <NavLink key={path} path={path} label={label} Icon={Icon} active={key === path} onClick={() => setOpen(false)} badge={path === 'approvals' ? waiting : undefined} slim={hidden} />)}
+                {shown && items.map(([path, label, , Icon]) => <NavLink key={path} path={path} label={label} Icon={Icon} active={key === path} onClick={() => setOpen(false)} badge={path === 'approvals' ? waiting : undefined} slim={hidden} sub={path === 'tasks' && items.some(([p]) => p === 'projects')} />)}
               </div>
             )
           })}

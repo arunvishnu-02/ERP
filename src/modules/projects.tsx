@@ -1,5 +1,6 @@
 'use client'
 import { Plus, Trash2 } from 'lucide-react'
+import Link from 'next/link'
 import { useState } from 'react'
 import { toast } from 'sonner'
 import { ConfirmDialog, FormDialog, type Field } from '@/components/form'
@@ -43,7 +44,7 @@ function ProjectSheet({ id, onClose, onChanged }: { id: string | null; onClose: 
           <Card className="p-4">
             <KV rows={[
               ['Status', <Status key="s" value={p.status} />], ['Type of work', human(p.category)], ['Manager', <Person key="m" user={p.manager} />], ['Team', p.team ? `${p.team.name}${p.team.lead ? `, led by ${personName(p.team.lead)}` : ''}` : 'None'],
-              ['Team', p.members.length ? p.members.map((m: any) => personName(m.user)).join(', ') : ''], ['Dates', [p.startDate && `from ${fmtDate(p.startDate)}`, p.dueDate && `due ${fmtDate(p.dueDate)}`].filter(Boolean).join(', ')],
+              ['People', p.members.length ? p.members.map((m: any) => personName(m.user)).join(', ') : ''], ['Dates', [p.startDate && `from ${fmtDate(p.startDate)}`, p.dueDate && `due ${fmtDate(p.dueDate)}`].filter(Boolean).join(', ')],
               ...(admin ? [['Budget', p.budget ? inr(p.budget) : ''] as [string, React.ReactNode]] : []), ['Quotation', p.quotation && <span className="num">{p.quotation.quotationNumber}</span>], ['About', p.description],
             ]} />
             <div className="mt-3 flex items-center gap-3 text-[13px] text-muted"><Progress value={p.progressPercent} /><span className="num shrink-0">{p.progressPercent}% of milestones done</span></div>
@@ -69,8 +70,8 @@ function ProjectSheet({ id, onClose, onChanged }: { id: string | null; onClose: 
               </Table>
             ) : <p className="px-4 pb-4 text-sm text-muted">No milestones yet. Add the stages of the work; billable ones produce invoices when completed.</p>}
           </Panel>
-          <Panel title={`Tasks (${p.openTasks} open)`} action={can('TASKS', 'CREATE') && p.status !== 'COMPLETED' && <Button size="sm" onClick={() => setDlg('task')}>Add task</Button>}>
-            {p.tasks.length ? <ul className="divide-y divide-line text-sm">{p.tasks.map((t: any) => <li key={t.id} className="flex items-center justify-between gap-3 py-2 first:pt-0 last:pb-0"><span className="min-w-0 truncate">{t.title}</span><span className="flex shrink-0 items-center gap-2 text-[13px] text-muted">{personName(t.assignee)}<Status value={t.status} /></span></li>)}</ul> : <p className="text-sm text-muted">No tasks on this project yet.</p>}
+          <Panel title={`Tasks (${p.openTasks} open)`} action={<div className="flex gap-2"><Link href={`/tasks?project=${p.id}`} className="inline-flex h-8 items-center rounded-lg border border-line px-3 text-[13px] font-medium hover:bg-surface-2">Open task board</Link>{can('TASKS', 'CREATE') && p.status !== 'COMPLETED' && <Button size="sm" variant="primary" onClick={() => setDlg('task')}><Plus size={14} />Add task</Button>}</div>}>
+            {p.tasks.length ? <ul className="divide-y divide-line text-sm">{p.tasks.map((t: any) => <li key={t.id}><Link href={`/tasks?open=${t.id}`} className="flex items-center justify-between gap-3 py-2.5 hover:text-accent-strong"><span className="min-w-0"><span className="block truncate font-medium">{t.title}</span><span className="block truncate font-serif text-[13px] text-muted">{[personName(t.assignee) || 'Not assigned', t.dueDate && `due ${fmtDate(t.dueDate)}`].filter(Boolean).join(' · ')}</span></span><Status value={t.status} /></Link></li>)}</ul> : <p className="text-sm text-muted">No tasks on this project yet.</p>}
           </Panel>
           <RecordPanel entityType="PROJECT" entityId={p.id} reloadKey={tick} tabs={['timeline', 'comments', 'notes', 'files']} />
         </>}
