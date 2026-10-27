@@ -80,10 +80,10 @@ export function SearchEverywhere({ pages }: { pages: { path: string; label: stri
   let i = -1
   return (
     <>
-      <button type="button" onClick={() => setOpen(true)} className="glass hidden h-[38px] w-72 items-center gap-2 rounded-xl pr-2 pl-3 text-[13px] md:flex xl:w-[340px]">
-        <Search size={16} className="opacity-80" /><span className="flex-1 text-left text-white/60">Search leads, customers, invoices</span><kbd className="rounded-md border border-white/70 bg-white/10 px-1.5 text-[11px] font-semibold text-white/60">/</kbd>
+      <button type="button" onClick={() => setOpen(true)} className="glass hidden h-[42px] w-72 items-center gap-2 rounded-xl pr-2 pl-3 text-sm md:flex xl:w-[340px]">
+        <Search size={16} className="opacity-80" /><span className="flex-1 text-left text-muted">Search leads, customers, invoices</span><kbd className="rounded-md border border-line bg-surface-2 px-1.5 text-[11px] font-semibold text-muted">/</kbd>
       </button>
-      <button type="button" onClick={() => setOpen(true)} aria-label="Search" className="glass grid h-[38px] w-[38px] place-items-center rounded-xl md:hidden"><Search size={18} /></button>
+      <button type="button" onClick={() => setOpen(true)} aria-label="Search" className="glass grid h-[42px] w-[42px] place-items-center rounded-xl md:hidden"><Search size={18} /></button>
       <D.Root open={open} onOpenChange={(v) => { setOpen(v); if (!v) setQ('') }}>
         <D.Portal>
           <D.Overlay className="fixed inset-0 z-50 bg-black/45" />
@@ -149,7 +149,7 @@ export function NewMenu() {
   if (!items.length) return null
   return (
     <Menu.Root open={open} onOpenChange={setOpen}>
-      <Menu.Trigger className="btn-bright inline-flex h-9 items-center gap-2 rounded-xl px-3.5 text-sm font-medium"><Plus size={16} /><span className="hidden sm:inline">New</span></Menu.Trigger>
+      <Menu.Trigger className="btn-primary inline-flex h-[42px] items-center gap-2 rounded-xl px-4 text-sm font-medium"><Plus size={16} /><span className="hidden sm:inline">New</span></Menu.Trigger>
       <Menu.Portal>
         <Menu.Content align="end" sideOffset={6} className="z-50 w-64 rounded-xl border border-line bg-surface p-1 text-sm shadow-xl">
           <div className="px-3 pt-2 pb-1 text-xs text-muted">What do you want to add?</div>

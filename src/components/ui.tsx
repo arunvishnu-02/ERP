@@ -64,15 +64,15 @@ export function Badge({ tone = 'mute', children, className }: { tone?: Tone; chi
 }
 export const Status = ({ value, label }: { value?: string | null; label?: string }) => (value ? <Badge tone={toneOf(value)}>{label ?? human(value)}</Badge> : null)
 
-export const Card = ({ className, ...p }: React.HTMLAttributes<HTMLDivElement>) => <div className={cn('card-shadow rounded-[20px] border border-line/60 bg-surface dark:border-line', className)} {...p} />
+export const Card = ({ className, ...p }: React.HTMLAttributes<HTMLDivElement>) => <div className={cn('rounded-2xl border border-line bg-surface', className)} {...p} />
 export function Panel({ title, action, children, className, flush }: { title: React.ReactNode; action?: React.ReactNode; children: React.ReactNode; className?: string; flush?: boolean }) {
   return (
     <Card className={cn('min-w-0', className)}>
-      <div className="flex flex-wrap items-center justify-between gap-2 px-5 pt-4 pb-2.5">
-        <h3 className="font-display text-base font-semibold tracking-tight">{title}</h3>
+      <div className="flex flex-wrap items-center justify-between gap-2 px-6 pt-5 pb-3">
+        <h3 className="font-display text-lg font-semibold tracking-tight">{title}</h3>
         {action}
       </div>
-      <div className={flush ? '' : 'px-5 pb-5'}>{children}</div>
+      <div className={flush ? '' : 'px-6 pb-6'}>{children}</div>
     </Card>
   )
 }
@@ -162,7 +162,7 @@ export const Progress = ({ value, hot }: { value: number; hot?: boolean }) => (
   <div className="h-1.5 w-full min-w-16 overflow-hidden rounded-full bg-surface-2"><div className={cn('h-full rounded-full', hot ? 'bg-bad' : 'bg-chart-1')} style={{ width: `${Math.max(0, Math.min(100, value))}%` }} /></div>
 )
 export const Two = ({ top, bottom }: { top: React.ReactNode; bottom?: React.ReactNode }) => (
-  <div className="min-w-0"><div className="truncate font-medium">{top}</div>{bottom ? <div className="truncate text-xs text-muted">{bottom}</div> : null}</div>
+  <div className="min-w-0"><div className="truncate font-medium">{top}</div>{bottom ? <div className="truncate font-serif text-[13px] text-muted">{bottom}</div> : null}</div>
 )
 export function KV({ rows }: { rows: [string, React.ReactNode][] }) {
   return (
@@ -174,18 +174,19 @@ export function KV({ rows }: { rows: [string, React.ReactNode][] }) {
   )
 }
 /** A row of figures in one band with dividers, used at the top of dashboards and summaries. */
-export function StatBand({ items }: { items: { label: string; value: React.ReactNode; hint?: React.ReactNode; tone?: 'good' | 'bad'; href?: string }[] }) {
+export function StatBand({ items, lead }: { lead?: boolean; items: { label: string; value: React.ReactNode; hint?: React.ReactNode; tone?: 'good' | 'bad'; href?: string }[] }) {
   return (
-    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:flex lg:gap-4">
-      {items.map((s) => {
+    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:flex lg:gap-5">
+      {items.map((s, i) => {
+        const hi = lead && i === 0
         const body = (
           <>
-            <div className="text-[13px] text-muted">{s.label}</div>
-            <div className={cn('num mt-1.5 font-display text-[26px] leading-8 font-semibold tracking-tight', s.tone === 'good' && 'text-good', s.tone === 'bad' && 'text-bad')}>{s.value}</div>
-            {s.hint && <div className="mt-1.5 text-xs text-muted">{s.hint}</div>}
+            <div className={cn('text-sm', hi ? 'text-accent-ink' : 'text-muted')}>{s.label}</div>
+            <div className={cn('num mt-2 font-display text-[28px] leading-9 font-bold tracking-tight', !hi && s.tone === 'good' && 'text-good', !hi && s.tone === 'bad' && 'text-bad')}>{s.value}</div>
+            {s.hint && <div className={cn('mt-2 text-[13px]', hi ? 'font-medium text-accent-ink' : 'font-serif text-muted')}>{s.hint}</div>}
           </>
         )
-        const cls = 'card-shadow min-w-0 flex-1 rounded-[20px] border border-line/60 bg-surface px-5 py-4 dark:border-line'
+        const cls = cn('min-w-0 flex-1 rounded-2xl border px-6 py-5', hi ? 'border-accent bg-accent text-accent-ink' : 'border-line bg-surface')
         return s.href ? <a key={s.label} href={s.href} className={cn(cls, 'hover:border-accent-strong/40')}>{body}</a> : <div key={s.label} className={cls}>{body}</div>
       })}
     </div>
