@@ -442,6 +442,7 @@ export type OrganizationWhereInput = {
   notifications?: Prisma.NotificationListRelationFilter
   integrationSettings?: Prisma.IntegrationSettingListRelationFilter
   outboxEvents?: Prisma.OutboxEventListRelationFilter
+  calendarEvents?: Prisma.CalendarEventListRelationFilter
 }
 
 export type OrganizationOrderByWithRelationInput = {
@@ -547,6 +548,7 @@ export type OrganizationOrderByWithRelationInput = {
   notifications?: Prisma.NotificationOrderByRelationAggregateInput
   integrationSettings?: Prisma.IntegrationSettingOrderByRelationAggregateInput
   outboxEvents?: Prisma.OutboxEventOrderByRelationAggregateInput
+  calendarEvents?: Prisma.CalendarEventOrderByRelationAggregateInput
 }
 
 export type OrganizationWhereUniqueInput = Prisma.AtLeast<{
@@ -655,6 +657,7 @@ export type OrganizationWhereUniqueInput = Prisma.AtLeast<{
   notifications?: Prisma.NotificationListRelationFilter
   integrationSettings?: Prisma.IntegrationSettingListRelationFilter
   outboxEvents?: Prisma.OutboxEventListRelationFilter
+  calendarEvents?: Prisma.CalendarEventListRelationFilter
 }, "id" | "slug">
 
 export type OrganizationOrderByWithAggregationInput = {
@@ -822,6 +825,7 @@ export type OrganizationCreateInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateInput = {
@@ -927,6 +931,7 @@ export type OrganizationUncheckedCreateInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUpdateInput = {
@@ -1032,6 +1037,7 @@ export type OrganizationUpdateInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateInput = {
@@ -1137,6 +1143,7 @@ export type OrganizationUncheckedUpdateInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateManyInput = {
@@ -1408,6 +1415,20 @@ export type OrganizationUpdateOneRequiredWithoutRolesNestedInput = {
   upsert?: Prisma.OrganizationUpsertWithoutRolesInput
   connect?: Prisma.OrganizationWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.OrganizationUpdateToOneWithWhereWithoutRolesInput, Prisma.OrganizationUpdateWithoutRolesInput>, Prisma.OrganizationUncheckedUpdateWithoutRolesInput>
+}
+
+export type OrganizationCreateNestedOneWithoutCalendarEventsInput = {
+  create?: Prisma.XOR<Prisma.OrganizationCreateWithoutCalendarEventsInput, Prisma.OrganizationUncheckedCreateWithoutCalendarEventsInput>
+  connectOrCreate?: Prisma.OrganizationCreateOrConnectWithoutCalendarEventsInput
+  connect?: Prisma.OrganizationWhereUniqueInput
+}
+
+export type OrganizationUpdateOneRequiredWithoutCalendarEventsNestedInput = {
+  create?: Prisma.XOR<Prisma.OrganizationCreateWithoutCalendarEventsInput, Prisma.OrganizationUncheckedCreateWithoutCalendarEventsInput>
+  connectOrCreate?: Prisma.OrganizationCreateOrConnectWithoutCalendarEventsInput
+  upsert?: Prisma.OrganizationUpsertWithoutCalendarEventsInput
+  connect?: Prisma.OrganizationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.OrganizationUpdateToOneWithWhereWithoutCalendarEventsInput, Prisma.OrganizationUpdateWithoutCalendarEventsInput>, Prisma.OrganizationUncheckedUpdateWithoutCalendarEventsInput>
 }
 
 export type OrganizationCreateNestedOneWithoutApiKeysInput = {
@@ -2534,6 +2555,7 @@ export type OrganizationCreateWithoutBranchesInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutBranchesInput = {
@@ -2638,6 +2660,7 @@ export type OrganizationUncheckedCreateWithoutBranchesInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutBranchesInput = {
@@ -2758,6 +2781,7 @@ export type OrganizationUpdateWithoutBranchesInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutBranchesInput = {
@@ -2862,6 +2886,7 @@ export type OrganizationUncheckedUpdateWithoutBranchesInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutDepartmentsInput = {
@@ -2966,6 +2991,7 @@ export type OrganizationCreateWithoutDepartmentsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutDepartmentsInput = {
@@ -3070,6 +3096,7 @@ export type OrganizationUncheckedCreateWithoutDepartmentsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutDepartmentsInput = {
@@ -3190,6 +3217,7 @@ export type OrganizationUpdateWithoutDepartmentsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutDepartmentsInput = {
@@ -3294,6 +3322,7 @@ export type OrganizationUncheckedUpdateWithoutDepartmentsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutTeamsInput = {
@@ -3398,6 +3427,7 @@ export type OrganizationCreateWithoutTeamsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutTeamsInput = {
@@ -3502,6 +3532,7 @@ export type OrganizationUncheckedCreateWithoutTeamsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutTeamsInput = {
@@ -3622,6 +3653,7 @@ export type OrganizationUpdateWithoutTeamsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutTeamsInput = {
@@ -3726,6 +3758,7 @@ export type OrganizationUncheckedUpdateWithoutTeamsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutUsersInput = {
@@ -3830,6 +3863,7 @@ export type OrganizationCreateWithoutUsersInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutUsersInput = {
@@ -3934,6 +3968,7 @@ export type OrganizationUncheckedCreateWithoutUsersInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutUsersInput = {
@@ -4054,6 +4089,7 @@ export type OrganizationUpdateWithoutUsersInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutUsersInput = {
@@ -4158,6 +4194,7 @@ export type OrganizationUncheckedUpdateWithoutUsersInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutRolesInput = {
@@ -4262,6 +4299,7 @@ export type OrganizationCreateWithoutRolesInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutRolesInput = {
@@ -4366,6 +4404,7 @@ export type OrganizationUncheckedCreateWithoutRolesInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutRolesInput = {
@@ -4486,6 +4525,7 @@ export type OrganizationUpdateWithoutRolesInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutRolesInput = {
@@ -4517,6 +4557,443 @@ export type OrganizationUncheckedUpdateWithoutRolesInput = {
   departments?: Prisma.DepartmentUncheckedUpdateManyWithoutOrganizationNestedInput
   teams?: Prisma.TeamUncheckedUpdateManyWithoutOrganizationNestedInput
   users?: Prisma.UserUncheckedUpdateManyWithoutOrganizationNestedInput
+  apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutOrganizationNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
+  files?: Prisma.FileUncheckedUpdateManyWithoutOrganizationNestedInput
+  attachments?: Prisma.AttachmentUncheckedUpdateManyWithoutOrganizationNestedInput
+  notes?: Prisma.NoteUncheckedUpdateManyWithoutOrganizationNestedInput
+  comments?: Prisma.CommentUncheckedUpdateManyWithoutOrganizationNestedInput
+  activities?: Prisma.ActivityUncheckedUpdateManyWithoutOrganizationNestedInput
+  tags?: Prisma.TagUncheckedUpdateManyWithoutOrganizationNestedInput
+  numberSequences?: Prisma.NumberSequenceUncheckedUpdateManyWithoutOrganizationNestedInput
+  leadSources?: Prisma.LeadSourceUncheckedUpdateManyWithoutOrganizationNestedInput
+  leadStages?: Prisma.LeadStageUncheckedUpdateManyWithoutOrganizationNestedInput
+  leads?: Prisma.LeadUncheckedUpdateManyWithoutOrganizationNestedInput
+  followUps?: Prisma.FollowUpUncheckedUpdateManyWithoutOrganizationNestedInput
+  customers?: Prisma.CustomerUncheckedUpdateManyWithoutOrganizationNestedInput
+  contacts?: Prisma.ContactUncheckedUpdateManyWithoutOrganizationNestedInput
+  pipelines?: Prisma.PipelineUncheckedUpdateManyWithoutOrganizationNestedInput
+  deals?: Prisma.DealUncheckedUpdateManyWithoutOrganizationNestedInput
+  meetings?: Prisma.MeetingUncheckedUpdateManyWithoutOrganizationNestedInput
+  callLogs?: Prisma.CallLogUncheckedUpdateManyWithoutOrganizationNestedInput
+  services?: Prisma.ServiceUncheckedUpdateManyWithoutOrganizationNestedInput
+  servicePackages?: Prisma.ServicePackageUncheckedUpdateManyWithoutOrganizationNestedInput
+  priceRules?: Prisma.PriceRuleUncheckedUpdateManyWithoutOrganizationNestedInput
+  taxRates?: Prisma.TaxRateUncheckedUpdateManyWithoutOrganizationNestedInput
+  quotations?: Prisma.QuotationUncheckedUpdateManyWithoutOrganizationNestedInput
+  approvalRules?: Prisma.ApprovalRuleUncheckedUpdateManyWithoutOrganizationNestedInput
+  approvalRequests?: Prisma.ApprovalRequestUncheckedUpdateManyWithoutOrganizationNestedInput
+  invoiceTemplates?: Prisma.InvoiceTemplateUncheckedUpdateManyWithoutOrganizationNestedInput
+  invoices?: Prisma.InvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
+  creditNotes?: Prisma.CreditNoteUncheckedUpdateManyWithoutOrganizationNestedInput
+  recurringInvoices?: Prisma.RecurringInvoiceUncheckedUpdateManyWithoutOrganizationNestedInput
+  bankAccounts?: Prisma.BankAccountUncheckedUpdateManyWithoutOrganizationNestedInput
+  payments?: Prisma.PaymentUncheckedUpdateManyWithoutOrganizationNestedInput
+  paymentReminders?: Prisma.PaymentReminderUncheckedUpdateManyWithoutOrganizationNestedInput
+  projects?: Prisma.ProjectUncheckedUpdateManyWithoutOrganizationNestedInput
+  tasks?: Prisma.TaskUncheckedUpdateManyWithoutOrganizationNestedInput
+  timeEntries?: Prisma.TimeEntryUncheckedUpdateManyWithoutOrganizationNestedInput
+  socialAccounts?: Prisma.SocialAccountUncheckedUpdateManyWithoutOrganizationNestedInput
+  campaigns?: Prisma.CampaignUncheckedUpdateManyWithoutOrganizationNestedInput
+  contentItems?: Prisma.ContentItemUncheckedUpdateManyWithoutOrganizationNestedInput
+  adSpends?: Prisma.AdSpendUncheckedUpdateManyWithoutOrganizationNestedInput
+  campaignReports?: Prisma.CampaignReportUncheckedUpdateManyWithoutOrganizationNestedInput
+  websites?: Prisma.WebsiteUncheckedUpdateManyWithoutOrganizationNestedInput
+  webAssets?: Prisma.WebAssetUncheckedUpdateManyWithoutOrganizationNestedInput
+  credentials?: Prisma.CredentialUncheckedUpdateManyWithoutOrganizationNestedInput
+  tickets?: Prisma.TicketUncheckedUpdateManyWithoutOrganizationNestedInput
+  documentFolders?: Prisma.DocumentFolderUncheckedUpdateManyWithoutOrganizationNestedInput
+  documents?: Prisma.DocumentUncheckedUpdateManyWithoutOrganizationNestedInput
+  employees?: Prisma.EmployeeUncheckedUpdateManyWithoutOrganizationNestedInput
+  attendances?: Prisma.AttendanceUncheckedUpdateManyWithoutOrganizationNestedInput
+  leaveTypes?: Prisma.LeaveTypeUncheckedUpdateManyWithoutOrganizationNestedInput
+  leaveRequests?: Prisma.LeaveRequestUncheckedUpdateManyWithoutOrganizationNestedInput
+  holidays?: Prisma.HolidayUncheckedUpdateManyWithoutOrganizationNestedInput
+  performanceReviews?: Prisma.PerformanceReviewUncheckedUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUncheckedUpdateManyWithoutOrganizationNestedInput
+  assets?: Prisma.AssetUncheckedUpdateManyWithoutOrganizationNestedInput
+  expenseCategories?: Prisma.ExpenseCategoryUncheckedUpdateManyWithoutOrganizationNestedInput
+  vendors?: Prisma.VendorUncheckedUpdateManyWithoutOrganizationNestedInput
+  expenses?: Prisma.ExpenseUncheckedUpdateManyWithoutOrganizationNestedInput
+  ledgerEntries?: Prisma.LedgerEntryUncheckedUpdateManyWithoutOrganizationNestedInput
+  savedReports?: Prisma.SavedReportUncheckedUpdateManyWithoutOrganizationNestedInput
+  exportJobs?: Prisma.ExportJobUncheckedUpdateManyWithoutOrganizationNestedInput
+  importJobs?: Prisma.ImportJobUncheckedUpdateManyWithoutOrganizationNestedInput
+  dashboardWidgets?: Prisma.DashboardWidgetUncheckedUpdateManyWithoutOrganizationNestedInput
+  savedFilters?: Prisma.SavedFilterUncheckedUpdateManyWithoutOrganizationNestedInput
+  automationRules?: Prisma.AutomationRuleUncheckedUpdateManyWithoutOrganizationNestedInput
+  automationRuns?: Prisma.AutomationRunUncheckedUpdateManyWithoutOrganizationNestedInput
+  leadAssignmentRules?: Prisma.LeadAssignmentRuleUncheckedUpdateManyWithoutOrganizationNestedInput
+  messageTemplates?: Prisma.MessageTemplateUncheckedUpdateManyWithoutOrganizationNestedInput
+  messages?: Prisma.MessageUncheckedUpdateManyWithoutOrganizationNestedInput
+  notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
+  integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
+  outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
+}
+
+export type OrganizationCreateWithoutCalendarEventsInput = {
+  id?: string
+  name: string
+  slug: string
+  legalName?: string | null
+  gstin?: string | null
+  pan?: string | null
+  email?: string | null
+  phone?: string | null
+  addressLine1?: string | null
+  addressLine2?: string | null
+  city?: string | null
+  state?: string | null
+  stateCode?: string | null
+  pincode?: string | null
+  country?: string
+  currency?: string
+  timezone?: string
+  financialYearStartMonth?: number
+  logoFileId?: string | null
+  plan?: $Enums.SubscriptionPlan
+  status?: $Enums.OrgStatus
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  branches?: Prisma.BranchCreateNestedManyWithoutOrganizationInput
+  departments?: Prisma.DepartmentCreateNestedManyWithoutOrganizationInput
+  teams?: Prisma.TeamCreateNestedManyWithoutOrganizationInput
+  users?: Prisma.UserCreateNestedManyWithoutOrganizationInput
+  roles?: Prisma.RoleCreateNestedManyWithoutOrganizationInput
+  apiKeys?: Prisma.ApiKeyCreateNestedManyWithoutOrganizationInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutOrganizationInput
+  files?: Prisma.FileCreateNestedManyWithoutOrganizationInput
+  attachments?: Prisma.AttachmentCreateNestedManyWithoutOrganizationInput
+  notes?: Prisma.NoteCreateNestedManyWithoutOrganizationInput
+  comments?: Prisma.CommentCreateNestedManyWithoutOrganizationInput
+  activities?: Prisma.ActivityCreateNestedManyWithoutOrganizationInput
+  tags?: Prisma.TagCreateNestedManyWithoutOrganizationInput
+  numberSequences?: Prisma.NumberSequenceCreateNestedManyWithoutOrganizationInput
+  leadSources?: Prisma.LeadSourceCreateNestedManyWithoutOrganizationInput
+  leadStages?: Prisma.LeadStageCreateNestedManyWithoutOrganizationInput
+  leads?: Prisma.LeadCreateNestedManyWithoutOrganizationInput
+  followUps?: Prisma.FollowUpCreateNestedManyWithoutOrganizationInput
+  customers?: Prisma.CustomerCreateNestedManyWithoutOrganizationInput
+  contacts?: Prisma.ContactCreateNestedManyWithoutOrganizationInput
+  pipelines?: Prisma.PipelineCreateNestedManyWithoutOrganizationInput
+  deals?: Prisma.DealCreateNestedManyWithoutOrganizationInput
+  meetings?: Prisma.MeetingCreateNestedManyWithoutOrganizationInput
+  callLogs?: Prisma.CallLogCreateNestedManyWithoutOrganizationInput
+  services?: Prisma.ServiceCreateNestedManyWithoutOrganizationInput
+  servicePackages?: Prisma.ServicePackageCreateNestedManyWithoutOrganizationInput
+  priceRules?: Prisma.PriceRuleCreateNestedManyWithoutOrganizationInput
+  taxRates?: Prisma.TaxRateCreateNestedManyWithoutOrganizationInput
+  quotations?: Prisma.QuotationCreateNestedManyWithoutOrganizationInput
+  approvalRules?: Prisma.ApprovalRuleCreateNestedManyWithoutOrganizationInput
+  approvalRequests?: Prisma.ApprovalRequestCreateNestedManyWithoutOrganizationInput
+  invoiceTemplates?: Prisma.InvoiceTemplateCreateNestedManyWithoutOrganizationInput
+  invoices?: Prisma.InvoiceCreateNestedManyWithoutOrganizationInput
+  creditNotes?: Prisma.CreditNoteCreateNestedManyWithoutOrganizationInput
+  recurringInvoices?: Prisma.RecurringInvoiceCreateNestedManyWithoutOrganizationInput
+  bankAccounts?: Prisma.BankAccountCreateNestedManyWithoutOrganizationInput
+  payments?: Prisma.PaymentCreateNestedManyWithoutOrganizationInput
+  paymentReminders?: Prisma.PaymentReminderCreateNestedManyWithoutOrganizationInput
+  projects?: Prisma.ProjectCreateNestedManyWithoutOrganizationInput
+  tasks?: Prisma.TaskCreateNestedManyWithoutOrganizationInput
+  timeEntries?: Prisma.TimeEntryCreateNestedManyWithoutOrganizationInput
+  socialAccounts?: Prisma.SocialAccountCreateNestedManyWithoutOrganizationInput
+  campaigns?: Prisma.CampaignCreateNestedManyWithoutOrganizationInput
+  contentItems?: Prisma.ContentItemCreateNestedManyWithoutOrganizationInput
+  adSpends?: Prisma.AdSpendCreateNestedManyWithoutOrganizationInput
+  campaignReports?: Prisma.CampaignReportCreateNestedManyWithoutOrganizationInput
+  websites?: Prisma.WebsiteCreateNestedManyWithoutOrganizationInput
+  webAssets?: Prisma.WebAssetCreateNestedManyWithoutOrganizationInput
+  credentials?: Prisma.CredentialCreateNestedManyWithoutOrganizationInput
+  tickets?: Prisma.TicketCreateNestedManyWithoutOrganizationInput
+  documentFolders?: Prisma.DocumentFolderCreateNestedManyWithoutOrganizationInput
+  documents?: Prisma.DocumentCreateNestedManyWithoutOrganizationInput
+  employees?: Prisma.EmployeeCreateNestedManyWithoutOrganizationInput
+  attendances?: Prisma.AttendanceCreateNestedManyWithoutOrganizationInput
+  leaveTypes?: Prisma.LeaveTypeCreateNestedManyWithoutOrganizationInput
+  leaveRequests?: Prisma.LeaveRequestCreateNestedManyWithoutOrganizationInput
+  holidays?: Prisma.HolidayCreateNestedManyWithoutOrganizationInput
+  performanceReviews?: Prisma.PerformanceReviewCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipCreateNestedManyWithoutOrganizationInput
+  assets?: Prisma.AssetCreateNestedManyWithoutOrganizationInput
+  expenseCategories?: Prisma.ExpenseCategoryCreateNestedManyWithoutOrganizationInput
+  vendors?: Prisma.VendorCreateNestedManyWithoutOrganizationInput
+  expenses?: Prisma.ExpenseCreateNestedManyWithoutOrganizationInput
+  ledgerEntries?: Prisma.LedgerEntryCreateNestedManyWithoutOrganizationInput
+  savedReports?: Prisma.SavedReportCreateNestedManyWithoutOrganizationInput
+  exportJobs?: Prisma.ExportJobCreateNestedManyWithoutOrganizationInput
+  importJobs?: Prisma.ImportJobCreateNestedManyWithoutOrganizationInput
+  dashboardWidgets?: Prisma.DashboardWidgetCreateNestedManyWithoutOrganizationInput
+  savedFilters?: Prisma.SavedFilterCreateNestedManyWithoutOrganizationInput
+  automationRules?: Prisma.AutomationRuleCreateNestedManyWithoutOrganizationInput
+  automationRuns?: Prisma.AutomationRunCreateNestedManyWithoutOrganizationInput
+  leadAssignmentRules?: Prisma.LeadAssignmentRuleCreateNestedManyWithoutOrganizationInput
+  messageTemplates?: Prisma.MessageTemplateCreateNestedManyWithoutOrganizationInput
+  messages?: Prisma.MessageCreateNestedManyWithoutOrganizationInput
+  notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
+  integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
+  outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+}
+
+export type OrganizationUncheckedCreateWithoutCalendarEventsInput = {
+  id?: string
+  name: string
+  slug: string
+  legalName?: string | null
+  gstin?: string | null
+  pan?: string | null
+  email?: string | null
+  phone?: string | null
+  addressLine1?: string | null
+  addressLine2?: string | null
+  city?: string | null
+  state?: string | null
+  stateCode?: string | null
+  pincode?: string | null
+  country?: string
+  currency?: string
+  timezone?: string
+  financialYearStartMonth?: number
+  logoFileId?: string | null
+  plan?: $Enums.SubscriptionPlan
+  status?: $Enums.OrgStatus
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  branches?: Prisma.BranchUncheckedCreateNestedManyWithoutOrganizationInput
+  departments?: Prisma.DepartmentUncheckedCreateNestedManyWithoutOrganizationInput
+  teams?: Prisma.TeamUncheckedCreateNestedManyWithoutOrganizationInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutOrganizationInput
+  roles?: Prisma.RoleUncheckedCreateNestedManyWithoutOrganizationInput
+  apiKeys?: Prisma.ApiKeyUncheckedCreateNestedManyWithoutOrganizationInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutOrganizationInput
+  files?: Prisma.FileUncheckedCreateNestedManyWithoutOrganizationInput
+  attachments?: Prisma.AttachmentUncheckedCreateNestedManyWithoutOrganizationInput
+  notes?: Prisma.NoteUncheckedCreateNestedManyWithoutOrganizationInput
+  comments?: Prisma.CommentUncheckedCreateNestedManyWithoutOrganizationInput
+  activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutOrganizationInput
+  tags?: Prisma.TagUncheckedCreateNestedManyWithoutOrganizationInput
+  numberSequences?: Prisma.NumberSequenceUncheckedCreateNestedManyWithoutOrganizationInput
+  leadSources?: Prisma.LeadSourceUncheckedCreateNestedManyWithoutOrganizationInput
+  leadStages?: Prisma.LeadStageUncheckedCreateNestedManyWithoutOrganizationInput
+  leads?: Prisma.LeadUncheckedCreateNestedManyWithoutOrganizationInput
+  followUps?: Prisma.FollowUpUncheckedCreateNestedManyWithoutOrganizationInput
+  customers?: Prisma.CustomerUncheckedCreateNestedManyWithoutOrganizationInput
+  contacts?: Prisma.ContactUncheckedCreateNestedManyWithoutOrganizationInput
+  pipelines?: Prisma.PipelineUncheckedCreateNestedManyWithoutOrganizationInput
+  deals?: Prisma.DealUncheckedCreateNestedManyWithoutOrganizationInput
+  meetings?: Prisma.MeetingUncheckedCreateNestedManyWithoutOrganizationInput
+  callLogs?: Prisma.CallLogUncheckedCreateNestedManyWithoutOrganizationInput
+  services?: Prisma.ServiceUncheckedCreateNestedManyWithoutOrganizationInput
+  servicePackages?: Prisma.ServicePackageUncheckedCreateNestedManyWithoutOrganizationInput
+  priceRules?: Prisma.PriceRuleUncheckedCreateNestedManyWithoutOrganizationInput
+  taxRates?: Prisma.TaxRateUncheckedCreateNestedManyWithoutOrganizationInput
+  quotations?: Prisma.QuotationUncheckedCreateNestedManyWithoutOrganizationInput
+  approvalRules?: Prisma.ApprovalRuleUncheckedCreateNestedManyWithoutOrganizationInput
+  approvalRequests?: Prisma.ApprovalRequestUncheckedCreateNestedManyWithoutOrganizationInput
+  invoiceTemplates?: Prisma.InvoiceTemplateUncheckedCreateNestedManyWithoutOrganizationInput
+  invoices?: Prisma.InvoiceUncheckedCreateNestedManyWithoutOrganizationInput
+  creditNotes?: Prisma.CreditNoteUncheckedCreateNestedManyWithoutOrganizationInput
+  recurringInvoices?: Prisma.RecurringInvoiceUncheckedCreateNestedManyWithoutOrganizationInput
+  bankAccounts?: Prisma.BankAccountUncheckedCreateNestedManyWithoutOrganizationInput
+  payments?: Prisma.PaymentUncheckedCreateNestedManyWithoutOrganizationInput
+  paymentReminders?: Prisma.PaymentReminderUncheckedCreateNestedManyWithoutOrganizationInput
+  projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutOrganizationInput
+  tasks?: Prisma.TaskUncheckedCreateNestedManyWithoutOrganizationInput
+  timeEntries?: Prisma.TimeEntryUncheckedCreateNestedManyWithoutOrganizationInput
+  socialAccounts?: Prisma.SocialAccountUncheckedCreateNestedManyWithoutOrganizationInput
+  campaigns?: Prisma.CampaignUncheckedCreateNestedManyWithoutOrganizationInput
+  contentItems?: Prisma.ContentItemUncheckedCreateNestedManyWithoutOrganizationInput
+  adSpends?: Prisma.AdSpendUncheckedCreateNestedManyWithoutOrganizationInput
+  campaignReports?: Prisma.CampaignReportUncheckedCreateNestedManyWithoutOrganizationInput
+  websites?: Prisma.WebsiteUncheckedCreateNestedManyWithoutOrganizationInput
+  webAssets?: Prisma.WebAssetUncheckedCreateNestedManyWithoutOrganizationInput
+  credentials?: Prisma.CredentialUncheckedCreateNestedManyWithoutOrganizationInput
+  tickets?: Prisma.TicketUncheckedCreateNestedManyWithoutOrganizationInput
+  documentFolders?: Prisma.DocumentFolderUncheckedCreateNestedManyWithoutOrganizationInput
+  documents?: Prisma.DocumentUncheckedCreateNestedManyWithoutOrganizationInput
+  employees?: Prisma.EmployeeUncheckedCreateNestedManyWithoutOrganizationInput
+  attendances?: Prisma.AttendanceUncheckedCreateNestedManyWithoutOrganizationInput
+  leaveTypes?: Prisma.LeaveTypeUncheckedCreateNestedManyWithoutOrganizationInput
+  leaveRequests?: Prisma.LeaveRequestUncheckedCreateNestedManyWithoutOrganizationInput
+  holidays?: Prisma.HolidayUncheckedCreateNestedManyWithoutOrganizationInput
+  performanceReviews?: Prisma.PerformanceReviewUncheckedCreateNestedManyWithoutOrganizationInput
+  payrollRuns?: Prisma.PayrollRunUncheckedCreateNestedManyWithoutOrganizationInput
+  payslips?: Prisma.PayslipUncheckedCreateNestedManyWithoutOrganizationInput
+  assets?: Prisma.AssetUncheckedCreateNestedManyWithoutOrganizationInput
+  expenseCategories?: Prisma.ExpenseCategoryUncheckedCreateNestedManyWithoutOrganizationInput
+  vendors?: Prisma.VendorUncheckedCreateNestedManyWithoutOrganizationInput
+  expenses?: Prisma.ExpenseUncheckedCreateNestedManyWithoutOrganizationInput
+  ledgerEntries?: Prisma.LedgerEntryUncheckedCreateNestedManyWithoutOrganizationInput
+  savedReports?: Prisma.SavedReportUncheckedCreateNestedManyWithoutOrganizationInput
+  exportJobs?: Prisma.ExportJobUncheckedCreateNestedManyWithoutOrganizationInput
+  importJobs?: Prisma.ImportJobUncheckedCreateNestedManyWithoutOrganizationInput
+  dashboardWidgets?: Prisma.DashboardWidgetUncheckedCreateNestedManyWithoutOrganizationInput
+  savedFilters?: Prisma.SavedFilterUncheckedCreateNestedManyWithoutOrganizationInput
+  automationRules?: Prisma.AutomationRuleUncheckedCreateNestedManyWithoutOrganizationInput
+  automationRuns?: Prisma.AutomationRunUncheckedCreateNestedManyWithoutOrganizationInput
+  leadAssignmentRules?: Prisma.LeadAssignmentRuleUncheckedCreateNestedManyWithoutOrganizationInput
+  messageTemplates?: Prisma.MessageTemplateUncheckedCreateNestedManyWithoutOrganizationInput
+  messages?: Prisma.MessageUncheckedCreateNestedManyWithoutOrganizationInput
+  notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
+  integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
+  outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+}
+
+export type OrganizationCreateOrConnectWithoutCalendarEventsInput = {
+  where: Prisma.OrganizationWhereUniqueInput
+  create: Prisma.XOR<Prisma.OrganizationCreateWithoutCalendarEventsInput, Prisma.OrganizationUncheckedCreateWithoutCalendarEventsInput>
+}
+
+export type OrganizationUpsertWithoutCalendarEventsInput = {
+  update: Prisma.XOR<Prisma.OrganizationUpdateWithoutCalendarEventsInput, Prisma.OrganizationUncheckedUpdateWithoutCalendarEventsInput>
+  create: Prisma.XOR<Prisma.OrganizationCreateWithoutCalendarEventsInput, Prisma.OrganizationUncheckedCreateWithoutCalendarEventsInput>
+  where?: Prisma.OrganizationWhereInput
+}
+
+export type OrganizationUpdateToOneWithWhereWithoutCalendarEventsInput = {
+  where?: Prisma.OrganizationWhereInput
+  data: Prisma.XOR<Prisma.OrganizationUpdateWithoutCalendarEventsInput, Prisma.OrganizationUncheckedUpdateWithoutCalendarEventsInput>
+}
+
+export type OrganizationUpdateWithoutCalendarEventsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gstin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stateCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pincode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  financialYearStartMonth?: Prisma.IntFieldUpdateOperationsInput | number
+  logoFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  plan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
+  status?: Prisma.EnumOrgStatusFieldUpdateOperationsInput | $Enums.OrgStatus
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  branches?: Prisma.BranchUpdateManyWithoutOrganizationNestedInput
+  departments?: Prisma.DepartmentUpdateManyWithoutOrganizationNestedInput
+  teams?: Prisma.TeamUpdateManyWithoutOrganizationNestedInput
+  users?: Prisma.UserUpdateManyWithoutOrganizationNestedInput
+  roles?: Prisma.RoleUpdateManyWithoutOrganizationNestedInput
+  apiKeys?: Prisma.ApiKeyUpdateManyWithoutOrganizationNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutOrganizationNestedInput
+  files?: Prisma.FileUpdateManyWithoutOrganizationNestedInput
+  attachments?: Prisma.AttachmentUpdateManyWithoutOrganizationNestedInput
+  notes?: Prisma.NoteUpdateManyWithoutOrganizationNestedInput
+  comments?: Prisma.CommentUpdateManyWithoutOrganizationNestedInput
+  activities?: Prisma.ActivityUpdateManyWithoutOrganizationNestedInput
+  tags?: Prisma.TagUpdateManyWithoutOrganizationNestedInput
+  numberSequences?: Prisma.NumberSequenceUpdateManyWithoutOrganizationNestedInput
+  leadSources?: Prisma.LeadSourceUpdateManyWithoutOrganizationNestedInput
+  leadStages?: Prisma.LeadStageUpdateManyWithoutOrganizationNestedInput
+  leads?: Prisma.LeadUpdateManyWithoutOrganizationNestedInput
+  followUps?: Prisma.FollowUpUpdateManyWithoutOrganizationNestedInput
+  customers?: Prisma.CustomerUpdateManyWithoutOrganizationNestedInput
+  contacts?: Prisma.ContactUpdateManyWithoutOrganizationNestedInput
+  pipelines?: Prisma.PipelineUpdateManyWithoutOrganizationNestedInput
+  deals?: Prisma.DealUpdateManyWithoutOrganizationNestedInput
+  meetings?: Prisma.MeetingUpdateManyWithoutOrganizationNestedInput
+  callLogs?: Prisma.CallLogUpdateManyWithoutOrganizationNestedInput
+  services?: Prisma.ServiceUpdateManyWithoutOrganizationNestedInput
+  servicePackages?: Prisma.ServicePackageUpdateManyWithoutOrganizationNestedInput
+  priceRules?: Prisma.PriceRuleUpdateManyWithoutOrganizationNestedInput
+  taxRates?: Prisma.TaxRateUpdateManyWithoutOrganizationNestedInput
+  quotations?: Prisma.QuotationUpdateManyWithoutOrganizationNestedInput
+  approvalRules?: Prisma.ApprovalRuleUpdateManyWithoutOrganizationNestedInput
+  approvalRequests?: Prisma.ApprovalRequestUpdateManyWithoutOrganizationNestedInput
+  invoiceTemplates?: Prisma.InvoiceTemplateUpdateManyWithoutOrganizationNestedInput
+  invoices?: Prisma.InvoiceUpdateManyWithoutOrganizationNestedInput
+  creditNotes?: Prisma.CreditNoteUpdateManyWithoutOrganizationNestedInput
+  recurringInvoices?: Prisma.RecurringInvoiceUpdateManyWithoutOrganizationNestedInput
+  bankAccounts?: Prisma.BankAccountUpdateManyWithoutOrganizationNestedInput
+  payments?: Prisma.PaymentUpdateManyWithoutOrganizationNestedInput
+  paymentReminders?: Prisma.PaymentReminderUpdateManyWithoutOrganizationNestedInput
+  projects?: Prisma.ProjectUpdateManyWithoutOrganizationNestedInput
+  tasks?: Prisma.TaskUpdateManyWithoutOrganizationNestedInput
+  timeEntries?: Prisma.TimeEntryUpdateManyWithoutOrganizationNestedInput
+  socialAccounts?: Prisma.SocialAccountUpdateManyWithoutOrganizationNestedInput
+  campaigns?: Prisma.CampaignUpdateManyWithoutOrganizationNestedInput
+  contentItems?: Prisma.ContentItemUpdateManyWithoutOrganizationNestedInput
+  adSpends?: Prisma.AdSpendUpdateManyWithoutOrganizationNestedInput
+  campaignReports?: Prisma.CampaignReportUpdateManyWithoutOrganizationNestedInput
+  websites?: Prisma.WebsiteUpdateManyWithoutOrganizationNestedInput
+  webAssets?: Prisma.WebAssetUpdateManyWithoutOrganizationNestedInput
+  credentials?: Prisma.CredentialUpdateManyWithoutOrganizationNestedInput
+  tickets?: Prisma.TicketUpdateManyWithoutOrganizationNestedInput
+  documentFolders?: Prisma.DocumentFolderUpdateManyWithoutOrganizationNestedInput
+  documents?: Prisma.DocumentUpdateManyWithoutOrganizationNestedInput
+  employees?: Prisma.EmployeeUpdateManyWithoutOrganizationNestedInput
+  attendances?: Prisma.AttendanceUpdateManyWithoutOrganizationNestedInput
+  leaveTypes?: Prisma.LeaveTypeUpdateManyWithoutOrganizationNestedInput
+  leaveRequests?: Prisma.LeaveRequestUpdateManyWithoutOrganizationNestedInput
+  holidays?: Prisma.HolidayUpdateManyWithoutOrganizationNestedInput
+  performanceReviews?: Prisma.PerformanceReviewUpdateManyWithoutOrganizationNestedInput
+  payrollRuns?: Prisma.PayrollRunUpdateManyWithoutOrganizationNestedInput
+  payslips?: Prisma.PayslipUpdateManyWithoutOrganizationNestedInput
+  assets?: Prisma.AssetUpdateManyWithoutOrganizationNestedInput
+  expenseCategories?: Prisma.ExpenseCategoryUpdateManyWithoutOrganizationNestedInput
+  vendors?: Prisma.VendorUpdateManyWithoutOrganizationNestedInput
+  expenses?: Prisma.ExpenseUpdateManyWithoutOrganizationNestedInput
+  ledgerEntries?: Prisma.LedgerEntryUpdateManyWithoutOrganizationNestedInput
+  savedReports?: Prisma.SavedReportUpdateManyWithoutOrganizationNestedInput
+  exportJobs?: Prisma.ExportJobUpdateManyWithoutOrganizationNestedInput
+  importJobs?: Prisma.ImportJobUpdateManyWithoutOrganizationNestedInput
+  dashboardWidgets?: Prisma.DashboardWidgetUpdateManyWithoutOrganizationNestedInput
+  savedFilters?: Prisma.SavedFilterUpdateManyWithoutOrganizationNestedInput
+  automationRules?: Prisma.AutomationRuleUpdateManyWithoutOrganizationNestedInput
+  automationRuns?: Prisma.AutomationRunUpdateManyWithoutOrganizationNestedInput
+  leadAssignmentRules?: Prisma.LeadAssignmentRuleUpdateManyWithoutOrganizationNestedInput
+  messageTemplates?: Prisma.MessageTemplateUpdateManyWithoutOrganizationNestedInput
+  messages?: Prisma.MessageUpdateManyWithoutOrganizationNestedInput
+  notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
+  integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
+  outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+}
+
+export type OrganizationUncheckedUpdateWithoutCalendarEventsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gstin?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pan?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine1?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  addressLine2?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  state?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stateCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  pincode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.StringFieldUpdateOperationsInput | string
+  currency?: Prisma.StringFieldUpdateOperationsInput | string
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  financialYearStartMonth?: Prisma.IntFieldUpdateOperationsInput | number
+  logoFileId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  plan?: Prisma.EnumSubscriptionPlanFieldUpdateOperationsInput | $Enums.SubscriptionPlan
+  status?: Prisma.EnumOrgStatusFieldUpdateOperationsInput | $Enums.OrgStatus
+  settings?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  branches?: Prisma.BranchUncheckedUpdateManyWithoutOrganizationNestedInput
+  departments?: Prisma.DepartmentUncheckedUpdateManyWithoutOrganizationNestedInput
+  teams?: Prisma.TeamUncheckedUpdateManyWithoutOrganizationNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutOrganizationNestedInput
+  roles?: Prisma.RoleUncheckedUpdateManyWithoutOrganizationNestedInput
   apiKeys?: Prisma.ApiKeyUncheckedUpdateManyWithoutOrganizationNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutOrganizationNestedInput
   files?: Prisma.FileUncheckedUpdateManyWithoutOrganizationNestedInput
@@ -4694,6 +5171,7 @@ export type OrganizationCreateWithoutApiKeysInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutApiKeysInput = {
@@ -4798,6 +5276,7 @@ export type OrganizationUncheckedCreateWithoutApiKeysInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutApiKeysInput = {
@@ -4918,6 +5397,7 @@ export type OrganizationUpdateWithoutApiKeysInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutApiKeysInput = {
@@ -5022,6 +5502,7 @@ export type OrganizationUncheckedUpdateWithoutApiKeysInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutAuditLogsInput = {
@@ -5126,6 +5607,7 @@ export type OrganizationCreateWithoutAuditLogsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutAuditLogsInput = {
@@ -5230,6 +5712,7 @@ export type OrganizationUncheckedCreateWithoutAuditLogsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutAuditLogsInput = {
@@ -5350,6 +5833,7 @@ export type OrganizationUpdateWithoutAuditLogsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutAuditLogsInput = {
@@ -5454,6 +5938,7 @@ export type OrganizationUncheckedUpdateWithoutAuditLogsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutFilesInput = {
@@ -5558,6 +6043,7 @@ export type OrganizationCreateWithoutFilesInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutFilesInput = {
@@ -5662,6 +6148,7 @@ export type OrganizationUncheckedCreateWithoutFilesInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutFilesInput = {
@@ -5782,6 +6269,7 @@ export type OrganizationUpdateWithoutFilesInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutFilesInput = {
@@ -5886,6 +6374,7 @@ export type OrganizationUncheckedUpdateWithoutFilesInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutAttachmentsInput = {
@@ -5990,6 +6479,7 @@ export type OrganizationCreateWithoutAttachmentsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutAttachmentsInput = {
@@ -6094,6 +6584,7 @@ export type OrganizationUncheckedCreateWithoutAttachmentsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutAttachmentsInput = {
@@ -6214,6 +6705,7 @@ export type OrganizationUpdateWithoutAttachmentsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutAttachmentsInput = {
@@ -6318,6 +6810,7 @@ export type OrganizationUncheckedUpdateWithoutAttachmentsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutNotesInput = {
@@ -6422,6 +6915,7 @@ export type OrganizationCreateWithoutNotesInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutNotesInput = {
@@ -6526,6 +7020,7 @@ export type OrganizationUncheckedCreateWithoutNotesInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutNotesInput = {
@@ -6646,6 +7141,7 @@ export type OrganizationUpdateWithoutNotesInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutNotesInput = {
@@ -6750,6 +7246,7 @@ export type OrganizationUncheckedUpdateWithoutNotesInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutCommentsInput = {
@@ -6854,6 +7351,7 @@ export type OrganizationCreateWithoutCommentsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutCommentsInput = {
@@ -6958,6 +7456,7 @@ export type OrganizationUncheckedCreateWithoutCommentsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutCommentsInput = {
@@ -7078,6 +7577,7 @@ export type OrganizationUpdateWithoutCommentsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutCommentsInput = {
@@ -7182,6 +7682,7 @@ export type OrganizationUncheckedUpdateWithoutCommentsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutActivitiesInput = {
@@ -7286,6 +7787,7 @@ export type OrganizationCreateWithoutActivitiesInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutActivitiesInput = {
@@ -7390,6 +7892,7 @@ export type OrganizationUncheckedCreateWithoutActivitiesInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutActivitiesInput = {
@@ -7510,6 +8013,7 @@ export type OrganizationUpdateWithoutActivitiesInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutActivitiesInput = {
@@ -7614,6 +8118,7 @@ export type OrganizationUncheckedUpdateWithoutActivitiesInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutTagsInput = {
@@ -7718,6 +8223,7 @@ export type OrganizationCreateWithoutTagsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutTagsInput = {
@@ -7822,6 +8328,7 @@ export type OrganizationUncheckedCreateWithoutTagsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutTagsInput = {
@@ -7942,6 +8449,7 @@ export type OrganizationUpdateWithoutTagsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutTagsInput = {
@@ -8046,6 +8554,7 @@ export type OrganizationUncheckedUpdateWithoutTagsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutNumberSequencesInput = {
@@ -8150,6 +8659,7 @@ export type OrganizationCreateWithoutNumberSequencesInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutNumberSequencesInput = {
@@ -8254,6 +8764,7 @@ export type OrganizationUncheckedCreateWithoutNumberSequencesInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutNumberSequencesInput = {
@@ -8374,6 +8885,7 @@ export type OrganizationUpdateWithoutNumberSequencesInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutNumberSequencesInput = {
@@ -8478,6 +8990,7 @@ export type OrganizationUncheckedUpdateWithoutNumberSequencesInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutLeadSourcesInput = {
@@ -8582,6 +9095,7 @@ export type OrganizationCreateWithoutLeadSourcesInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutLeadSourcesInput = {
@@ -8686,6 +9200,7 @@ export type OrganizationUncheckedCreateWithoutLeadSourcesInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutLeadSourcesInput = {
@@ -8806,6 +9321,7 @@ export type OrganizationUpdateWithoutLeadSourcesInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutLeadSourcesInput = {
@@ -8910,6 +9426,7 @@ export type OrganizationUncheckedUpdateWithoutLeadSourcesInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutLeadStagesInput = {
@@ -9014,6 +9531,7 @@ export type OrganizationCreateWithoutLeadStagesInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutLeadStagesInput = {
@@ -9118,6 +9636,7 @@ export type OrganizationUncheckedCreateWithoutLeadStagesInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutLeadStagesInput = {
@@ -9238,6 +9757,7 @@ export type OrganizationUpdateWithoutLeadStagesInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutLeadStagesInput = {
@@ -9342,6 +9862,7 @@ export type OrganizationUncheckedUpdateWithoutLeadStagesInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutLeadsInput = {
@@ -9446,6 +9967,7 @@ export type OrganizationCreateWithoutLeadsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutLeadsInput = {
@@ -9550,6 +10072,7 @@ export type OrganizationUncheckedCreateWithoutLeadsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutLeadsInput = {
@@ -9670,6 +10193,7 @@ export type OrganizationUpdateWithoutLeadsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutLeadsInput = {
@@ -9774,6 +10298,7 @@ export type OrganizationUncheckedUpdateWithoutLeadsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutFollowUpsInput = {
@@ -9878,6 +10403,7 @@ export type OrganizationCreateWithoutFollowUpsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutFollowUpsInput = {
@@ -9982,6 +10508,7 @@ export type OrganizationUncheckedCreateWithoutFollowUpsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutFollowUpsInput = {
@@ -10102,6 +10629,7 @@ export type OrganizationUpdateWithoutFollowUpsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutFollowUpsInput = {
@@ -10206,6 +10734,7 @@ export type OrganizationUncheckedUpdateWithoutFollowUpsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutCustomersInput = {
@@ -10310,6 +10839,7 @@ export type OrganizationCreateWithoutCustomersInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutCustomersInput = {
@@ -10414,6 +10944,7 @@ export type OrganizationUncheckedCreateWithoutCustomersInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutCustomersInput = {
@@ -10534,6 +11065,7 @@ export type OrganizationUpdateWithoutCustomersInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutCustomersInput = {
@@ -10638,6 +11170,7 @@ export type OrganizationUncheckedUpdateWithoutCustomersInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutContactsInput = {
@@ -10742,6 +11275,7 @@ export type OrganizationCreateWithoutContactsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutContactsInput = {
@@ -10846,6 +11380,7 @@ export type OrganizationUncheckedCreateWithoutContactsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutContactsInput = {
@@ -10966,6 +11501,7 @@ export type OrganizationUpdateWithoutContactsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutContactsInput = {
@@ -11070,6 +11606,7 @@ export type OrganizationUncheckedUpdateWithoutContactsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutPipelinesInput = {
@@ -11174,6 +11711,7 @@ export type OrganizationCreateWithoutPipelinesInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutPipelinesInput = {
@@ -11278,6 +11816,7 @@ export type OrganizationUncheckedCreateWithoutPipelinesInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutPipelinesInput = {
@@ -11398,6 +11937,7 @@ export type OrganizationUpdateWithoutPipelinesInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutPipelinesInput = {
@@ -11502,6 +12042,7 @@ export type OrganizationUncheckedUpdateWithoutPipelinesInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutDealsInput = {
@@ -11606,6 +12147,7 @@ export type OrganizationCreateWithoutDealsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutDealsInput = {
@@ -11710,6 +12252,7 @@ export type OrganizationUncheckedCreateWithoutDealsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutDealsInput = {
@@ -11830,6 +12373,7 @@ export type OrganizationUpdateWithoutDealsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutDealsInput = {
@@ -11934,6 +12478,7 @@ export type OrganizationUncheckedUpdateWithoutDealsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutMeetingsInput = {
@@ -12038,6 +12583,7 @@ export type OrganizationCreateWithoutMeetingsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutMeetingsInput = {
@@ -12142,6 +12688,7 @@ export type OrganizationUncheckedCreateWithoutMeetingsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutMeetingsInput = {
@@ -12262,6 +12809,7 @@ export type OrganizationUpdateWithoutMeetingsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutMeetingsInput = {
@@ -12366,6 +12914,7 @@ export type OrganizationUncheckedUpdateWithoutMeetingsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutCallLogsInput = {
@@ -12470,6 +13019,7 @@ export type OrganizationCreateWithoutCallLogsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutCallLogsInput = {
@@ -12574,6 +13124,7 @@ export type OrganizationUncheckedCreateWithoutCallLogsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutCallLogsInput = {
@@ -12694,6 +13245,7 @@ export type OrganizationUpdateWithoutCallLogsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutCallLogsInput = {
@@ -12798,6 +13350,7 @@ export type OrganizationUncheckedUpdateWithoutCallLogsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutServicesInput = {
@@ -12902,6 +13455,7 @@ export type OrganizationCreateWithoutServicesInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutServicesInput = {
@@ -13006,6 +13560,7 @@ export type OrganizationUncheckedCreateWithoutServicesInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutServicesInput = {
@@ -13126,6 +13681,7 @@ export type OrganizationUpdateWithoutServicesInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutServicesInput = {
@@ -13230,6 +13786,7 @@ export type OrganizationUncheckedUpdateWithoutServicesInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutServicePackagesInput = {
@@ -13334,6 +13891,7 @@ export type OrganizationCreateWithoutServicePackagesInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutServicePackagesInput = {
@@ -13438,6 +13996,7 @@ export type OrganizationUncheckedCreateWithoutServicePackagesInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutServicePackagesInput = {
@@ -13558,6 +14117,7 @@ export type OrganizationUpdateWithoutServicePackagesInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutServicePackagesInput = {
@@ -13662,6 +14222,7 @@ export type OrganizationUncheckedUpdateWithoutServicePackagesInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutPriceRulesInput = {
@@ -13766,6 +14327,7 @@ export type OrganizationCreateWithoutPriceRulesInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutPriceRulesInput = {
@@ -13870,6 +14432,7 @@ export type OrganizationUncheckedCreateWithoutPriceRulesInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutPriceRulesInput = {
@@ -13990,6 +14553,7 @@ export type OrganizationUpdateWithoutPriceRulesInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutPriceRulesInput = {
@@ -14094,6 +14658,7 @@ export type OrganizationUncheckedUpdateWithoutPriceRulesInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutTaxRatesInput = {
@@ -14198,6 +14763,7 @@ export type OrganizationCreateWithoutTaxRatesInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutTaxRatesInput = {
@@ -14302,6 +14868,7 @@ export type OrganizationUncheckedCreateWithoutTaxRatesInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutTaxRatesInput = {
@@ -14422,6 +14989,7 @@ export type OrganizationUpdateWithoutTaxRatesInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutTaxRatesInput = {
@@ -14526,6 +15094,7 @@ export type OrganizationUncheckedUpdateWithoutTaxRatesInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutQuotationsInput = {
@@ -14630,6 +15199,7 @@ export type OrganizationCreateWithoutQuotationsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutQuotationsInput = {
@@ -14734,6 +15304,7 @@ export type OrganizationUncheckedCreateWithoutQuotationsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutQuotationsInput = {
@@ -14854,6 +15425,7 @@ export type OrganizationUpdateWithoutQuotationsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutQuotationsInput = {
@@ -14958,6 +15530,7 @@ export type OrganizationUncheckedUpdateWithoutQuotationsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutApprovalRulesInput = {
@@ -15062,6 +15635,7 @@ export type OrganizationCreateWithoutApprovalRulesInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutApprovalRulesInput = {
@@ -15166,6 +15740,7 @@ export type OrganizationUncheckedCreateWithoutApprovalRulesInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutApprovalRulesInput = {
@@ -15286,6 +15861,7 @@ export type OrganizationUpdateWithoutApprovalRulesInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutApprovalRulesInput = {
@@ -15390,6 +15966,7 @@ export type OrganizationUncheckedUpdateWithoutApprovalRulesInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutApprovalRequestsInput = {
@@ -15494,6 +16071,7 @@ export type OrganizationCreateWithoutApprovalRequestsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutApprovalRequestsInput = {
@@ -15598,6 +16176,7 @@ export type OrganizationUncheckedCreateWithoutApprovalRequestsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutApprovalRequestsInput = {
@@ -15718,6 +16297,7 @@ export type OrganizationUpdateWithoutApprovalRequestsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutApprovalRequestsInput = {
@@ -15822,6 +16402,7 @@ export type OrganizationUncheckedUpdateWithoutApprovalRequestsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutInvoiceTemplatesInput = {
@@ -15926,6 +16507,7 @@ export type OrganizationCreateWithoutInvoiceTemplatesInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutInvoiceTemplatesInput = {
@@ -16030,6 +16612,7 @@ export type OrganizationUncheckedCreateWithoutInvoiceTemplatesInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutInvoiceTemplatesInput = {
@@ -16150,6 +16733,7 @@ export type OrganizationUpdateWithoutInvoiceTemplatesInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutInvoiceTemplatesInput = {
@@ -16254,6 +16838,7 @@ export type OrganizationUncheckedUpdateWithoutInvoiceTemplatesInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutInvoicesInput = {
@@ -16358,6 +16943,7 @@ export type OrganizationCreateWithoutInvoicesInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutInvoicesInput = {
@@ -16462,6 +17048,7 @@ export type OrganizationUncheckedCreateWithoutInvoicesInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutInvoicesInput = {
@@ -16582,6 +17169,7 @@ export type OrganizationUpdateWithoutInvoicesInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutInvoicesInput = {
@@ -16686,6 +17274,7 @@ export type OrganizationUncheckedUpdateWithoutInvoicesInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutCreditNotesInput = {
@@ -16790,6 +17379,7 @@ export type OrganizationCreateWithoutCreditNotesInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutCreditNotesInput = {
@@ -16894,6 +17484,7 @@ export type OrganizationUncheckedCreateWithoutCreditNotesInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutCreditNotesInput = {
@@ -17014,6 +17605,7 @@ export type OrganizationUpdateWithoutCreditNotesInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutCreditNotesInput = {
@@ -17118,6 +17710,7 @@ export type OrganizationUncheckedUpdateWithoutCreditNotesInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutRecurringInvoicesInput = {
@@ -17222,6 +17815,7 @@ export type OrganizationCreateWithoutRecurringInvoicesInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutRecurringInvoicesInput = {
@@ -17326,6 +17920,7 @@ export type OrganizationUncheckedCreateWithoutRecurringInvoicesInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutRecurringInvoicesInput = {
@@ -17446,6 +18041,7 @@ export type OrganizationUpdateWithoutRecurringInvoicesInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutRecurringInvoicesInput = {
@@ -17550,6 +18146,7 @@ export type OrganizationUncheckedUpdateWithoutRecurringInvoicesInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutBankAccountsInput = {
@@ -17654,6 +18251,7 @@ export type OrganizationCreateWithoutBankAccountsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutBankAccountsInput = {
@@ -17758,6 +18356,7 @@ export type OrganizationUncheckedCreateWithoutBankAccountsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutBankAccountsInput = {
@@ -17878,6 +18477,7 @@ export type OrganizationUpdateWithoutBankAccountsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutBankAccountsInput = {
@@ -17982,6 +18582,7 @@ export type OrganizationUncheckedUpdateWithoutBankAccountsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutPaymentsInput = {
@@ -18086,6 +18687,7 @@ export type OrganizationCreateWithoutPaymentsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutPaymentsInput = {
@@ -18190,6 +18792,7 @@ export type OrganizationUncheckedCreateWithoutPaymentsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutPaymentsInput = {
@@ -18310,6 +18913,7 @@ export type OrganizationUpdateWithoutPaymentsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutPaymentsInput = {
@@ -18414,6 +19018,7 @@ export type OrganizationUncheckedUpdateWithoutPaymentsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutPaymentRemindersInput = {
@@ -18518,6 +19123,7 @@ export type OrganizationCreateWithoutPaymentRemindersInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutPaymentRemindersInput = {
@@ -18622,6 +19228,7 @@ export type OrganizationUncheckedCreateWithoutPaymentRemindersInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutPaymentRemindersInput = {
@@ -18742,6 +19349,7 @@ export type OrganizationUpdateWithoutPaymentRemindersInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutPaymentRemindersInput = {
@@ -18846,6 +19454,7 @@ export type OrganizationUncheckedUpdateWithoutPaymentRemindersInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutProjectsInput = {
@@ -18950,6 +19559,7 @@ export type OrganizationCreateWithoutProjectsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutProjectsInput = {
@@ -19054,6 +19664,7 @@ export type OrganizationUncheckedCreateWithoutProjectsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutProjectsInput = {
@@ -19174,6 +19785,7 @@ export type OrganizationUpdateWithoutProjectsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutProjectsInput = {
@@ -19278,6 +19890,7 @@ export type OrganizationUncheckedUpdateWithoutProjectsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutTasksInput = {
@@ -19382,6 +19995,7 @@ export type OrganizationCreateWithoutTasksInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutTasksInput = {
@@ -19486,6 +20100,7 @@ export type OrganizationUncheckedCreateWithoutTasksInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutTasksInput = {
@@ -19606,6 +20221,7 @@ export type OrganizationUpdateWithoutTasksInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutTasksInput = {
@@ -19710,6 +20326,7 @@ export type OrganizationUncheckedUpdateWithoutTasksInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutTimeEntriesInput = {
@@ -19814,6 +20431,7 @@ export type OrganizationCreateWithoutTimeEntriesInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutTimeEntriesInput = {
@@ -19918,6 +20536,7 @@ export type OrganizationUncheckedCreateWithoutTimeEntriesInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutTimeEntriesInput = {
@@ -20038,6 +20657,7 @@ export type OrganizationUpdateWithoutTimeEntriesInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutTimeEntriesInput = {
@@ -20142,6 +20762,7 @@ export type OrganizationUncheckedUpdateWithoutTimeEntriesInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutSocialAccountsInput = {
@@ -20246,6 +20867,7 @@ export type OrganizationCreateWithoutSocialAccountsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutSocialAccountsInput = {
@@ -20350,6 +20972,7 @@ export type OrganizationUncheckedCreateWithoutSocialAccountsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutSocialAccountsInput = {
@@ -20470,6 +21093,7 @@ export type OrganizationUpdateWithoutSocialAccountsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutSocialAccountsInput = {
@@ -20574,6 +21198,7 @@ export type OrganizationUncheckedUpdateWithoutSocialAccountsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutCampaignsInput = {
@@ -20678,6 +21303,7 @@ export type OrganizationCreateWithoutCampaignsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutCampaignsInput = {
@@ -20782,6 +21408,7 @@ export type OrganizationUncheckedCreateWithoutCampaignsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutCampaignsInput = {
@@ -20902,6 +21529,7 @@ export type OrganizationUpdateWithoutCampaignsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutCampaignsInput = {
@@ -21006,6 +21634,7 @@ export type OrganizationUncheckedUpdateWithoutCampaignsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutContentItemsInput = {
@@ -21110,6 +21739,7 @@ export type OrganizationCreateWithoutContentItemsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutContentItemsInput = {
@@ -21214,6 +21844,7 @@ export type OrganizationUncheckedCreateWithoutContentItemsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutContentItemsInput = {
@@ -21334,6 +21965,7 @@ export type OrganizationUpdateWithoutContentItemsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutContentItemsInput = {
@@ -21438,6 +22070,7 @@ export type OrganizationUncheckedUpdateWithoutContentItemsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutAdSpendsInput = {
@@ -21542,6 +22175,7 @@ export type OrganizationCreateWithoutAdSpendsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutAdSpendsInput = {
@@ -21646,6 +22280,7 @@ export type OrganizationUncheckedCreateWithoutAdSpendsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutAdSpendsInput = {
@@ -21766,6 +22401,7 @@ export type OrganizationUpdateWithoutAdSpendsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutAdSpendsInput = {
@@ -21870,6 +22506,7 @@ export type OrganizationUncheckedUpdateWithoutAdSpendsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutCampaignReportsInput = {
@@ -21974,6 +22611,7 @@ export type OrganizationCreateWithoutCampaignReportsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutCampaignReportsInput = {
@@ -22078,6 +22716,7 @@ export type OrganizationUncheckedCreateWithoutCampaignReportsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutCampaignReportsInput = {
@@ -22198,6 +22837,7 @@ export type OrganizationUpdateWithoutCampaignReportsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutCampaignReportsInput = {
@@ -22302,6 +22942,7 @@ export type OrganizationUncheckedUpdateWithoutCampaignReportsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutWebsitesInput = {
@@ -22406,6 +23047,7 @@ export type OrganizationCreateWithoutWebsitesInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutWebsitesInput = {
@@ -22510,6 +23152,7 @@ export type OrganizationUncheckedCreateWithoutWebsitesInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutWebsitesInput = {
@@ -22630,6 +23273,7 @@ export type OrganizationUpdateWithoutWebsitesInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutWebsitesInput = {
@@ -22734,6 +23378,7 @@ export type OrganizationUncheckedUpdateWithoutWebsitesInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutWebAssetsInput = {
@@ -22838,6 +23483,7 @@ export type OrganizationCreateWithoutWebAssetsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutWebAssetsInput = {
@@ -22942,6 +23588,7 @@ export type OrganizationUncheckedCreateWithoutWebAssetsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutWebAssetsInput = {
@@ -23062,6 +23709,7 @@ export type OrganizationUpdateWithoutWebAssetsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutWebAssetsInput = {
@@ -23166,6 +23814,7 @@ export type OrganizationUncheckedUpdateWithoutWebAssetsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutCredentialsInput = {
@@ -23270,6 +23919,7 @@ export type OrganizationCreateWithoutCredentialsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutCredentialsInput = {
@@ -23374,6 +24024,7 @@ export type OrganizationUncheckedCreateWithoutCredentialsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutCredentialsInput = {
@@ -23494,6 +24145,7 @@ export type OrganizationUpdateWithoutCredentialsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutCredentialsInput = {
@@ -23598,6 +24250,7 @@ export type OrganizationUncheckedUpdateWithoutCredentialsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutTicketsInput = {
@@ -23702,6 +24355,7 @@ export type OrganizationCreateWithoutTicketsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutTicketsInput = {
@@ -23806,6 +24460,7 @@ export type OrganizationUncheckedCreateWithoutTicketsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutTicketsInput = {
@@ -23926,6 +24581,7 @@ export type OrganizationUpdateWithoutTicketsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutTicketsInput = {
@@ -24030,6 +24686,7 @@ export type OrganizationUncheckedUpdateWithoutTicketsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutDocumentFoldersInput = {
@@ -24134,6 +24791,7 @@ export type OrganizationCreateWithoutDocumentFoldersInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutDocumentFoldersInput = {
@@ -24238,6 +24896,7 @@ export type OrganizationUncheckedCreateWithoutDocumentFoldersInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutDocumentFoldersInput = {
@@ -24358,6 +25017,7 @@ export type OrganizationUpdateWithoutDocumentFoldersInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutDocumentFoldersInput = {
@@ -24462,6 +25122,7 @@ export type OrganizationUncheckedUpdateWithoutDocumentFoldersInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutDocumentsInput = {
@@ -24566,6 +25227,7 @@ export type OrganizationCreateWithoutDocumentsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutDocumentsInput = {
@@ -24670,6 +25332,7 @@ export type OrganizationUncheckedCreateWithoutDocumentsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutDocumentsInput = {
@@ -24790,6 +25453,7 @@ export type OrganizationUpdateWithoutDocumentsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutDocumentsInput = {
@@ -24894,6 +25558,7 @@ export type OrganizationUncheckedUpdateWithoutDocumentsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutEmployeesInput = {
@@ -24998,6 +25663,7 @@ export type OrganizationCreateWithoutEmployeesInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutEmployeesInput = {
@@ -25102,6 +25768,7 @@ export type OrganizationUncheckedCreateWithoutEmployeesInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutEmployeesInput = {
@@ -25222,6 +25889,7 @@ export type OrganizationUpdateWithoutEmployeesInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutEmployeesInput = {
@@ -25326,6 +25994,7 @@ export type OrganizationUncheckedUpdateWithoutEmployeesInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutAttendancesInput = {
@@ -25430,6 +26099,7 @@ export type OrganizationCreateWithoutAttendancesInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutAttendancesInput = {
@@ -25534,6 +26204,7 @@ export type OrganizationUncheckedCreateWithoutAttendancesInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutAttendancesInput = {
@@ -25654,6 +26325,7 @@ export type OrganizationUpdateWithoutAttendancesInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutAttendancesInput = {
@@ -25758,6 +26430,7 @@ export type OrganizationUncheckedUpdateWithoutAttendancesInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutLeaveTypesInput = {
@@ -25862,6 +26535,7 @@ export type OrganizationCreateWithoutLeaveTypesInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutLeaveTypesInput = {
@@ -25966,6 +26640,7 @@ export type OrganizationUncheckedCreateWithoutLeaveTypesInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutLeaveTypesInput = {
@@ -26086,6 +26761,7 @@ export type OrganizationUpdateWithoutLeaveTypesInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutLeaveTypesInput = {
@@ -26190,6 +26866,7 @@ export type OrganizationUncheckedUpdateWithoutLeaveTypesInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutLeaveRequestsInput = {
@@ -26294,6 +26971,7 @@ export type OrganizationCreateWithoutLeaveRequestsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutLeaveRequestsInput = {
@@ -26398,6 +27076,7 @@ export type OrganizationUncheckedCreateWithoutLeaveRequestsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutLeaveRequestsInput = {
@@ -26518,6 +27197,7 @@ export type OrganizationUpdateWithoutLeaveRequestsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutLeaveRequestsInput = {
@@ -26622,6 +27302,7 @@ export type OrganizationUncheckedUpdateWithoutLeaveRequestsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutHolidaysInput = {
@@ -26726,6 +27407,7 @@ export type OrganizationCreateWithoutHolidaysInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutHolidaysInput = {
@@ -26830,6 +27512,7 @@ export type OrganizationUncheckedCreateWithoutHolidaysInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutHolidaysInput = {
@@ -26950,6 +27633,7 @@ export type OrganizationUpdateWithoutHolidaysInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutHolidaysInput = {
@@ -27054,6 +27738,7 @@ export type OrganizationUncheckedUpdateWithoutHolidaysInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutPayrollRunsInput = {
@@ -27158,6 +27843,7 @@ export type OrganizationCreateWithoutPayrollRunsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutPayrollRunsInput = {
@@ -27262,6 +27948,7 @@ export type OrganizationUncheckedCreateWithoutPayrollRunsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutPayrollRunsInput = {
@@ -27382,6 +28069,7 @@ export type OrganizationUpdateWithoutPayrollRunsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutPayrollRunsInput = {
@@ -27486,6 +28174,7 @@ export type OrganizationUncheckedUpdateWithoutPayrollRunsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutPayslipsInput = {
@@ -27590,6 +28279,7 @@ export type OrganizationCreateWithoutPayslipsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutPayslipsInput = {
@@ -27694,6 +28384,7 @@ export type OrganizationUncheckedCreateWithoutPayslipsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutPayslipsInput = {
@@ -27814,6 +28505,7 @@ export type OrganizationUpdateWithoutPayslipsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutPayslipsInput = {
@@ -27918,6 +28610,7 @@ export type OrganizationUncheckedUpdateWithoutPayslipsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutPerformanceReviewsInput = {
@@ -28022,6 +28715,7 @@ export type OrganizationCreateWithoutPerformanceReviewsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutPerformanceReviewsInput = {
@@ -28126,6 +28820,7 @@ export type OrganizationUncheckedCreateWithoutPerformanceReviewsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutPerformanceReviewsInput = {
@@ -28246,6 +28941,7 @@ export type OrganizationUpdateWithoutPerformanceReviewsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutPerformanceReviewsInput = {
@@ -28350,6 +29046,7 @@ export type OrganizationUncheckedUpdateWithoutPerformanceReviewsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutAssetsInput = {
@@ -28454,6 +29151,7 @@ export type OrganizationCreateWithoutAssetsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutAssetsInput = {
@@ -28558,6 +29256,7 @@ export type OrganizationUncheckedCreateWithoutAssetsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutAssetsInput = {
@@ -28678,6 +29377,7 @@ export type OrganizationUpdateWithoutAssetsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutAssetsInput = {
@@ -28782,6 +29482,7 @@ export type OrganizationUncheckedUpdateWithoutAssetsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutExpenseCategoriesInput = {
@@ -28886,6 +29587,7 @@ export type OrganizationCreateWithoutExpenseCategoriesInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutExpenseCategoriesInput = {
@@ -28990,6 +29692,7 @@ export type OrganizationUncheckedCreateWithoutExpenseCategoriesInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutExpenseCategoriesInput = {
@@ -29110,6 +29813,7 @@ export type OrganizationUpdateWithoutExpenseCategoriesInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutExpenseCategoriesInput = {
@@ -29214,6 +29918,7 @@ export type OrganizationUncheckedUpdateWithoutExpenseCategoriesInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutVendorsInput = {
@@ -29318,6 +30023,7 @@ export type OrganizationCreateWithoutVendorsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutVendorsInput = {
@@ -29422,6 +30128,7 @@ export type OrganizationUncheckedCreateWithoutVendorsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutVendorsInput = {
@@ -29542,6 +30249,7 @@ export type OrganizationUpdateWithoutVendorsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutVendorsInput = {
@@ -29646,6 +30354,7 @@ export type OrganizationUncheckedUpdateWithoutVendorsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutExpensesInput = {
@@ -29750,6 +30459,7 @@ export type OrganizationCreateWithoutExpensesInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutExpensesInput = {
@@ -29854,6 +30564,7 @@ export type OrganizationUncheckedCreateWithoutExpensesInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutExpensesInput = {
@@ -29974,6 +30685,7 @@ export type OrganizationUpdateWithoutExpensesInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutExpensesInput = {
@@ -30078,6 +30790,7 @@ export type OrganizationUncheckedUpdateWithoutExpensesInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutLedgerEntriesInput = {
@@ -30182,6 +30895,7 @@ export type OrganizationCreateWithoutLedgerEntriesInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutLedgerEntriesInput = {
@@ -30286,6 +31000,7 @@ export type OrganizationUncheckedCreateWithoutLedgerEntriesInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutLedgerEntriesInput = {
@@ -30406,6 +31121,7 @@ export type OrganizationUpdateWithoutLedgerEntriesInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutLedgerEntriesInput = {
@@ -30510,6 +31226,7 @@ export type OrganizationUncheckedUpdateWithoutLedgerEntriesInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutSavedReportsInput = {
@@ -30614,6 +31331,7 @@ export type OrganizationCreateWithoutSavedReportsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutSavedReportsInput = {
@@ -30718,6 +31436,7 @@ export type OrganizationUncheckedCreateWithoutSavedReportsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutSavedReportsInput = {
@@ -30838,6 +31557,7 @@ export type OrganizationUpdateWithoutSavedReportsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutSavedReportsInput = {
@@ -30942,6 +31662,7 @@ export type OrganizationUncheckedUpdateWithoutSavedReportsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutExportJobsInput = {
@@ -31046,6 +31767,7 @@ export type OrganizationCreateWithoutExportJobsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutExportJobsInput = {
@@ -31150,6 +31872,7 @@ export type OrganizationUncheckedCreateWithoutExportJobsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutExportJobsInput = {
@@ -31270,6 +31993,7 @@ export type OrganizationUpdateWithoutExportJobsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutExportJobsInput = {
@@ -31374,6 +32098,7 @@ export type OrganizationUncheckedUpdateWithoutExportJobsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutImportJobsInput = {
@@ -31478,6 +32203,7 @@ export type OrganizationCreateWithoutImportJobsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutImportJobsInput = {
@@ -31582,6 +32308,7 @@ export type OrganizationUncheckedCreateWithoutImportJobsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutImportJobsInput = {
@@ -31702,6 +32429,7 @@ export type OrganizationUpdateWithoutImportJobsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutImportJobsInput = {
@@ -31806,6 +32534,7 @@ export type OrganizationUncheckedUpdateWithoutImportJobsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutDashboardWidgetsInput = {
@@ -31910,6 +32639,7 @@ export type OrganizationCreateWithoutDashboardWidgetsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutDashboardWidgetsInput = {
@@ -32014,6 +32744,7 @@ export type OrganizationUncheckedCreateWithoutDashboardWidgetsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutDashboardWidgetsInput = {
@@ -32134,6 +32865,7 @@ export type OrganizationUpdateWithoutDashboardWidgetsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutDashboardWidgetsInput = {
@@ -32238,6 +32970,7 @@ export type OrganizationUncheckedUpdateWithoutDashboardWidgetsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutSavedFiltersInput = {
@@ -32342,6 +33075,7 @@ export type OrganizationCreateWithoutSavedFiltersInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutSavedFiltersInput = {
@@ -32446,6 +33180,7 @@ export type OrganizationUncheckedCreateWithoutSavedFiltersInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutSavedFiltersInput = {
@@ -32566,6 +33301,7 @@ export type OrganizationUpdateWithoutSavedFiltersInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutSavedFiltersInput = {
@@ -32670,6 +33406,7 @@ export type OrganizationUncheckedUpdateWithoutSavedFiltersInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutAutomationRulesInput = {
@@ -32774,6 +33511,7 @@ export type OrganizationCreateWithoutAutomationRulesInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutAutomationRulesInput = {
@@ -32878,6 +33616,7 @@ export type OrganizationUncheckedCreateWithoutAutomationRulesInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutAutomationRulesInput = {
@@ -32998,6 +33737,7 @@ export type OrganizationUpdateWithoutAutomationRulesInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutAutomationRulesInput = {
@@ -33102,6 +33842,7 @@ export type OrganizationUncheckedUpdateWithoutAutomationRulesInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutAutomationRunsInput = {
@@ -33206,6 +33947,7 @@ export type OrganizationCreateWithoutAutomationRunsInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutAutomationRunsInput = {
@@ -33310,6 +34052,7 @@ export type OrganizationUncheckedCreateWithoutAutomationRunsInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutAutomationRunsInput = {
@@ -33430,6 +34173,7 @@ export type OrganizationUpdateWithoutAutomationRunsInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutAutomationRunsInput = {
@@ -33534,6 +34278,7 @@ export type OrganizationUncheckedUpdateWithoutAutomationRunsInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutLeadAssignmentRulesInput = {
@@ -33638,6 +34383,7 @@ export type OrganizationCreateWithoutLeadAssignmentRulesInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutLeadAssignmentRulesInput = {
@@ -33742,6 +34488,7 @@ export type OrganizationUncheckedCreateWithoutLeadAssignmentRulesInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutLeadAssignmentRulesInput = {
@@ -33862,6 +34609,7 @@ export type OrganizationUpdateWithoutLeadAssignmentRulesInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutLeadAssignmentRulesInput = {
@@ -33966,6 +34714,7 @@ export type OrganizationUncheckedUpdateWithoutLeadAssignmentRulesInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutMessageTemplatesInput = {
@@ -34070,6 +34819,7 @@ export type OrganizationCreateWithoutMessageTemplatesInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutMessageTemplatesInput = {
@@ -34174,6 +34924,7 @@ export type OrganizationUncheckedCreateWithoutMessageTemplatesInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutMessageTemplatesInput = {
@@ -34294,6 +35045,7 @@ export type OrganizationUpdateWithoutMessageTemplatesInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutMessageTemplatesInput = {
@@ -34398,6 +35150,7 @@ export type OrganizationUncheckedUpdateWithoutMessageTemplatesInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutMessagesInput = {
@@ -34502,6 +35255,7 @@ export type OrganizationCreateWithoutMessagesInput = {
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutMessagesInput = {
@@ -34606,6 +35360,7 @@ export type OrganizationUncheckedCreateWithoutMessagesInput = {
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutMessagesInput = {
@@ -34726,6 +35481,7 @@ export type OrganizationUpdateWithoutMessagesInput = {
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutMessagesInput = {
@@ -34830,6 +35586,7 @@ export type OrganizationUncheckedUpdateWithoutMessagesInput = {
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutNotificationsInput = {
@@ -34934,6 +35691,7 @@ export type OrganizationCreateWithoutNotificationsInput = {
   messages?: Prisma.MessageCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutNotificationsInput = {
@@ -35038,6 +35796,7 @@ export type OrganizationUncheckedCreateWithoutNotificationsInput = {
   messages?: Prisma.MessageUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutNotificationsInput = {
@@ -35158,6 +35917,7 @@ export type OrganizationUpdateWithoutNotificationsInput = {
   messages?: Prisma.MessageUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutNotificationsInput = {
@@ -35262,6 +36022,7 @@ export type OrganizationUncheckedUpdateWithoutNotificationsInput = {
   messages?: Prisma.MessageUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutIntegrationSettingsInput = {
@@ -35366,6 +36127,7 @@ export type OrganizationCreateWithoutIntegrationSettingsInput = {
   messages?: Prisma.MessageCreateNestedManyWithoutOrganizationInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutIntegrationSettingsInput = {
@@ -35470,6 +36232,7 @@ export type OrganizationUncheckedCreateWithoutIntegrationSettingsInput = {
   messages?: Prisma.MessageUncheckedCreateNestedManyWithoutOrganizationInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   outboxEvents?: Prisma.OutboxEventUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutIntegrationSettingsInput = {
@@ -35590,6 +36353,7 @@ export type OrganizationUpdateWithoutIntegrationSettingsInput = {
   messages?: Prisma.MessageUpdateManyWithoutOrganizationNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutIntegrationSettingsInput = {
@@ -35694,6 +36458,7 @@ export type OrganizationUncheckedUpdateWithoutIntegrationSettingsInput = {
   messages?: Prisma.MessageUncheckedUpdateManyWithoutOrganizationNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   outboxEvents?: Prisma.OutboxEventUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationCreateWithoutOutboxEventsInput = {
@@ -35798,6 +36563,7 @@ export type OrganizationCreateWithoutOutboxEventsInput = {
   messages?: Prisma.MessageCreateNestedManyWithoutOrganizationInput
   notifications?: Prisma.NotificationCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationUncheckedCreateWithoutOutboxEventsInput = {
@@ -35902,6 +36668,7 @@ export type OrganizationUncheckedCreateWithoutOutboxEventsInput = {
   messages?: Prisma.MessageUncheckedCreateNestedManyWithoutOrganizationInput
   notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutOrganizationInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedCreateNestedManyWithoutOrganizationInput
+  calendarEvents?: Prisma.CalendarEventUncheckedCreateNestedManyWithoutOrganizationInput
 }
 
 export type OrganizationCreateOrConnectWithoutOutboxEventsInput = {
@@ -36022,6 +36789,7 @@ export type OrganizationUpdateWithoutOutboxEventsInput = {
   messages?: Prisma.MessageUpdateManyWithoutOrganizationNestedInput
   notifications?: Prisma.NotificationUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUpdateManyWithoutOrganizationNestedInput
 }
 
 export type OrganizationUncheckedUpdateWithoutOutboxEventsInput = {
@@ -36126,6 +36894,7 @@ export type OrganizationUncheckedUpdateWithoutOutboxEventsInput = {
   messages?: Prisma.MessageUncheckedUpdateManyWithoutOrganizationNestedInput
   notifications?: Prisma.NotificationUncheckedUpdateManyWithoutOrganizationNestedInput
   integrationSettings?: Prisma.IntegrationSettingUncheckedUpdateManyWithoutOrganizationNestedInput
+  calendarEvents?: Prisma.CalendarEventUncheckedUpdateManyWithoutOrganizationNestedInput
 }
 
 
@@ -36212,6 +36981,7 @@ export type OrganizationCountOutputType = {
   notifications: number
   integrationSettings: number
   outboxEvents: number
+  calendarEvents: number
 }
 
 export type OrganizationCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -36293,6 +37063,7 @@ export type OrganizationCountOutputTypeSelect<ExtArgs extends runtime.Types.Exte
   notifications?: boolean | OrganizationCountOutputTypeCountNotificationsArgs
   integrationSettings?: boolean | OrganizationCountOutputTypeCountIntegrationSettingsArgs
   outboxEvents?: boolean | OrganizationCountOutputTypeCountOutboxEventsArgs
+  calendarEvents?: boolean | OrganizationCountOutputTypeCountCalendarEventsArgs
 }
 
 /**
@@ -36851,6 +37622,13 @@ export type OrganizationCountOutputTypeCountOutboxEventsArgs<ExtArgs extends run
   where?: Prisma.OutboxEventWhereInput
 }
 
+/**
+ * OrganizationCountOutputType without action
+ */
+export type OrganizationCountOutputTypeCountCalendarEventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CalendarEventWhereInput
+}
+
 
 export type OrganizationSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -36955,6 +37733,7 @@ export type OrganizationSelect<ExtArgs extends runtime.Types.Extensions.Internal
   notifications?: boolean | Prisma.Organization$notificationsArgs<ExtArgs>
   integrationSettings?: boolean | Prisma.Organization$integrationSettingsArgs<ExtArgs>
   outboxEvents?: boolean | Prisma.Organization$outboxEventsArgs<ExtArgs>
+  calendarEvents?: boolean | Prisma.Organization$calendarEventsArgs<ExtArgs>
   _count?: boolean | Prisma.OrganizationCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["organization"]>
 
@@ -37119,6 +37898,7 @@ export type OrganizationInclude<ExtArgs extends runtime.Types.Extensions.Interna
   notifications?: boolean | Prisma.Organization$notificationsArgs<ExtArgs>
   integrationSettings?: boolean | Prisma.Organization$integrationSettingsArgs<ExtArgs>
   outboxEvents?: boolean | Prisma.Organization$outboxEventsArgs<ExtArgs>
+  calendarEvents?: boolean | Prisma.Organization$calendarEventsArgs<ExtArgs>
   _count?: boolean | Prisma.OrganizationCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type OrganizationIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -37205,6 +37985,7 @@ export type $OrganizationPayload<ExtArgs extends runtime.Types.Extensions.Intern
     notifications: Prisma.$NotificationPayload<ExtArgs>[]
     integrationSettings: Prisma.$IntegrationSettingPayload<ExtArgs>[]
     outboxEvents: Prisma.$OutboxEventPayload<ExtArgs>[]
+    calendarEvents: Prisma.$CalendarEventPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -37703,6 +38484,7 @@ export interface Prisma__OrganizationClient<T, Null = never, ExtArgs extends run
   notifications<T extends Prisma.Organization$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Organization$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   integrationSettings<T extends Prisma.Organization$integrationSettingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Organization$integrationSettingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$IntegrationSettingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   outboxEvents<T extends Prisma.Organization$outboxEventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Organization$outboxEventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$OutboxEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  calendarEvents<T extends Prisma.Organization$calendarEventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Organization$calendarEventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CalendarEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -40018,6 +40800,30 @@ export type Organization$outboxEventsArgs<ExtArgs extends runtime.Types.Extensio
   take?: number
   skip?: number
   distinct?: Prisma.OutboxEventScalarFieldEnum | Prisma.OutboxEventScalarFieldEnum[]
+}
+
+/**
+ * Organization.calendarEvents
+ */
+export type Organization$calendarEventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CalendarEvent
+   */
+  select?: Prisma.CalendarEventSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CalendarEvent
+   */
+  omit?: Prisma.CalendarEventOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CalendarEventInclude<ExtArgs> | null
+  where?: Prisma.CalendarEventWhereInput
+  orderBy?: Prisma.CalendarEventOrderByWithRelationInput | Prisma.CalendarEventOrderByWithRelationInput[]
+  cursor?: Prisma.CalendarEventWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CalendarEventScalarFieldEnum | Prisma.CalendarEventScalarFieldEnum[]
 }
 
 /**

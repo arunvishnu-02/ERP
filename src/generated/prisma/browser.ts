@@ -95,6 +95,11 @@ export type PasswordResetToken = Prisma.PasswordResetTokenModel
  */
 export type LoginCode = Prisma.LoginCodeModel
 /**
+ * Model CalendarEvent
+ * An entry someone adds to the calendar by hand. Private to its owner unless Admin shares it with everyone.
+ */
+export type CalendarEvent = Prisma.CalendarEventModel
+/**
  * Model ApiKey
  * 
  */

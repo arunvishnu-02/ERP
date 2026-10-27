@@ -760,6 +760,7 @@ model Organization {
   notifications       Notification[]
   integrationSettings IntegrationSetting[]
   outboxEvents        OutboxEvent[]
+  calendarEvents      CalendarEvent[]
 }
 
 model Branch {
@@ -888,6 +889,7 @@ model User {
   sessions                Session[]
   passwordResetTokens     PasswordResetToken[]
   loginCodes              LoginCode[]
+  calendarEvents          CalendarEvent[]          @relation("CalendarEventOwner")
   auditLogs               AuditLog[]
   notes                   Note[]                   @relation("NoteAuthor")
   comments                Comment[]                @relation("CommentAuthor")
@@ -1051,6 +1053,24 @@ model LoginCode {
   createdAt  DateTime  @default(now())
 
   @@index([userId])
+}
+
+/// An entry someone adds to the calendar by hand. Private to its owner unless Admin shares it with everyone.
+model CalendarEvent {
+  id             String       @id @default(uuid()) @db.Char(36)
+  organizationId String       @db.Char(36)
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  title          String       @db.VarChar(300)
+  date           DateTime     @db.Date
+  time           String?      @db.VarChar(5) // "14:30", or empty for all day
+  notes          String?      @db.Text
+  shared         Boolean      @default(false)
+  createdById    String       @db.Char(36)
+  createdBy      User         @relation("CalendarEventOwner", fields: [createdById], references: [id], onDelete: Cascade)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@index([organizationId, date])
 }
 
 model ApiKey {
