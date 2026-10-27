@@ -1,6 +1,6 @@
 'use client'
 import * as Menu from '@radix-ui/react-dropdown-menu'
-import { Bell, Building2, ChevronRight, Ellipsis, Inbox, ChartColumn, Search, FileText, Files, FolderKanban, Globe, Handshake, Landmark, Laptop, LayoutDashboard, LifeBuoy, LogOut, Megaphone, MenuIcon, MessagesSquare, PanelLeftClose, PanelLeftOpen, Moon, Receipt, Settings, SquareCheckBig, Sun, TrendingUp, UserPlus, UserRound, Users, Wallet, Zap } from 'lucide-react'
+import { Bell, Building2, CalendarDays, ChevronRight, Ellipsis, Inbox, ChartColumn, Search, FileText, Files, FolderKanban, Globe, Handshake, Landmark, Laptop, LayoutDashboard, LifeBuoy, LogOut, Megaphone, MenuIcon, MessagesSquare, PanelLeftClose, PanelLeftOpen, Moon, Receipt, Settings, SquareCheckBig, Sun, TrendingUp, UserPlus, UserRound, Users, Wallet, Zap } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useTheme } from 'next-themes'
@@ -16,7 +16,7 @@ import { AuthProvider, useAuth } from '@/lib/auth'
 import { ago } from '@/lib/format'
 
 const NAV: { group: string; fold?: boolean; items: [path: string, label: string, module: string, icon: any][] }[] = [
-  { group: '', items: [['dashboard', 'Dashboard', 'DASHBOARD', LayoutDashboard], ['approvals', 'Approvals', '', Inbox]] },
+  { group: '', items: [['dashboard', 'Dashboard', 'DASHBOARD', LayoutDashboard], ['approvals', 'Approvals', '', Inbox], ['calendar', 'Calendar', '', CalendarDays]] },
   { group: 'Sales', items: [['leads', 'Leads', 'LEADS', UserPlus], ['customers', 'Customers', 'CUSTOMERS', Building2], ['sales', 'Sales pipeline', 'SALES', TrendingUp], ['quotations', 'Quotations', 'QUOTATIONS', FileText], ['invoices', 'Invoices', 'INVOICES', Receipt], ['payments', 'Payments', 'PAYMENTS', Wallet]] },
   { group: 'Delivery', items: [['projects', 'Projects', 'PROJECTS', FolderKanban], ['tasks', 'Tasks', 'TASKS', SquareCheckBig], ['marketing', 'Marketing', 'MARKETING', Megaphone], ['websites', 'Websites', 'WEBSITES', Globe], ['tickets', 'Tickets', 'TICKETS', LifeBuoy]] },
   { group: 'Back office', fold: true, items: [['documents', 'Documents', 'DOCUMENTS', Files], ['hr', 'HR', 'HR', Users], ['assets', 'Assets', 'ASSETS', Laptop], ['finance', 'Finance', 'FINANCE', Landmark]] },
@@ -25,6 +25,7 @@ const NAV: { group: string; fold?: boolean; items: [path: string, label: string,
 /** The line under each page title. */
 const SUBTITLES: Record<string, string> = {
   approvals: 'Quotations, expenses and leave waiting for your decision.',
+  calendar: 'Tasks, meetings, deadlines, birthdays and leave in one place.',
   leads: 'Every enquiry, its next follow-up and who owns it.',
   customers: 'Clients, their contacts and everything you have done for them.',
   sales: 'Deals by stage, meetings and calls.',

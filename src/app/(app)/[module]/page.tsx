@@ -3,6 +3,7 @@ import { useParams } from 'next/navigation'
 import Approvals from '@/modules/approvals'
 import Assets from '@/modules/assets'
 import Automation from '@/modules/automation'
+import Calendar from '@/modules/calendar'
 import { NoAccess } from '@/modules/common'
 import Communication from '@/modules/communication'
 import Customers from '@/modules/customers'
@@ -25,7 +26,7 @@ import { useAuth } from '@/lib/auth'
 
 /** Address, the permission module it needs, the screen, and how the "no access" message names it. */
 const SCREENS: Record<string, [module: string | null, screen: React.ComponentType, what: string]> = {
-  dashboard: ['DASHBOARD', Dashboard, 'the dashboard'], approvals: [null, Approvals, ''], leads: ['LEADS', Leads, 'leads'], customers: ['CUSTOMERS', Customers, 'customers'], sales: ['SALES', Sales, 'the sales CRM'],
+  dashboard: ['DASHBOARD', Dashboard, 'the dashboard'], approvals: [null, Approvals, ''], calendar: [null, Calendar, ''], leads: ['LEADS', Leads, 'leads'], customers: ['CUSTOMERS', Customers, 'customers'], sales: ['SALES', Sales, 'the sales CRM'],
   quotations: ['QUOTATIONS', Quotations, 'quotations'], invoices: ['INVOICES', Invoices, 'invoices'], payments: ['PAYMENTS', Payments, 'payments'], projects: ['PROJECTS', Projects, 'projects'],
   tasks: ['TASKS', Tasks, 'tasks'], marketing: ['MARKETING', Marketing, 'digital marketing'], websites: ['WEBSITES', Websites, 'websites'], tickets: ['TICKETS', Tickets, 'support tickets'],
   documents: ['DOCUMENTS', Documents, 'documents'], hr: ['HR', HR, 'HR'], assets: ['ASSETS', Assets, 'assets'], finance: ['FINANCE', Finance, 'finance'], reports: ['REPORTS', Reports, 'reports'],

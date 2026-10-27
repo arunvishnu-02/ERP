@@ -28,6 +28,7 @@ import { callsRouter, dealsRouter, meetingsRouter } from './modules/sales'
 import { lookups, settingsRouter } from './modules/settings'
 import { sharedRouter } from './modules/shared'
 import { tasksRouter } from './modules/tasks'
+import { calendarRouter } from './modules/calendar'
 
 function build() {
   const v1 = Router()
@@ -44,6 +45,7 @@ function build() {
   v1.use('/approvals', hideMoney(MONEY_KEYS, (u) => !!can(u, 'FINANCE', 'APPROVE')), approvalsRouter)
   v1.use('/search', hideMoney(), searchRouter)
   v1.use('/dashboard', dashboardRouter)
+  v1.use('/calendar', calendarRouter)
   v1.use('/leads', hideMoney(), leadsRouter)
   v1.use('/follow-ups', hideMoney(), followUpsRouter)
   v1.use('/customers', hideMoney(), customersRouter)
