@@ -10,7 +10,7 @@ import { api, useApi } from '@/lib/api'
 import { useAuth } from '@/lib/auth'
 import { useUrlParam } from '@/lib/url'
 import { day, daysFromToday, fmtDateTime, human, options, personName, plusDays } from '@/lib/format'
-import { act, DueTag, Person, userOptions } from './common'
+import { act, DueTag, Person, useAssignees, userOptions } from './common'
 import Timesheet from './timesheet'
 
 const COLUMNS = ['TODO', 'IN_PROGRESS', 'IN_REVIEW', 'BLOCKED', 'DONE']
@@ -61,6 +61,7 @@ function TaskSheet({ id, onClose, onChanged, fields }: { id: string | null; onCl
 export default function Tasks() {
   const { lookups, can, scope } = useAuth()
   const ownOnly = scope('TASKS') === 'OWN'
+  const assignees = useAssignees()
   const [who, setWho] = useState('mine')
   const [view, setView] = useState('board')
   const [openId, setOpenId] = useState<string | null>(null)
@@ -73,7 +74,7 @@ export default function Tasks() {
   const tasks = (data?.items ?? []).filter((t) => t.status !== 'CANCELLED' && (t.status !== 'DONE' || !t.completedAt || daysFromToday(t.completedAt) > -14))
   const fields: Field[] = [
     { name: 'title', label: 'Task', required: true, full: true }, { name: 'projectId', label: 'Project', type: 'select', options: projects.filter((p) => p.status !== 'COMPLETED').map((p) => ({ value: p.id, label: p.name })), placeholder: 'General, no project' },
-    { name: 'assigneeId', label: 'Assign to', type: 'select', options: userOptions(lookups), placeholder: 'Me' }, { name: 'priority', label: 'Priority', type: 'select', options: options(lookups.enums.Priority), required: true },
+    { name: 'assigneeId', label: 'Assign to', type: 'select', options: assignees, placeholder: 'Me' }, { name: 'priority', label: 'Priority', type: 'select', options: options(lookups.enums.Priority), required: true },
     { name: 'dueDate', label: 'Due date', type: 'date' }, { name: 'estimatedMinutes', label: 'Estimate (minutes)', type: 'number' }, { name: 'description', label: 'Details', type: 'textarea' },
   ]
   const viewTabs = <Tabs value={view} onChange={setView} options={[{ value: 'board', label: 'Board' }, { value: 'timesheet', label: 'Timesheet' }]} />

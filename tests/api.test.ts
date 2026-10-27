@@ -40,8 +40,10 @@ async function call(method: string, path: string, session?: string, body?: any, 
   return { status: res.status, body: parsed, headers: res.headers }
 }
 const cookieOf = (r: { headers: Headers }) => String(r.headers.get('set-cookie')).split(';')[0]
+let signIns = 0
 async function signIn(email: string, password: string) {
-  const r = await call('POST', '/auth/login', undefined, { email, password })
+  // each sign-in comes from its own address, so the suite never trips the sign-in rate limit
+  const r = await call('POST', '/auth/login', undefined, { email, password }, { 'x-forwarded-for': `10.9.${Math.floor(++signIns / 250)}.${signIns % 250}` })
   assert.equal(r.status, 200, JSON.stringify(r.body))
   assert.match(String(r.headers.get('set-cookie')), /cx_session=.+HttpOnly/)
   return cookieOf(r)
@@ -1012,4 +1014,33 @@ test('Team Lead and Staff roles are ready to give out, with no money', async () 
   assert.deepEqual(Object.keys((await ok('GET', '/auth/me', P)).perms).sort(), ['DASHBOARD', 'DOCUMENTS', 'PROJECTS', 'TASKS', 'TICKETS'])
   await deny('GET', '/leads', P, undefined)
   assert.ok(st.id)
+})
+
+test('A project given to a team is run by its Team Lead, who gives tasks only to that team', async () => {
+  const role = (key: string) => S.lk.roles.find((r: any) => r.key === key).id
+  const tl = await ok('POST', '/settings/users', S.admin, { firstName: 'Dev', lastName: 'Lead', email: 'devlead@example.com', password: 'Passw0rd!', roleIds: [role('TEAM_LEAD')] })
+  const dev = await ok('POST', '/settings/users', S.admin, { firstName: 'Priya', email: 'priya@example.com', password: 'Passw0rd!', roleIds: [role('STAFF')] })
+  const other = await ok('POST', '/settings/users', S.admin, { firstName: 'Ravi', email: 'ravi@example.com', password: 'Passw0rd!', roleIds: [role('STAFF')] })
+  const team = await ok('POST', '/settings/teams', S.admin, { name: 'Development', leadId: tl.id })
+  await ok('PUT', `/settings/teams/${team.id}/members`, S.admin, { userIds: [tl.id, dev.id] })
+
+  const proj = await ok('POST', '/projects', S.admin, { name: 'Team app', customerId: S.acme.id, teamId: team.id })
+  assert.equal(proj.team.name, 'Development')
+  const T = await signIn('devlead@example.com', 'Passw0rd!')
+  // the Team Lead sees and runs the team's project, but cannot hand it to another team or manager
+  assert.ok((await ok('GET', '/projects', T)).items.some((p: any) => p.id === proj.id))
+  await ok('POST', `/projects/${proj.id}/milestones`, T, { name: 'Design' })
+  assert.equal((await ok('PATCH', `/projects/${proj.id}`, T, { status: 'IN_PROGRESS' })).status, 'IN_PROGRESS')
+  await deny('PATCH', `/projects/${proj.id}`, T, { name: 'Team app', customerId: S.acme.id, teamId: null, managerId: tl.id })
+  // tasks go only to people in the team, and only on the team's projects
+  const task = await ok('POST', '/tasks', T, { title: 'Build login page', projectId: proj.id, assigneeId: dev.id })
+  assert.equal(task.assigneeId, dev.id)
+  await deny('POST', '/tasks', T, { title: 'Not my team', projectId: proj.id, assigneeId: other.id })
+  await deny('PATCH', `/tasks/${task.id}`, T, { title: 'Build login page', projectId: proj.id, assigneeId: other.id })
+  await deny('POST', '/tasks', T, { title: 'Other project', projectId: S.project.id, assigneeId: dev.id })
+  // Admin can still give a task to anyone
+  await ok('POST', '/tasks', S.admin, { title: 'Anyone', projectId: proj.id, assigneeId: other.id })
+  // the team member sees the team project
+  const D = await signIn('priya@example.com', 'Passw0rd!')
+  assert.ok((await ok('GET', '/projects', D)).items.some((p: any) => p.id === proj.id))
 })

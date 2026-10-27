@@ -834,7 +834,8 @@ model Team {
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
 
-  members TeamMember[]
+  members  TeamMember[]
+  projects Project[]
 
   @@unique([organizationId, name])
 }
@@ -2080,6 +2081,8 @@ model Project {
   progressPercent Int             @default(0)
   managerId       String          @db.Char(36)
   manager         User            @relation("ProjectManager", fields: [managerId], references: [id])
+  teamId          String?         @db.Char(36) // the team that runs it; its Team Lead manages it and gives out tasks
+  team            Team?           @relation(fields: [teamId], references: [id], onDelete: SetNull)
   createdById     String?         @db.Char(36)
   updatedById     String?         @db.Char(36)
   createdAt       DateTime        @default(now())
@@ -2102,6 +2105,7 @@ model Project {
   @@index([organizationId, status])
   @@index([organizationId, customerId])
   @@index([organizationId, managerId])
+  @@index([teamId])
 }
 
 model ProjectMember {

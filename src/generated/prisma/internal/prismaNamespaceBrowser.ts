@@ -1237,6 +1237,7 @@ export const ProjectScalarFieldEnum = {
   budget: 'budget',
   progressPercent: 'progressPercent',
   managerId: 'managerId',
+  teamId: 'teamId',
   createdById: 'createdById',
   updatedById: 'updatedById',
   createdAt: 'createdAt',

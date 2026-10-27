@@ -10,6 +10,24 @@ import * as E from '../../generated/prisma/enums'
 
 const M = 'TASKS'
 export const tasksRouter = Router()
+/**
+ * A Team Lead gives tasks only to people in their own team, and only on projects they can see.
+ * Admin and Manager (scope "all") can give a task to anyone.
+ */
+async function checkWho(req: any, d: { assigneeId?: string | null; projectId?: string | null }, action: 'CREATE' | 'EDIT') {
+  const s = can(req.user, M, action)
+  if (!s || s === 'ALL') return
+  if (d.assigneeId && d.assigneeId !== req.user.id) {
+    const ids = await scopeIds(req.user, s)
+    if (ids && !ids.includes(d.assigneeId)) throw forbidden('You can only give tasks to people in your team')
+  }
+  if (d.projectId) {
+    const ps = can(req.user, 'PROJECTS', 'VIEW')
+    const pids = ps ? await scopeIds(req.user, ps) : []
+    const ok = ps && (await prisma.project.findFirst({ where: { id: d.projectId, organizationId: req.user.organizationId, deletedAt: null, ...(pids ? SCOPES.PROJECTS(pids) : {}) }, select: { id: true } }))
+    if (!ok) throw forbidden('You can only add tasks to projects of your team')
+  }
+}
 const find = (req: any) => findScoped(req, 'task', M, 'EDIT', { soft: true, label: 'Task' })
 
 tasksRouter.get('/timer', authorize(M, 'VIEW'), async (req, res) => {
@@ -110,15 +128,17 @@ tasksRouter.use('/', crud({
   include: { project: { select: { id: true, name: true } }, assignee: U, reporter: U },
   orderBy: [{ dueDate: 'asc' }, { createdAt: 'desc' }],
   where: (req) => (req.query.mine === '1' ? { assigneeId: req.user.id } : {}),
-  beforeCreate: (d, req) => {
+  beforeCreate: async (d, req) => {
     d.reporterId = req.user.id
     d.assigneeId ??= req.user.id
+    await checkWho(req, d, 'CREATE')
     if (d.status === 'DONE') d.completedAt = new Date()
   },
   afterCreate: async (row, req, tx) => {
     if (row.assigneeId && row.assigneeId !== req.user.id) await notify(tx, row.organizationId, row.assigneeId, 'task.assigned', `New task: ${row.title}`, '/tasks')
   },
   beforeUpdate: async (d, before, req, tx) => {
+    await checkWho(req, { assigneeId: d.assigneeId !== before.assigneeId ? d.assigneeId : undefined, projectId: d.projectId !== before.projectId ? d.projectId : undefined }, 'EDIT')
     if (d.status && d.status !== before.status) d.completedAt = d.status === 'DONE' ? new Date() : null
     if (d.assigneeId && d.assigneeId !== before.assigneeId && d.assigneeId !== req.user.id) await notify(tx, before.organizationId, d.assigneeId, 'task.assigned', `Task assigned to you: ${before.title}`, '/tasks')
   },
