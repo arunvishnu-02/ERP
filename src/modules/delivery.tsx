@@ -89,7 +89,7 @@ export function Websites() {
       {tab === 'websites' && (
         <Resource path="/websites" module="WEBSITES" noun="website" search="Search website or customer" defaults={{ status: 'IN_DEVELOPMENT' }} toForm={(r) => ({ ...r, platform: r.platform ?? '', notes: r.notes ?? '' })}
           fields={[{ name: 'name', label: 'Website', required: true }, { name: 'url', label: 'Address', required: true, placeholder: 'https://example.com' }, { name: 'customerId', label: 'Customer', type: 'select', options: customers, required: true }, { name: 'platform', label: 'Built with', placeholder: 'WordPress, Shopify, Next.js' }, { name: 'status', label: 'Status', type: 'select', options: options(lookups.enums.WebsiteStatus), required: true }, { name: 'notes', label: 'Notes', type: 'textarea' }]}
-          columns={[{ header: 'Website', cell: (r) => <Two top={r.name} bottom={<a href={r.url} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline" onClick={(e) => e.stopPropagation()}>{r.url}</a>} /> }, { header: 'Customer', cell: (r) => r.customer.name }, { header: 'Built with', cell: (r) => r.platform }, { header: 'Status', cell: (r) => <Status value={r.status} /> }]} />
+          columns={[{ header: 'Website', cell: (r) => <Two top={r.name} bottom={<a href={r.url} target="_blank" rel="noopener noreferrer" className="text-accent-strong hover:underline" onClick={(e) => e.stopPropagation()}>{r.url}</a>} /> }, { header: 'Customer', cell: (r) => r.customer.name }, { header: 'Built with', cell: (r) => r.platform }, { header: 'Status', cell: (r) => <Status value={r.status} /> }]} />
       )}
       {tab === 'credentials' && <Credentials />}
     </div>

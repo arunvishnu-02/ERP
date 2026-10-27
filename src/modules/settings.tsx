@@ -286,7 +286,7 @@ function Email() {
   return (
     <div className="max-w-3xl space-y-4">
       <Panel title="Resend" action={<Badge tone={resendOn ? 'good' : 'mute'}>{resendOn ? 'Sending emails' : 'Off'}</Badge>}>
-        <p className="mb-4 text-[13px] text-muted">Resend sends email for you with an API key, so you do not need a mailbox password, and emails land in the inbox more often. Make a free account at <a className="text-accent hover:underline" href="https://resend.com" target="_blank" rel="noreferrer">resend.com</a>, add your domain (like ciphermutex.com) under Domains and add the DNS records it shows, then create an API key with Sending access and paste it here. When Resend is on, it is used instead of the mailbox below.</p>
+        <p className="mb-4 text-[13px] text-muted">Resend sends email for you with an API key, so you do not need a mailbox password, and emails land in the inbox more often. Make a free account at <a className="text-accent-strong hover:underline" href="https://resend.com" target="_blank" rel="noreferrer">resend.com</a>, add your domain (like ciphermutex.com) under Domains and add the DNS records it shows, then create an API key with Sending access and paste it here. When Resend is on, it is used instead of the mailbox below.</p>
         {edit ? (
           <InlineForm key={JSON.stringify(rs)} submitLabel="Save Resend settings"
             initial={{ apiKey: '', fromName: r.fromName ?? c.fromName ?? '', fromEmail: r.fromEmail ?? c.fromEmail ?? '', isActive: rs.isActive || !rs.hasKey }}

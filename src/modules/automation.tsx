@@ -10,7 +10,7 @@ import { act, userOptions } from './common'
 
 export function Switch({ checked, onChange, label, disabled }: { checked: boolean; onChange: (v: boolean) => void; label: string; disabled?: boolean }) {
   return (
-    <button type="button" role="switch" aria-checked={checked} aria-label={label} disabled={disabled} onClick={() => onChange(!checked)} className={cn('relative h-6 w-10 shrink-0 rounded-full transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:opacity-50', checked ? 'bg-accent' : 'bg-line')}>
+    <button type="button" role="switch" aria-checked={checked} aria-label={label} disabled={disabled} onClick={() => onChange(!checked)} className={cn('relative h-6 w-10 shrink-0 rounded-full transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-strong disabled:opacity-50', checked ? 'bg-accent' : 'bg-line')}>
       <span className={cn('absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform', checked && 'translate-x-4')} />
     </button>
   )
@@ -60,8 +60,8 @@ export default function Automation() {
           {users.map((u: any) => {
             const i = people.indexOf(u.value)
             return (
-              <button key={u.value} type="button" disabled={!edit} aria-pressed={i >= 0} onClick={() => setPeople(i >= 0 ? people.filter((p) => p !== u.value) : [...people, u.value])} className={cn('rounded-full border px-2.5 py-1 text-[13px]', i >= 0 ? 'border-accent bg-accent-soft text-ink' : 'border-line bg-surface text-muted hover:text-ink')}>
-                {i >= 0 && <span className="num mr-1.5 text-accent">{i + 1}</span>}{u.label}
+              <button key={u.value} type="button" disabled={!edit} aria-pressed={i >= 0} onClick={() => setPeople(i >= 0 ? people.filter((p) => p !== u.value) : [...people, u.value])} className={cn('rounded-full border px-2.5 py-1 text-[13px]', i >= 0 ? 'border-accent-strong bg-accent-soft text-ink' : 'border-line bg-surface text-muted hover:text-ink')}>
+                {i >= 0 && <span className="num mr-1.5 text-accent-strong">{i + 1}</span>}{u.label}
               </button>
             )
           })}

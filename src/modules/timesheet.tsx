@@ -62,7 +62,7 @@ export default function Timesheet({ projects }: { projects: any[] }) {
 
       <Card className="overflow-x-auto">
         <Table>
-          <thead><tr><Th>{team ? 'Person and work' : 'Work'}</Th>{days.map((d, i) => <Th key={d} right className={d === todayStr() ? 'text-accent' : ''}>{DAY[i]}<div className="text-[11px] font-normal text-muted">{fmtShort(d)}</div></Th>)}<Th right>Total</Th></tr></thead>
+          <thead><tr><Th>{team ? 'Person and work' : 'Work'}</Th>{days.map((d, i) => <Th key={d} right className={d === todayStr() ? 'text-accent-strong' : ''}>{DAY[i]}<div className="text-[11px] font-normal text-muted">{fmtShort(d)}</div></Th>)}<Th right>Total</Th></tr></thead>
           <tbody>
             {[...rows.values()].map((r, i) => (
               <tr key={i}><Td><div className="font-medium">{r.label}</div>{r.sub && <div className="text-xs text-muted">{r.sub}</div>}</Td>{days.map((d) => <Td key={d} right className="num">{hrs(r.per[d] ?? 0)}</Td>)}<Td right className="num font-semibold">{hrs(r.total)}</Td></tr>

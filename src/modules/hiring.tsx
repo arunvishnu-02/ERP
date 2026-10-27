@@ -53,9 +53,9 @@ export default function Hiring() {
 
       {!!jobs.length && (
         <div className="flex gap-2 overflow-x-auto pb-1">
-          <button type="button" onClick={() => setJob('')} className={cn('shrink-0 rounded-xl border px-4 py-2.5 text-left', !job ? 'border-accent bg-accent-soft' : 'border-line bg-surface')}><div className="text-sm font-semibold">All roles</div><div className="text-xs text-muted">{people.length} candidates</div></button>
+          <button type="button" onClick={() => setJob('')} className={cn('shrink-0 rounded-xl border px-4 py-2.5 text-left', !job ? 'border-accent-strong bg-accent-soft' : 'border-line bg-surface')}><div className="text-sm font-semibold">All roles</div><div className="text-xs text-muted">{people.length} candidates</div></button>
           {jobs.map((j) => (
-            <button key={j.id} type="button" onClick={() => setJob(j.id === job ? '' : j.id)} onDoubleClick={() => edit && setDlg({ kind: 'job', row: j })} title={edit ? 'Double-click to edit' : undefined} className={cn('shrink-0 rounded-xl border px-4 py-2.5 text-left', job === j.id ? 'border-accent bg-accent-soft' : 'border-line bg-surface', j.status !== 'OPEN' && 'opacity-60')}>
+            <button key={j.id} type="button" onClick={() => setJob(j.id === job ? '' : j.id)} onDoubleClick={() => edit && setDlg({ kind: 'job', row: j })} title={edit ? 'Double-click to edit' : undefined} className={cn('shrink-0 rounded-xl border px-4 py-2.5 text-left', job === j.id ? 'border-accent-strong bg-accent-soft' : 'border-line bg-surface', j.status !== 'OPEN' && 'opacity-60')}>
               <div className="text-sm font-semibold">{j.title}{j.status !== 'OPEN' && <span className="ml-1.5 text-xs font-normal text-muted">({j.status === 'ON_HOLD' ? 'on hold' : 'closed'})</span>}</div>
               <div className="text-xs text-muted">{j.applied} applied, open since {fmtDate(j.openedOn)}</div>
             </button>
@@ -93,7 +93,7 @@ export default function Hiring() {
         />
       )}
       {rejected > 0 && <p className="text-xs text-muted">{rejected} not selected, hidden from the board.</p>}
-      <div className="rounded-xl border border-accent/30 bg-accent-soft px-4 py-3 text-sm"><div className="font-semibold">Offer letters use your own template</div><div className="text-muted">Set the salary and joining date, then print the letter or save it as a PDF to send. When they accept, add them as an employee with one click.</div></div>
+      <div className="rounded-xl border border-accent-strong/30 bg-accent-soft px-4 py-3 text-sm"><div className="font-semibold">Offer letters use your own template</div><div className="text-muted">Set the salary and joining date, then print the letter or save it as a PDF to send. When they accept, add them as an employee with one click.</div></div>
 
       <FormDialog open={dlg?.kind === 'job'} onClose={() => setDlg(null)} title={dlg?.kind === 'job' && dlg.row ? 'Edit job opening' : 'Add job opening'} fields={jobFields} submitLabel="Save"
         initial={dlg?.kind === 'job' && dlg.row ? { ...dlg.row, departmentId: dlg.row.departmentId ?? '', location: dlg.row.location ?? '', salaryRange: dlg.row.salaryRange ?? '', description: dlg.row.description ?? '' } : { employmentType: 'FULL_TIME', status: 'OPEN' }}

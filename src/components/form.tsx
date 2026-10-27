@@ -42,7 +42,7 @@ export function FieldInput({ f, value, onChange }: { f: Field; value: any; onCha
         {f.options?.map((o) => {
           const on = cur.includes(o.value)
           return (
-            <button key={o.value} type="button" aria-pressed={on} onClick={() => onChange(on ? cur.filter((v) => v !== o.value) : [...cur, o.value])} className={cn('rounded-full border px-2.5 py-1 text-[13px]', on ? 'border-accent bg-accent-soft text-ink' : 'border-line bg-surface text-muted hover:text-ink')}>
+            <button key={o.value} type="button" aria-pressed={on} onClick={() => onChange(on ? cur.filter((v) => v !== o.value) : [...cur, o.value])} className={cn('rounded-full border px-2.5 py-1 text-[13px]', on ? 'border-accent-strong bg-accent-soft text-ink' : 'border-line bg-surface text-muted hover:text-ink')}>
               {o.label}
             </button>
           )

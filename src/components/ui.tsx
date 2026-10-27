@@ -14,20 +14,20 @@ const BTN = {
   secondary: 'border border-line bg-surface text-ink hover:bg-surface-2',
   ghost: 'text-muted hover:bg-surface-2 hover:text-ink',
   danger: 'border border-bad/40 bg-surface text-bad hover:bg-bad-soft',
-  link: 'h-auto px-0 text-accent hover:underline',
+  link: 'h-auto px-0 text-accent-strong hover:underline',
 }
 const BTN_SIZE = { md: 'h-9 rounded-[10px] px-3.5 text-sm', sm: 'h-7 rounded-md px-2.5 text-[13px]', icon: 'h-8 w-8 rounded-lg' }
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: keyof typeof BTN; size?: keyof typeof BTN_SIZE; loading?: boolean }
 export function Button({ variant = 'secondary', size = 'md', loading, className, children, disabled, type = 'button', ...p }: ButtonProps) {
   return (
-    <button type={type} disabled={disabled || loading} className={cn('inline-flex shrink-0 items-center justify-center gap-1.5 rounded-lg font-medium whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:pointer-events-none disabled:opacity-50', BTN_SIZE[size], BTN[variant], className)} {...p}>
+    <button type={type} disabled={disabled || loading} className={cn('inline-flex shrink-0 items-center justify-center gap-1.5 rounded-lg font-medium whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-strong disabled:pointer-events-none disabled:opacity-50', BTN_SIZE[size], BTN[variant], className)} {...p}>
       {loading && <Loader2 size={14} className="animate-spin" />}
       {children}
     </button>
   )
 }
 
-const CONTROL = 'w-full rounded-lg border border-line bg-surface px-3 text-sm text-ink placeholder:text-muted/60 focus:outline-2 focus:-outline-offset-1 focus:outline-accent disabled:opacity-60'
+const CONTROL = 'w-full rounded-lg border border-line bg-surface px-3 text-sm text-ink placeholder:text-muted/60 focus:outline-2 focus:-outline-offset-1 focus:outline-accent-strong disabled:opacity-60'
 export const Input = ({ className, ...p }: React.InputHTMLAttributes<HTMLInputElement>) => <input className={cn(CONTROL, 'h-9', className)} {...p} />
 /** A password box with an eye button to show or hide what was typed. */
 export function PasswordInput({ className, ...p }: Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'>) {
@@ -58,7 +58,7 @@ export function Field({ label, error, help, children, className, group }: { labe
   return group ? <div role="group" aria-label={label} className={cn('flex min-w-0 flex-col gap-1', className)}>{body}</div> : <label className={cn('flex min-w-0 flex-col gap-1', className)}>{body}</label>
 }
 
-const TONE: Record<Tone, string> = { good: 'bg-good-soft text-good', warn: 'bg-warn-soft text-warn', bad: 'bg-bad-soft text-bad', info: 'bg-info-soft text-info', accent: 'bg-accent-soft text-accent', mute: 'bg-surface-2 text-muted' }
+const TONE: Record<Tone, string> = { good: 'bg-good-soft text-good', warn: 'bg-warn-soft text-warn', bad: 'bg-bad-soft text-bad', info: 'bg-info-soft text-info', accent: 'bg-accent-soft text-accent-strong', mute: 'bg-surface-2 text-muted' }
 export function Badge({ tone = 'mute', children, className }: { tone?: Tone; children: React.ReactNode; className?: string }) {
   return <span className={cn('inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-medium whitespace-nowrap', TONE[tone], className)}><span className="h-1.5 w-1.5 rounded-full bg-current" />{children}</span>
 }
@@ -123,9 +123,9 @@ export function Tabs({ value, onChange, options, className }: { value: string; o
   return (
     <div role="tablist" className={cn('flex max-w-full gap-x-6 overflow-x-auto border-b border-line', className)}>
       {options.map((o) => (
-        <button key={o.value} role="tab" type="button" aria-selected={o.value === value} onClick={() => onChange(o.value)} className={cn('-mb-px flex shrink-0 items-center gap-2 border-b-2 pt-2.5 pb-3 text-sm font-medium whitespace-nowrap', o.value === value ? 'border-accent text-ink' : 'border-transparent text-muted hover:text-ink')}>
+        <button key={o.value} role="tab" type="button" aria-selected={o.value === value} onClick={() => onChange(o.value)} className={cn('-mb-px flex shrink-0 items-center gap-2 border-b-2 pt-2.5 pb-3 text-sm font-medium whitespace-nowrap', o.value === value ? 'border-accent-strong text-ink' : 'border-transparent text-muted hover:text-ink')}>
           {o.label}
-          {o.count !== undefined && <span className={cn('num rounded-full px-[7px] py-px text-xs', o.value === value ? 'bg-accent-soft text-accent' : 'bg-surface-2 text-muted')}>{o.count}</span>}
+          {o.count !== undefined && <span className={cn('num rounded-full px-[7px] py-px text-xs', o.value === value ? 'bg-accent-soft text-accent-strong' : 'bg-surface-2 text-muted')}>{o.count}</span>}
         </button>
       ))}
     </div>
@@ -156,7 +156,7 @@ export const Td = ({ className, right, ...p }: React.TdHTMLAttributes<HTMLTableC
 export const Empty = ({ children }: { children: React.ReactNode }) => <div className="px-4 py-10 text-center text-sm text-muted">{children}</div>
 export const Loading = () => <div className="flex items-center justify-center gap-2 px-4 py-10 text-sm text-muted"><Loader2 size={16} className="animate-spin" />Loading…</div>
 export const Avatar = ({ name, className }: { name: string; className?: string }) => (
-  <span title={name} className={cn('inline-grid h-6 w-6 shrink-0 place-items-center rounded-full bg-accent-soft text-[10px] font-semibold text-accent ring-1 ring-surface', className)}>{initials(name) || '?'}</span>
+  <span title={name} className={cn('inline-grid h-6 w-6 shrink-0 place-items-center rounded-full bg-accent-soft text-[10px] font-semibold text-accent-strong ring-1 ring-surface', className)}>{initials(name) || '?'}</span>
 )
 export const Progress = ({ value, hot }: { value: number; hot?: boolean }) => (
   <div className="h-1.5 w-full min-w-16 overflow-hidden rounded-full bg-surface-2"><div className={cn('h-full rounded-full', hot ? 'bg-bad' : 'bg-chart-1')} style={{ width: `${Math.max(0, Math.min(100, value))}%` }} /></div>
@@ -186,7 +186,7 @@ export function StatBand({ items }: { items: { label: string; value: React.React
           </>
         )
         const cls = 'card-shadow min-w-0 flex-1 rounded-[20px] border border-line/60 bg-surface px-5 py-4 dark:border-line'
-        return s.href ? <a key={s.label} href={s.href} className={cn(cls, 'hover:border-accent/40')}>{body}</a> : <div key={s.label} className={cls}>{body}</div>
+        return s.href ? <a key={s.label} href={s.href} className={cn(cls, 'hover:border-accent-strong/40')}>{body}</a> : <div key={s.label} className={cls}>{body}</div>
       })}
     </div>
   )

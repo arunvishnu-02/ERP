@@ -60,7 +60,7 @@ export default function LoginPage() {
         <Button type="submit" variant="primary" loading={busy} className="h-11 w-full">Sign in</Button>
         <div className="flex flex-wrap items-center justify-between gap-2 border-t border-line pt-4 text-[13px] text-muted">
           <span>No email? Check spam, or start again.</span>
-          <button type="button" className="font-medium text-accent hover:underline" onClick={() => { setStep(null); setCode(''); setError('') }}>Start again</button>
+          <button type="button" className="font-medium text-accent-strong hover:underline" onClick={() => { setStep(null); setCode(''); setError('') }}>Start again</button>
         </div>
       </form>
     </EntryFrame>
@@ -83,7 +83,7 @@ export default function LoginPage() {
         )}
         <div className="flex flex-wrap items-center justify-between gap-2 border-t border-line pt-4 text-[13px] text-muted">
           <span>No account yet? Ask your admin to invite you.</span>
-          <Link href="/forgot" className="font-medium text-accent hover:underline">Forgot password?</Link>
+          <Link href="/forgot" className="font-medium text-accent-strong hover:underline">Forgot password?</Link>
         </div>
       </form>
     </EntryFrame>
